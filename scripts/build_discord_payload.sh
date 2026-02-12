@@ -73,6 +73,13 @@ function normSymbol(s) {
   return String(s || '').trim().toUpperCase().replace(/-/g, '.');
 }
 
+function compactName(name, max = 22) {
+  const s = String(name || '').trim();
+  if (!s) return '';
+  if (s.length <= max) return s;
+  return `${s.slice(0, Math.max(1, max - 3))}...`;
+}
+
 async function fetchCompanyNames(tickers) {
   const out = {};
   if (!Array.isArray(tickers) || tickers.length === 0) return out;
@@ -141,13 +148,12 @@ async function fetchCompanyNames(tickers) {
   const tickers = [...new Set(holdings.map((h) => String(h?.ticker || '').trim()).filter(Boolean))];
   const companyNames = await fetchCompanyNames(tickers);
 
-  console.log('% | Ticker | Name | Sector');
-  console.log('--- | --- | --- | ---');
+  console.log('% | Ticker | Name');
+  console.log('--- | --- | ---');
   for (const h of holdings) {
     const ticker = String(h?.ticker || 'UNKNOWN').trim() || 'UNKNOWN';
-    const sector = String(h?.sector || 'UNKNOWN').trim() || 'UNKNOWN';
-    const name = String(companyNames[normSymbol(ticker)] || ticker).trim() || ticker;
-    console.log(`${fmtWeight(h?.weight_pct)} | ${ticker} | ${name} | ${sector}`);
+    const name = compactName(companyNames[normSymbol(ticker)] || ticker, 22);
+    console.log(`${fmtWeight(h?.weight_pct)} | ${ticker} | ${name}`);
   }
   console.log('```');
 })().catch(() => {
