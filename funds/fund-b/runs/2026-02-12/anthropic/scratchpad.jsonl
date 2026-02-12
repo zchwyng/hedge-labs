@@ -1,2 +1,2 @@
-{"ts":"2026-02-12T15:33:20.998Z","type":"run_started","data":{"fund_name":"Value + Revisions (Monthly-hold)","run_date":"2026-02-12"}}
-{"ts":"2026-02-12T15:33:20.998Z","type":"run_completed","data":{"action":"Do nothing","paper_only":true}}
+{"ts":"2026-02-12T15:57:35.632Z","type":"run_started","data":{"fund_name":"Value + Revisions (Monthly-hold)","run_date":"2026-02-12","provider":"anthropic","model":"claude-sonnet-4-0","mode":"live"}}
+{"ts":"2026-02-12T15:57:35.632Z","type":"run_completed","data":{"action":"Do nothing","paper_only":true,"mode":"live"}}

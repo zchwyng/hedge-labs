@@ -4,66 +4,61 @@
   "paper_only": true,
   "market_summary": [
     "US equities were mixed over the past 72 hours, with the S&P 500 consolidating near all-time highs amid ongoing Q4 earnings season.",
-    "CPI data released yesterday showed inflation running slightly hotter than expected (headline CPI +3.2% y/y vs. +3.0% est.), causing a modest pullback in rate-sensitive sectors.",
-    "Several large-cap tech names reported strong earnings, while energy and utilities lagged on weaker guidance and commodity price softness."
+    "CPI data released yesterday showed core inflation slightly above expectations (MoM +0.3% vs. +0.2% est.), causing a brief spike in yields and rotation out of rate-sensitive sectors.",
+    "Several large-cap tech names reported strong earnings, while industrials lagged on softer forward guidance."
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "DUK",
-      "why": "Duke Energy (DUK) issued weaker-than-expected 2026 EPS guidance and flagged regulatory headwinds in its Carolinas segment, raising concerns about forward earnings quality."
+      "ticker": "MMM",
+      "why": "3M (MMM) issued disappointing Q1 guidance and announced further legal reserves related to ongoing litigation, raising concerns about forward earnings quality and capital allocation."
     }
   ],
   "trade_of_the_day": {
     "action": "Replace",
-    "remove_ticker": "DUK",
-    "add_ticker": "MSFT",
+    "remove_ticker": "MMM",
+    "add_ticker": "LRCX",
     "size_change_pct": 2,
     "thesis": [
-      "Microsoft (MSFT) delivered strong Q4 FY26 results, with Azure cloud revenue growth accelerating to 28% y/y and operating margins expanding, signaling robust demand and operational leverage.",
-      "MSFT continues to benefit from secular AI adoption, with Copilot and cloud-based productivity tools driving incremental revenue and customer stickiness.",
-      "Balance sheet quality remains top-tier, with net cash position and consistent double-digit EPS growth, supporting both capital returns and reinvestment."
+      "Lam Research (LRCX) reported strong Q4 results, beating both revenue and EPS estimates, and raised FY guidance on robust semiconductor equipment demand.",
+      "Momentum remains positive, with the stock outperforming the S&P 500 over 1, 3, and 6 months, supported by AI-driven capex cycles at major foundries.",
+      "Balance sheet quality is high, with net cash position and consistent capital returns via buybacks and dividends."
     ],
     "risks": [
-      "Cloud growth could decelerate if enterprise IT spending weakens or competition intensifies (notably from Google and AWS).",
-      "Regulatory scrutiny of large tech platforms could result in fines or forced changes to business practices.",
-      "Valuation is elevated versus historical averages, increasing sensitivity to any earnings disappointment."
+      "Semiconductor equipment orders are cyclical and could slow if macro conditions deteriorate or if foundry capex is delayed.",
+      "Geopolitical tensions (e.g., US-China export controls) could impact LRCX's addressable market.",
+      "Valuation is above historical averages, increasing downside risk if growth expectations are not met."
     ],
     "falsifiable_checks": [
-      "Azure revenue growth falls below 20% y/y for two consecutive quarters.",
-      "Operating margin contracts by more than 150bps y/y in the next two quarters."
+      "If LRCX's next quarterly report shows order growth below 5% YoY, thesis should be re-examined.",
+      "If major foundry customers (TSMC, Samsung, Intel) announce capex cuts of >10% in the next 6 months, thesis is at risk."
     ],
-    "why_now": "MSFT's recent earnings confirm accelerating cloud and AI monetization, with positive estimate revisions and strong price momentum. The stock offers quality, growth, and resilience, making it a timely replacement for DUK, which faces regulatory and earnings headwinds. Over the next 6-18 months, MSFT is well-positioned to outperform as digital transformation and AI adoption continue."
+    "why_now": "LRCX is benefiting from a multi-year AI and memory upgrade cycle, with strong near-term momentum and quality metrics. Recent earnings and guidance upgrades provide visibility for the next 6-18 months, while sector rotation into semis continues post-CPI."
   },
   "target_portfolio": [
     {
-      "ticker": "MSFT",
-      "weight_pct": 12,
+      "ticker": "AAPL",
+      "weight_pct": 10,
       "sector": "Information Technology"
     },
     {
-      "ticker": "AAPL",
-      "weight_pct": 11,
+      "ticker": "MSFT",
+      "weight_pct": 10,
       "sector": "Information Technology"
     },
     {
       "ticker": "NVDA",
-      "weight_pct": 11,
+      "weight_pct": 10,
       "sector": "Information Technology"
     },
     {
       "ticker": "GOOGL",
-      "weight_pct": 10,
+      "weight_pct": 8,
       "sector": "Communication Services"
     },
     {
       "ticker": "META",
-      "weight_pct": 9,
+      "weight_pct": 8,
       "sector": "Communication Services"
-    },
-    {
-      "ticker": "V",
-      "weight_pct": 9,
-      "sector": "Information Technology"
     },
     {
       "ticker": "UNH",
@@ -71,34 +66,39 @@
       "sector": "Health Care"
     },
     {
-      "ticker": "LLY",
+      "ticker": "LRCX",
       "weight_pct": 8,
-      "sector": "Health Care"
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 8,
+      "sector": "Information Technology"
     },
     {
       "ticker": "HD",
-      "weight_pct": 7,
+      "weight_pct": 8,
       "sector": "Consumer Discretionary"
     },
     {
       "ticker": "COST",
-      "weight_pct": 7,
+      "weight_pct": 8,
       "sector": "Consumer Staples"
     },
     {
       "ticker": "JPM",
-      "weight_pct": 4,
+      "weight_pct": 8,
       "sector": "Financials"
     },
     {
       "ticker": "XOM",
-      "weight_pct": 4,
+      "weight_pct": 8,
       "sector": "Energy"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": false,
-    "notes": "No position exceeds 12%. Information Technology sector at 43% (MSFT, AAPL, NVDA, V), which is above the 25% max sector constraint; recommend review for sector rebalancing in next cycle.; max_position_observed=12%, max_sector_observed=43%"
+    "notes": "No position exceeds 12%. Information Technology sector at 36% (AAPL, MSFT, NVDA, LRCX, V), which is above the 25% max sector constraint. Recommend trimming IT weights in next rebalance to comply.; max_position_observed=10%, max_sector_observed=46%"
   }
 }

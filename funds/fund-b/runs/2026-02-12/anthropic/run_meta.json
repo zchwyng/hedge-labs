@@ -1,13 +1,13 @@
 {
   "fund_id": "fund-b",
   "provider": "anthropic",
-  "model": "claude-3-7-sonnet-latest",
+  "model": "claude-sonnet-4-0",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T15:51:20Z",
-  "ended_at": "2026-02-12T15:51:20Z",
-  "status": "failed",
-  "reason": "HTTP 404: model: claude-3-7-sonnet-latest",
-  "bun_exit_code": 1,
-  "scratchpad_found": false,
-  "scratchpad_source": null
+  "started_at": "2026-02-12T15:57:05Z",
+  "ended_at": "2026-02-12T15:57:35Z",
+  "status": "success",
+  "reason": "",
+  "bun_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": ".dexter/scratchpad/2026-02-12T15-57-35-632Z.jsonl"
 }

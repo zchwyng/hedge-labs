@@ -3,9 +3,9 @@
   "fund_name": "Value + Revisions (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "No live market scan was executed in this fallback runner.",
-    "Universe scoped to US large & mid cap only.",
-    "Output is deterministic and paper-only."
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN"
   ],
   "thesis_damage_flags": [],
   "trade_of_the_day": {
@@ -14,20 +14,20 @@
     "add_ticker": null,
     "size_change_pct": 0,
     "thesis": [
-      "Preserve current paper allocation until live research pipeline is wired.",
-      "Avoid introducing unsupported assumptions without verified tool data.",
-      "Keep comparisons stable across providers while infrastructure matures."
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
     ],
     "risks": [
-      "No real-time catalyst ingestion in fallback mode.",
-      "Static portfolio can drift from changing market regimes.",
-      "Deterministic policy may under-react to abrupt thesis changes."
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
     ],
     "falsifiable_checks": [
-      "Replace fallback once non-interactive Dexter execution is available.",
-      "Require successful JSON output from both providers for 3 consecutive days."
+      "UNKNOWN",
+      "UNKNOWN"
     ],
-    "why_now": "Maintain a stable paper baseline while validating workflow reliability."
+    "why_now": "UNKNOWN"
   },
   "target_portfolio": [
     {
