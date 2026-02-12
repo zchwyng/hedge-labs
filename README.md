@@ -8,7 +8,9 @@ Paper-only "fund arena" that runs daily, stores model outputs in-repo, and posts
   - `fund-a` with `openai`
   - `fund-b` with `anthropic`
 - Renders fund prompts from per-fund config files.
-- Runs Dexter once per lane (`bun start < prompt.txt`).
+- Runs one provider-backed model call per lane (`bun start < prompt.txt`):
+  - `fund-a` -> OpenAI (`OPENAI_API_KEY`)
+  - `fund-b` -> Anthropic (`ANTHROPIC_API_KEY`)
 - Stores lane outputs under dated folders in `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/`.
 - Builds an arena scoreboard in `funds/arena/runs/YYYY-MM-DD/`.
 - Commits and pushes one daily consolidated update to `main`.
@@ -36,8 +38,9 @@ scripts/
 ## Prerequisites
 
 - Bun available in CI/local (`bun install`, `bun start`).
-- Dexter project behavior:
+- Runner behavior:
   - accepts stdin prompt for one run
+  - calls the configured provider API from fund metadata
   - writes scratchpads under `.dexter/scratchpad/*.jsonl`
 - `jq` installed for JSON parsing/validation in scripts.
 
@@ -62,7 +65,7 @@ Workflow file: `.github/workflows/fund-arena-daily.yml`
 - Job `run_lanes`:
   - runs both explicit lanes
   - renders prompt
-  - runs Dexter once per lane
+  - executes one live model run per lane
   - uploads lane artifacts
 - Job `finalize_and_publish` (`if: always()`):
   - downloads all lane artifacts
@@ -111,3 +114,4 @@ scripts/build_discord_payload.sh 2026-02-12
 
 - This project is strictly **paper-only**. No brokerage/execution integration is included.
 - `.dexter/scratchpad/*` is ignored; copied run-local scratchpads under `funds/.../runs/...` are tracked.
+- If you need local smoke tests without provider keys, set `FUND_RUNNER_ALLOW_FALLBACK=1` to use deterministic fallback output.
