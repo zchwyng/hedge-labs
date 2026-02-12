@@ -91,7 +91,10 @@ latest_scratchpad=""
 latest_mtime=0
 for scratch in .dexter/scratchpad/*.jsonl; do
   [[ -e "$scratch" ]] || continue
-  mtime="$(stat -f '%m' "$scratch" 2>/dev/null || stat -c '%Y' "$scratch" 2>/dev/null || echo 0)"
+  mtime="$(stat -c '%Y' "$scratch" 2>/dev/null || stat -f '%m' "$scratch" 2>/dev/null || echo 0)"
+  if ! [[ "$mtime" =~ ^[0-9]+$ ]]; then
+    mtime=0
+  fi
   if [[ "$mtime" -ge "$start_epoch" && "$mtime" -gt "$latest_mtime" ]]; then
     latest_mtime="$mtime"
     latest_scratchpad="$scratch"
