@@ -8,10 +8,39 @@ fi
 
 run_date="$1"
 scoreboard_path="funds/arena/runs/${run_date}/scoreboard.json"
+scoreboard_repo_path="funds/arena/runs/${run_date}/scoreboard.md"
 
 if [[ ! -f "$scoreboard_path" ]]; then
   echo "Missing scoreboard: $scoreboard_path" >&2
   exit 1
+fi
+
+repo_web_url=""
+if [[ -n "${GITHUB_SERVER_URL:-}" && -n "${GITHUB_REPOSITORY:-}" ]]; then
+  repo_web_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+else
+  origin_url="$(git config --get remote.origin.url 2>/dev/null || true)"
+  case "$origin_url" in
+    git@github.com:*.git)
+      repo_path="${origin_url#git@github.com:}"
+      repo_path="${repo_path%.git}"
+      repo_web_url="https://github.com/${repo_path}"
+      ;;
+    https://github.com/*.git)
+      repo_path="${origin_url#https://github.com/}"
+      repo_path="${repo_path%.git}"
+      repo_web_url="https://github.com/${repo_path}"
+      ;;
+    https://github.com/*)
+      repo_path="${origin_url#https://github.com/}"
+      repo_web_url="https://github.com/${repo_path}"
+      ;;
+  esac
+fi
+
+scoreboard_url=""
+if [[ -n "$repo_web_url" ]]; then
+  scoreboard_url="${repo_web_url}/blob/main/${scoreboard_repo_path}"
 fi
 
 all_success="$(jq -r '[.lanes[].status == "success"] | all' "$scoreboard_path")"
@@ -231,9 +260,13 @@ if [[ -n "$comparison_notes" && "$comparison_notes" != "null" ]]; then
   message+=$'\n'
   message+="- Notes: _${comparison_notes}_"
 fi
+message+=$'\n'
+if [[ -n "$scoreboard_url" ]]; then
+  message+="- Full scoreboard: ${scoreboard_url}"
+else
+  message+="- Full scoreboard: ${scoreboard_repo_path}"
+fi
 message+="$lane_sections"
-message+=$'\n\n'
-message+="**📄 Full scoreboard:** funds/arena/runs/${run_date}/scoreboard.md"
 
 max_len=2000
 if (( ${#message} > max_len )); then
