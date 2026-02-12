@@ -231,24 +231,15 @@ jobs:
             exit 1
           fi
 
-          first="true"
-          while IFS= read -r fund_id; do
-            if [ -z "$fund_id" ]; then
-              continue
-            fi
+          scripts/build_discord_payload.sh "$RUN_DATE" > discord_payload.json
 
-            if [ "$first" = "true" ]; then
-              scripts/build_discord_payload.sh "$RUN_DATE" "$fund_id" > discord_payload.json
-              first="false"
-            else
-              scripts/build_discord_payload.sh "$RUN_DATE" "$fund_id" "no-header" > discord_payload.json
-            fi
-
+          jq -c '.[]' discord_payload.json | while IFS= read -r payload; do
             curl -sS -X POST \
               -H "Content-Type: application/json" \
-              --data @discord_payload.json \
+              --data "$payload" \
               "$DISCORD_WEBHOOK_URL"
-          done < <(jq -r '.lanes[].fund_id' "$SCOREBOARD" | awk '!seen[$0]++')
+            sleep 1
+          done
 
       - name: Fail workflow if any lane failed
         if: always()

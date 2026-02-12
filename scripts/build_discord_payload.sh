@@ -94,13 +94,6 @@ function normSymbol(s) {
   return String(s || '').trim().toUpperCase().replace(/-/g, '.');
 }
 
-function compactName(name, max = 22) {
-  const s = String(name || '').trim();
-  if (!s) return '';
-  if (s.length <= max) return s;
-  return `${s.slice(0, Math.max(1, max - 3))}...`;
-}
-
 async function fetchCompanyNames(tickers) {
   const out = {};
   if (!Array.isArray(tickers) || tickers.length === 0) return out;
@@ -168,15 +161,21 @@ async function fetchCompanyNames(tickers) {
 
   const tickers = [...new Set(holdings.map((h) => String(h?.ticker || '').trim()).filter(Boolean))];
   const companyNames = await fetchCompanyNames(tickers);
-  const maxNameLen = Number(process.env.DISCORD_HOLDING_NAME_MAX || '60');
-  const safeMaxNameLen = Number.isFinite(maxNameLen) && maxNameLen >= 10 ? Math.floor(maxNameLen) : 60;
+  const maxRows = Number(process.env.DISCORD_HOLDINGS_MAX_ROWS || '25');
+  const safeMaxRows = Number.isFinite(maxRows) && maxRows >= 5 ? Math.floor(maxRows) : 25;
 
   console.log('% | Ticker | Name');
   console.log('--- | --- | ---');
-  for (const h of holdings) {
+  const shown = holdings.slice(0, safeMaxRows);
+  for (const h of shown) {
     const ticker = String(h?.ticker || 'UNKNOWN').trim() || 'UNKNOWN';
-    const name = compactName(companyNames[normSymbol(ticker)] || ticker, safeMaxNameLen);
+    // Do not truncate company names; instead limit rows to stay within Discord message limits.
+    const name = String(companyNames[normSymbol(ticker)] || ticker).trim() || ticker;
     console.log(`${fmtWeight(h?.weight_pct)} | ${ticker} | ${name}`);
+  }
+  if (holdings.length > shown.length) {
+    console.log('');
+    console.log(`(+${holdings.length - shown.length} more holdings not shown)`);
   }
   console.log('```');
 })().catch(() => {
@@ -220,6 +219,15 @@ format_market_summary_block() {
   jq -r '
     (.market_summary // [])
     | map(select(type == "string" and length > 0))
+    | map(
+        # Avoid GitHub links in Discord output.
+        gsub("https?://github\\.com/[^\\s)]+\\)?"; "")
+        | gsub("github\\.com/[^\\s)]+\\)?"; "")
+        | gsub("\\s{2,}"; " ")
+        | sub("^\\s+"; "")
+        | sub("\\s+$"; "")
+      )
+    | map(select(length > 0))
     | if length == 0 then
         ""
       else
@@ -313,9 +321,7 @@ else
 fi
 
 scoreboard_url=""
-if [[ -n "$repo_web_url" ]]; then
-  scoreboard_url="${repo_web_url}/blob/main/${scoreboard_repo_path}"
-fi
+scoreboard_url=""
 
 all_success="$(jq -r '[.lanes[].status == "success"] | all' "$scoreboard_path")"
 failed_count="$(jq -r '[.lanes[] | select(.status != "success")] | length' "$scoreboard_path")"
@@ -792,7 +798,7 @@ n/a
   fi
   if [[ -n "$market_news_block" ]]; then
     lane_sections+=$'\n'
-    lane_sections+="- Market News (from dexter output):"
+    lane_sections+="- Market News:"
     lane_sections+=$'\n'
     lane_sections+="$market_news_block"
   fi
@@ -840,114 +846,148 @@ if [[ -n "$comparison_notes" && "$comparison_notes" == Computed\ from\ first\ tw
 fi
 
 message=""
-if [[ "$include_header" == "true" ]]; then
-  message="**📈 Daily Paper Update — ${run_date}**"
-  if [[ -n "$overall_line" ]]; then
-    message+=$'\n'
-    message+="${overall_emoji} ${overall_line}"
-    message+=$'\n\n'
-  else
-    message+=$'\n\n'
-  fi
-  message+="**🏁 Board**"
-  message+=$'\n'
-  message+="- Ovlp: **${overlap_pct}%**"
-  message+=$'\n'
-  message+="- Est. turnover: **${turnover_pct}%**"
-  message+=$'\n'
-  if [[ -n "$scoreboard_url" ]]; then
-    message+="- Scoreboard: <${scoreboard_url}>"
-  else
-    message+="- Scoreboard: ${scoreboard_repo_path}"
-  fi
-  if [[ "$mode" == "overall-only" ]]; then
-    message+=$'\n'
-    message+="**🧩 Lanes**"
-    message+=$'\n'
-    while IFS= read -r lane; do
-      fund_id="$(jq -r '.fund_id' <<<"$lane")"
-      provider="$(jq -r '.provider' <<<"$lane")"
-      status="$(jq -r '.status' <<<"$lane")"
-      run_path="$(jq -r '.run_path' <<<"$lane")"
-      meta_path="${run_path}/run_meta.json"
-      error_message=""
+trim_discord_message() {
+  local raw="$1"
+  local remove_codeblocks="${2:-true}"
+  local max_len=2000
 
-      case "$provider" in
-        openai) provider_label="OpenAI" ;;
-        anthropic) provider_label="Anthropic" ;;
-        *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
-      esac
+  if (( ${#raw} <= max_len )); then
+    printf '%s' "$raw"
+    return 0
+  fi
 
-      case "$fund_id" in
-        fund-a) fund_emoji="🟦" ;;
-        fund-b) fund_emoji="🟪" ;;
-        *) fund_emoji="⬜" ;;
-      esac
-      fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
+  # Prefer removing entire lower-priority lines over truncating arbitrary substrings (e.g., company names).
+  local compact="$raw"
+  compact="$(printf '%s' "$compact" | perl -0pe 's/^-\s*Watch-outs:.*\n//mg; s/^-\s*Notes:.*\n//mg')"
+  if (( ${#compact} > max_len )); then
+    compact="$(printf '%s' "$compact" | perl -0pe 's/^-\\s*Market News:\\n(?:\\s*•.*\\n)+//mg')"
+  fi
+  if (( ${#compact} > max_len )); then
+    compact="$(printf '%s' "$compact" | perl -0pe 's/^-\\s*Thesis Damage Flags:\\n(?:\\s*•.*\\n)+//mg')"
+  fi
+  if [[ "$remove_codeblocks" == "true" ]] && (( ${#compact} > max_len )); then
+    compact="$(printf '%s' "$compact" | perl -0pe 's/^```text\\n(?:.*\\n)*?```\\n?//mg')"
+  fi
 
-      if [[ "$status" == "success" ]]; then
-        status_emoji="🟢"
-        status_label="On track"
-      else
-        status_emoji="🔴"
-        status_label="Issue"
-      fi
+  while (( ${#compact} > max_len )) && [[ "$compact" == *$'\n'* ]]; do
+    compact="${compact%$'\n'*}"
+  done
 
-      if [[ "$status" != "success" && -f "$meta_path" ]]; then
-        error_message="$(jq -r '.reason // ""' "$meta_path")"
-        error_message="$(printf '%s' "$error_message" | tr '\n' ' ' | sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//')"
-        if [[ ${#error_message} -gt 180 ]]; then
-          error_message="${error_message:0:177}..."
-        fi
-      fi
+  if (( ${#compact} > max_len )); then
+    printf '%s' "**(Digest omitted: exceeds Discord message limit.)**"
+    return 0
+  fi
 
-      message+="- ${fund_emoji} ${fund_label} (${provider_label}): ${status_emoji} **${status_label}**"
-      if [[ -n "$error_message" ]]; then
-        message+=" — ${error_message}"
-      fi
-      message+=$'\n'
-    done < <(jq -c '.lanes[]' "$scoreboard_path")
-  else
-    message+="$lane_sections"
-  fi
-else
-  message="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
-fi
+  printf '%s' "$compact"
+}
 
-max_len=2000
-if (( ${#message} > max_len )); then
-  # Keep holdings + errors; trim lower-priority commentary first.
-  compact_message="$message"
-  compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Watch-outs:.*\n//mg; s/^-\s*Notes:.*\n//mg')"
-  if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/\n- Holding changes \+ reasoning:\n(?:  •.*\n)+/\n/g')"
-  fi
-  if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added \(stocks\):.*\n//mg')"
-  fi
-  if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Leader since launch:.*\n//mg')"
-  fi
-  if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added(?: \(fund\))?:.*\n//mg')"
-  fi
-  if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*(Risk limits|Limits):.*\n//mg')"
-  fi
-  if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*(Sector exposure|Sectors):.*\n//mg')"
-  fi
-  if (( ${#compact_message} <= max_len )); then
-    message="$compact_message"
-  else
-    while (( ${#compact_message} > max_len )) && [[ "$compact_message" == *$'\n'* ]]; do
-      compact_message="${compact_message%$'\n'*}"
-    done
-    if (( ${#compact_message} > max_len )); then
-      compact_message="${compact_message:0:max_len}"
+build_lanes_overview_block() {
+  local out=""
+  out+="**🧩 Lanes**"
+  out+=$'\n'
+  while IFS= read -r lane; do
+    fund_id="$(jq -r '.fund_id' <<<"$lane")"
+    provider="$(jq -r '.provider' <<<"$lane")"
+    status="$(jq -r '.status' <<<"$lane")"
+    run_path="$(jq -r '.run_path' <<<"$lane")"
+    meta_path="${run_path}/run_meta.json"
+    error_message=""
+
+    case "$provider" in
+      openai) provider_label="OpenAI" ;;
+      anthropic) provider_label="Anthropic" ;;
+      *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
+    esac
+
+    case "$fund_id" in
+      fund-a) fund_emoji="🟦" ;;
+      fund-b) fund_emoji="🟪" ;;
+      *) fund_emoji="⬜" ;;
+    esac
+    fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
+
+    if [[ "$status" == "success" ]]; then
+      status_emoji="🟢"
+      status_label="On track"
+    else
+      status_emoji="🔴"
+      status_label="Issue"
     fi
-    message="$compact_message"
-  fi
+
+    if [[ "$status" != "success" && -f "$meta_path" ]]; then
+      error_message="$(jq -r '.reason // ""' "$meta_path")"
+      error_message="$(printf '%s' "$error_message" | tr '\n' ' ' | sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//')"
+      if [[ ${#error_message} -gt 180 ]]; then
+        error_message="${error_message:0:177}..."
+      fi
+    fi
+
+    out+="- ${fund_emoji} ${fund_label} (${provider_label}): ${status_emoji} **${status_label}**"
+    if [[ -n "$error_message" ]]; then
+      out+=" — ${error_message}"
+    fi
+    out+=$'\n'
+  done < <(jq -c '.lanes[]' "$scoreboard_path")
+  printf '%s' "$out"
+}
+
+scoreboard_md=""
+if [[ -f "$scoreboard_repo_path" ]]; then
+  scoreboard_md="$(cat "$scoreboard_repo_path")"
 fi
 
-jq -Rn --arg content "$message" '{content: $content, flags: 4}'
+overview_msg=""
+lanes_msg=""
+scoreboard_msg=""
+
+if [[ "$include_header" == "true" ]]; then
+  overview_msg="**📈 Daily Paper Update — ${run_date}**"
+  if [[ -n "$overall_line" ]]; then
+    overview_msg+=$'\n'
+    overview_msg+="${overall_emoji} ${overall_line}"
+  fi
+  overview_msg+=$'\n'
+  overview_msg+=$'\n'
+  overview_msg+="**🏁 Board**"
+  overview_msg+=$'\n'
+  overview_msg+="- Ovlp: **${overlap_pct}%**"
+  overview_msg+=$'\n'
+  overview_msg+="- Est. turnover: **${turnover_pct}%**"
+  overview_msg+=$'\n'
+  overview_msg+=$'\n'
+  overview_msg+="$(build_lanes_overview_block)"
+fi
+
+if [[ "$mode" == "overall-only" ]]; then
+  overview_msg="$(trim_discord_message "$overview_msg")"
+  jq -Rn --argjson messages "$(jq -n --arg content "$overview_msg" '[{content:$content, flags:4}]')" '$messages'
+  exit 0
+fi
+
+lanes_msg="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
+if [[ "$include_header" == "true" ]]; then
+  lanes_msg="**🧩 Lane Details**"$'\n'"$lanes_msg"
+fi
+lanes_msg="$(trim_discord_message "$lanes_msg")"
+
+if [[ -n "$scoreboard_md" ]]; then
+  scoreboard_msg="**🏁 Scoreboard — ${run_date}**"$'\n'$'```text\n'"$scoreboard_md"$'\n'$'```'
+else
+  scoreboard_msg="**🏁 Scoreboard — ${run_date}**"$'\n'"(missing ${scoreboard_repo_path})"
+fi
+scoreboard_msg="$(trim_discord_message "$scoreboard_msg" "false")"
+
+messages_json="$(jq -n --arg o "$overview_msg" --arg l "$lanes_msg" --arg s "$scoreboard_msg" '
+  [
+    (if ($o | length) > 0 then {content:$o, flags:4} else empty end),
+    {content:$l, flags:4},
+    {content:$s, flags:4}
+  ]
+')"
+
+if [[ "$mode" == "no-header" ]]; then
+  # Suppress the overview message when called in "no-header" mode.
+  messages_json="$(printf '%s' "$messages_json" | jq '.[1:]')"
+fi
+
+printf '%s\n' "$messages_json"
