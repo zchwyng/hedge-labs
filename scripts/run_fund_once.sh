@@ -60,34 +60,11 @@ start_epoch="$(date +%s)"
 
 status="success"
 reason=""
+retry_used=false
 
 DEXTER_ROOT="${DEXTER_ROOT:-}" "${repo_root}/scripts/ensure_dexter.sh" >/dev/null
 
-set +e
-(
-  cd "$repo_root"
-  DEXTER_MODEL="$model" \
-  DEXTER_PROMPT_FILE="$canonical_prompt" \
-  DEXTER_MAX_ITERATIONS="${DEXTER_MAX_ITERATIONS:-10}" \
-  bun run scripts/dexter_run_once.ts
-) 2>&1 | tee "$stdout_path"
-dexter_exit_code="${PIPESTATUS[0]}"
-set -e
-
-if [[ "$dexter_exit_code" -ne 0 ]]; then
-  status="failed"
-  reason="dexter run exited with code ${dexter_exit_code}"
-
-  runner_error="$(grep -Eo 'Error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^Error:[[:space:]]*//' || true)"
-  if [[ -n "$runner_error" ]]; then
-    reason="$runner_error"
-  else
-    last_line="$(tail -n 1 "$stdout_path" | tr -d '\r' || true)"
-    if [[ -n "$last_line" ]]; then
-      reason="$last_line"
-    fi
-  fi
-fi
+dexter_exit_code=0
 
 extract_json_from_output() {
   local file_path="$1"
@@ -169,17 +146,8 @@ try {
 NODE
 }
 
-if [[ "$status" == "success" ]]; then
-  json_candidate="$(extract_json_from_output "$stdout_path" || true)"
-  if [[ -n "$json_candidate" ]] && jq -e . <<<"$json_candidate" >/dev/null 2>&1; then
-    printf '%s\n' "$json_candidate" | jq . > "$json_path"
-  else
-    status="failed"
-    reason="stdout did not contain a valid JSON object"
-  fi
-fi
-
-if [[ "$status" == "success" ]]; then
+validate_json_output() {
+  local input_json="$1"
   if ! jq -e '
     .paper_only == true and
     (.run_date | type == "string") and
@@ -201,13 +169,11 @@ if [[ "$status" == "success" ]]; then
     ) and
     (.constraints_check.max_position_ok == true) and
     (.constraints_check.max_sector_ok == true)
-  ' "$json_path" >/dev/null 2>&1; then
-    status="failed"
+  ' "$input_json" >/dev/null 2>&1; then
     reason="JSON validation failed (schema or risk constraints)"
+    return 1
   fi
-fi
 
-if [[ "$status" == "success" ]]; then
   if ! jq -e \
     --argjson expected_positions "$target_positions" \
     --argjson max_position "$max_position_pct" \
@@ -242,9 +208,299 @@ if [[ "$status" == "success" ]]; then
         | map(map(.weight_pct) | add)
         | all(. <= ($max_sector + 0.0001))
       )
-    ' "$json_path" >/dev/null 2>&1; then
-    status="failed"
+    ' "$input_json" >/dev/null 2>&1; then
     reason="Portfolio validation failed (positions, weights, or sector limits)"
+    return 1
+  fi
+
+  return 0
+}
+
+rebalance_portfolio_if_possible() {
+  local input_json="$1"
+  node - "$input_json" "$target_positions" "$max_position_pct" "$max_sector_pct" <<'NODE'
+const fs = require('node:fs');
+
+const [, , jsonPath, expectedPositionsRaw, maxPositionRaw, maxSectorRaw] = process.argv;
+const expectedPositions = Number(expectedPositionsRaw);
+const maxPosition = Number(maxPositionRaw);
+const maxSector = Number(maxSectorRaw);
+const targetTotalBp = 10000;
+const minWeightBp = 1;
+const maxPositionBp = Math.floor(maxPosition * 100 + 1e-6);
+const maxSectorBp = Math.floor(maxSector * 100 + 1e-6);
+
+if (!Number.isFinite(expectedPositions) || expectedPositions <= 0) process.exit(1);
+if (!Number.isFinite(maxPositionBp) || maxPositionBp < minWeightBp) process.exit(1);
+if (!Number.isFinite(maxSectorBp) || maxSectorBp < minWeightBp) process.exit(1);
+
+let doc;
+try {
+  doc = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+} catch {
+  process.exit(1);
+}
+
+if (!doc || !Array.isArray(doc.target_portfolio) || doc.target_portfolio.length !== expectedPositions) {
+  process.exit(1);
+}
+
+const portfolio = doc.target_portfolio;
+const tickers = new Set();
+const sectors = [];
+const weightsBp = [];
+
+for (const item of portfolio) {
+  if (!item || typeof item.ticker !== 'string' || typeof item.sector !== 'string') process.exit(1);
+  const ticker = item.ticker.trim().toUpperCase();
+  const sector = item.sector.trim();
+  const rawWeight = Number(item.weight_pct);
+  if (!ticker || ticker === 'UNKNOWN' || ticker === 'CASH' || tickers.has(ticker)) process.exit(1);
+  if (!sector || sector.toUpperCase() === 'UNKNOWN') process.exit(1);
+  if (!Number.isFinite(rawWeight) || rawWeight <= 0) process.exit(1);
+  tickers.add(ticker);
+  sectors.push(sector);
+  weightsBp.push(Math.max(minWeightBp, Math.round(rawWeight * 100)));
+}
+
+const buildSectorSums = () => {
+  const sums = new Map();
+  for (let i = 0; i < weightsBp.length; i += 1) {
+    sums.set(sectors[i], (sums.get(sectors[i]) ?? 0) + weightsBp[i]);
+  }
+  return sums;
+};
+
+const distribute = (amount) => {
+  let remaining = amount;
+  let guard = 0;
+  while (remaining > 0 && guard < 20000) {
+    guard += 1;
+    const sectorSums = buildSectorSums();
+    let bestIndex = -1;
+    let bestRoom = 0;
+    for (let i = 0; i < weightsBp.length; i += 1) {
+      const posRoom = maxPositionBp - weightsBp[i];
+      const sectorRoom = maxSectorBp - (sectorSums.get(sectors[i]) ?? 0);
+      const room = Math.min(posRoom, sectorRoom);
+      if (room > bestRoom) {
+        bestRoom = room;
+        bestIndex = i;
+      }
+    }
+    if (bestIndex < 0 || bestRoom <= 0) return false;
+    const add = Math.min(remaining, bestRoom);
+    weightsBp[bestIndex] += add;
+    remaining -= add;
+  }
+  return remaining === 0;
+};
+
+const removeOverweightSectors = () => {
+  const sectorSums = buildSectorSums();
+  let moved = 0;
+  const overSectors = [...sectorSums.keys()].sort().filter((sector) => (sectorSums.get(sector) ?? 0) > maxSectorBp);
+  for (const sector of overSectors) {
+    let excess = (sectorSums.get(sector) ?? 0) - maxSectorBp;
+    const indices = weightsBp
+      .map((weight, i) => ({ i, weight, ticker: String(portfolio[i].ticker).toUpperCase() }))
+      .filter((entry) => sectors[entry.i] === sector)
+      .sort((a, b) => {
+        if (b.weight !== a.weight) return b.weight - a.weight;
+        return a.ticker.localeCompare(b.ticker);
+      })
+      .map((entry) => entry.i);
+
+    for (const idx of indices) {
+      if (excess <= 0) break;
+      const removable = weightsBp[idx] - minWeightBp;
+      if (removable <= 0) continue;
+      const cut = Math.min(removable, excess);
+      weightsBp[idx] -= cut;
+      excess -= cut;
+      moved += cut;
+    }
+    if (excess > 0) return null;
+  }
+  return moved;
+};
+
+for (let i = 0; i < weightsBp.length; i += 1) {
+  if (weightsBp[i] > maxPositionBp) {
+    weightsBp[i] = maxPositionBp;
+  }
+}
+
+let currentTotal = weightsBp.reduce((sum, v) => sum + v, 0);
+if (currentTotal > targetTotalBp) {
+  let needRemove = currentTotal - targetTotalBp;
+  const sorted = weightsBp
+    .map((w, i) => ({ i, w }))
+    .sort((a, b) => b.w - a.w)
+    .map((entry) => entry.i);
+  for (const idx of sorted) {
+    if (needRemove <= 0) break;
+    const removable = weightsBp[idx] - minWeightBp;
+    if (removable <= 0) continue;
+    const cut = Math.min(removable, needRemove);
+    weightsBp[idx] -= cut;
+    needRemove -= cut;
+  }
+  if (needRemove > 0) process.exit(1);
+} else if (currentTotal < targetTotalBp) {
+  if (!distribute(targetTotalBp - currentTotal)) process.exit(1);
+}
+
+for (let iter = 0; iter < 12; iter += 1) {
+  const moved = removeOverweightSectors();
+  if (moved === null) process.exit(1);
+  if (moved === 0) break;
+  if (!distribute(moved)) process.exit(1);
+}
+
+currentTotal = weightsBp.reduce((sum, v) => sum + v, 0);
+if (currentTotal < targetTotalBp) {
+  if (!distribute(targetTotalBp - currentTotal)) process.exit(1);
+} else if (currentTotal > targetTotalBp) {
+  let needRemove = currentTotal - targetTotalBp;
+  const sorted = weightsBp
+    .map((w, i) => ({ i, w }))
+    .sort((a, b) => b.w - a.w)
+    .map((entry) => entry.i);
+  for (const idx of sorted) {
+    if (needRemove <= 0) break;
+    const removable = weightsBp[idx] - minWeightBp;
+    if (removable <= 0) continue;
+    const cut = Math.min(removable, needRemove);
+    weightsBp[idx] -= cut;
+    needRemove -= cut;
+  }
+  if (needRemove > 0) process.exit(1);
+}
+
+const finalSectorSums = buildSectorSums();
+for (const sum of finalSectorSums.values()) {
+  if (sum > maxSectorBp) process.exit(1);
+}
+for (const weight of weightsBp) {
+  if (weight < minWeightBp || weight > maxPositionBp) process.exit(1);
+}
+if (weightsBp.reduce((sum, v) => sum + v, 0) !== targetTotalBp) process.exit(1);
+
+for (let i = 0; i < portfolio.length; i += 1) {
+  portfolio[i].weight_pct = Number((weightsBp[i] / 100).toFixed(2));
+}
+doc.constraints_check = {
+  max_position_ok: true,
+  max_sector_ok: true,
+  notes: "Weights were deterministically rebalanced to satisfy position and sector constraints."
+};
+
+fs.writeFileSync(jsonPath, `${JSON.stringify(doc, null, 2)}\n`);
+NODE
+}
+
+attempt_rebalance_if_needed() {
+  if [[ "$status" == "failed" && "$reason" == "Portfolio validation failed (positions, weights, or sector limits)" && -f "$json_path" ]]; then
+    if rebalance_portfolio_if_possible "$json_path" && validate_json_output "$json_path"; then
+      status="success"
+      reason=""
+      return 0
+    fi
+  fi
+  return 1
+}
+
+run_dexter_attempt() {
+  local prompt_path="$1"
+  rm -f "$json_path"
+  status="success"
+  reason=""
+
+  set +e
+  (
+    cd "$repo_root"
+    DEXTER_MODEL="$model" \
+    DEXTER_PROMPT_FILE="$prompt_path" \
+    DEXTER_MAX_ITERATIONS="${DEXTER_MAX_ITERATIONS:-10}" \
+    bash -lc '
+      if command -v timeout >/dev/null 2>&1; then
+        timeout "${DEXTER_TIMEOUT_SECONDS:-900}" bun run scripts/dexter_run_once.ts
+      else
+        bun run scripts/dexter_run_once.ts
+      fi
+    '
+  ) 2>&1 | tee "$stdout_path"
+  dexter_exit_code="${PIPESTATUS[0]}"
+  set -e
+
+  if [[ "$dexter_exit_code" -ne 0 ]]; then
+    status="failed"
+    if [[ "$dexter_exit_code" -eq 124 ]]; then
+      reason="dexter run timed out after ${DEXTER_TIMEOUT_SECONDS:-900}s"
+    else
+      reason="dexter run exited with code ${dexter_exit_code}"
+    fi
+
+    runner_error="$(grep -Eo 'Error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^Error:[[:space:]]*//' || true)"
+    if [[ -n "$runner_error" ]]; then
+      reason="$runner_error"
+    else
+      last_line="$(tail -n 1 "$stdout_path" | tr -d '\r' || true)"
+      if [[ -n "$last_line" ]]; then
+        reason="$last_line"
+      fi
+    fi
+    return
+  fi
+
+  json_candidate="$(extract_json_from_output "$stdout_path" || true)"
+  if [[ -n "$json_candidate" ]] && jq -e . <<<"$json_candidate" >/dev/null 2>&1; then
+    printf '%s\n' "$json_candidate" | jq . > "$json_path"
+  else
+    status="failed"
+    reason="stdout did not contain a valid JSON object"
+    return
+  fi
+
+  if ! validate_json_output "$json_path"; then
+    status="failed"
+    return
+  fi
+}
+
+run_dexter_attempt "$canonical_prompt"
+attempt_rebalance_if_needed || true
+
+if [[ "$status" == "failed" && ( "$reason" == "JSON validation failed (schema or risk constraints)" || "$reason" == "Portfolio validation failed (positions, weights, or sector limits)" || "$reason" == "stdout did not contain a valid JSON object" ) ]]; then
+  retry_used=true
+  retry_prompt="${run_dir}/prompt.retry.txt"
+  previous_output="$(cat "$json_path" 2>/dev/null || echo '{}')"
+  cat > "$retry_prompt" <<EOF
+Your previous response failed deterministic validation. Fix it and return ONLY one valid JSON object.
+
+Validation requirements:
+- target_portfolio must contain exactly ${target_positions} holdings.
+- No CASH, UNKNOWN, duplicate tickers, ETFs, or crypto.
+- Each weight_pct must be > 0 and <= ${max_position_pct}.
+- Total weight must be 100% (acceptable range 99.5-100.5).
+- Any single sector total must be <= ${max_sector_pct}.
+- constraints_check.max_position_ok and constraints_check.max_sector_ok must both be true and consistent with your portfolio.
+
+Previous failure reason:
+${reason}
+
+Previous invalid output:
+${previous_output}
+
+Original assignment:
+$(cat "$canonical_prompt")
+EOF
+  run_dexter_attempt "$retry_prompt"
+  attempt_rebalance_if_needed || true
+  rm -f "$retry_prompt"
+  if [[ "$status" == "failed" ]]; then
+    reason="Retry failed: ${reason}"
   fi
 fi
 
