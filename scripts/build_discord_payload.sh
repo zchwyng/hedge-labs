@@ -662,7 +662,7 @@ n/a
   lane_sections+="- Today: ${action_summary}"
   if [[ "$trade_reasoning_summary" != "n/a" ]]; then
     lane_sections+=$'\n'
-    lane_sections+="- Reasoning: ${trade_reasoning_summary}"
+    lane_sections+="- ${trade_reasoning_summary}"
   fi
   if [[ "$constraints_ok" != "true" ]]; then
     lane_sections+=$'\n'
