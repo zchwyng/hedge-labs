@@ -3,15 +3,15 @@
   "provider": "openai",
   "model": "gpt-5.2",
   "benchmark": {
-    "name": "S&P 500",
-    "ticker": "^GSPC"
+    "name": "MSCI ACWI",
+    "ticker": "ACWI"
   },
-  "universe": "US large & mid cap only",
+  "universe": "US & Europe large/mid cap equities",
   "hold_horizon_days": 30,
   "positions": 10,
   "min_position_pct": 2,
-  "max_position_pct": 12,
-  "max_sector_pct": 25,
+  "max_position_pct": 20,
+  "max_sector_pct": 35,
   "rebalance": "weekly",
   "paper_only": true
 }

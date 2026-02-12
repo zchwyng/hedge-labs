@@ -52,7 +52,8 @@ truncate_text() {
 
 format_holdings_table() {
   local json_path="$1"
-  node - "$json_path" <<'NODE'
+  local max_rows="${2:-8}"
+  node - "$json_path" "$max_rows" <<'NODE'
 const fs = require('node:fs');
 
 function fmtWeight(x) {
@@ -65,6 +66,13 @@ function fmtWeight(x) {
 
 function normSymbol(s) {
   return String(s || '').trim().toUpperCase().replace(/-/g, '.');
+}
+
+function compactName(name, max = 20) {
+  const s = String(name || '').trim();
+  if (!s) return '';
+  if (s.length <= max) return s;
+  return `${s.slice(0, Math.max(1, max - 3))}...`;
 }
 
 async function fetchCompanyNames(tickers) {
@@ -108,6 +116,7 @@ async function fetchCompanyNames(tickers) {
 
 (async () => {
   const path = process.argv[2];
+  const maxRows = Math.max(1, Number(process.argv[3] || 8) || 8);
   let doc = {};
   try {
     doc = JSON.parse(fs.readFileSync(path, 'utf8'));
@@ -125,6 +134,9 @@ async function fetchCompanyNames(tickers) {
     return ta.localeCompare(tb);
   });
 
+  const displayed = holdings.slice(0, maxRows);
+  const hiddenCount = Math.max(0, holdings.length - displayed.length);
+
   console.log('```text');
   if (holdings.length === 0) {
     console.log('n/a');
@@ -135,13 +147,16 @@ async function fetchCompanyNames(tickers) {
   const tickers = [...new Set(holdings.map((h) => String(h?.ticker || '').trim()).filter(Boolean))];
   const companyNames = await fetchCompanyNames(tickers);
 
-  console.log('Ticker | Name | Wt | Sector');
+  console.log('% | Ticker | Name | Sector');
   console.log('--- | --- | --- | ---');
-  for (const h of holdings) {
+  for (const h of displayed) {
     const ticker = String(h?.ticker || 'UNKNOWN').trim() || 'UNKNOWN';
     const sector = String(h?.sector || 'UNKNOWN').trim() || 'UNKNOWN';
-    const name = companyNames[normSymbol(ticker)] || ticker;
-    console.log(`${ticker} | ${name} | ${fmtWeight(h?.weight_pct)} | ${sector}`);
+    const name = compactName(companyNames[normSymbol(ticker)] || ticker, 20);
+    console.log(`${fmtWeight(h?.weight_pct)} | ${ticker} | ${name} | ${sector}`);
+  }
+  if (hiddenCount > 0) {
+    console.log(`... | ... | ... | +${hiddenCount} more`);
   }
   console.log('```');
 })().catch(() => {
@@ -255,11 +270,11 @@ turnover_pct="$(jq -r '.comparison.turnover_estimate_pct // 0' "$scoreboard_path
 comparison_notes="$(jq -r '.comparison.notes // ""' "$scoreboard_path")"
 
 if [[ "$all_success" == "true" ]]; then
-  overall_emoji="🟢"
-  overall_line="All paper funds completed successfully."
+  overall_emoji=""
+  overall_line=""
 else
   overall_emoji="🟠"
-  overall_line="${failed_count} of ${lane_count} lanes had issues. Summary still posted."
+  overall_line="${failed_count}/${lane_count} lanes had issues; summary posted."
 fi
 
 lane_sections=""
@@ -316,6 +331,7 @@ while IFS= read -r lane; do
   benchmark_ticker=""
   benchmark_label=""
   benchmark_display="n/a"
+  trade_reasoning_summary="n/a"
   risk_snippet="n/a"
   holdings_block='```text
 n/a
@@ -422,7 +438,22 @@ n/a
         ;;
     esac
 
-    holdings_block="$(format_holdings_table "$output_path")"
+    holdings_block="$(format_holdings_table "$output_path" 8)"
+
+    trade_reasoning_summary="$(jq -r '
+      [
+        (.trade_of_the_day.thesis // [] | map(select(type == "string")) | .[0]),
+        (.trade_of_the_day.why_now // empty)
+      ]
+      | map(select(type == "string" and length > 0))
+      | join(" ")
+    ' "$output_path")"
+    trade_reasoning_summary="$(sanitize_watchouts "$trade_reasoning_summary")"
+    if [[ -z "$trade_reasoning_summary" || "$trade_reasoning_summary" == "n/a" ]]; then
+      trade_reasoning_summary="n/a"
+    else
+      trade_reasoning_summary="$(truncate_text "$trade_reasoning_summary" 160)"
+    fi
 
     risk_snippet="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type == "string")) | .[:2] | join("; ")) // "n/a"' "$output_path")"
     risk_snippet="$(sanitize_watchouts "$risk_snippet")"
@@ -586,11 +617,11 @@ n/a
 
   if [[ "$status" != "success" ]]; then
     if output_has_holdings "$output_path"; then
-      holdings_block="$(format_holdings_table "$output_path")"
+      holdings_block="$(format_holdings_table "$output_path" 8)"
       sector_exposure_summary="$(format_sector_exposure_summary "$output_path")"
       holdings_heading="Holdings (latest run output):"
     elif [[ -n "$prev_output_path" && -f "$prev_output_path" ]]; then
-      holdings_block="$(format_holdings_table "$prev_output_path")"
+      holdings_block="$(format_holdings_table "$prev_output_path" 8)"
       sector_exposure_summary="$(format_sector_exposure_summary "$prev_output_path")"
       if [[ -n "$prev_output_date" ]]; then
         holdings_heading="Holdings (last successful run ${prev_output_date}):"
@@ -622,28 +653,32 @@ n/a
   lane_sections+=$'\n\n'
   lane_sections+="**${fund_emoji} ${fund_label} (${provider_label})**"
   lane_sections+=$'\n'
-  lane_sections+="- Fund name: ${fund_name_label}"
+  lane_sections+="- Name: ${fund_name_label}"
   lane_sections+=$'\n'
-  lane_sections+="- Fund type: ${fund_type_label}"
+  lane_sections+="- Type: ${fund_type_label}"
   lane_sections+=$'\n'
-  lane_sections+="- Benchmark: ${benchmark_display}"
+  lane_sections+="- BM: ${benchmark_display}"
   lane_sections+=$'\n'
-  lane_sections+="- Sector exposure: ${sector_exposure_summary}"
+  lane_sections+="- Sectors: ${sector_exposure_summary}"
   lane_sections+=$'\n'
   lane_sections+="- Model: \`${model_label}\`"
-  lane_sections+=$'\n'
-  lane_sections+="- Status: ${status_emoji} **${status_label}**"
-  lane_sections+=$'\n'
-  lane_sections+="- Today: ${action_summary}"
-  if [[ "$constraints_ok" != "true" ]]; then
+  if [[ "$status" != "success" ]]; then
     lane_sections+=$'\n'
-    lane_sections+="- Risk limits: ${constraints_label}"
+    lane_sections+="- Status: ${status_emoji} **${status_label}**"
   fi
   lane_sections+=$'\n'
-  lane_sections+="- Since added: **${performance_summary}**"
+  lane_sections+="- Today: ${action_summary}"
+  if [[ "$trade_reasoning_summary" != "n/a" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- Reasoning: ${trade_reasoning_summary}"
+  fi
+  if [[ "$constraints_ok" != "true" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- Limits: ${constraints_label}"
+  fi
   if [[ -n "$api_notice_block" ]]; then
     lane_sections+=$'\n'
-    lane_sections+="- API notices:"
+    lane_sections+="- API:"
     lane_sections+=$'\n'
     lane_sections+="$api_notice_block"
   fi
@@ -684,20 +719,24 @@ if [[ -n "$comparison_notes" && "$comparison_notes" == Computed\ from\ first\ tw
   comparison_notes="Based on today's completed fund runs."
 fi
 
-message="**📈 Daily Paper Fund Update — ${run_date}**"
+message="**📈 Daily Paper Update — ${run_date}**"
+if [[ -n "$overall_line" ]]; then
+  message+=$'\n'
+  message+="${overall_emoji} ${overall_line}"
+  message+=$'\n\n'
+else
+  message+=$'\n\n'
+fi
+message+="**🏁 Board**"
 message+=$'\n'
-message+="${overall_emoji} ${overall_line}"
-message+=$'\n\n'
-message+="**🏁 Scoreboard**"
+message+="- Ovlp: **${overlap_pct}%**"
 message+=$'\n'
-message+="- Portfolio overlap: **${overlap_pct}%**"
-message+=$'\n'
-message+="- Estimated turnover: **${turnover_pct}%**"
+message+="- Est. turnover: **${turnover_pct}%**"
 message+=$'\n'
 if [[ -n "$scoreboard_url" ]]; then
-  message+="- Full scoreboard: <${scoreboard_url}>"
+  message+="- Scoreboard: <${scoreboard_url}>"
 else
-  message+="- Full scoreboard: ${scoreboard_repo_path}"
+  message+="- Scoreboard: ${scoreboard_repo_path}"
 fi
 message+="$lane_sections"
 
@@ -719,10 +758,10 @@ if (( ${#message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added(?: \(fund\))?:.*\n//mg')"
   fi
   if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Risk limits:.*\n//mg')"
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*(Risk limits|Limits):.*\n//mg')"
   fi
   if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Sector exposure:.*\n//mg')"
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*(Sector exposure|Sectors):.*\n//mg')"
   fi
   if (( ${#compact_message} <= max_len )); then
     message="$compact_message"
