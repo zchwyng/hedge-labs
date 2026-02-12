@@ -1,0 +1,32 @@
+{
+  "run_date": "2026-02-12",
+  "lanes": [
+    {
+      "fund_id": "fund-a",
+      "provider": "openai",
+      "status": "failed",
+      "action": "UNKNOWN",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
+      "constraints_ok": false,
+      "run_path": "funds/fund-a/runs/2026-02-12/openai"
+    },
+    {
+      "fund_id": "fund-b",
+      "provider": "anthropic",
+      "status": "failed",
+      "action": "UNKNOWN",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
+      "constraints_ok": false,
+      "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
+    }
+  ],
+  "comparison": {
+    "portfolio_overlap_pct": 0,
+    "turnover_estimate_pct": 0,
+    "notes": "Need at least two successful lanes to compute overlap/turnover metrics."
+  }
+}
