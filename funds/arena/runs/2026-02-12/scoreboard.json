@@ -8,7 +8,7 @@
       "action": "Replace",
       "add_ticker": "MRK",
       "remove_ticker": "DIS",
-      "size_change_pct": 2,
+      "size_change_pct": 8,
       "constraints_ok": false,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
