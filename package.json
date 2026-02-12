@@ -1,0 +1,9 @@
+{
+  "name": "hedge-labs",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun scripts/fund_runner.mjs"
+  }
+}
