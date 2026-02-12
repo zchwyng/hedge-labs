@@ -1,0 +1,12 @@
+{
+  "name": "Value + Revisions (Monthly-hold)",
+  "provider": "anthropic",
+  "model": "claude-3-7-sonnet-latest",
+  "universe": "US large & mid cap only",
+  "hold_horizon_days": 30,
+  "positions": 12,
+  "max_position_pct": 12,
+  "max_sector_pct": 25,
+  "rebalance": "weekly",
+  "paper_only": true
+}

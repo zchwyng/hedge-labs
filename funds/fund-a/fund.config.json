@@ -1,0 +1,12 @@
+{
+  "name": "Quality + Momentum (Monthly-hold)",
+  "provider": "openai",
+  "model": "gpt-4.1",
+  "universe": "US large & mid cap only",
+  "hold_horizon_days": 30,
+  "positions": 12,
+  "max_position_pct": 12,
+  "max_sector_pct": 25,
+  "rebalance": "weekly",
+  "paper_only": true
+}
