@@ -2,9 +2,9 @@
 
 | Lane | Status | Action | Change | Constraints |
 |---|---|---|---|---|
-| fund-a/openai | success | Replace | UNH -> META | OK |
-| fund-b/anthropic | success | Replace | TSLA -> LLY | OK |
+| fund-a/openai | success | Replace | XOM -> GOOGL | OK |
+| fund-b/anthropic | success | Replace | AAPL -> NVDA | OK |
 
-- Portfolio overlap: 50%
-- Turnover estimate: 46.5%
+- Portfolio overlap: 42.86%
+- Turnover estimate: 48%
 - Notes: Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json.

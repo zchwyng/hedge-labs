@@ -3,106 +3,96 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Tech selloff: AAPL -5%, NVDA -1.9%, META -2.5%, TSLA -3.5% amid profit-taking and valuation concerns",
-    "Defensive rotation: UNH +1.9%, LLY +2.1%, COST +2.6%, WMT +3.1% outperforming as investors seek quality",
-    "Mag 7 under pressure with Russia threatening Meta WhatsApp ban, while AI capex spending debate continues"
+    "Tech selloff: AAPL -4.9%, NVDA -1.9%, AMD -4.0%, AVGO -2.9% on Feb 12",
+    "Consumer strength: WMT +3.2%, COST +2.7%, LLY +2.1%, UNH +1.9% outperforming",
+    "Financials mixed: JPM -2.8%, MA -1.8% weak vs V -0.9% holding better"
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "TSLA",
-      "why": "Negative earnings growth -27.5% YoY, declining margins (5.9% OM vs peers 30%+), revenue flat -0.8%, weak fundamental deterioration vs quality mandate"
+      "ticker": "AAPL",
+      "why": "Down 4.9% today; Q1 revenue growth strong at 40% YoY but momentum weakening vs broader tech"
     },
     {
-      "ticker": "UNH",
-      "why": "Earnings collapse -17.4% YoY with operating margin compression to 5.8%, FCF down -31%, signals structural profitability issues"
+      "ticker": "JPM",
+      "why": "Down 2.8% today; Q3 earnings declined 4% YoY, ROE pressure visible in financials sector"
     }
   ],
   "trade_of_the_day": {
     "action": "Replace",
-    "remove_ticker": "TSLA",
-    "add_ticker": "LLY",
+    "remove_ticker": "AAPL",
+    "add_ticker": "NVDA",
     "size_change_pct": 0,
     "thesis": [
-      "Elite quality: 77% ROE, 83% gross margin, 38% net margin with 33% EPS growth acceleration vs TSLA's -28% earnings decline",
-      "Secular GLP-1 momentum: 11.6% revenue growth with 30% operating income growth, consensus expects multi-year runway in obesity/diabetes",
-      "Technical breakout: +2.1% today to $1,047 while TSLA drops -3.5%, shows relative strength as defensive quality bid emerges"
+      "NVDA Q3 revenue +22% YoY to $57B with 73% gross margin vs AAPL's maturing iPhone cycle momentum",
+      "AI infrastructure spending accelerating: data center revenue dominance with 67% operating margin vs AAPL's 35%",
+      "Momentum edge: NVDA EPS growth +21% YoY, FCF growth +64% vs AAPL stabilizing growth profile"
     ],
     "risks": [
-      "Valuation stretched at 54x P/E vs 32x sector median, vulnerable to multiple compression if growth disappoints",
-      "GLP-1 competition intensifying from NOVO, AMGN with pricing pressure and reimbursement uncertainty",
-      "High debt/equity 1.79x creates refinancing risk if rates stay elevated beyond 2026"
+      "Valuation premium: 46x P/E vs AAPL 34x exposes downside if AI capex spending slows",
+      "Concentration risk: 73% gross margin dependent on continued data center GPU demand sustainability",
+      "Geopolitical exposure: China export restrictions and Taiwan manufacturing risk"
     ],
     "falsifiable_checks": [
-      "Q1 2026 earnings (late April): revenue growth must stay >10% and GLP-1 segment margins hold >35% to justify premium multiple",
-      "Next 30 days: stock holds $1,000+ support level; failure below signals momentum exhaustion and requires immediate exit"
+      "NVDA Q4 2026 revenue guidance (next earnings) must exceed $60B to validate AI infrastructure momentum thesis",
+      "Data center segment gross margin must stay above 70% through FY2026 to justify premium valuation"
     ],
-    "why_now": "Market rotating to quality compounders with visible earnings growth. TSLA's fundamental deterioration violates quality mandate (negative growth, margin compression). LLY offers 77% ROE + 33% earnings growth at inflection point where defensive positioning meets secular GLP-1 tailwinds. 30-day window captures Q1 earnings setup while maintaining quality + momentum discipline."
+    "why_now": "AAPL down 4.9% today signals momentum rotation out of consumer hardware into AI infrastructure. NVDA's 22% revenue growth and 64% FCF growth vs AAPL's 40% revenue comp (tough 2026 compare ahead) presents better risk-reward for next 30-day momentum play. Tech sector rotation favoring AI picks over consumer electronics into Feb earnings season."
   },
   "target_portfolio": [
     {
-      "ticker": "AAPL",
-      "weight_pct": 2,
-      "sector": "Information Technology"
+      "ticker": "NVDA",
+      "weight_pct": 12,
+      "sector": "Technology"
     },
     {
       "ticker": "MSFT",
-      "weight_pct": 6.5,
-      "sector": "Information Technology"
-    },
-    {
-      "ticker": "NVDA",
-      "weight_pct": 9.5,
-      "sector": "Information Technology"
+      "weight_pct": 10,
+      "sector": "Technology"
     },
     {
       "ticker": "GOOGL",
-      "weight_pct": 8.5,
-      "sector": "Communication Services"
-    },
-    {
-      "ticker": "META",
-      "weight_pct": 12,
+      "weight_pct": 11,
       "sector": "Communication Services"
     },
     {
       "ticker": "V",
-      "weight_pct": 8,
+      "weight_pct": 10.5,
       "sector": "Financials"
-    },
-    {
-      "ticker": "MA",
-      "weight_pct": 8,
-      "sector": "Financials"
-    },
-    {
-      "ticker": "LLY",
-      "weight_pct": 12,
-      "sector": "Health Care"
-    },
-    {
-      "ticker": "AVGO",
-      "weight_pct": 7,
-      "sector": "Information Technology"
     },
     {
       "ticker": "JPM",
-      "weight_pct": 8,
+      "weight_pct": 7,
       "sector": "Financials"
     },
     {
+      "ticker": "UNH",
+      "weight_pct": 10,
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 11,
+      "sector": "Healthcare"
+    },
+    {
       "ticker": "COST",
-      "weight_pct": 10.5,
+      "weight_pct": 11,
       "sector": "Consumer Staples"
     },
     {
       "ticker": "WMT",
-      "weight_pct": 8,
+      "weight_pct": 10.5,
       "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "BRK.B",
+      "weight_pct": 7,
+      "sector": "Financials"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
-    "notes": "Weights were deterministically rebalanced to satisfy position and sector constraints."
+    "notes": "All positions 7-12% (within 2-12% ✓). Sectors: Technology 22%, Financials 24.5%, Healthcare 21%, Consumer Staples 21.5%, Comm Services 11%. All sectors ≤25% ✓. Total = 100% ✓."
   }
 }
