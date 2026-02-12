@@ -5,10 +5,10 @@
       "fund_id": "fund-a",
       "provider": "openai",
       "status": "success",
-      "action": "Do nothing",
+      "action": "Trim",
       "add_ticker": null,
       "remove_ticker": null,
-      "size_change_pct": 0,
+      "size_change_pct": -2,
       "constraints_ok": true,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
@@ -17,7 +17,7 @@
       "provider": "anthropic",
       "status": "success",
       "action": "Add",
-      "add_ticker": "BAC",
+      "add_ticker": "JPM",
       "remove_ticker": null,
       "size_change_pct": 8.33,
       "constraints_ok": true,
@@ -25,8 +25,8 @@
     }
   ],
   "comparison": {
-    "portfolio_overlap_pct": 9.09,
-    "turnover_estimate_pct": 83.33,
+    "portfolio_overlap_pct": 20,
+    "turnover_estimate_pct": 70,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }
