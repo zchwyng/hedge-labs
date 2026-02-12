@@ -9,7 +9,7 @@
       "add_ticker": null,
       "remove_ticker": null,
       "size_change_pct": 0,
-      "constraints_ok": true,
+      "constraints_ok": false,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
     {
@@ -17,16 +17,16 @@
       "provider": "anthropic",
       "status": "success",
       "action": "Add",
-      "add_ticker": "UNKNOWN",
+      "add_ticker": "MU",
       "remove_ticker": null,
-      "size_change_pct": 0,
+      "size_change_pct": 8,
       "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
   "comparison": {
     "portfolio_overlap_pct": 100,
-    "turnover_estimate_pct": 0,
+    "turnover_estimate_pct": 100,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }

@@ -3,11 +3,12 @@
   "provider": "anthropic",
   "model": "claude-opus-4-5",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T16:07:14Z",
-  "ended_at": "2026-02-12T16:07:27Z",
+  "started_at": "2026-02-12T16:53:28Z",
+  "ended_at": "2026-02-12T16:56:37Z",
   "status": "success",
   "reason": "",
-  "bun_exit_code": 0,
+  "api_errors": [],
+  "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": ".dexter/scratchpad/2026-02-12T16-07-27-896Z.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-165329_ed2a96d07508.jsonl"
 }
