@@ -3,18 +3,14 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Risk-off tape over the last ~3 sessions: SPY fell from 693.95 (2026-02-09) to 684.26 (2026-02-12) while QQQ fell from 614.32 to 603.08.",
-    "Volatility picked up: VXX rose from 26.60 (2026-02-09) to 28.30 (2026-02-12); VIX level via ^VIX is UNKNOWN (proxy used).",
-    "Rates/oil proxies: intermediate and long Treasury ETFs were up (IEF 96.09→96.67; TLT 87.52→88.71) while oil proxy fell (USO 78.02→76.21)."
+    "UNKNOWN (no verifiable macro/market data retrieved for 2026-02-09 to 2026-02-12)",
+    "SPY-related headline retrieved is outside the last 72 hours window (2025-12-04), so excluded for this run’s 24-72h change log",
+    "UNKNOWN (no verified earnings/guidance/news set for US large & mid caps was retrieved for the run window)"
   ],
   "thesis_damage_flags": [
     {
       "ticker": "UNKNOWN",
-      "why": "Prior portfolio for this fund was not found via available sources in tool output; holdings and recent holding-specific thesis damage cannot be verified."
-    },
-    {
-      "ticker": "META",
-      "why": "Headline risk: report of Russia moving to block WhatsApp / threatening a permanent ban (reputational/regulatory overhang; impact magnitude UNKNOWN from fetched data)."
+      "why": "Prior portfolio holdings not found/verified via tools for this run; cannot assess thesis damage signals by holding."
     }
   ],
   "trade_of_the_day": {
@@ -23,31 +19,31 @@
     "add_ticker": null,
     "size_change_pct": 0,
     "thesis": [
-      "Portfolio action is constrained by missing verifiable prior holdings/weights (prior portfolio = UNKNOWN), making any Add/Trim/Replace non-deterministic and not tool-verifiable.",
-      "Market regime over last ~3 sessions is risk-off (SPY/QQQ down; VXX up), so avoiding forced turnover is consistent with a quality+momentum process pending clearer signals.",
-      "Available company news fetched is largely generic/secondary-source headlines (not primary earnings/guidance transcripts), insufficient to justify a deterministic single-name change."
+      "Data quality is insufficient: no verified prior portfolio and no verified 30-day quality+momentum screen results for US large & mid caps were retrieved.",
+      "Only verifiable single-name dataset retrieved in-scope is AAPL company facts (sector/market cap), which is inadequate to support a momentum + catalyst thesis under the memo rules.",
+      "Determinism requirement: without comparable candidates (price/momentum, quality metrics, catalysts, and 72h news), selecting any trade would be arbitrary."
     ],
     "risks": [
-      "Opportunity cost if a high-quality momentum winner emerges and we fail to add during drawdown.",
-      "If volatility remains elevated (VXX up), existing exposures (UNKNOWN) could breach intended risk posture without adjustment.",
-      "Headline-driven risks (e.g., META Russia/WhatsApp) could worsen quickly; without holdings visibility we cannot mitigate."
+      "Opportunity cost: staying inactive may miss near-term momentum continuation in the universe.",
+      "Model drift: without verified data inputs, portfolio construction cannot be updated consistently week-to-week.",
+      "Concentration blind spots: without holdings/weights, sector and position constraints cannot be actively managed."
     ],
     "falsifiable_checks": [
-      "If a verifiable prior portfolio becomes available, re-run and apply the rules to identify the single strongest Replace/Trim based on confirmed holdings and confirmed earnings/guidance deltas.",
-      "If broad risk-off persists while volatility proxy (VXX) continues rising over the next week, reassess whether to reduce single-name concentration to stay within max sector/position constraints (requires holdings data)."
+      "If a verified prior portfolio (tickers + weights) is retrievable on the next run, then re-run 72h news/earnings scan and reassess for thesis damage/replace candidates.",
+      "If verified universe screen outputs (price returns 1M/3M + quality metrics + upcoming catalyst dates + 72h news) are retrievable on the next run, then choose the top-ranked candidate and propose exactly one action."
     ],
-    "why_now": "6–18 months context is UNKNOWN for portfolio actions because the fund’s current holdings and factor tilts cannot be verified from the fetched data; near-term tape is risk-off with rising volatility proxy, favoring patience until verified company-specific earnings/guidance catalysts are available."
+    "why_now": "UNKNOWN (no verified catalysts/news/earnings for candidates were retrieved for the 6–18 month context in this run)"
   },
   "target_portfolio": [
     {
-      "ticker": "UNKNOWN",
+      "ticker": "CASH",
       "weight_pct": 100,
       "sector": "UNKNOWN"
     }
   ],
   "constraints_check": {
-    "max_position_ok": false,
-    "max_sector_ok": false,
-    "notes": "Cannot construct a 12-position target portfolio or validate max position (12%) / max sector (25%) because the prior portfolio is UNKNOWN in fetched data. Setting a placeholder 100% UNKNOWN breaches constraints by construction."
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "notes": "No verified prior portfolio was available; no verified candidate screen (prices/returns/quality/catalysts/news) was available. Portfolio held in CASH at 100% to remain within deterministic, tool-verified-only rules. Constraints: max position 12% and max sector 25% are satisfied by construction (no equity positions)."
   }
 }
