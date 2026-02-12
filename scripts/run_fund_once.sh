@@ -25,6 +25,9 @@ fi
 
 expected_provider="$(jq -r '.provider // ""' "$config_path")"
 model="$(jq -r '.model // "unknown"' "$config_path")"
+target_positions="$(jq -r '.positions // 0' "$config_path")"
+max_position_pct="$(jq -r '.max_position_pct // 0' "$config_path")"
+max_sector_pct="$(jq -r '.max_sector_pct // 0' "$config_path")"
 if [[ "$expected_provider" != "$provider" ]]; then
   echo "Provider mismatch for ${fund_id}: config=${expected_provider}, arg=${provider}" >&2
   exit 1
@@ -201,6 +204,47 @@ if [[ "$status" == "success" ]]; then
   ' "$json_path" >/dev/null 2>&1; then
     status="failed"
     reason="JSON validation failed (schema or risk constraints)"
+  fi
+fi
+
+if [[ "$status" == "success" ]]; then
+  if ! jq -e \
+    --argjson expected_positions "$target_positions" \
+    --argjson max_position "$max_position_pct" \
+    --argjson max_sector "$max_sector_pct" \
+    '
+      (.target_portfolio | length == $expected_positions) and
+      (
+        all(
+          .target_portfolio[];
+          (.ticker | type == "string") and
+          ((.ticker | ascii_upcase) != "UNKNOWN") and
+          ((.ticker | ascii_upcase) != "CASH") and
+          (.sector | type == "string") and
+          ((.sector | ascii_upcase) != "UNKNOWN") and
+          (.weight_pct | type == "number") and
+          (.weight_pct > 0) and
+          (.weight_pct <= ($max_position + 0.0001))
+        )
+      ) and
+      (
+        [ .target_portfolio[].ticker | ascii_upcase ] as $tickers
+        | ($tickers | length) == ($tickers | unique | length)
+      ) and
+      (
+        (.target_portfolio | map(.weight_pct) | add) as $total_weight
+        | ($total_weight >= 99.5 and $total_weight <= 100.5)
+      ) and
+      (
+        .target_portfolio
+        | sort_by(.sector)
+        | group_by(.sector)
+        | map(map(.weight_pct) | add)
+        | all(. <= ($max_sector + 0.0001))
+      )
+    ' "$json_path" >/dev/null 2>&1; then
+    status="failed"
+    reason="Portfolio validation failed (positions, weights, or sector limits)"
   fi
 fi
 
