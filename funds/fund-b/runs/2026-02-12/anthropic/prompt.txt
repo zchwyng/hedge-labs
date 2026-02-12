@@ -3,7 +3,7 @@ You are producing a research memo + a PAPER "trade of the day" candidate for com
 
 Run metadata:
 - Run date: 2026-02-12
-- Fund name: Value + Revisions (Monthly-hold)
+- Fund name: Quality + Momentum (Monthly-hold)
 - Provider: anthropic
 - Model: claude-sonnet-4-5
 - Rebalance cadence: weekly
