@@ -87,6 +87,7 @@ while IFS= read -r lane; do
   remove_ticker="$(jq -r '.remove_ticker // "-"' <<<"$lane")"
   constraints_ok="$(jq -r '.constraints_ok' <<<"$lane")"
   run_path="$(jq -r '.run_path' <<<"$lane")"
+  config_path="funds/${fund_id}/fund.config.json"
 
   case "$provider" in
     openai) provider_label="OpenAI" ;;
@@ -122,12 +123,18 @@ while IFS= read -r lane; do
   action_summary="No update available."
   performance_summary="n/a"
   stock_moves_summary="n/a"
+  sector_exposure_summary="n/a"
+  fund_type_label="n/a"
   risk_snippet="n/a"
   holdings_block="  • n/a"
   change_reason_block="  • n/a"
   error_message=""
   api_notice_block=""
   model_label="unknown"
+
+  if [[ -f "$config_path" ]]; then
+    fund_type_label="$(jq -r '.universe // "n/a"' "$config_path")"
+  fi
 
   if [[ -f "$meta_path" ]]; then
     model_label="$(jq -r '.model // "unknown"' "$meta_path")"
@@ -172,7 +179,10 @@ while IFS= read -r lane; do
       | if ($p | length) == 0 then
           "  • n/a"
         else
-          ($p | map("  • `\(.ticker)` — \(.weight_pct)%") | join("\n"))
+          ($p
+            | sort_by(-(.weight_pct // 0), (.ticker // ""))
+            | map("  • `\(.ticker)` — \(.weight_pct)%")
+            | join("\n"))
         end
     ' "$output_path")"
 
@@ -211,6 +221,24 @@ while IFS= read -r lane; do
             | join(", "))
         end
     ' <<<"$perf_json")"
+
+    sector_exposure_summary="$(jq -r '
+      (.target_portfolio // []) as $p
+      | if ($p | length) == 0 then
+          "n/a"
+        else
+          ($p
+            | group_by(.sector)
+            | map({
+                sector: (.[0].sector // "UNKNOWN"),
+                weight: ((map(.weight_pct // 0) | add) // 0)
+              })
+            | sort_by(-.weight, .sector)
+            | map(.sector + " " + ((.weight * 100 | round) / 100 | tostring) + "%")
+            | .[0:4]
+            | join(", "))
+        end
+    ' "$output_path")"
 
     runs_root="funds/${fund_id}/runs"
     prev_output_path=""
@@ -325,6 +353,12 @@ while IFS= read -r lane; do
   lane_sections+=$'\n\n'
   lane_sections+="**${fund_emoji} ${fund_label} (${provider_label})**"
   lane_sections+=$'\n'
+  lane_sections+="- Fund type: ${fund_type_label}"
+  lane_sections+=$'\n'
+  lane_sections+="- Universe: ${fund_type_label}"
+  lane_sections+=$'\n'
+  lane_sections+="- Sector exposure: ${sector_exposure_summary}"
+  lane_sections+=$'\n'
   lane_sections+="- Model: \`${model_label}\`"
   lane_sections+=$'\n'
   lane_sections+="- Status: ${status_emoji} **${status_label}**"
@@ -400,7 +434,7 @@ if [[ -n "$comparison_notes" && "$comparison_notes" != "null" ]]; then
 fi
 message+=$'\n'
 if [[ -n "$scoreboard_url" ]]; then
-  message+="- Full scoreboard: ${scoreboard_url}"
+  message+="- Full scoreboard: <${scoreboard_url}>"
 else
   message+="- Full scoreboard: ${scoreboard_repo_path}"
 fi
@@ -420,4 +454,4 @@ if (( ${#message} > max_len )); then
   fi
 fi
 
-jq -Rn --arg content "$message" '{content: $content}'
+jq -Rn --arg content "$message" '{content: $content, flags: 4}'

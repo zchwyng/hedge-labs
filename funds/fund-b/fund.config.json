@@ -1,7 +1,7 @@
 {
   "name": "Value + Revisions (Monthly-hold)",
   "provider": "anthropic",
-  "model": "claude-opus-4-5",
+  "model": "claude-sonnet-4-5",
   "universe": "US large & mid cap only",
   "hold_horizon_days": 30,
   "positions": 12,
