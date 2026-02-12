@@ -22,6 +22,24 @@ sanitize_one_line() {
   printf '%s' "$cleaned"
 }
 
+sanitize_watchouts() {
+  local raw="$1"
+  local cleaned
+  cleaned="$(sanitize_one_line "$raw")"
+  cleaned="$(printf '%s' "$cleaned" | perl -pe '
+    s{https?://\S+}{}gi;
+    s/\((?:[^()]*\bsources?(?:\s+context)?\b[^()]*)\)//gi;
+    s/\bsources?(?:\s+context)?\s*:\s*[^;]+//gi;
+    s/\s{2,}/ /g;
+    s/\s+([,;:.])/$1/g;
+    s/^\s+|\s+$//g;
+  ')"
+  if [[ -z "$cleaned" ]]; then
+    cleaned="n/a"
+  fi
+  printf '%s' "$cleaned"
+}
+
 truncate_text() {
   local raw="$1"
   local max_len="$2"
@@ -188,6 +206,7 @@ while IFS= read -r lane; do
     ' "$output_path")"
 
     risk_snippet="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type == "string")) | .[:2] | join("; ")) // "n/a"' "$output_path")"
+    risk_snippet="$(sanitize_watchouts "$risk_snippet")"
     if [[ -z "$risk_snippet" ]]; then
       risk_snippet="n/a"
     fi
