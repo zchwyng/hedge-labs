@@ -3,90 +3,77 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Tech sector under pressure: Mag 7 down 2-5% on Feb 12 with $500B wiped out. NVDA -3.2%, AAPL -4.9%, META -3.0% as memory shortage concerns emerge per Cisco margins.",
-    "Crypto volatility: BTC dropped from $79K to $62K low on Feb 5, now at $65K (-17% from recent highs). ETH down from $2.5K to $1.8K low, currently $1.9K.",
-    "Defensive sectors outperforming: Healthcare (UNH +2.2%, LLY +1.3%) showing relative strength while Energy/Financials declined (XOM -2.4%, JPM -3.1%, BAC -2.6%)."
+    "Sharp selloff Feb 12: SPY -1.65%, QQQ -2.19%, DIA -1.37%; Mag 7 tech stocks wiped out $500B market cap as memory chip shortage threatens margins",
+    "Micron (MU) surging +8.8% over 10 days despite volatility; analysts positive on AI memory supercycle and structural demand despite commodity multiple",
+    "Bitcoin down -13% to $65.3K; Energy sector under pressure with XOM -2.4%; gold (GLD) -2.85%; crypto and commodities broadly weak"
   ],
-  "thesis_damage_flags": [
-    {
-      "ticker": "NVDA",
-      "why": "Gross margin compression (73.4% Q3 vs 72.4% Q2) and 22% revenue growth deceleration vs prior quarter. Memory shortage risks flagged by market."
-    },
-    {
-      "ticker": "META",
-      "why": "Q3 earnings collapse to $2.7B (EPS $1.08) from $18.3B Q2 due to $19B tax charge. Operating momentum intact but market spooked by headline numbers."
-    },
-    {
-      "ticker": "AAPL",
-      "why": "Down 4.9% today with negative price momentum. iPhone 16 cycle revenue beat (+40% YoY Q1) but stock underperforming on valuation concerns at 34x P/E."
-    }
-  ],
+  "thesis_damage_flags": [],
   "trade_of_the_day": {
-    "action": "Replace",
-    "remove_ticker": "NVDA",
-    "add_ticker": "LLY",
-    "size_change_pct": 0,
+    "action": "Add",
+    "remove_ticker": null,
+    "add_ticker": "MU",
+    "size_change_pct": 15,
     "thesis": [
-      "Quality acceleration: 73% gross margin, 41% operating margin, 22% YoY revenue growth with $5.6B net income Q3. ROE expansion with 6.2x EPS growth trajectory.",
-      "Defensive rotation catalyst: Healthcare outperforming tech selloff (+1.3% vs -3.2% NVDA today). GLP-1 franchise (Mounjaro/Zepbound) driving structural demand with $17.6B Q3 revenue.",
-      "Valuation compression opportunity: 39x P/E vs 45x NVDA despite superior margin profile. Analyst estimates show 31% EPS CAGR through 2027 vs NVDA's decelerating growth."
+      "AI memory supercycle: MU revenue +49% YoY to $37.4B FY25, gross margin expansion to 39.8% from 22.4%, operating margin 27.1% vs 7.1% prior year—structural shift from commodity cyclicality to AI-driven demand",
+      "Positioning ahead of Mag 7 capex: Tech giants planning $680B AI infrastructure spend in 2026; memory shortage narrative emerging as Cisco warned on margin pressure—MU uniquely exposed as memory supplier bottleneck",
+      "Strong momentum + valuation disconnect: Stock up 8.8% in 10 days despite sector selloff; trading 16x P/E vs 46x NVDA, 25x MSFT—analysts highlight 'commodity multiple despite structural AI growth'; free cash flow inflection with $1.68B FCF (vs -$6B FY23)"
     ],
     "risks": [
-      "High valuation: 39x P/E, 30x P/B requires sustained execution. Any GLP-1 competitive pressure or FDA issues could trigger sharp repricing.",
-      "Leverage: 3.8x debt/equity highest among quality names. Interest rate sensitivity if Fed policy shifts hawkish.",
-      "Momentum reversal: Trading near highs with 12% YTD gain. Short-term consolidation risk if tech sector weakness persists."
+      "Memory cycle volatility: Historical boom-bust pattern; FY23 posted -$5.8B net loss when cycle turned—investors fear repeat despite AI narrative",
+      "Concentration risk: Heavy exposure to Mag 7 capex spending; if tech giants slow AI infrastructure build (like MSFT downgrade concerns), MU revenue hits immediately",
+      "Valuation stretched on absolute basis: $415 price represents 3.7x sales vs 2.5x book; if memory shortage narrative fails or AI capex disappoints, momentum reverses sharply"
     ],
     "falsifiable_checks": [
-      "Q4 2025 revenue (due Feb 2026) must exceed $18B with operating margin >42% to validate premium valuation vs Q3 baseline of 41%.",
-      "Gross margin must stabilize above 82% vs 82.9% Q3. Any compression below 80% would signal pricing pressure or manufacturing inefficiency."
+      "MU quarterly earnings (next: Q2 FY26 likely March 2026): Revenue growth >15% QoQ, gross margin sustained >38%, guidance confirms memory shortage persisting into H2 2026",
+      "Mag 7 capex execution: Track MSFT/META/GOOGL quarterly capex disclosures through Q1 2026—if aggregate AI infrastructure spend decelerates below $150B quarterly run rate, thesis weakens"
     ],
-    "why_now": "Tech sector rotation creates entry point into defensive quality. NVDA's gross margin compression (73.4% down from 74%) and memory shortage concerns versus LLY's margin expansion (82.9% gross, 41% operating) with structural GLP-1 tailwind. Healthcare outperforming tech today (LLY +1.3% vs NVDA -3.2%) signals risk-off positioning favoring quality defensives. 30-day window captures Q4 earnings catalyst (due Feb 2026) where LLY can demonstrate GLP-1 franchise durability while tech faces margin pressure uncertainty."
+    "why_now": "Market pricing in tech weakness creates entry: Feb 12 selloff took AAPL -5.1%, NVDA -3.3%, META -3.0% on memory shortage fears, yet MU relatively outperformed at -1.6% intraday. Memory shortage is a supply bottleneck that benefits MU as the critical infrastructure provider. Wall Street just caught on—Goldman highlighted 7 memory stocks, analyst articles flooding in Feb 11-12 on 'memory supercycle' thesis. Positioning before March quarter earnings when guidance will likely confirm structural tightness lasting 6-18 months as AI accelerator deployments ramp."
   },
   "target_portfolio": [
     {
-      "ticker": "MSFT",
+      "ticker": "MU",
       "weight_pct": 15,
-      "sector": "Information Technology"
+      "sector": "Technology"
     },
     {
-      "ticker": "AAPL",
-      "weight_pct": 12,
-      "sector": "Information Technology"
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Technology"
     },
     {
       "ticker": "META",
-      "weight_pct": 10,
-      "sector": "Communication Services"
+      "weight_pct": 15,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "MSFT",
+      "weight_pct": 12,
+      "sector": "Technology"
     },
     {
       "ticker": "GOOGL",
-      "weight_pct": 12,
-      "sector": "Communication Services"
-    },
-    {
-      "ticker": "AMZN",
-      "weight_pct": 13,
-      "sector": "Consumer Discretionary"
-    },
-    {
-      "ticker": "TSM",
       "weight_pct": 10,
-      "sector": "Information Technology"
+      "sector": "Technology"
     },
     {
-      "ticker": "LLY",
-      "weight_pct": 15,
-      "sector": "Healthcare"
-    },
-    {
-      "ticker": "UNH",
+      "ticker": "VST",
       "weight_pct": 13,
-      "sector": "Healthcare"
+      "sector": "Utilities"
+    },
+    {
+      "ticker": "WDC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Commodities"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
-    "notes": "All positions 10-15% (within 2-40% bounds). Info Tech 37%, Communication 22%, Healthcare 28%, Consumer Disc 13% (all under 80% max). Portfolio diversified across 4 sectors with defensive healthcare tilt (28%) to hedge tech volatility."
+    "notes": "Tech 77%, Utilities 13%, Commodities 10%. All positions 10-15% within 2-40% limits. Tech exposure 77% below 80% sector cap."
   }
 }

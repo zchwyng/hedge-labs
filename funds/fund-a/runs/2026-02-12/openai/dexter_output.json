@@ -1,4 +1,3 @@
-dexter_info: model=gpt-5.2 iterations=4 tool_calls=4
 {
   "run_date": "2026-02-12",
   "fund_name": "Quality + Momentum (Monthly-hold)",
