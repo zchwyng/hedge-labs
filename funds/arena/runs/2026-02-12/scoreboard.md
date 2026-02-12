@@ -2,9 +2,9 @@
 
 | Lane | Status | Action | Change | Constraints |
 |---|---|---|---|---|
-| fund-a/openai | success | Do nothing | - | OK |
-| fund-b/anthropic | success | Do nothing | - | OK |
+| fund-a/openai | success | Replace | DIS -> MRK | FAIL |
+| fund-b/anthropic | failed | UNKNOWN | - | FAIL |
 
-- Portfolio overlap: 100%
+- Portfolio overlap: 0%
 - Turnover estimate: 0%
-- Notes: Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json.
+- Notes: Need at least two successful lanes to compute overlap/turnover metrics.
