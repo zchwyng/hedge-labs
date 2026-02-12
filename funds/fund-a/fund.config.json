@@ -6,7 +6,7 @@
     "name": "MSCI ACWI",
     "ticker": "ACWI"
   },
-  "universe": "Global large/mid cap equities, broad ETFs, and major crypto assets",
+  "universe": "Global large/mid cap equities, focused ETFs (including commodities/metals), and major crypto assets",
   "hold_horizon_days": 30,
   "positions": 8,
   "min_position_pct": 2,

@@ -158,6 +158,7 @@ NODE
 
 validate_json_output() {
   local input_json="$1"
+  local disallowed_broad_index_etfs_json='["SPY","IVV","VOO","VTI","QQQ","IWM","DIA","VT","ACWI","EFA","EEM","VEA","IEFA","IEMG"]'
   if ! jq -e '
     .paper_only == true and
     (.run_date | type == "string") and
@@ -209,6 +210,7 @@ validate_json_output() {
     --argjson min_position "$min_position_pct" \
     --argjson max_position "$max_position_pct" \
     --argjson max_sector "$max_sector_pct" \
+    --argjson disallowed_broad_index_etfs "$disallowed_broad_index_etfs_json" \
     '
       (.target_portfolio | length == $expected_positions) and
       (
@@ -222,6 +224,13 @@ validate_json_output() {
           (.weight_pct | type == "number") and
           (.weight_pct >= ($min_position - 0.0001)) and
           (.weight_pct <= ($max_position + 0.0001))
+        )
+      ) and
+      (
+        all(
+          .target_portfolio[];
+          (.ticker | ascii_upcase) as $ticker
+          | ($disallowed_broad_index_etfs | index($ticker) | not)
         )
       ) and
       (
@@ -531,6 +540,7 @@ Your previous response failed deterministic validation. Fix it and return ONLY o
 Validation requirements:
 - target_portfolio must contain exactly ${target_positions} holdings.
 - No CASH, UNKNOWN, or duplicate tickers. Equities, ETFs, and major crypto assets are allowed.
+- Broad index ETFs are not allowed (e.g., SPY, IVV, VOO, VTI, QQQ, IWM, DIA, VT, ACWI, EFA, EEM).
 - Each weight_pct must be >= ${min_position_pct} and <= ${max_position_pct}.
 - Total weight must be 100% (acceptable range 99.5-100.5).
 - Any single sector total must be <= ${max_sector_pct}.

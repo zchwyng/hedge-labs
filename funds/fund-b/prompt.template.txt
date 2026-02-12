@@ -19,6 +19,8 @@ Rules:
   - Max sector: {MAX_SECTOR_PCT}%
 - Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
 - `target_portfolio` must contain exactly {POSITIONS} tradable symbols (equities, ETFs, or major crypto assets) with no placeholders like `UNKNOWN`/`CASH`.
+- Broad index ETFs are not allowed (for example: SPY, IVV, VOO, VTI, QQQ, IWM, DIA, VT, ACWI, EFA, EEM).
+- Commodity/metals ETFs and focused exposures are allowed (for example: GLD, IAU, SLV).
 - Every holding weight must be >= 2 and <= {MAX_POSITION_PCT}; total portfolio weight must sum to 100%.
 - Sector exposure must satisfy max sector <= {MAX_SECTOR_PCT}%.
 - `constraints_check.max_position_ok` and `constraints_check.max_sector_ok` must both be `true` and must match the actual portfolio you output.
