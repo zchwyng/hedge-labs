@@ -153,6 +153,7 @@ jobs:
               fund_id="${BASH_REMATCH[1]}"
               provider="${BASH_REMATCH[2]}"
               dest="funds/${fund_id}/runs/${RUN_DATE}/${provider}"
+              rm -rf "$dest"
               mkdir -p "$dest"
               cp -a "${artifact_dir}/." "$dest/"
               echo "Hydrated ${artifact_name} -> ${dest}"

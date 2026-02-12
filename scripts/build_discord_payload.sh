@@ -134,6 +134,7 @@ while IFS= read -r lane; do
 
   if [[ -f "$config_path" ]]; then
     fund_type_label="$(jq -r '.universe // "n/a"' "$config_path")"
+    model_label="$(jq -r '.model // "unknown"' "$config_path")"
   fi
 
   if [[ -f "$meta_path" ]]; then
