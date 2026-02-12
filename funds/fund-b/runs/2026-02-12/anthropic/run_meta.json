@@ -3,12 +3,15 @@
   "provider": "anthropic",
   "model": "claude-opus-4-5",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T17:29:23Z",
-  "ended_at": "2026-02-12T17:35:04Z",
-  "status": "success",
-  "reason": "",
-  "api_errors": [],
-  "dexter_exit_code": 0,
+  "started_at": "2026-02-12T17:43:31Z",
+  "ended_at": "2026-02-12T17:47:05Z",
+  "status": "failed",
+  "reason": "Bun v1.3.9 (Linux x64)",
+  "api_errors": [
+    "error: [Anthropic API] 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CY4bQD9w7UutvHXtgm3UV\"}",
+    "Bun v1.3.9 (Linux x64)"
+  ],
+  "dexter_exit_code": 1,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-173327_712542d9f47c.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-174332_7430f1b961e3.jsonl"
 }
