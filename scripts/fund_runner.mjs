@@ -270,28 +270,77 @@ async function runOpenAI({ model, prompt }) {
 async function runAnthropic({ model, prompt }) {
   const apiKey = requireEnv("ANTHROPIC_API_KEY");
 
-  const payload = {
-    model,
-    max_tokens: 2500,
-    temperature: 0,
-    system: "You are a paper-only investment research assistant. Return exactly one JSON object and no extra text.",
-    messages: [
-      {
-        role: "user",
-        content: prompt
-      }
-    ]
+  const baseHeaders = {
+    "Content-Type": "application/json",
+    "x-api-key": apiKey,
+    "anthropic-version": "2023-06-01"
   };
 
-  const data = await fetchJsonWithTimeout("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01"
-    },
-    body: JSON.stringify(payload)
-  });
+  async function callMessages(requestModel) {
+    const payload = {
+      model: requestModel,
+      max_tokens: 2500,
+      temperature: 0,
+      system: "You are a paper-only investment research assistant. Return exactly one JSON object and no extra text.",
+      messages: [
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    };
+
+    return fetchJsonWithTimeout("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: baseHeaders,
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async function listAvailableModelIds() {
+    const data = await fetchJsonWithTimeout("https://api.anthropic.com/v1/models", {
+      method: "GET",
+      headers: baseHeaders
+    });
+    if (!Array.isArray(data?.data)) {
+      return [];
+    }
+    return data.data
+      .map((item) => item?.id)
+      .filter((id) => typeof id === "string" && id.length > 0);
+  }
+
+  let data;
+  try {
+    data = await callMessages(model);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    const isModel404 = message.includes("HTTP 404") && message.toLowerCase().includes("model");
+    if (!isModel404) {
+      throw error;
+    }
+
+    const available = await listAvailableModelIds();
+    const availableSet = new Set(available);
+    const preferredOrder = [
+      "claude-sonnet-4-5",
+      "claude-sonnet-4-0",
+      "claude-3-7-sonnet-latest",
+      "claude-3-7-sonnet-20250219",
+      "claude-3-5-sonnet-latest",
+      "claude-3-5-sonnet-20241022",
+      "claude-3-5-haiku-latest",
+      "claude-3-5-haiku-20241022",
+      "claude-3-haiku-20240307"
+    ];
+
+    const fallbackModel = preferredOrder.find((candidate) => availableSet.has(candidate)) || available[0];
+    if (!fallbackModel) {
+      throw error;
+    }
+
+    data = await callMessages(fallbackModel);
+  }
 
   const contentBlocks = Array.isArray(data?.content) ? data.content : [];
   const content = contentBlocks
