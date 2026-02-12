@@ -2,15 +2,36 @@
 set -euo pipefail
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
-  echo "Usage: $0 <run_date> [fund_id_filter] [no-header]" >&2
+  echo "Usage: $0 <run_date> [fund_id_filter] [no-header|overall-only]" >&2
   exit 64
 fi
 
 run_date="$1"
-fund_filter="${2:-}"
-header_mode="${3:-}"
+arg2="${2:-}"
+arg3="${3:-}"
+fund_filter=""
+mode=""
+
+is_mode() {
+  case "${1:-}" in
+    no-header|overall-only) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+if [[ -n "$arg2" && -n "$arg3" ]]; then
+  fund_filter="$arg2"
+  mode="$arg3"
+elif [[ -n "$arg2" ]]; then
+  if is_mode "$arg2"; then
+    mode="$arg2"
+  else
+    fund_filter="$arg2"
+  fi
+fi
+
 include_header="true"
-if [[ "$header_mode" == "no-header" ]]; then
+if [[ "$mode" == "no-header" ]]; then
   include_header="false"
 fi
 scoreboard_path="funds/arena/runs/${run_date}/scoreboard.json"
@@ -147,12 +168,14 @@ async function fetchCompanyNames(tickers) {
 
   const tickers = [...new Set(holdings.map((h) => String(h?.ticker || '').trim()).filter(Boolean))];
   const companyNames = await fetchCompanyNames(tickers);
+  const maxNameLen = Number(process.env.DISCORD_HOLDING_NAME_MAX || '60');
+  const safeMaxNameLen = Number.isFinite(maxNameLen) && maxNameLen >= 10 ? Math.floor(maxNameLen) : 60;
 
   console.log('% | Ticker | Name');
   console.log('--- | --- | ---');
   for (const h of holdings) {
     const ticker = String(h?.ticker || 'UNKNOWN').trim() || 'UNKNOWN';
-    const name = compactName(companyNames[normSymbol(ticker)] || ticker, 22);
+    const name = compactName(companyNames[normSymbol(ticker)] || ticker, safeMaxNameLen);
     console.log(`${fmtWeight(h?.weight_pct)} | ${ticker} | ${name}`);
   }
   console.log('```');
@@ -311,6 +334,8 @@ fi
 
 lane_sections=""
 perf_rows='[]'
+
+if [[ "$mode" != "overall-only" ]]; then
 
 while IFS= read -r lane; do
   fund_id="$(jq -r '.fund_id' <<<"$lane")"
@@ -772,7 +797,7 @@ n/a
     lane_sections+=$'\n'
     lane_sections+="- ${trade_reasoning_summary}"
   fi
-  if [[ "$constraints_ok" != "true" ]]; then
+  if [[ "$status" == "success" && "$constraints_ok" != "true" ]]; then
     lane_sections+=$'\n'
     lane_sections+="- Limits: ${constraints_label}"
   fi
@@ -798,6 +823,8 @@ n/a
     lane_sections+="- Watch-outs: ${risk_snippet}"
   fi
 done < <(jq -c '.lanes[]' "$scoreboard_path")
+
+fi
 
 leader_line="$(jq -r '
   map(select(.ret != null)) as $r
@@ -840,7 +867,56 @@ if [[ "$include_header" == "true" ]]; then
   else
     message+="- Scoreboard: ${scoreboard_repo_path}"
   fi
-  message+="$lane_sections"
+  if [[ "$mode" == "overall-only" ]]; then
+    message+=$'\n'
+    message+="**🧩 Lanes**"
+    message+=$'\n'
+    while IFS= read -r lane; do
+      fund_id="$(jq -r '.fund_id' <<<"$lane")"
+      provider="$(jq -r '.provider' <<<"$lane")"
+      status="$(jq -r '.status' <<<"$lane")"
+      run_path="$(jq -r '.run_path' <<<"$lane")"
+      meta_path="${run_path}/run_meta.json"
+      error_message=""
+
+      case "$provider" in
+        openai) provider_label="OpenAI" ;;
+        anthropic) provider_label="Anthropic" ;;
+        *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
+      esac
+
+      case "$fund_id" in
+        fund-a) fund_emoji="🟦" ;;
+        fund-b) fund_emoji="🟪" ;;
+        *) fund_emoji="⬜" ;;
+      esac
+      fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
+
+      if [[ "$status" == "success" ]]; then
+        status_emoji="🟢"
+        status_label="On track"
+      else
+        status_emoji="🔴"
+        status_label="Issue"
+      fi
+
+      if [[ "$status" != "success" && -f "$meta_path" ]]; then
+        error_message="$(jq -r '.reason // ""' "$meta_path")"
+        error_message="$(printf '%s' "$error_message" | tr '\n' ' ' | sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//')"
+        if [[ ${#error_message} -gt 180 ]]; then
+          error_message="${error_message:0:177}..."
+        fi
+      fi
+
+      message+="- ${fund_emoji} ${fund_label} (${provider_label}): ${status_emoji} **${status_label}**"
+      if [[ -n "$error_message" ]]; then
+        message+=" — ${error_message}"
+      fi
+      message+=$'\n'
+    done < <(jq -c '.lanes[]' "$scoreboard_path")
+  else
+    message+="$lane_sections"
+  fi
 else
   message="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
 fi

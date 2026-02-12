@@ -1,3 +1,4 @@
 .dexter/scratchpad/*
 .dexter/runtime/
+.env
 node_modules/

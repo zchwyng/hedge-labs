@@ -185,8 +185,10 @@ jobs:
       - name: Build Discord payload
         id: discord_payload
         run: |
-          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-a" > discord_payload_fund_a.json
+          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "overall-only" > discord_payload_overall.json
+          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-a" "no-header" > discord_payload_fund_a.json
           scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-b" "no-header" > discord_payload_fund_b.json
+          echo "payload_overall_path=discord_payload_overall.json" >> "$GITHUB_OUTPUT"
           echo "payload_fund_a_path=discord_payload_fund_a.json" >> "$GITHUB_OUTPUT"
           echo "payload_fund_b_path=discord_payload_fund_b.json" >> "$GITHUB_OUTPUT"
 
@@ -199,6 +201,11 @@ jobs:
             echo "Missing required secret: DISCORD_WEBHOOK_URL" >&2
             exit 1
           fi
+
+          curl -sS -X POST \
+            -H "Content-Type: application/json" \
+            --data @"${{ steps.discord_payload.outputs.payload_overall_path }}" \
+            "$DISCORD_WEBHOOK_URL"
 
           curl -sS -X POST \
             -H "Content-Type: application/json" \

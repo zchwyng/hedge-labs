@@ -914,6 +914,17 @@ copy_latest_scratchpad_since_start() {
 
 count_fd_tool_calls_since_start() {
   local required_tool="$1"
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    local count
+    count="$(
+      {
+        jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratchpad_copy_path" 2>/dev/null \
+          | grep -E "^${required_tool}$" || true
+      } | wc -l | tr -d ' '
+    )"
+    printf '%s\n' "$count"
+    return 0
+  fi
   local total=0
   local count=0
   local scratch=""
@@ -936,6 +947,28 @@ count_fd_tool_calls_since_start() {
 }
 
 count_fd_source_urls_since_start() {
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    jq -rs '
+      def is_fd_tool_result:
+        .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+      def source_url_count:
+        [
+          .result.sourceUrls?,
+          .result.source_urls?,
+          .result.data.sourceUrls?,
+          .result.data.source_urls?
+        ]
+        | map(
+            if type == "array" then .[]
+            elif type == "string" then .
+            else empty
+            end
+          )
+        | length;
+      [ .[] | select(is_fd_tool_result) | source_url_count ] | add // 0
+    ' "$scratchpad_copy_path" 2>/dev/null || echo 0
+    return 0
+  fi
   local total=0
   local count=0
   local scratch=""
@@ -973,6 +1006,28 @@ count_fd_source_urls_since_start() {
 }
 
 count_fd_errors_since_start() {
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    jq -rs '
+      def is_fd_tool_result:
+        .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+      def error_count:
+        [
+          .result.data._errors?,
+          .result._errors?,
+          .result.data.errors?,
+          .result.errors?
+        ]
+        | map(
+            if type == "array" then .[]
+            elif . == null then empty
+            else .
+            end
+          )
+        | length;
+      [ .[] | select(is_fd_tool_result) | error_count ] | add // 0
+    ' "$scratchpad_copy_path" 2>/dev/null || echo 0
+    return 0
+  fi
   local total=0
   local count=0
   local scratch=""
