@@ -184,8 +184,10 @@ jobs:
       - name: Build Discord payload
         id: discord_payload
         run: |
-          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" > discord_payload.json
-          echo "payload_path=discord_payload.json" >> "$GITHUB_OUTPUT"
+          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-a" > discord_payload_fund_a.json
+          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-b" "no-header" > discord_payload_fund_b.json
+          echo "payload_fund_a_path=discord_payload_fund_a.json" >> "$GITHUB_OUTPUT"
+          echo "payload_fund_b_path=discord_payload_fund_b.json" >> "$GITHUB_OUTPUT"
 
       - name: Post Discord summary
         if: always()
@@ -199,7 +201,12 @@ jobs:
 
           curl -sS -X POST \
             -H "Content-Type: application/json" \
-            --data @"${{ steps.discord_payload.outputs.payload_path }}" \
+            --data @"${{ steps.discord_payload.outputs.payload_fund_a_path }}" \
+            "$DISCORD_WEBHOOK_URL"
+
+          curl -sS -X POST \
+            -H "Content-Type: application/json" \
+            --data @"${{ steps.discord_payload.outputs.payload_fund_b_path }}" \
             "$DISCORD_WEBHOOK_URL"
 
       - name: Fail workflow if any lane failed

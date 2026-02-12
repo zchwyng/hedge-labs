@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "Usage: $0 <run_date>" >&2
+if [[ $# -lt 1 || $# -gt 3 ]]; then
+  echo "Usage: $0 <run_date> [fund_id_filter] [no-header]" >&2
   exit 64
 fi
 
 run_date="$1"
+fund_filter="${2:-}"
+header_mode="${3:-}"
+include_header="true"
+if [[ "$header_mode" == "no-header" ]]; then
+  include_header="false"
+fi
 scoreboard_path="funds/arena/runs/${run_date}/scoreboard.json"
 scoreboard_repo_path="funds/arena/runs/${run_date}/scoreboard.md"
 
@@ -282,6 +288,9 @@ perf_rows='[]'
 
 while IFS= read -r lane; do
   fund_id="$(jq -r '.fund_id' <<<"$lane")"
+  if [[ -n "$fund_filter" && "$fund_id" != "$fund_filter" ]]; then
+    continue
+  fi
   provider="$(jq -r '.provider' <<<"$lane")"
   status="$(jq -r '.status' <<<"$lane")"
   action="$(jq -r '.action // "UNKNOWN"' <<<"$lane")"
@@ -451,8 +460,6 @@ n/a
     trade_reasoning_summary="$(sanitize_watchouts "$trade_reasoning_summary")"
     if [[ -z "$trade_reasoning_summary" || "$trade_reasoning_summary" == "n/a" ]]; then
       trade_reasoning_summary="n/a"
-    else
-      trade_reasoning_summary="$(truncate_text "$trade_reasoning_summary" 160)"
     fi
 
     risk_snippet="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type == "string")) | .[:2] | join("; ")) // "n/a"' "$output_path")"
@@ -719,26 +726,31 @@ if [[ -n "$comparison_notes" && "$comparison_notes" == Computed\ from\ first\ tw
   comparison_notes="Based on today's completed fund runs."
 fi
 
-message="**📈 Daily Paper Update — ${run_date}**"
-if [[ -n "$overall_line" ]]; then
+message=""
+if [[ "$include_header" == "true" ]]; then
+  message="**📈 Daily Paper Update — ${run_date}**"
+  if [[ -n "$overall_line" ]]; then
+    message+=$'\n'
+    message+="${overall_emoji} ${overall_line}"
+    message+=$'\n\n'
+  else
+    message+=$'\n\n'
+  fi
+  message+="**🏁 Board**"
   message+=$'\n'
-  message+="${overall_emoji} ${overall_line}"
-  message+=$'\n\n'
+  message+="- Ovlp: **${overlap_pct}%**"
+  message+=$'\n'
+  message+="- Est. turnover: **${turnover_pct}%**"
+  message+=$'\n'
+  if [[ -n "$scoreboard_url" ]]; then
+    message+="- Scoreboard: <${scoreboard_url}>"
+  else
+    message+="- Scoreboard: ${scoreboard_repo_path}"
+  fi
+  message+="$lane_sections"
 else
-  message+=$'\n\n'
+  message="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
 fi
-message+="**🏁 Board**"
-message+=$'\n'
-message+="- Ovlp: **${overlap_pct}%**"
-message+=$'\n'
-message+="- Est. turnover: **${turnover_pct}%**"
-message+=$'\n'
-if [[ -n "$scoreboard_url" ]]; then
-  message+="- Scoreboard: <${scoreboard_url}>"
-else
-  message+="- Scoreboard: ${scoreboard_repo_path}"
-fi
-message+="$lane_sections"
 
 max_len=2000
 if (( ${#message} > max_len )); then
