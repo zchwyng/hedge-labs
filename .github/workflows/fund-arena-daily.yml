@@ -31,11 +31,26 @@ jobs:
         with:
           ref: main
 
+      - name: Compute run context
+        id: run_context
+        run: |
+          RUN_DATE="$(date -u +%F)"
+          RUN_PATH="funds/${{ matrix.fund_id }}/runs/${RUN_DATE}/${{ matrix.provider }}"
+          mkdir -p "$RUN_PATH"
+
+          echo "run_date=$RUN_DATE" >> "$GITHUB_OUTPUT"
+          echo "run_path=$RUN_PATH" >> "$GITHUB_OUTPUT"
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        run: bun install
+        run: |
+          if [ -f package.json ]; then
+            bun install
+          else
+            echo "Skipping bun install: package.json not found."
+          fi
 
       - name: Render prompt and run lane
         id: run_lane
@@ -46,11 +61,9 @@ jobs:
         run: |
           set +e
 
-          RUN_DATE="$(date -u +%F)"
-          RUN_PATH="funds/${{ matrix.fund_id }}/runs/${RUN_DATE}/${{ matrix.provider }}"
+          RUN_DATE="${{ steps.run_context.outputs.run_date }}"
+          RUN_PATH="${{ steps.run_context.outputs.run_path }}"
           PROMPT_PATH="${RUN_PATH}/prompt.txt"
-
-          mkdir -p "$RUN_PATH"
 
           scripts/render_prompt.sh "${{ matrix.fund_id }}" "$RUN_DATE" "$PROMPT_PATH"
           render_exit=$?
@@ -81,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lane-${{ matrix.fund_id }}-${{ matrix.provider }}
-          path: funds/${{ matrix.fund_id }}/runs/${{ steps.run_lane.outputs.run_date }}/${{ matrix.provider }}
+          path: ${{ steps.run_context.outputs.run_path }}
           if-no-files-found: warn
 
       - name: Mark lane failure
