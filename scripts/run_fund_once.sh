@@ -11,7 +11,8 @@ provider="$2"
 run_date="$3"
 prompt_file="$4"
 
-config_path="funds/${fund_id}/fund.config.json"
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+config_path="${repo_root}/funds/${fund_id}/fund.config.json"
 if [[ ! -f "$config_path" ]]; then
   echo "Missing fund config: $config_path" >&2
   exit 1
@@ -29,11 +30,18 @@ if [[ "$expected_provider" != "$provider" ]]; then
   exit 1
 fi
 
-run_dir="funds/${fund_id}/runs/${run_date}/${provider}"
+run_dir="${repo_root}/funds/${fund_id}/runs/${run_date}/${provider}"
 mkdir -p "$run_dir"
 
 canonical_prompt="${run_dir}/prompt.txt"
-if [[ "$prompt_file" != "$canonical_prompt" ]]; then
+resolve_path() {
+  local p="$1"
+  local d
+  d="$(cd "$(dirname "$p")" && pwd -P)"
+  printf '%s/%s\n' "$d" "$(basename "$p")"
+}
+
+if [[ "$(resolve_path "$prompt_file")" != "$(resolve_path "$canonical_prompt")" ]]; then
   cp "$prompt_file" "$canonical_prompt"
 fi
 
@@ -42,7 +50,6 @@ json_path="${run_dir}/dexter_output.json"
 meta_path="${run_dir}/run_meta.json"
 scratchpad_copy_path="${run_dir}/scratchpad.jsonl"
 
-# Prevent stale artifacts from prior reruns on the same date/provider path.
 rm -f "$json_path" "$scratchpad_copy_path"
 
 started_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
@@ -51,17 +58,24 @@ start_epoch="$(date +%s)"
 status="success"
 reason=""
 
+DEXTER_ROOT="${DEXTER_ROOT:-}" "${repo_root}/scripts/ensure_dexter.sh" >/dev/null
+
 set +e
-bun start < "$canonical_prompt" 2>&1 | tee "$stdout_path"
-bun_exit_code="${PIPESTATUS[0]}"
+(
+  cd "$repo_root"
+  DEXTER_MODEL="$model" \
+  DEXTER_PROMPT_FILE="$canonical_prompt" \
+  DEXTER_MAX_ITERATIONS="${DEXTER_MAX_ITERATIONS:-10}" \
+  bun run scripts/dexter_run_once.ts
+) 2>&1 | tee "$stdout_path"
+dexter_exit_code="${PIPESTATUS[0]}"
 set -e
 
-if [[ "$bun_exit_code" -ne 0 ]]; then
+if [[ "$dexter_exit_code" -ne 0 ]]; then
   status="failed"
-  reason="bun start exited with code ${bun_exit_code}"
+  reason="dexter run exited with code ${dexter_exit_code}"
 
-  # Surface provider-level failures (for Discord summary and diagnostics).
-  runner_error="$(grep -Eo 'fund_runner_error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^fund_runner_error:[[:space:]]*//' || true)"
+  runner_error="$(grep -Eo 'Error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^Error:[[:space:]]*//' || true)"
   if [[ -n "$runner_error" ]]; then
     reason="$runner_error"
   else
@@ -72,8 +86,88 @@ if [[ "$bun_exit_code" -ne 0 ]]; then
   fi
 fi
 
+extract_json_from_output() {
+  local file_path="$1"
+  node - "$file_path" <<'NODE'
+const fs = require('node:fs');
+
+function stripCodeFences(text) {
+  return text
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
+}
+
+function parseBalancedJsonObject(text) {
+  let inString = false;
+  let escaped = false;
+  let depth = 0;
+  let start = -1;
+  let lastParsed = null;
+
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (ch === '\\') {
+      if (inString) escaped = true;
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) continue;
+
+    if (ch === '{') {
+      if (depth === 0) start = i;
+      depth += 1;
+      continue;
+    }
+
+    if (ch === '}') {
+      if (depth > 0) {
+        depth -= 1;
+        if (depth === 0 && start >= 0) {
+          const candidate = text.slice(start, i + 1);
+          try {
+            lastParsed = JSON.parse(candidate);
+          } catch {
+            // Continue searching
+          }
+        }
+      }
+    }
+  }
+
+  return lastParsed;
+}
+
+const path = process.argv[2];
+const raw = fs.readFileSync(path, 'utf8').trim();
+if (!raw) process.exit(1);
+
+try {
+  const parsed = JSON.parse(stripCodeFences(raw));
+  process.stdout.write(`${JSON.stringify(parsed)}\n`);
+  process.exit(0);
+} catch {
+  const parsed = parseBalancedJsonObject(raw);
+  if (!parsed) process.exit(1);
+  process.stdout.write(`${JSON.stringify(parsed)}\n`);
+}
+NODE
+}
+
 if [[ "$status" == "success" ]]; then
-  json_candidate="$(grep -E '^[[:space:]]*\{.*\}[[:space:]]*$' "$stdout_path" | tail -n 1 || true)"
+  json_candidate="$(extract_json_from_output "$stdout_path" || true)"
   if [[ -n "$json_candidate" ]] && jq -e . <<<"$json_candidate" >/dev/null 2>&1; then
     printf '%s\n' "$json_candidate" | jq . > "$json_path"
   else
@@ -102,16 +196,10 @@ if [[ "$status" == "success" ]]; then
   fi
 fi
 
-if [[ "$status" == "success" && -f "$json_path" ]]; then
-  model_used="$(jq -r '.model_used // empty' "$json_path")"
-  if [[ -n "$model_used" ]]; then
-    model="$model_used"
-  fi
-fi
-
 latest_scratchpad=""
 latest_mtime=0
-for scratch in .dexter/scratchpad/*.jsonl; do
+scratchpad_dir="${repo_root}/.dexter/scratchpad"
+for scratch in "$scratchpad_dir"/*.jsonl; do
   [[ -e "$scratch" ]] || continue
   mtime="$(stat -c '%Y' "$scratch" 2>/dev/null || stat -f '%m' "$scratch" 2>/dev/null || echo 0)"
   if ! [[ "$mtime" =~ ^[0-9]+$ ]]; then
@@ -127,6 +215,24 @@ if [[ -n "$latest_scratchpad" ]]; then
   cp "$latest_scratchpad" "$scratchpad_copy_path"
 fi
 
+if [[ "$status" == "success" ]]; then
+  if [[ ! -f "$scratchpad_copy_path" ]]; then
+    status="failed"
+    reason="Dexter scratchpad file was not produced"
+  else
+    fd_calls="$(
+      {
+        jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratchpad_copy_path" 2>/dev/null \
+          | grep -E '^(financial_search|financial_metrics)$' || true
+      } | wc -l | tr -d ' '
+    )"
+    if [[ "$fd_calls" == "0" ]]; then
+      status="failed"
+      reason="Dexter did not call Financial Datasets tools (financial_search/financial_metrics)"
+    fi
+  fi
+fi
+
 ended_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 if [[ "$status" == "success" ]]; then
@@ -137,38 +243,13 @@ fi
 
 api_errors_json='[]'
 if [[ -f "$stdout_path" ]]; then
-  api_lines="$(
-    awk '
-      BEGIN { IGNORECASE=1 }
-      {
-        line=$0
-        if (line ~ /fund_runner_error:/) {
-          sub(/^.*fund_runner_error:[[:space:]]*/, "", line)
-          print line
-          next
-        }
-        if (
-          line ~ /HTTP [0-9]{3}:/ ||
-          line ~ /rate limit/ ||
-          line ~ /quota/ ||
-          line ~ /billing/ ||
-          line ~ /insufficient/ ||
-          line ~ /unauthorized/ ||
-          line ~ /forbidden/ ||
-          line ~ /invalid api key/ ||
-          line ~ /timed out/ ||
-          line ~ /timeout/ ||
-          line ~ /service unavailable/ ||
-          line ~ /connection refused/
-        ) {
-          print line
-        }
-      }
-    ' "$stdout_path" \
-      | sed -E 's/\r$//; s/[[:space:]]+/ /g; s/^ //; s/ $//' \
-      | awk 'length > 0 && !seen[$0]++' \
-      | head -n 5
-  )"
+  api_lines="$({
+    grep -Ei '\[[^]]+ API\]|HTTP [0-9]{3}:|rate limit|quota|billing|insufficient|unauthorized|forbidden|invalid api key|timed out|timeout|service unavailable|connection refused|financial_datasets|financial datasets' "$stdout_path" || true
+    if [[ -n "$reason" ]]; then
+      printf '%s\n' "$reason"
+    fi
+  } | sed -E 's/\r$//; s/[[:space:]]+/ /g; s/^ //; s/ $//' | awk 'length > 0 && !seen[$0]++' | head -n 8)"
+
   if [[ -n "$api_lines" ]]; then
     api_errors_json="$(printf '%s\n' "$api_lines" | jq -Rsc 'split("\n") | map(select(length > 0))')"
   fi
@@ -185,7 +266,7 @@ jq -n \
   --arg reason "$reason" \
   --arg scratchpad_source "$latest_scratchpad" \
   --argjson api_errors "$api_errors_json" \
-  --argjson bun_exit_code "$bun_exit_code" \
+  --argjson dexter_exit_code "$dexter_exit_code" \
   --argjson scratchpad_found "$( [[ -n "$latest_scratchpad" ]] && echo true || echo false )" \
   '{
     fund_id: $fund_id,
@@ -197,7 +278,7 @@ jq -n \
     status: $status,
     reason: $reason,
     api_errors: $api_errors,
-    bun_exit_code: $bun_exit_code,
+    dexter_exit_code: $dexter_exit_code,
     scratchpad_found: $scratchpad_found,
     scratchpad_source: (if $scratchpad_source == "" then null else $scratchpad_source end)
   }' > "$meta_path"

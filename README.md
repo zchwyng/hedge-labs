@@ -1,117 +1,83 @@
 # hedge-labs
 
-Paper-only "fund arena" that runs daily, stores model outputs in-repo, and posts a concise summary to Discord.
+Paper-only fund arena using the real [virattt/dexter](https://github.com/virattt/dexter) agent runtime.
 
-## What this does
+## What runs daily
 
-- Runs two paper lanes side-by-side each day:
-  - `fund-a` with `openai`
-  - `fund-b` with `anthropic`
-- Renders fund prompts from per-fund config files.
-- Runs one provider-backed model call per lane (`bun start < prompt.txt`):
-  - `fund-a` -> OpenAI (`OPENAI_API_KEY`)
-  - `fund-b` -> Anthropic (`ANTHROPIC_API_KEY`)
-- Stores lane outputs under dated folders in `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/`.
-- Builds an arena scoreboard in `funds/arena/runs/YYYY-MM-DD/`.
-- Commits and pushes one daily consolidated update to `main`.
-- Posts one daily Discord digest (including partial-failure status).
+- `fund-a` lane using OpenAI model from `funds/fund-a/fund.config.json`
+- `fund-b` lane using Anthropic model from `funds/fund-b/fund.config.json`
+- One consolidated commit to `main`
+- One Discord digest post (even on partial failure)
 
-## Repository layout
+Schedule: **06:17 UTC** (`17 6 * * *`).
 
-```text
-.github/workflows/fund-arena-daily.yml
-funds/
-  arena/runs/
-  fund-a/
-    fund.config.json
-    prompt.template.txt
-  fund-b/
-    fund.config.json
-    prompt.template.txt
-scripts/
-  render_prompt.sh
-  run_fund_once.sh
-  build_scoreboard.sh
-  build_discord_payload.sh
-```
+## Runtime architecture
 
-## Prerequisites
+This repo does **not** use a custom financial agent anymore.
 
-- Bun available in CI/local (`bun install`, `bun start`).
-- Runner behavior:
-  - accepts stdin prompt for one run
-  - calls the configured provider API from fund metadata
-  - writes scratchpads under `.dexter/scratchpad/*.jsonl`
-- `jq` installed for JSON parsing/validation in scripts.
+It runs Dexter from `package.json` dependency:
 
-## GitHub Actions setup
+- `dexter-ts` pinned to `github:virattt/dexter#v2026.2.11`
+- Installs dependencies with Bun during workflow
+- Runs local wrapper `scripts/dexter_run_once.ts`
+- Wrapper imports Dexter `Agent` from installed `dexter-ts` and runs `Agent.create(...)` non-interactively against the rendered prompt
+- Does not patch files inside `node_modules`
 
-In repo settings:
+Main scripts:
 
-1. Enable **Actions > General > Workflow permissions > Read and write**.
-2. Add the following repository secrets:
-   - `FINANCIAL_DATASETS_API_KEY`
-   - `OPENAI_API_KEY`
-   - `ANTHROPIC_API_KEY`
-   - `DISCORD_WEBHOOK_URL`
+- `/Users/jonasdalesjo/code/hedge-labs/scripts/ensure_dexter.sh`
+- `/Users/jonasdalesjo/code/hedge-labs/scripts/run_fund_once.sh`
+- `/Users/jonasdalesjo/code/hedge-labs/scripts/render_prompt.sh`
+- `/Users/jonasdalesjo/code/hedge-labs/scripts/build_scoreboard.sh`
+- `/Users/jonasdalesjo/code/hedge-labs/scripts/build_discord_payload.sh`
 
-## Daily workflow behavior
+## Financial Datasets enforcement
 
-Workflow file: `.github/workflows/fund-arena-daily.yml`
+A lane is marked failed if:
 
-- Triggers:
-  - `schedule`: `17 6 * * *` (06:17 UTC daily)
-  - `workflow_dispatch`
-- Job `run_lanes`:
-  - runs both explicit lanes
-  - renders prompt
-  - executes one live model run per lane
-  - uploads lane artifacts
-- Job `finalize_and_publish` (`if: always()`):
-  - downloads all lane artifacts
-  - builds scoreboard (`scoreboard.json`, `scoreboard.md`)
-  - commits/pushes one consolidated change if files changed
-  - posts one Discord summary
-  - marks workflow failed if any lane failed (after publish)
+- Dexter output is invalid JSON, or
+- Dexter scratchpad is missing, or
+- Dexter did not call `financial_search` or `financial_metrics`
 
-## Output contract
+This enforces actual Financial Datasets tool usage in successful runs.
+
+## Required GitHub secrets
+
+- `FINANCIAL_DATASETS_API_KEY`
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
+- `DISCORD_WEBHOOK_URL`
+
+Also set repo Actions permission to **Read and write**.
+
+## Output locations
 
 Per lane:
 
-- `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/prompt.txt`
-- `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/dexter_stdout.txt`
-- `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/dexter_output.json`
-- `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/scratchpad.jsonl` (if found)
-- `funds/<fund-id>/runs/YYYY-MM-DD/<provider>/run_meta.json`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/<fund-id>/runs/YYYY-MM-DD/<provider>/prompt.txt`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/<fund-id>/runs/YYYY-MM-DD/<provider>/dexter_stdout.txt`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/<fund-id>/runs/YYYY-MM-DD/<provider>/dexter_output.json`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/<fund-id>/runs/YYYY-MM-DD/<provider>/scratchpad.jsonl`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/<fund-id>/runs/YYYY-MM-DD/<provider>/run_meta.json`
 
-Arena-level:
+Arena summary:
 
-- `funds/arena/runs/YYYY-MM-DD/scoreboard.json`
-- `funds/arena/runs/YYYY-MM-DD/scoreboard.md`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/arena/runs/YYYY-MM-DD/scoreboard.json`
+- `/Users/jonasdalesjo/code/hedge-labs/funds/arena/runs/YYYY-MM-DD/scoreboard.md`
 
-## Local usage
+## Local smoke run
 
-Render a prompt:
-
-```bash
-scripts/render_prompt.sh fund-a 2026-02-12 funds/fund-a/runs/2026-02-12/openai/prompt.txt
-```
-
-Run one lane:
+Prereqs: Bun + `jq` installed.
 
 ```bash
-scripts/run_fund_once.sh fund-a openai 2026-02-12 funds/fund-a/runs/2026-02-12/openai/prompt.txt
-```
-
-Build scoreboard + Discord payload:
-
-```bash
-scripts/build_scoreboard.sh 2026-02-12
-scripts/build_discord_payload.sh 2026-02-12
+cd /Users/jonasdalesjo/code/hedge-labs
+RUN_DATE="$(date -u +%F)"
+mkdir -p "funds/fund-a/runs/${RUN_DATE}/openai"
+scripts/render_prompt.sh fund-a "$RUN_DATE" "funds/fund-a/runs/${RUN_DATE}/openai/prompt.txt"
+scripts/run_fund_once.sh fund-a openai "$RUN_DATE" "funds/fund-a/runs/${RUN_DATE}/openai/prompt.txt"
 ```
 
 ## Notes
 
-- This project is strictly **paper-only**. No brokerage/execution integration is included.
-- `.dexter/scratchpad/*` is ignored; copied run-local scratchpads under `funds/.../runs/...` are tracked.
-- If you need local smoke tests without provider keys, set `FUND_RUNNER_ALLOW_FALLBACK=1` to use deterministic fallback output.
+- Strictly paper-only. No broker/execution paths.
+- Raw scratchpads in `/Users/jonasdalesjo/code/hedge-labs/.dexter/scratchpad/` are ignored; copied run-local scratchpads are tracked.
