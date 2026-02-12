@@ -50,6 +50,56 @@ truncate_text() {
   fi
 }
 
+format_holdings_table() {
+  local json_path="$1"
+  jq -r '
+    (.target_portfolio // []) as $p
+    | $p
+    | sort_by(-((.weight_pct // 0) | tonumber), (.ticker // ""))
+    | .[]
+    | [(.ticker // "UNKNOWN"), ((.weight_pct // 0) | tonumber), (.sector // "UNKNOWN")]
+    | @tsv
+  ' "$json_path" | awk -F'\t' '
+    function fmt_weight(x,    v) {
+      v = x + 0
+      if (v == int(v)) return sprintf("%.0f%%", v)
+      if ((v * 10) == int(v * 10)) return sprintf("%.1f%%", v)
+      return sprintf("%.2f%%", v)
+    }
+    function dashes(n,    s, i) {
+      s = ""
+      for (i = 0; i < n; i++) s = s "-"
+      return s
+    }
+    {
+      n += 1
+      ticker[n] = $1
+      weight[n] = fmt_weight($2)
+      sector[n] = $3
+      if (length(ticker[n]) > w1) w1 = length(ticker[n])
+      if (length(weight[n]) > w2) w2 = length(weight[n])
+      if (length(sector[n]) > w3) w3 = length(sector[n])
+    }
+    END {
+      print "```text"
+      if (n == 0) {
+        print "n/a"
+        print "```"
+        exit
+      }
+      if (w1 < 6) w1 = 6
+      if (w2 < 6) w2 = 6
+      if (w3 < 6) w3 = 6
+      printf "%-*s  %-*s  %-*s\n", w1, "Ticker", w2, "Weight", w3, "Sector"
+      printf "%-*s  %-*s  %-*s\n", w1, dashes(w1), w2, dashes(w2), w3, dashes(w3)
+      for (i = 1; i <= n; i++) {
+        printf "%-*s  %-*s  %-*s\n", w1, ticker[i], w2, weight[i], w3, sector[i]
+      }
+      print "```"
+    }
+  '
+}
+
 repo_web_url=""
 if [[ -n "${GITHUB_SERVER_URL:-}" && -n "${GITHUB_REPOSITORY:-}" ]]; then
   repo_web_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
@@ -144,7 +194,9 @@ while IFS= read -r lane; do
   sector_exposure_summary="n/a"
   fund_type_label="n/a"
   risk_snippet="n/a"
-  holdings_block="  • n/a"
+  holdings_block='```text
+n/a
+```'
   change_reason_block="  • n/a"
   error_message=""
   api_notice_block=""
@@ -193,17 +245,7 @@ while IFS= read -r lane; do
         ;;
     esac
 
-    holdings_block="$(jq -r '
-      (.target_portfolio // []) as $p
-      | if ($p | length) == 0 then
-          "  • n/a"
-        else
-          ($p
-            | sort_by(-((.weight_pct // 0) | tonumber), (.ticker // ""))
-            | map("  • `\(.ticker)` — \(((.weight_pct // 0) | tonumber))% — \(.sector // "UNKNOWN")")
-            | join("\n"))
-        end
-    ' "$output_path")"
+    holdings_block="$(format_holdings_table "$output_path")"
 
     risk_snippet="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type == "string")) | .[:2] | join("; ")) // "n/a"' "$output_path")"
     risk_snippet="$(sanitize_watchouts "$risk_snippet")"
@@ -475,15 +517,22 @@ if (( ${#message} > max_len )); then
   if (( ${#compact_message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Sector exposure:.*\n//mg')"
   fi
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added \(fund\):.*\n//mg')"
+  fi
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Risk limits:.*\n//mg')"
+  fi
   if (( ${#compact_message} <= max_len )); then
     message="$compact_message"
   else
-    cutoff=$((max_len - 3))
-    prefix="${compact_message:0:cutoff}"
-    if [[ "$prefix" == *$'\n'* ]]; then
-      prefix="${prefix%$'\n'*}"
+    while (( ${#compact_message} > max_len )) && [[ "$compact_message" == *$'\n'* ]]; do
+      compact_message="${compact_message%$'\n'*}"
+    done
+    if (( ${#compact_message} > max_len )); then
+      compact_message="${compact_message:0:max_len}"
     fi
-    message="${prefix}..."
+    message="$compact_message"
   fi
 fi
 
