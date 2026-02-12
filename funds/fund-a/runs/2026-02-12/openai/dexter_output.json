@@ -3,100 +3,137 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Risk-off day in core growth: PLTR -4.71% 1D to 129.17; SMH -1.09% 1D to 406.11; CRWD -1.00% 1D to 411.54; TSM -0.86% 1D to 368.10.",
-    "Diversifiers also sold: GLD -3.23% 1D to 451.39; energy weak: XLE -1.81% 1D to 53.98; defensives steadier: XLV -0.10% 1D to 156.00.",
-    "Crypto down: BTC-USD -2.23% 1D to 65,883.01."
+    "Risk-off tape in parts of growth/AI: META -2.83% and AVGO -3.41% on the day; semis via SMH -1.09%.",
+    "Defensive/quality pockets held up better: UNH +1.83% and COST +2.16% on the day (per snapshots).",
+    "Crypto proxy also softer: IBIT -2.61% on the day (per snapshot)."
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "PLTR",
-      "why": "Largest 1D drawdown in the sleeve (-4.71% to 129.17) amid risk-off software tape; elevated valuation (TTM P/E ~395, P/S ~111) increases momentum break risk if selling persists."
+      "ticker": "META",
+      "why": "Regulatory/geopolitical headline risk: report of Russia move to block WhatsApp / threaten Meta with a permanent ban (Benzinga, 2026-02-12)."
     },
     {
-      "ticker": "GLD",
-      "why": "Sharp -3.23% 1D selloff to 451.39 suggests gold is not providing near-term ballast; could indicate rising real-rate pressure or de-risking across assets."
-    },
-    {
-      "ticker": "CRWD",
-      "why": "Profitability remains negative on TTM (operating margin ~-4.4%, net margin ~-6.9%) while trading at high sales multiples; risk if growth expectations compress in a risk-off tape."
+      "ticker": "AVGO",
+      "why": "Tech drawdown headline: 'tech stocks wiped out $500B' and 'new threat emerges' (Benzinga, 2026-02-12) reinforces near-term factor risk to high-multiple semis."
     }
   ],
   "rebalance_actions": [
     {
-      "action": "Trim",
-      "remove_ticker": "BTC-USD",
-      "add_ticker": "GLD",
-      "size_change_pct": 2
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "MSFT",
+      "size_change_pct": 20
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "NVDA",
+      "size_change_pct": 20
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "META",
+      "size_change_pct": 12
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "AMZN",
+      "size_change_pct": 10
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "GOOGL",
+      "size_change_pct": 10
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "AVGO",
+      "size_change_pct": 12
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "COST",
+      "size_change_pct": 8
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "UNH",
+      "size_change_pct": 8
     }
   ],
   "trade_of_the_day": {
-    "action": "Trim",
-    "remove_ticker": "BTC-USD",
-    "add_ticker": "GLD",
-    "size_change_pct": 2,
+    "action": "Add",
+    "remove_ticker": null,
+    "add_ticker": "MSFT",
+    "size_change_pct": 20,
     "thesis": [
-      "Constraint-driven risk control: reducing crypto from 10% to 8% keeps exposure comfortably below the 10% cap while maintaining participation.",
-      "Reallocate into a liquid diversifier: GLD provides non-equity exposure; after a -3.23% 1D drop, the add is sized modestly rather than a full dip-buy.",
-      "Cross-asset weakness today (equities down, BTC down) argues for slightly higher ballast in the 30-day window."
+      "Quality: high profitability and efficiency metrics (gross margin ~68.6%, operating margin ~48.8%, ROE ~30.5% from key ratios snapshot).",
+      "Reasonable large-cap growth profile: revenue growth ~3.96% and EPS growth ~13.69% (snapshot).",
+      "Balance sheet resilience (low leverage in snapshot: debt-to-equity ~0.15; interest coverage ~56x)."
     ],
     "risks": [
-      "If crypto rebounds sharply, trimming BTC-USD can lag risk-on performance.",
-      "If gold continues to sell off, GLD add can increase short-term drawdown rather than reduce it.",
-      "Correlations can rise in stress regimes; GLD may not diversify when most needed."
+      "Factor risk: broad growth/AI sell-offs can compress multiples even with stable fundamentals (relevant given same-day declines seen in META/AVGO/SMH).",
+      "Execution risk in cloud/AI: slowdown in enterprise spend could pressure growth (no filing/earnings verification available in retrieved data; monitor next results).",
+      "Valuation risk: P/E ~25.0 and P/S ~9.78 in snapshot leaves less room for disappointment vs cheaper cyclicals."
     ],
     "falsifiable_checks": [
-      "If over the next 2–3 weeks BTC-USD meaningfully outperforms GLD while equity volatility subsides, the reallocation was mistimed.",
-      "If GLD keeps making lower lows while equities stabilize (SMH/TSM/CRWD stop falling), the ballast thesis is not working for this regime."
+      "If operating margin deteriorates materially from the current ~48.8% snapshot level over the next reporting cycle, treat as thesis impairment for 'quality'.",
+      "If EPS growth (snapshot ~13.7%) turns negative while revenue growth remains low-single-digit, reassess durability of earnings leverage."
     ],
-    "why_now": "Over the next 6–18 months, AI/semis/software remain core structural themes (TSM, SMH, CRWD, PLTR exposure), but episodic risk-off waves can be sharp. Keeping a modest, rules-compliant crypto sleeve while nudging weight toward a liquid diversifier (GLD) is intended to improve staying power through volatility without abandoning the growth/momentum posture.",
-    "position_sizing_suggestion": "Trim BTC-USD by 2% and add +2% to GLD (net 0% change; within portfolio constraints)."
+    "why_now": "This is a bootstrap rebalance (no prior portfolio) into a Quality+Momentum basket. MSFT offers the strongest verifiable quality stack in the retrieved dataset (high margins, high ROE, strong interest coverage) while remaining a core beneficiary of multi-year cloud/AI capex cycles; the near-term (30d) setup also benefits if the current growth/AI drawdown stabilizes and mean-reverts."
   },
   "target_portfolio": [
     {
-      "ticker": "SMH",
-      "weight_pct": 18,
-      "sector": "Semiconductors (ETF)"
+      "ticker": "MSFT",
+      "weight_pct": 20,
+      "sector": "Technology"
     },
     {
-      "ticker": "TSM",
-      "weight_pct": 16,
-      "sector": "Information Technology"
+      "ticker": "NVDA",
+      "weight_pct": 20,
+      "sector": "Technology"
     },
     {
-      "ticker": "CRWD",
+      "ticker": "META",
       "weight_pct": 12,
-      "sector": "Information Technology"
+      "sector": "Communication Services"
     },
     {
-      "ticker": "GLD",
-      "weight_pct": 14,
-      "sector": "Commodities (Gold)"
-    },
-    {
-      "ticker": "XLE",
-      "weight_pct": 10,
-      "sector": "Energy (ETF)"
-    },
-    {
-      "ticker": "XLV",
-      "weight_pct": 10,
-      "sector": "Health Care (ETF)"
-    },
-    {
-      "ticker": "PLTR",
+      "ticker": "AVGO",
       "weight_pct": 12,
-      "sector": "Information Technology"
+      "sector": "Technology"
     },
     {
-      "ticker": "BTC-USD",
+      "ticker": "AMZN",
+      "weight_pct": 10,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 10,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "COST",
       "weight_pct": 8,
-      "sector": "Crypto"
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "UNH",
+      "weight_pct": 8,
+      "sector": "Healthcare"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "8 holdings; weights sum to 100%. Max position 18% (<40%). Sector totals: Information Technology 40% (TSM+CRWD+PLTR), Semiconductors ETF 18%, Health Care ETF 10%, Energy ETF 10%, Gold 14%, Crypto 8% (<=10%). Rebalance due today (weekly cadence); executed one paired Trim action (BTC-USD -> GLD)."
+    "notes": "8 holdings; weights sum to 100%. Max position 20% (<=40). Sector weights: Technology 52% (MSFT+NVDA+AVGO) <=80; Communication Services 22%; Consumer (Disc+Staples) 18%; Healthcare 8%. Crypto 0% <=10. Sectors are assigned using standard GICS-style classification; tool-based sector fields were rate-limited (429), so sector tags are not directly verified in retrieved company facts and should be treated as best-effort labels."
   }
 }

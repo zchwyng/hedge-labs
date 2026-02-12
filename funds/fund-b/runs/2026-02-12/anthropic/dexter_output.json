@@ -3,128 +3,128 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Tech selloff: SPY -1.78% today to 681.27, Nasdaq -2.04% to 600.64, Technology ETF (XLK) -2.64% to 139.21. Markets down ~2% from Feb highs amid Fed policy uncertainty and rotation to value",
-    "Semiconductor weakness: NVDA -1.63% to 186.94, AMD -3.57% to 205.94, AVGO -3.34% to 331.17. AI stocks face margin pressure and memory shortage concerns. Chip sector down ~6% month-to-date",
-    "Strong divergence: Energy +7.8% MTD (XLE 53.98), Gold +5.7% (GLD 451.39), Banks mixed (JPM -2.51%, GS -4.03%). Bitcoin -16% month-to-date to $65.8k amid risk-off. Defensive rotation in play"
+    "Major indices sold off sharply Feb 12: SPY -1.4%, QQQ -1.78%, IWM -1.93%. Broad risk-off tone with tech leading declines.",
+    "Precious metals reversed hard: GLD -3.5% and SLV -11.5% intraday. Crypto weak: BTC -1.8% to $65,829, ETH -0.3% to $1,933.",
+    "Mega-cap tech under pressure: AAPL -5.0%, META -2.8%, AMZN -2.2%, AVGO -3.4%. ServiceNow (NOW) +2.7%, Adobe (ADBE) +2.1% bucked trend."
   ],
   "thesis_damage_flags": [],
   "rebalance_actions": [
     {
       "action": "Add",
       "remove_ticker": null,
-      "add_ticker": "TSM",
-      "size_change_pct": 15
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "AVGO",
-      "size_change_pct": 15
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "JPM",
-      "size_change_pct": 15
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "GS",
+      "add_ticker": "NVDA",
       "size_change_pct": 12
     },
     {
       "action": "Add",
       "remove_ticker": null,
-      "add_ticker": "LLY",
+      "add_ticker": "MSFT",
+      "size_change_pct": 15
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "GOOGL",
       "size_change_pct": 12
     },
     {
       "action": "Add",
       "remove_ticker": null,
-      "add_ticker": "XLE",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "GLD",
+      "add_ticker": "META",
       "size_change_pct": 10
     },
     {
       "action": "Add",
       "remove_ticker": null,
-      "add_ticker": "BTC-USD",
-      "size_change_pct": 9
+      "add_ticker": "NOW",
+      "size_change_pct": 15
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "ADBE",
+      "size_change_pct": 10
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "CRM",
+      "size_change_pct": 8
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "LLY",
+      "size_change_pct": 18
     }
   ],
   "trade_of_the_day": {
     "action": "Add",
     "remove_ticker": null,
-    "add_ticker": "TSM",
+    "add_ticker": "NOW",
     "size_change_pct": 15,
     "thesis": [
-      "Best-in-class semiconductor fundamentals: 59.5% gross margin, 45.7% net margin, 28.1 P/E vs 71.7 for AVGO. ROE quality metrics unavailable but margins signal pricing power",
-      "Secular AI tailwind + defensive positioning: Up 14.3% YTD vs NVDA flat, AVGO -6.4%, AMD -15.2%. Leading-edge 3nm capacity growth insulates from commodity chip weakness",
-      "Strong momentum + value: Trading at 28.1 P/E with 13.6% EPS growth (0.24 PEG ratio), 9.6% FCF yield. Q3 revenue +6.0% YoY, EPS +13.6%, maintains pricing discipline in downturn"
+      "Exceptional quality metrics: 78% gross margin, 17% operating margin, 21% ROIC, 21% revenue growth YoY with accelerating trajectory",
+      "Strong positive momentum: +2.7% today vs market selloff, up 21% from Jan lows. Software resilience amid macro volatility signals relative strength",
+      "AI-native platform positioning: ServiceNow's workflow automation benefits from enterprise AI adoption with improving operating leverage"
     ],
     "risks": [
-      "Geopolitical Taiwan exposure intensifies if US-China tensions escalate; single-point-of-failure for global chip supply chain",
-      "Inventory correction risk: 3.4x inventory turnover suggests 106-day inventory vs peer median ~90 days; demand slowdown could compress margins",
-      "Valuation re-rating: 28.1 P/E vs historical 15-20x; if AI capex pauses or hyperscaler spending moderates, multiple compression to 20x implies 28% downside"
+      "Elevated valuation: 91x P/E, 12x P/S. Limited margin for disappointment if growth decelerates or macro headwinds intensify",
+      "Software sector rotation risk: Tech sold off hard today. Sustained risk-off could pressure high-multiple names regardless of fundamentals",
+      "Execution risk on 2026 targets: Must sustain 20%+ revenue growth and margin expansion to justify valuation"
     ],
     "falsifiable_checks": [
-      "Q4 2025 (Jan 2026) revenue guidance >$25B (implies >10% YoY growth) and gross margin >58%; miss signals demand weakness",
-      "Stock breaks below $340 (200-day MA ~$355) or P/E compresses below 22x; triggers mean reversion risk"
+      "NOW maintains 20%+ revenue growth and 17%+ operating margin through Q2 2026 earnings (Apr/May report)",
+      "Stock holds $95 support level and outperforms QQQ by 10%+ over next 30 days"
     ],
-    "why_now": "TSM offers superior quality (60% gross margin) at reasonable valuation (28 P/E, 0.24 PEG) during tech sector dislocation. While peers face margin pressure (NVDA -7.5% MTD, AMD -17.8%), TSM is up 8.3% MTD on defensive positioning. 6-18 month catalyst: AI infrastructure buildout favors leading-edge capacity (TSM 3nm monopoly), Apple/NVDA refresh cycles in H2 2026, and potential geopolitical premium if Taiwan tensions ease post-US election cycle. Current selloff provides entry at 2024 valuation despite 2025 earnings upgrade cycle."
+    "why_now": "ServiceNow combines rare quality (high margins, 21% ROIC) with momentum (relative strength vs peers, AI tailwinds). Bootstrap portfolio needs software exposure with defensive growth characteristics. Today's +2.7% move amid broad selloff signals institutional accumulation and validates relative strength thesis for 30-day hold period. Portfolio structured to respect 80% sector max while maximizing quality+momentum exposure."
   },
   "target_portfolio": [
     {
-      "ticker": "TSM",
-      "weight_pct": 15,
-      "sector": "Technology"
-    },
-    {
-      "ticker": "AVGO",
-      "weight_pct": 15,
-      "sector": "Technology"
-    },
-    {
-      "ticker": "JPM",
-      "weight_pct": 15,
-      "sector": "Financials"
-    },
-    {
-      "ticker": "GS",
-      "weight_pct": 12,
-      "sector": "Financials"
-    },
-    {
       "ticker": "LLY",
-      "weight_pct": 12,
+      "weight_pct": 20,
       "sector": "Healthcare"
     },
     {
-      "ticker": "XLE",
+      "ticker": "MSFT",
+      "weight_pct": 13,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 15,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "NVDA",
       "weight_pct": 12,
-      "sector": "Energy"
+      "sector": "Technology"
     },
     {
-      "ticker": "GLD",
+      "ticker": "GOOGL",
+      "weight_pct": 12,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "META",
       "weight_pct": 10,
-      "sector": "Commodities"
+      "sector": "Technology"
     },
     {
-      "ticker": "BTC-USD",
-      "weight_pct": 9,
-      "sector": "Crypto"
+      "ticker": "ADBE",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "CRM",
+      "weight_pct": 8,
+      "sector": "Technology"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "Max position: TSM/AVGO/JPM 15% each (< 40% limit). Max sector: Technology 30% (TSM+AVGO), Financials 27% (JPM+GS) both < 80%. Crypto: BTC-USD 9% < 10% limit. 8 holdings across 5 sectors meets diversification requirements."
+    "notes": "Weights were deterministically rebalanced to satisfy position and sector constraints."
   }
 }
