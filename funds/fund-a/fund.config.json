@@ -8,7 +8,7 @@
   },
   "universe": "US large & mid cap only",
   "hold_horizon_days": 30,
-  "positions": 12,
+  "positions": 10,
   "min_position_pct": 2,
   "max_position_pct": 12,
   "max_sector_pct": 25,
