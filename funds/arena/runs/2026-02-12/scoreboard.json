@@ -2,6 +2,28 @@
   "run_date": "2026-02-12",
   "lanes": [
     {
+      "fund_id": "fund-b",
+      "provider": "anthropic",
+      "status": "success",
+      "action": "Add",
+      "add_ticker": "XOM",
+      "remove_ticker": null,
+      "size_change_pct": 15,
+      "constraints_ok": true,
+      "rebalance_actions_count": 8,
+      "rebalance_actions_preview": "Add XOM, Add CVX, Add LLY, Add JPM",
+      "benchmark_ticker": "ACWI",
+      "benchmark_name": "MSCI ACWI",
+      "fund_return_pct": 0,
+      "benchmark_return_pct": 0,
+      "excess_return_pct": 0,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-b/runs/2026-02-12/anthropic",
+      "rank": 1,
+      "ranking_score": 0
+    },
+    {
       "fund_id": "fund-a",
       "provider": "openai",
       "status": "failed",
@@ -20,35 +42,13 @@
       "performance_coverage_pct": 0,
       "benchmark_coverage_pct": 0,
       "run_path": "funds/fund-a/runs/2026-02-12/openai",
-      "rank": 1,
-      "ranking_score": null
-    },
-    {
-      "fund_id": "fund-b",
-      "provider": "anthropic",
-      "status": "failed",
-      "action": "UNKNOWN",
-      "add_ticker": null,
-      "remove_ticker": null,
-      "size_change_pct": 0,
-      "constraints_ok": false,
-      "rebalance_actions_count": 0,
-      "rebalance_actions_preview": null,
-      "benchmark_ticker": null,
-      "benchmark_name": null,
-      "fund_return_pct": null,
-      "benchmark_return_pct": null,
-      "excess_return_pct": null,
-      "performance_coverage_pct": 0,
-      "benchmark_coverage_pct": 0,
-      "run_path": "funds/fund-b/runs/2026-02-12/anthropic",
       "rank": 2,
       "ranking_score": null
     }
   ],
   "ranking": {
     "method": "independent_performance",
-    "notes": "No successful lanes to rank."
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker."
   },
   "comparison": {
     "portfolio_overlap_pct": 0,

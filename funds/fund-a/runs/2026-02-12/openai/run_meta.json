@@ -3,14 +3,14 @@
   "provider": "openai",
   "model": "gpt-5.2",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T22:50:44Z",
-  "ended_at": "2026-02-12T22:52:23Z",
+  "started_at": "2026-02-12T22:59:47Z",
+  "ended_at": "2026-02-12T23:02:10Z",
   "status": "failed",
-  "reason": "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)",
+  "reason": "Financial Datasets error ratio too high (ratio=0.454545, errors=100, sources=120, max=0.35)",
   "api_errors": [
-    "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)"
+    "Financial Datasets error ratio too high (ratio=0.454545, errors=100, sources=120, max=0.35)"
   ],
   "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-225045_828f44fb83e0.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-225948_828f44fb83e0.jsonl"
 }
