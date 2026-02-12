@@ -52,41 +52,163 @@ truncate_text() {
 
 format_holdings_table() {
   local json_path="$1"
+  node - "$json_path" <<'NODE'
+const fs = require('node:fs');
+
+function fmtWeight(x) {
+  const v = Number(x || 0);
+  if (!Number.isFinite(v)) return '0%';
+  if (v === Math.trunc(v)) return `${v.toFixed(0)}%`;
+  if (Math.round(v * 10) === v * 10) return `${v.toFixed(1)}%`;
+  return `${v.toFixed(2)}%`;
+}
+
+function normSymbol(s) {
+  return String(s || '').trim().toUpperCase().replace(/-/g, '.');
+}
+
+async function fetchCompanyNames(tickers) {
+  const out = {};
+  if (!Array.isArray(tickers) || tickers.length === 0) return out;
+  const period2 = Math.floor(Date.now() / 1000);
+  const period1 = period2 - (14 * 86400);
+
+  async function fetchNameForTicker(ticker) {
+    const candidates = [ticker];
+    if (ticker.includes('.')) candidates.push(ticker.replace(/\./g, '-'));
+    if (ticker.includes('-')) candidates.push(ticker.replace(/-/g, '.'));
+
+    for (const symbol of [...new Set(candidates)]) {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&period1=${period1}&period2=${period2}`;
+      try {
+        const res = await fetch(url, {
+          headers: {
+            'User-Agent': 'hedge-labs-fund-arena/1.0'
+          }
+        });
+        if (!res.ok) continue;
+        const data = await res.json();
+        const meta = data?.chart?.result?.[0]?.meta;
+        const name = String(meta?.longName || meta?.shortName || '').trim();
+        if (name) return name.replace(/\|/g, '/');
+      } catch {
+        // Try next symbol alias.
+      }
+    }
+    return '';
+  }
+
+  await Promise.all(tickers.map(async (ticker) => {
+    const name = await fetchNameForTicker(ticker);
+    if (name) out[normSymbol(ticker)] = name;
+  }));
+
+  return out;
+}
+
+(async () => {
+  const path = process.argv[2];
+  let doc = {};
+  try {
+    doc = JSON.parse(fs.readFileSync(path, 'utf8'));
+  } catch {
+    doc = {};
+  }
+
+  const holdings = Array.isArray(doc?.target_portfolio) ? [...doc.target_portfolio] : [];
+  holdings.sort((a, b) => {
+    const wa = Number(a?.weight_pct || 0);
+    const wb = Number(b?.weight_pct || 0);
+    if (wb !== wa) return wb - wa;
+    const ta = String(a?.ticker || '');
+    const tb = String(b?.ticker || '');
+    return ta.localeCompare(tb);
+  });
+
+  console.log('```text');
+  if (holdings.length === 0) {
+    console.log('n/a');
+    console.log('```');
+    return;
+  }
+
+  const tickers = [...new Set(holdings.map((h) => String(h?.ticker || '').trim()).filter(Boolean))];
+  const companyNames = await fetchCompanyNames(tickers);
+
+  console.log('Ticker | Name | Wt | Sector');
+  console.log('--- | --- | --- | ---');
+  for (const h of holdings) {
+    const ticker = String(h?.ticker || 'UNKNOWN').trim() || 'UNKNOWN';
+    const sector = String(h?.sector || 'UNKNOWN').trim() || 'UNKNOWN';
+    const name = companyNames[normSymbol(ticker)] || ticker;
+    console.log(`${ticker} | ${name} | ${fmtWeight(h?.weight_pct)} | ${sector}`);
+  }
+  console.log('```');
+})().catch(() => {
+  console.log('```text');
+  console.log('n/a');
+  console.log('```');
+});
+NODE
+}
+
+format_sector_exposure_summary() {
+  local json_path="$1"
   jq -r '
     (.target_portfolio // []) as $p
-    | $p
-    | sort_by(-((.weight_pct // 0) | tonumber), (.ticker // ""))
-    | .[]
-    | [(.ticker // "UNKNOWN"), ((.weight_pct // 0) | tonumber), (.sector // "UNKNOWN")]
-    | @tsv
-  ' "$json_path" | awk -F'\t' '
-    function fmt_weight(x,    v) {
-      v = x + 0
-      if (v == int(v)) return sprintf("%.0f%%", v)
-      if ((v * 10) == int(v * 10)) return sprintf("%.1f%%", v)
-      return sprintf("%.2f%%", v)
-    }
-    {
-      n += 1
-      ticker[n] = $1
-      weight[n] = fmt_weight($2)
-      sector[n] = $3
-    }
-    END {
-      print "```text"
-      if (n == 0) {
-        print "n/a"
-        print "```"
-        exit
-      }
-      print "Ticker | Wt | Sector"
-      print "--- | --- | ---"
-      for (i = 1; i <= n; i++) {
-        printf "%s | %s | %s\n", ticker[i], weight[i], sector[i]
-      }
-      print "```"
-    }
-  '
+    | if ($p | length) == 0 then
+        "n/a"
+      else
+        ($p
+          | group_by(.sector)
+          | map({
+              sector: (.[0].sector // "UNKNOWN"),
+              weight: ((map(.weight_pct // 0) | add) // 0)
+            })
+          | sort_by(-.weight, .sector)
+        ) as $rows
+        | ($rows[0:4]
+          | map(.sector + " " + ((.weight * 100 | round) / 100 | tostring) + "%")
+        ) as $top
+        | (($rows[4:] | map(.weight) | add) // 0) as $other
+        | if $other > 0 then
+            ($top + ["Other " + (($other * 100 | round) / 100 | tostring) + "%"] | join(", "))
+          else
+            ($top | join(", "))
+          end
+      end
+  ' "$json_path"
+}
+
+latest_successful_output_before_run() {
+  local fund_id="$1"
+  local provider="$2"
+  local run_date="$3"
+  local runs_root="funds/${fund_id}/runs"
+  local prev_output=""
+  local prev_date=""
+  local candidate_output=""
+  local candidate_meta=""
+  local candidate_status=""
+
+  if [[ -d "$runs_root" ]]; then
+    while IFS= read -r d; do
+      [[ "$d" < "$run_date" ]] || continue
+      candidate_output="${runs_root}/${d}/${provider}/dexter_output.json"
+      candidate_meta="${runs_root}/${d}/${provider}/run_meta.json"
+      if [[ ! -f "$candidate_output" ]]; then
+        continue
+      fi
+      if [[ -f "$candidate_meta" ]]; then
+        candidate_status="$(jq -r '.status // "failed"' "$candidate_meta")"
+        [[ "$candidate_status" == "success" ]] || continue
+      fi
+      prev_output="$candidate_output"
+      prev_date="$d"
+    done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
+  fi
+
+  printf '%s\t%s\n' "$prev_output" "$prev_date"
 }
 
 repo_web_url=""
@@ -182,18 +304,37 @@ while IFS= read -r lane; do
   stock_moves_summary="n/a"
   sector_exposure_summary="n/a"
   fund_type_label="n/a"
+  fund_name_label="n/a"
+  benchmark_ticker=""
+  benchmark_label=""
+  benchmark_display="n/a"
   risk_snippet="n/a"
   holdings_block='```text
 n/a
 ```'
+  holdings_heading="Holdings:"
   change_reason_block="  • n/a"
   error_message=""
   api_notice_block=""
   model_label="unknown"
+  prev_output_path=""
+  prev_output_date=""
+
+  IFS=$'\t' read -r prev_output_path prev_output_date < <(latest_successful_output_before_run "$fund_id" "$provider" "$run_date")
 
   if [[ -f "$config_path" ]]; then
+    fund_name_label="$(jq -r '.name // "n/a"' "$config_path")"
     fund_type_label="$(jq -r '.universe // "n/a"' "$config_path")"
     model_label="$(jq -r '.model // "unknown"' "$config_path")"
+    benchmark_ticker="$(jq -r '.benchmark.ticker // .benchmark_ticker // empty' "$config_path")"
+    benchmark_label="$(jq -r '.benchmark.name // .benchmark_label // .benchmark.ticker // .benchmark_ticker // empty' "$config_path")"
+    if [[ -n "$benchmark_ticker" && -n "$benchmark_label" && "$benchmark_label" != "$benchmark_ticker" ]]; then
+      benchmark_display="${benchmark_label} (\`${benchmark_ticker}\`)"
+    elif [[ -n "$benchmark_label" ]]; then
+      benchmark_display="$benchmark_label"
+    elif [[ -n "$benchmark_ticker" ]]; then
+      benchmark_display="\`${benchmark_ticker}\`"
+    fi
   fi
 
   if [[ -f "$meta_path" ]]; then
@@ -216,18 +357,57 @@ n/a
 
   if [[ "$status" == "success" && -f "$output_path" ]]; then
     size_change="$(jq -r '.trade_of_the_day.size_change_pct // 0' "$output_path")"
+    action_add_ticker="$add_ticker"
+    action_remove_ticker="$remove_ticker"
+    if [[ -z "$action_add_ticker" || "$action_add_ticker" == "-" ]]; then
+      action_add_ticker="$(jq -r '.trade_of_the_day.add_ticker // empty' "$output_path")"
+    fi
+    if [[ -z "$action_remove_ticker" || "$action_remove_ticker" == "-" ]]; then
+      action_remove_ticker="$(jq -r '.trade_of_the_day.remove_ticker // empty' "$output_path")"
+    fi
+    trade_text="$(jq -r '[.trade_of_the_day.thesis[]?, .trade_of_the_day.why_now?, .constraints_check.notes?] | map(select(type=="string")) | join(" ")' "$output_path")"
+    if [[ -z "$action_add_ticker" || "$action_add_ticker" == "-" ]]; then
+      inferred_add_from_text="$(
+        printf '%s' "$trade_text" | perl -ne '
+          if (/\breplace(?:d|ing)?\s+[A-Z][A-Z0-9.\-]{0,9}\s+(?:with|for)\s+([A-Z][A-Z0-9.\-]{0,9})\b/i) { print uc($1); exit }
+          if (/\badd(?:ed|ing)?\s+([A-Z][A-Z0-9.\-]{0,9})\b/i) { print uc($1); exit }
+          if (/\bincrease(?:d|ing)?\s+([A-Z][A-Z0-9.\-]{0,9})\b/i) { print uc($1); exit }
+        '
+      )"
+      if [[ -n "$inferred_add_from_text" ]]; then
+        action_add_ticker="$inferred_add_from_text"
+      fi
+    fi
+    if [[ -z "$action_remove_ticker" || "$action_remove_ticker" == "-" ]]; then
+      inferred_remove_from_text="$(
+        printf '%s' "$trade_text" | perl -ne '
+          if (/\breplace(?:d|ing)?\s+([A-Z][A-Z0-9.\-]{0,9})\s+(?:with|for)\s+[A-Z][A-Z0-9.\-]{0,9}\b/i) { print uc($1); exit }
+          if (/\btrim(?:med|ming)?\s+([A-Z][A-Z0-9.\-]{0,9})\b/i) { print uc($1); exit }
+          if (/\breduce(?:d|ing)?\s+([A-Z][A-Z0-9.\-]{0,9})\b/i) { print uc($1); exit }
+        '
+      )"
+      if [[ -n "$inferred_remove_from_text" ]]; then
+        action_remove_ticker="$inferred_remove_from_text"
+      fi
+    fi
+    if [[ -z "$action_add_ticker" ]]; then action_add_ticker="-"; fi
+    if [[ -z "$action_remove_ticker" ]]; then action_remove_ticker="-"; fi
     case "$action" in
       "Do nothing")
         action_summary="No portfolio change today."
         ;;
       "Add")
-        action_summary="Added ${add_ticker} (${size_change}% target weight change)."
+        action_summary="Added ${action_add_ticker} (${size_change}% target weight change)."
         ;;
       "Trim")
-        action_summary="Trimmed ${remove_ticker} (${size_change}% target weight change)."
+        if [[ -n "$action_remove_ticker" && "$action_remove_ticker" != "-" && -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+          action_summary="Trimmed ${action_remove_ticker}, reallocated to ${action_add_ticker} (${size_change}% target weight change)."
+        else
+          action_summary="Trimmed ${action_remove_ticker} (${size_change}% target weight change)."
+        fi
         ;;
       "Replace")
-        action_summary="Replaced ${remove_ticker} with ${add_ticker} (${size_change}% target weight change)."
+        action_summary="Replaced ${action_remove_ticker} with ${action_add_ticker} (${size_change}% target weight change)."
         ;;
       *)
         action_summary="Model action: ${action}."
@@ -242,60 +422,47 @@ n/a
       risk_snippet="n/a"
     fi
 
-    perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" 2>/dev/null || echo '{}')"
+    perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" "$benchmark_ticker" "$benchmark_label" 2>/dev/null || echo '{}')"
 
     fund_return_pct="$(jq -r '.fund_return_pct // empty' <<<"$perf_json")"
     coverage_pct="$(jq -r '.covered_weight_pct // empty' <<<"$perf_json")"
+    benchmark_name="$(jq -r '.benchmark_name // empty' <<<"$perf_json")"
+    benchmark_return_pct="$(jq -r '.benchmark_return_pct // empty' <<<"$perf_json")"
+    benchmark_coverage_pct="$(jq -r '.benchmark_covered_weight_pct // empty' <<<"$perf_json")"
+    excess_return_pct="$(jq -r '.excess_return_pct // empty' <<<"$perf_json")"
+
+    if [[ -z "$benchmark_name" && -n "$benchmark_label" ]]; then
+      benchmark_name="$benchmark_label"
+    fi
+    if [[ -z "$benchmark_name" && -n "$benchmark_ticker" ]]; then
+      benchmark_name="$benchmark_ticker"
+    fi
+
     if [[ -n "$fund_return_pct" ]]; then
-      performance_summary="$(printf "%+.2f%%" "$fund_return_pct")"
+      fund_perf="$(printf "%+.2f%%" "$fund_return_pct")"
+      performance_summary="Fund ${fund_perf}"
       if [[ -n "$coverage_pct" ]]; then
-        performance_summary+=" (coverage ${coverage_pct}%)"
+        performance_summary+=" (cov ${coverage_pct}%)"
       fi
+
+      if [[ -n "$benchmark_return_pct" && -n "$benchmark_name" ]]; then
+        benchmark_perf="$(printf "%+.2f%%" "$benchmark_return_pct")"
+        performance_summary+=" vs ${benchmark_name} ${benchmark_perf}"
+        if [[ -n "$excess_return_pct" ]]; then
+          performance_summary+=" (Δ $(printf "%+.2fpp" "$excess_return_pct"))"
+        fi
+        if [[ -n "$benchmark_coverage_pct" && "$benchmark_coverage_pct" != "$coverage_pct" ]]; then
+          performance_summary+=" [idx cov ${benchmark_coverage_pct}%]"
+        fi
+      fi
+
       perf_rows="$(jq -cn --argjson rows "$perf_rows" --arg fund "$fund_label" --argjson ret "$fund_return_pct" '$rows + [{fund: $fund, ret: $ret}]')"
+    elif [[ -n "$benchmark_return_pct" && -n "$benchmark_name" ]]; then
+      benchmark_perf="$(printf "%+.2f%%" "$benchmark_return_pct")"
+      performance_summary="Fund n/a vs ${benchmark_name} ${benchmark_perf}"
     fi
 
-    sector_exposure_summary="$(jq -r '
-      (.target_portfolio // []) as $p
-      | if ($p | length) == 0 then
-          "n/a"
-        else
-          ($p
-            | group_by(.sector)
-            | map({
-                sector: (.[0].sector // "UNKNOWN"),
-                weight: ((map(.weight_pct // 0) | add) // 0)
-              })
-            | sort_by(-.weight, .sector)
-          ) as $rows
-          | ($rows[0:4]
-            | map(.sector + " " + ((.weight * 100 | round) / 100 | tostring) + "%")
-          ) as $top
-          | (($rows[4:] | map(.weight) | add) // 0) as $other
-          | if $other > 0 then
-              ($top + ["Other " + (($other * 100 | round) / 100 | tostring) + "%"] | join(", "))
-            else
-              ($top | join(", "))
-            end
-        end
-    ' "$output_path")"
-
-    runs_root="funds/${fund_id}/runs"
-    prev_output_path=""
-    if [[ -d "$runs_root" ]]; then
-      while IFS= read -r prev_date; do
-        [[ "$prev_date" < "$run_date" ]] || continue
-        candidate_output="${runs_root}/${prev_date}/${provider}/dexter_output.json"
-        candidate_meta="${runs_root}/${prev_date}/${provider}/run_meta.json"
-        if [[ ! -f "$candidate_output" ]]; then
-          continue
-        fi
-        if [[ -f "$candidate_meta" ]]; then
-          candidate_status="$(jq -r '.status // "failed"' "$candidate_meta")"
-          [[ "$candidate_status" == "success" ]] || continue
-        fi
-        prev_output_path="$candidate_output"
-      done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
-    fi
+    sector_exposure_summary="$(format_sector_exposure_summary "$output_path")"
 
     if [[ -z "$prev_output_path" ]]; then
       change_reason_block="  • No prior successful run to compare."
@@ -321,6 +488,21 @@ n/a
         ')"
 
       change_count="$(jq -r 'length' <<<"$change_rows")"
+      if [[ "$change_count" != "0" ]]; then
+        if [[ -z "$action_add_ticker" || "$action_add_ticker" == "-" ]]; then
+          inferred_add_ticker="$(jq -r '[.[] | select(.delta > 0)] | sort_by(-.delta, .ticker) | .[0].ticker // empty' <<<"$change_rows")"
+          if [[ -n "$inferred_add_ticker" ]]; then
+            action_add_ticker="$inferred_add_ticker"
+          fi
+        fi
+        if [[ -z "$action_remove_ticker" || "$action_remove_ticker" == "-" ]]; then
+          inferred_remove_ticker="$(jq -r '[.[] | select(.delta < 0)] | sort_by(.delta, .ticker) | .[0].ticker // empty' <<<"$change_rows")"
+          if [[ -n "$inferred_remove_ticker" ]]; then
+            action_remove_ticker="$inferred_remove_ticker"
+          fi
+        fi
+      fi
+
       if [[ "$change_count" == "0" ]]; then
         change_reason_block="  • No holding changes vs previous run."
       else
@@ -368,6 +550,40 @@ n/a
         done < <(jq -c '.[]' <<<"$change_rows")
       fi
     fi
+
+    case "$action" in
+      "Add")
+        if [[ -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+          action_summary="Added ${action_add_ticker} (${size_change}% target weight change)."
+        fi
+        ;;
+      "Trim")
+        if [[ -n "$action_remove_ticker" && "$action_remove_ticker" != "-" && -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+          action_summary="Trimmed ${action_remove_ticker}, reallocated to ${action_add_ticker} (${size_change}% target weight change)."
+        elif [[ -n "$action_remove_ticker" && "$action_remove_ticker" != "-" ]]; then
+          action_summary="Trimmed ${action_remove_ticker} (${size_change}% target weight change)."
+        fi
+        ;;
+      "Replace")
+        if [[ -n "$action_remove_ticker" && "$action_remove_ticker" != "-" && -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+          action_summary="Replaced ${action_remove_ticker} with ${action_add_ticker} (${size_change}% target weight change)."
+        elif [[ -n "$action_remove_ticker" && "$action_remove_ticker" != "-" ]]; then
+          action_summary="Replaced ${action_remove_ticker} (add target not specified) (${size_change}% target weight change)."
+        elif [[ -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+          action_summary="Replaced holding with ${action_add_ticker} (${size_change}% target weight change)."
+        fi
+        ;;
+    esac
+  fi
+
+  if [[ "$status" != "success" && -n "$prev_output_path" && -f "$prev_output_path" ]]; then
+    holdings_block="$(format_holdings_table "$prev_output_path")"
+    sector_exposure_summary="$(format_sector_exposure_summary "$prev_output_path")"
+    if [[ -n "$prev_output_date" ]]; then
+      holdings_heading="Holdings (last successful run ${prev_output_date}):"
+    else
+      holdings_heading="Holdings (last successful run):"
+    fi
   fi
 
   if [[ "$status" != "success" && -f "$meta_path" ]]; then
@@ -392,7 +608,11 @@ n/a
   lane_sections+=$'\n\n'
   lane_sections+="**${fund_emoji} ${fund_label} (${provider_label})**"
   lane_sections+=$'\n'
+  lane_sections+="- Fund name: ${fund_name_label}"
+  lane_sections+=$'\n'
   lane_sections+="- Fund type: ${fund_type_label}"
+  lane_sections+=$'\n'
+  lane_sections+="- Benchmark: ${benchmark_display}"
   lane_sections+=$'\n'
   lane_sections+="- Sector exposure: ${sector_exposure_summary}"
   lane_sections+=$'\n'
@@ -406,7 +626,7 @@ n/a
     lane_sections+="- Risk limits: ${constraints_label}"
   fi
   lane_sections+=$'\n'
-  lane_sections+="- Since added (fund): **${performance_summary}**"
+  lane_sections+="- Since added: **${performance_summary}**"
   if [[ -n "$api_notice_block" ]]; then
     lane_sections+=$'\n'
     lane_sections+="- API notices:"
@@ -420,7 +640,7 @@ n/a
   fi
 
   lane_sections+=$'\n'
-  lane_sections+="- Holdings:"
+  lane_sections+="- ${holdings_heading}"
   lane_sections+=$'\n'
   lane_sections+="$holdings_block"
 
@@ -482,7 +702,7 @@ if (( ${#message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Leader since launch:.*\n//mg')"
   fi
   if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added \(fund\):.*\n//mg')"
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added(?: \(fund\))?:.*\n//mg')"
   fi
   if (( ${#compact_message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Risk limits:.*\n//mg')"

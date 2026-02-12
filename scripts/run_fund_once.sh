@@ -27,9 +27,18 @@ expected_provider="$(jq -r '.provider // ""' "$config_path")"
 model="$(jq -r '.model // "unknown"' "$config_path")"
 target_positions="$(jq -r '.positions // 0' "$config_path")"
 max_position_pct="$(jq -r '.max_position_pct // 0' "$config_path")"
+min_position_pct="$(jq -r '.min_position_pct // 2' "$config_path")"
 max_sector_pct="$(jq -r '.max_sector_pct // 0' "$config_path")"
 if [[ "$expected_provider" != "$provider" ]]; then
   echo "Provider mismatch for ${fund_id}: config=${expected_provider}, arg=${provider}" >&2
+  exit 1
+fi
+if ! awk -v min="$min_position_pct" -v max="$max_position_pct" 'BEGIN { exit !(min > 0 && min <= max) }'; then
+  echo "Invalid min_position_pct for ${fund_id}: min=${min_position_pct}, max=${max_position_pct}" >&2
+  exit 1
+fi
+if ! awk -v min="$min_position_pct" -v n="$target_positions" 'BEGIN { exit !((min * n) <= 100.0001) }'; then
+  echo "Invalid min_position_pct for ${fund_id}: min=${min_position_pct} with positions=${target_positions} exceeds 100%" >&2
   exit 1
 fi
 
@@ -52,6 +61,7 @@ stdout_path="${run_dir}/dexter_stdout.txt"
 json_path="${run_dir}/dexter_output.json"
 meta_path="${run_dir}/run_meta.json"
 scratchpad_copy_path="${run_dir}/scratchpad.jsonl"
+scratchpad_dir="${repo_root}/.dexter/scratchpad"
 
 rm -f "$json_path" "$scratchpad_copy_path"
 
@@ -152,11 +162,31 @@ validate_json_output() {
     .paper_only == true and
     (.run_date | type == "string") and
     (.fund_name | type == "string") and
+    (.trade_of_the_day | type == "object") and
     (
       .trade_of_the_day.action == "Add" or
       .trade_of_the_day.action == "Trim" or
       .trade_of_the_day.action == "Replace" or
       .trade_of_the_day.action == "Do nothing"
+    ) and
+    (
+      if .trade_of_the_day.action == "Add" then
+        (.trade_of_the_day.add_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN"))
+      elif .trade_of_the_day.action == "Trim" then
+        (
+          (.trade_of_the_day.remove_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+          (.trade_of_the_day.add_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+          ((.trade_of_the_day.remove_ticker | ascii_upcase) != (.trade_of_the_day.add_ticker | ascii_upcase))
+        )
+      elif .trade_of_the_day.action == "Replace" then
+        (
+          (.trade_of_the_day.add_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+          (.trade_of_the_day.remove_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+          ((.trade_of_the_day.remove_ticker | ascii_upcase) != (.trade_of_the_day.add_ticker | ascii_upcase))
+        )
+      else
+        true
+      end
     ) and
     (.target_portfolio | type == "array" and length > 0) and
     (
@@ -176,6 +206,7 @@ validate_json_output() {
 
   if ! jq -e \
     --argjson expected_positions "$target_positions" \
+    --argjson min_position "$min_position_pct" \
     --argjson max_position "$max_position_pct" \
     --argjson max_sector "$max_sector_pct" \
     '
@@ -189,7 +220,7 @@ validate_json_output() {
           (.sector | type == "string") and
           ((.sector | ascii_upcase) != "UNKNOWN") and
           (.weight_pct | type == "number") and
-          (.weight_pct > 0) and
+          (.weight_pct >= ($min_position - 0.0001)) and
           (.weight_pct <= ($max_position + 0.0001))
         )
       ) and
@@ -401,13 +432,7 @@ NODE
 }
 
 attempt_rebalance_if_needed() {
-  if [[ "$status" == "failed" && "$reason" == "Portfolio validation failed (positions, weights, or sector limits)" && -f "$json_path" ]]; then
-    if rebalance_portfolio_if_possible "$json_path" && validate_json_output "$json_path"; then
-      status="success"
-      reason=""
-      return 0
-    fi
-  fi
+  # Do not auto-rewrite portfolio weights here. Invalid constraints should force model retry.
   return 1
 }
 
@@ -482,9 +507,11 @@ Your previous response failed deterministic validation. Fix it and return ONLY o
 Validation requirements:
 - target_portfolio must contain exactly ${target_positions} holdings.
 - No CASH, UNKNOWN, duplicate tickers, ETFs, or crypto.
-- Each weight_pct must be > 0 and <= ${max_position_pct}.
+- Each weight_pct must be >= ${min_position_pct} and <= ${max_position_pct}.
 - Total weight must be 100% (acceptable range 99.5-100.5).
 - Any single sector total must be <= ${max_sector_pct}.
+- If action is "Trim", both remove_ticker and add_ticker are required (paired reallocation).
+- If action is "Replace", both remove_ticker and add_ticker are required.
 - constraints_check.max_position_ok and constraints_check.max_sector_ok must both be true and consistent with your portfolio.
 
 Previous failure reason:
@@ -504,23 +531,86 @@ EOF
   fi
 fi
 
-latest_scratchpad=""
-latest_mtime=0
-scratchpad_dir="${repo_root}/.dexter/scratchpad"
-for scratch in "$scratchpad_dir"/*.jsonl; do
-  [[ -e "$scratch" ]] || continue
+scratchpad_mtime() {
+  local scratch="$1"
+  local mtime
   mtime="$(stat -c '%Y' "$scratch" 2>/dev/null || stat -f '%m' "$scratch" 2>/dev/null || echo 0)"
   if ! [[ "$mtime" =~ ^[0-9]+$ ]]; then
     mtime=0
   fi
-  if [[ "$mtime" -ge "$start_epoch" && "$mtime" -gt "$latest_mtime" ]]; then
-    latest_mtime="$mtime"
-    latest_scratchpad="$scratch"
-  fi
-done
+  printf '%s\n' "$mtime"
+}
 
-if [[ -n "$latest_scratchpad" ]]; then
-  cp "$latest_scratchpad" "$scratchpad_copy_path"
+copy_latest_scratchpad_since_start() {
+  latest_scratchpad=""
+  latest_mtime=0
+  for scratch in "$scratchpad_dir"/*.jsonl; do
+    [[ -e "$scratch" ]] || continue
+    mtime="$(scratchpad_mtime "$scratch")"
+    if [[ "$mtime" -ge "$start_epoch" && "$mtime" -gt "$latest_mtime" ]]; then
+      latest_mtime="$mtime"
+      latest_scratchpad="$scratch"
+    fi
+  done
+  if [[ -n "$latest_scratchpad" ]]; then
+    cp "$latest_scratchpad" "$scratchpad_copy_path"
+  fi
+}
+
+count_fd_calls_since_start() {
+  local total=0
+  local count=0
+  local scratch=""
+  local mtime=0
+  for scratch in "$scratchpad_dir"/*.jsonl; do
+    [[ -e "$scratch" ]] || continue
+    mtime="$(scratchpad_mtime "$scratch")"
+    [[ "$mtime" -ge "$start_epoch" ]] || continue
+    count="$(
+      {
+        jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratch" 2>/dev/null \
+          | grep -E '^(financial_search|financial_metrics)$' || true
+      } | wc -l | tr -d ' '
+    )"
+    if [[ "$count" =~ ^[0-9]+$ ]]; then
+      total=$((total + count))
+    fi
+  done
+  printf '%s\n' "$total"
+}
+
+copy_latest_scratchpad_since_start
+
+if [[ "$status" == "success" ]]; then
+  if [[ ! -f "$scratchpad_copy_path" ]]; then
+    status="failed"
+    reason="Dexter scratchpad file was not produced"
+  else
+    fd_calls="$(count_fd_calls_since_start)"
+    if [[ "$fd_calls" == "0" ]]; then
+      tool_retry_prompt="${run_dir}/prompt.tools.retry.txt"
+      cat > "$tool_retry_prompt" <<EOF
+Tool-use requirement was not met in your previous response.
+
+Before finalizing your JSON:
+1) Call \`financial_search\` at least once to gather verifiable market/news/company context.
+2) Call \`financial_metrics\` at least once to validate key financial/valuation metrics for your chosen holdings.
+3) Then return ONLY one valid JSON object matching all assignment constraints.
+
+Failure to call both required tools is treated as a failed run.
+
+Original assignment:
+$(cat "$canonical_prompt")
+EOF
+      run_dexter_attempt "$tool_retry_prompt"
+      attempt_rebalance_if_needed || true
+      rm -f "$tool_retry_prompt"
+      if [[ "$status" == "failed" ]]; then
+        reason="Retry failed: ${reason}"
+      fi
+      copy_latest_scratchpad_since_start
+    fi
+  fi
 fi
 
 if [[ "$status" == "success" ]]; then
@@ -528,12 +618,7 @@ if [[ "$status" == "success" ]]; then
     status="failed"
     reason="Dexter scratchpad file was not produced"
   else
-    fd_calls="$(
-      {
-        jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratchpad_copy_path" 2>/dev/null \
-          | grep -E '^(financial_search|financial_metrics)$' || true
-      } | wc -l | tr -d ' '
-    )"
+    fd_calls="$(count_fd_calls_since_start)"
     if [[ "$fd_calls" == "0" ]]; then
       status="failed"
       reason="Dexter did not call Financial Datasets tools (financial_search/financial_metrics)"

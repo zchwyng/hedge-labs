@@ -17,6 +17,19 @@ function dateFromTs(ts) {
   return new Date(ts * 1000).toISOString().slice(0, 10);
 }
 
+function emptyResult(benchmarkTicker = '', benchmarkName = '') {
+  return {
+    fund_return_pct: null,
+    covered_weight_pct: 0,
+    benchmark_ticker: benchmarkTicker || null,
+    benchmark_name: benchmarkName || null,
+    benchmark_return_pct: null,
+    benchmark_covered_weight_pct: 0,
+    excess_return_pct: null,
+    stocks: []
+  };
+}
+
 async function fetchSinceReturn(ticker, sinceDate) {
   const sinceMs = Date.parse(`${sinceDate}T00:00:00Z`);
   if (!Number.isFinite(sinceMs)) {
@@ -83,22 +96,24 @@ async function fetchSinceReturn(ticker, sinceDate) {
 }
 
 async function main() {
-  const [fundId, provider, runDate] = process.argv.slice(2);
+  const [fundId, provider, runDate, benchmarkTickerArg = '', benchmarkNameArg = ''] = process.argv.slice(2);
+  const benchmarkTicker = benchmarkTickerArg.trim();
+  const benchmarkName = benchmarkNameArg.trim() || benchmarkTicker;
   if (!fundId || !provider || !runDate) {
-    console.log(JSON.stringify({ fund_return_pct: null, covered_weight_pct: 0, stocks: [] }));
+    console.log(JSON.stringify(emptyResult(benchmarkTicker, benchmarkName)));
     return;
   }
 
   const latestPath = join('funds', fundId, 'runs', runDate, provider, 'dexter_output.json');
   if (!existsSync(latestPath)) {
-    console.log(JSON.stringify({ fund_return_pct: null, covered_weight_pct: 0, stocks: [] }));
+    console.log(JSON.stringify(emptyResult(benchmarkTicker, benchmarkName)));
     return;
   }
 
   const latest = parseJson(latestPath);
   const holdings = latest?.target_portfolio || [];
   if (!Array.isArray(holdings) || holdings.length === 0) {
-    console.log(JSON.stringify({ fund_return_pct: null, covered_weight_pct: 0, stocks: [] }));
+    console.log(JSON.stringify(emptyResult(benchmarkTicker, benchmarkName)));
     return;
   }
 
@@ -154,9 +169,40 @@ async function main() {
     fundReturn = asPct(weighted / coveredWeight);
   }
 
+  let benchmarkReturn = null;
+  let benchmarkCoveredWeight = 0;
+  const benchmarkSinceCache = new Map();
+  if (benchmarkTicker && coveredWeight > 0) {
+    for (const stock of stocks) {
+      if (!benchmarkSinceCache.has(stock.since_date)) {
+        const benchmarkPerf = await fetchSinceReturn(benchmarkTicker, stock.since_date);
+        benchmarkSinceCache.set(stock.since_date, benchmarkPerf);
+      }
+
+      const benchmarkPerf = benchmarkSinceCache.get(stock.since_date);
+      if (!benchmarkPerf) continue;
+
+      benchmarkCoveredWeight += stock.weight_pct;
+      benchmarkReturn = (benchmarkReturn ?? 0) + (stock.weight_pct * benchmarkPerf.return_pct);
+    }
+
+    if (benchmarkReturn != null && benchmarkCoveredWeight > 0) {
+      benchmarkReturn = asPct(benchmarkReturn / benchmarkCoveredWeight);
+      benchmarkCoveredWeight = asPct(benchmarkCoveredWeight);
+    } else {
+      benchmarkReturn = null;
+      benchmarkCoveredWeight = 0;
+    }
+  }
+
   console.log(JSON.stringify({
     fund_return_pct: fundReturn,
     covered_weight_pct: asPct(coveredWeight),
+    benchmark_ticker: benchmarkTicker || null,
+    benchmark_name: benchmarkName || null,
+    benchmark_return_pct: benchmarkReturn,
+    benchmark_covered_weight_pct: benchmarkCoveredWeight,
+    excess_return_pct: (fundReturn != null && benchmarkReturn != null) ? asPct(fundReturn - benchmarkReturn) : null,
     stocks
   }));
 }

@@ -2,9 +2,14 @@
   "name": "Value + Revisions (Monthly-hold)",
   "provider": "anthropic",
   "model": "claude-sonnet-4-5",
+  "benchmark": {
+    "name": "NASDAQ 100",
+    "ticker": "^NDX"
+  },
   "universe": "US large & mid cap only",
   "hold_horizon_days": 30,
   "positions": 12,
+  "min_position_pct": 2,
   "max_position_pct": 12,
   "max_sector_pct": 25,
   "rebalance": "weekly",

@@ -2,9 +2,14 @@
   "name": "Quality + Momentum (Monthly-hold)",
   "provider": "openai",
   "model": "gpt-5.2",
+  "benchmark": {
+    "name": "S&P 500",
+    "ticker": "^GSPC"
+  },
   "universe": "US large & mid cap only",
   "hold_horizon_days": 30,
   "positions": 12,
+  "min_position_pct": 2,
   "max_position_pct": 12,
   "max_sector_pct": 25,
   "rebalance": "weekly",
