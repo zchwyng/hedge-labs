@@ -5,9 +5,9 @@
       "fund_id": "fund-a",
       "provider": "openai",
       "status": "success",
-      "action": "Replace",
-      "add_ticker": "MRK",
-      "remove_ticker": "MO",
+      "action": "Do nothing",
+      "add_ticker": null,
+      "remove_ticker": null,
       "size_change_pct": 0,
       "constraints_ok": true,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
@@ -15,18 +15,18 @@
     {
       "fund_id": "fund-b",
       "provider": "anthropic",
-      "status": "failed",
-      "action": "UNKNOWN",
-      "add_ticker": null,
+      "status": "success",
+      "action": "Add",
+      "add_ticker": "BAC",
       "remove_ticker": null,
-      "size_change_pct": 0,
-      "constraints_ok": false,
+      "size_change_pct": 8.33,
+      "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
   "comparison": {
-    "portfolio_overlap_pct": 0,
-    "turnover_estimate_pct": 0,
-    "notes": "Need at least two successful lanes to compute overlap/turnover metrics."
+    "portfolio_overlap_pct": 9.09,
+    "turnover_estimate_pct": 83.33,
+    "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }
