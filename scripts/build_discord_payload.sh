@@ -181,8 +181,8 @@ while IFS= read -r lane; do
           "  • n/a"
         else
           ($p
-            | sort_by(-(.weight_pct // 0), (.ticker // ""))
-            | map("  • `\(.ticker)` — \(.weight_pct)%")
+            | sort_by(-((.weight_pct // 0) | tonumber), (.ticker // ""))
+            | map("  • `\(.ticker)` — \(((.weight_pct // 0) | tonumber))%")
             | join("\n"))
         end
     ' "$output_path")"
