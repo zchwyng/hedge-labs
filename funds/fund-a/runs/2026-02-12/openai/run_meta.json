@@ -1,13 +1,13 @@
 {
   "fund_id": "fund-a",
   "provider": "openai",
-  "model": "gpt-4.1",
+  "model": "gpt-5.2",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T15:57:03Z",
-  "ended_at": "2026-02-12T15:57:27Z",
+  "started_at": "2026-02-12T16:01:56Z",
+  "ended_at": "2026-02-12T16:02:06Z",
   "status": "success",
   "reason": "",
   "bun_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": ".dexter/scratchpad/2026-02-12T15-57-27-593Z.jsonl"
+  "scratchpad_source": ".dexter/scratchpad/2026-02-12T16-02-06-841Z.jsonl"
 }

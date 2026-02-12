@@ -5,28 +5,28 @@
       "fund_id": "fund-a",
       "provider": "openai",
       "status": "success",
-      "action": "Replace",
-      "add_ticker": "LRCX",
-      "remove_ticker": "MMM",
-      "size_change_pct": 2,
-      "constraints_ok": false,
+      "action": "Do nothing",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
+      "constraints_ok": true,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
     {
       "fund_id": "fund-b",
       "provider": "anthropic",
       "status": "success",
-      "action": "Do nothing",
-      "add_ticker": null,
+      "action": "Add",
+      "add_ticker": "META",
       "remove_ticker": null,
-      "size_change_pct": 0,
+      "size_change_pct": 8,
       "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
   "comparison": {
     "portfolio_overlap_pct": 100,
-    "turnover_estimate_pct": 60.63,
+    "turnover_estimate_pct": 50,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }
