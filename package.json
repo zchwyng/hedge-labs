@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "scripts": {
-    "start": "bun scripts/fund_runner.mjs"
+  "dependencies": {
+    "dexter-ts": "github:virattt/dexter#v2026.2.11"
   }
 }

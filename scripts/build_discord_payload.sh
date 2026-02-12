@@ -305,8 +305,13 @@ while IFS= read -r lane; do
 
   if [[ "$status" != "success" && -f "$meta_path" ]]; then
     error_message="$(jq -r '.reason // ""' "$meta_path")"
-    if [[ -f "$stdout_path" && ( -z "$error_message" || "$error_message" == bun\ start\ exited\ with\ code* ) ]]; then
-      runner_error="$(grep -Eo 'fund_runner_error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^fund_runner_error:[[:space:]]*//' || true)"
+    if [[ -f "$stdout_path" && -z "$error_message" ]]; then
+      runner_error="$(
+        {
+          grep -Eo 'Error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^Error:[[:space:]]*//' || true
+          grep -Eo '\\[[^]]+ API\\].*' "$stdout_path" | tail -n 1 || true
+        } | sed '/^$/d' | tail -n 1
+      )"
       if [[ -n "$runner_error" ]]; then
         error_message="$runner_error"
       fi

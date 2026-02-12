@@ -58,7 +58,7 @@ jobs:
           FINANCIAL_DATASETS_API_KEY: ${{ secrets.FINANCIAL_DATASETS_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          FUND_RUNNER_ALLOW_FALLBACK: "0"
+          DEXTER_MAX_ITERATIONS: "10"
         run: |
           set +e
 
