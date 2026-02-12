@@ -3,10 +3,10 @@
   "provider": "anthropic",
   "model": "claude-3-7-sonnet-latest",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T15:44:25Z",
-  "ended_at": "2026-02-12T15:44:25Z",
+  "started_at": "2026-02-12T15:48:40Z",
+  "ended_at": "2026-02-12T15:48:41Z",
   "status": "failed",
-  "reason": "bun start exited with code 1",
+  "reason": "HTTP 404: model: claude-3-7-sonnet-latest",
   "bun_exit_code": 1,
   "scratchpad_found": false,
   "scratchpad_source": null

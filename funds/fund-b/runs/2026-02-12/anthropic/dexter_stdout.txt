@@ -1,0 +1,3 @@
+$ bun scripts/fund_runner.mjs
+fund_runner_error: HTTP 404: model: claude-3-7-sonnet-latest
+error: script "start" exited with code 1

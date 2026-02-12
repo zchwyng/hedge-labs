@@ -4,11 +4,11 @@
     {
       "fund_id": "fund-a",
       "provider": "openai",
-      "status": "success",
-      "action": "Replace",
-      "add_ticker": "MRK",
-      "remove_ticker": "DIS",
-      "size_change_pct": 8,
+      "status": "failed",
+      "action": "UNKNOWN",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
       "constraints_ok": false,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
