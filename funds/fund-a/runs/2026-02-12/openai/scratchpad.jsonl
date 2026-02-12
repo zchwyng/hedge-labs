@@ -1,2 +1,2 @@
-{"ts":"2026-02-12T15:48:55.750Z","type":"run_started","data":{"fund_name":"Quality + Momentum (Monthly-hold)","run_date":"2026-02-12","provider":"openai","model":"gpt-4.1","mode":"live"}}
-{"ts":"2026-02-12T15:48:55.750Z","type":"run_completed","data":{"action":"Replace","paper_only":true,"mode":"live"}}
+{"ts":"2026-02-12T15:51:37.465Z","type":"run_started","data":{"fund_name":"Quality + Momentum (Monthly-hold)","run_date":"2026-02-12","provider":"openai","model":"gpt-4.1","mode":"live"}}
+{"ts":"2026-02-12T15:51:37.465Z","type":"run_completed","data":{"action":"Replace","paper_only":true,"mode":"live"}}

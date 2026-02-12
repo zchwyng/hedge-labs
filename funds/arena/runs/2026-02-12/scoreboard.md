@@ -2,7 +2,7 @@
 
 | Lane | Status | Action | Change | Constraints |
 |---|---|---|---|---|
-| fund-a/openai | failed | UNKNOWN | - | FAIL |
+| fund-a/openai | success | Replace | DUK -> MSFT | FAIL |
 | fund-b/anthropic | failed | UNKNOWN | - | FAIL |
 
 - Portfolio overlap: 0%

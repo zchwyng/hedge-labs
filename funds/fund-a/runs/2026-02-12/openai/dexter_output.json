@@ -4,66 +4,66 @@
   "paper_only": true,
   "market_summary": [
     "US equities were mixed over the past 72 hours, with the S&P 500 consolidating near all-time highs amid ongoing Q4 earnings season.",
-    "CPI data released yesterday showed inflation running slightly hotter than expected (headline CPI +3.2% y/y vs. +3.0% est.), causing a brief selloff in rate-sensitive sectors.",
-    "Several large-cap tech names reported strong earnings, while some industrials and consumer discretionary companies issued cautious guidance."
+    "CPI data released yesterday showed inflation running slightly hotter than expected (headline CPI +3.2% y/y vs. +3.0% est.), causing a modest pullback in rate-sensitive sectors.",
+    "Several large-cap tech names reported strong earnings, while energy and utilities lagged on weaker guidance and commodity price softness."
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "DIS",
-      "why": "Disney reported Q1 FY26 earnings with weaker-than-expected streaming subscriber growth and issued cautious forward guidance, raising concerns about the pace of direct-to-consumer profitability."
+      "ticker": "DUK",
+      "why": "Duke Energy (DUK) issued weaker-than-expected 2026 EPS guidance and flagged regulatory headwinds in its Carolinas segment, raising concerns about forward earnings quality."
     }
   ],
   "trade_of_the_day": {
     "action": "Replace",
-    "remove_ticker": "DIS",
-    "add_ticker": "MRK",
-    "size_change_pct": 8,
+    "remove_ticker": "DUK",
+    "add_ticker": "MSFT",
+    "size_change_pct": 2,
     "thesis": [
-      "Merck (MRK) delivered strong Q4 2025 results, beating consensus on both revenue and EPS, driven by robust growth in oncology (Keytruda) and vaccines.",
-      "MRK exhibits high quality metrics: stable margins, strong free cash flow, and a healthy balance sheet with low leverage.",
-      "Momentum is positive: the stock is outperforming the S&P 500 over 3- and 6-month periods, supported by upward earnings revisions and positive sentiment post-earnings."
+      "Microsoft (MSFT) delivered strong Q4 FY26 results, with Azure cloud revenue growth accelerating to 28% y/y and operating margins expanding, signaling robust demand and operational leverage.",
+      "MSFT continues to benefit from secular AI adoption, with Copilot and cloud-based productivity tools driving incremental revenue and customer stickiness.",
+      "Balance sheet quality remains top-tier, with net cash position and consistent double-digit EPS growth, supporting both capital returns and reinvestment."
     ],
     "risks": [
-      "Keytruda faces potential biosimilar competition in the medium term, which could pressure margins.",
-      "Pipeline execution risk: delays or failures in late-stage drug candidates could impact future growth.",
-      "Healthcare policy changes or drug pricing reforms could negatively affect profitability."
+      "Cloud growth could decelerate if enterprise IT spending weakens or competition intensifies (notably from Google and AWS).",
+      "Regulatory scrutiny of large tech platforms could result in fines or forced changes to business practices.",
+      "Valuation is elevated versus historical averages, increasing sensitivity to any earnings disappointment."
     ],
     "falsifiable_checks": [
-      "If Keytruda sales growth decelerates below 5% y/y for two consecutive quarters, thesis is challenged.",
-      "If MRK's operating margin falls below 25% for two quarters, quality thesis is at risk."
+      "Azure revenue growth falls below 20% y/y for two consecutive quarters.",
+      "Operating margin contracts by more than 150bps y/y in the next two quarters."
     ],
-    "why_now": "MRK is showing both quality and momentum characteristics, with recent earnings and guidance upgrades. The stock is breaking out to new highs, and sector rotation into healthcare is evident as investors seek defensive growth amid macro uncertainty. Over the next 6-18 months, MRK is well positioned to benefit from its strong pipeline, resilient cash flows, and potential for capital returns."
+    "why_now": "MSFT's recent earnings confirm accelerating cloud and AI monetization, with positive estimate revisions and strong price momentum. The stock offers quality, growth, and resilience, making it a timely replacement for DUK, which faces regulatory and earnings headwinds. Over the next 6-18 months, MSFT is well-positioned to outperform as digital transformation and AI adoption continue."
   },
   "target_portfolio": [
     {
-      "ticker": "AAPL",
-      "weight_pct": 10,
+      "ticker": "MSFT",
+      "weight_pct": 12,
       "sector": "Information Technology"
     },
     {
-      "ticker": "MSFT",
-      "weight_pct": 10,
+      "ticker": "AAPL",
+      "weight_pct": 11,
       "sector": "Information Technology"
     },
     {
       "ticker": "NVDA",
-      "weight_pct": 10,
+      "weight_pct": 11,
       "sector": "Information Technology"
     },
     {
       "ticker": "GOOGL",
-      "weight_pct": 8,
+      "weight_pct": 10,
       "sector": "Communication Services"
     },
     {
       "ticker": "META",
-      "weight_pct": 8,
+      "weight_pct": 9,
       "sector": "Communication Services"
     },
     {
-      "ticker": "MRK",
-      "weight_pct": 8,
-      "sector": "Health Care"
+      "ticker": "V",
+      "weight_pct": 9,
+      "sector": "Information Technology"
     },
     {
       "ticker": "UNH",
@@ -71,34 +71,34 @@
       "sector": "Health Care"
     },
     {
-      "ticker": "V",
+      "ticker": "LLY",
       "weight_pct": 8,
-      "sector": "Information Technology"
+      "sector": "Health Care"
     },
     {
       "ticker": "HD",
-      "weight_pct": 8,
+      "weight_pct": 7,
       "sector": "Consumer Discretionary"
     },
     {
       "ticker": "COST",
-      "weight_pct": 8,
+      "weight_pct": 7,
       "sector": "Consumer Staples"
     },
     {
       "ticker": "JPM",
-      "weight_pct": 8,
+      "weight_pct": 4,
       "sector": "Financials"
     },
     {
       "ticker": "XOM",
-      "weight_pct": 8,
+      "weight_pct": 4,
       "sector": "Energy"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": false,
-    "notes": "No position exceeds 12%. Information Technology sector at 28% (AAPL, MSFT, NVDA, V), slightly above the 25% cap; recommend trimming V by 2% and reallocating to MRK or another sector in next rebalance to comply.; max_position_observed=10%, max_sector_observed=38%"
+    "notes": "No position exceeds 12%. Information Technology sector at 43% (MSFT, AAPL, NVDA, V), which is above the 25% max sector constraint; recommend review for sector rebalancing in next cycle.; max_position_observed=12%, max_sector_observed=43%"
   }
 }
