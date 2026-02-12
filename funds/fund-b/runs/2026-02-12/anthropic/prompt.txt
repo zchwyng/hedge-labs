@@ -17,6 +17,12 @@ Rules:
   - Max position: 12%
   - Max sector: 25%
 - Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
+- `target_portfolio` must contain exactly 12 US equity tickers (no placeholders like `UNKNOWN`/`CASH`, and no ETFs/crypto).
+- Every holding weight must be > 0 and <= 12; total portfolio weight must sum to 100%.
+- Sector exposure must satisfy max sector <= 25%.
+- `constraints_check.max_position_ok` and `constraints_check.max_sector_ok` must both be `true` and must match the actual portfolio you output.
+- If no prior portfolio is available, bootstrap a full diversified 12-name portfolio from verifiable US large/mid cap equities across at least 5 sectors.
+- Never output a partial portfolio. Continue tool research until a valid full portfolio can be produced.
 
 Tasks:
 1) Portfolio Health Check (if a prior portfolio exists in repo for this fund):
