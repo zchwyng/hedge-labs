@@ -42,6 +42,9 @@ json_path="${run_dir}/dexter_output.json"
 meta_path="${run_dir}/run_meta.json"
 scratchpad_copy_path="${run_dir}/scratchpad.jsonl"
 
+# Prevent stale artifacts from prior reruns on the same date/provider path.
+rm -f "$json_path" "$scratchpad_copy_path"
+
 started_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 start_epoch="$(date +%s)"
 
@@ -70,11 +73,12 @@ if [[ "$bun_exit_code" -ne 0 ]]; then
 fi
 
 if [[ "$status" == "success" ]]; then
-  if jq -e . "$stdout_path" >/dev/null 2>&1; then
-    jq . "$stdout_path" > "$json_path"
+  json_candidate="$(grep -E '^[[:space:]]*\{.*\}[[:space:]]*$' "$stdout_path" | tail -n 1 || true)"
+  if [[ -n "$json_candidate" ]] && jq -e . <<<"$json_candidate" >/dev/null 2>&1; then
+    printf '%s\n' "$json_candidate" | jq . > "$json_path"
   else
     status="failed"
-    reason="stdout was not valid JSON"
+    reason="stdout did not contain a valid JSON object"
   fi
 fi
 

@@ -75,7 +75,7 @@ while IFS= read -r lane; do
   holdings_block="  • n/a"
   error_message=""
 
-  if [[ -f "$output_path" ]]; then
+  if [[ "$status" == "success" && -f "$output_path" ]]; then
     size_change="$(jq -r '.trade_of_the_day.size_change_pct // 0' "$output_path")"
     case "$action" in
       "Do nothing")
