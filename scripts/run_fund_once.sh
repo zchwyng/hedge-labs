@@ -49,13 +49,24 @@ status="success"
 reason=""
 
 set +e
-bun start < "$canonical_prompt" | tee "$stdout_path"
+bun start < "$canonical_prompt" 2>&1 | tee "$stdout_path"
 bun_exit_code="${PIPESTATUS[0]}"
 set -e
 
 if [[ "$bun_exit_code" -ne 0 ]]; then
   status="failed"
   reason="bun start exited with code ${bun_exit_code}"
+
+  # Surface provider-level failures (for Discord summary and diagnostics).
+  runner_error="$(grep -Eo 'fund_runner_error: .*' "$stdout_path" | tail -n 1 | sed -E 's/^fund_runner_error:[[:space:]]*//' || true)"
+  if [[ -n "$runner_error" ]]; then
+    reason="$runner_error"
+  else
+    last_line="$(tail -n 1 "$stdout_path" | tr -d '\r' || true)"
+    if [[ -n "$last_line" ]]; then
+      reason="$last_line"
+    fi
+  fi
 fi
 
 if [[ "$status" == "success" ]]; then
