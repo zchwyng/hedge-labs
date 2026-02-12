@@ -3,56 +3,55 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Risk-off tape in mega-cap growth/AI complex today: NVDA (-2.30%), AMZN (-2.42%), META (-2.56%), AAPL (-4.94%), AVGO (-3.02%) while defensives held up (COST +2.99%, UNH +2.38%, LLY +2.30%).",
-    "Notable single-name headline risk: META flagged by report on Russia move to block WhatsApp / threaten permanent ban (headline-level; magnitude unclear from fetched data).",
-    "Energy still firm YTD context despite daily pullback: XOM last price 151.00 (-1.88% today) after strong run since Nov per price series."
+    "Mega-cap growth (MSFT, NVDA, GOOGL, AMZN, META, AVGO) broadly down on the day (about -0.4% to -3.7% in the snapshots), consistent with risk-off tape; single-name movers up: WMT +3.83%, COST +3.01%, LLY +2.80%, UNH +2.57%, RTX +2.44%.",
+    "Defensives/quality cash-flow profiles showing relative strength today: retail staples (WMT, COST) and healthcare (LLY, UNH) green while cyclicals/energy (XOM -2.11%, CVX -1.21%) and financials (JPM -2.92%) softer.",
+    "News successfully fetched (tool-limited) is mostly commentary/analyst-style for NVDA and CAT; other tickers' last-72h headline verification is UNKNOWN due to tool rate limits."
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "META",
-      "why": "Headline regulatory/geopolitical distribution risk: Russia moves to block WhatsApp, threatens Meta with permanent ban (Benzinga, 2026-02-12)."
+      "ticker": "UNH",
+      "why": "Quality signal deterioration in the snapshot: earnings_growth -17.4% and EPS growth -17.3% (most recent period in ratios snapshot). While price is up today (+2.57%), this is a potential thesis-damage flag for a 'quality + momentum' sleeve if the negative earnings trend persists."
     },
     {
-      "ticker": "UNH",
-      "why": "Sharp drawdown late Jan visible in price series (material gap down around 2026-01-27); catalyst/earnings detail not verifiable from fetched data -> monitor for lingering fundamental issue. Earnings/reason UNKNOWN."
+      "ticker": "AMZN",
+      "why": "Free cash flow growth is negative in snapshot (free_cash_flow_growth -24.3%) and FCF yield is low (0.53%), indicating weaker cash conversion vs. peers; not necessarily broken, but a monitor item for quality."
+    },
+    {
+      "ticker": "JPM",
+      "why": "Snapshot shows negative free_cash_flow_yield (-14.34%) and high leverage typical of banks (debt_to_equity 2.95); not thesis-breaking alone, but reduces 'quality' purity versus non-financials."
     }
   ],
   "trade_of_the_day": {
-    "action": "Trim",
-    "remove_ticker": "META",
-    "add_ticker": "COST",
+    "action": "Replace",
+    "remove_ticker": "UNH",
+    "add_ticker": "WMT",
     "size_change_pct": 2,
     "thesis": [
-      "Shift 2% weight from idiosyncratic headline/regulatory risk (META) into steadier quality-momentum/defensive compounder exposure (COST).",
-      "COST shows strong near-term momentum relative to tape (today +2.99%) and solid profitability/quality metrics (ROE ~0.274; FY operating margin ~4.0% with high asset turnover; valuation rich but consistent with quality).",
-      "Portfolio-level risk reduction: lowers Communication Services concentration and increases Consumer Staples ballast within sector cap constraints."
+      "Momentum/relative strength: WMT is +3.83% on the day in the price snapshot, while several high-beta leaders are red; this fits a 30-day momentum tilt in a choppy tape.",
+      "Quality/defensiveness: WMT shows positive earnings_growth (+7.34%) and EPS growth (+7.44%) in the ratios snapshot, with steady profitability metrics (net_margin ~3.26%, operating_margin ~4.68%) typical for the model's 'quality + momentum' ballast.",
+      "Portfolio construction: replacing UNH (healthcare) with WMT (consumer staples) improves diversification and reduces exposure to a name with negative earnings trend signals (UNH earnings_growth -17.4% in snapshot) while keeping overall portfolio sector caps compliant."
     ],
     "risks": [
-      "COST valuation is elevated (P/E ~53.8; EV/EBITDA ~31.2) so any multiple compression can hurt 30-day returns.",
-      "META headline risk may fade quickly; trimming could underperform if risk-on resumes and META rebounds.",
-      "Consumer staples factor rotation can reverse abruptly if rates fall/risk appetite returns."
+      "Valuation risk: WMT snapshot P/E is elevated (price_to_earnings_ratio ~46.7), leaving less room for multiple expansion if sentiment rotates back to cyclicals/high growth.",
+      "Margin compression risk: low-margin retail model (operating_margin ~4.68%) can be sensitive to wage, shrink, and price competition; small margin changes can move earnings.",
+      "Event/news verification risk: last-72h company-specific headline validation for WMT is UNKNOWN due to tool rate limits; an adverse verified catalyst could invalidate the near-term momentum view."
     ],
     "falsifiable_checks": [
-      "If additional credible reporting confirms material revenue/usage impact from Russia WhatsApp restrictions beyond current expectations, maintain/extend META trim; if policy reverses or impact is immaterial, thesis weakens.",
-      "If COST price momentum reverses (e.g., breaks recent uptrend over coming weeks) while fundamentals/news remain unchanged, reduce the added overweight back to prior weight."
+      "If WMT’s next reported earnings_growth and EPS growth turn negative versus the current positive snapshot (revenue_growth ~1.43%, earnings_growth ~7.34%), the quality+momentum thesis weakens.",
+      "If UNH earnings_growth and EPS growth revert to positive and sustain while price stabilizes, the 'replace' rationale is weaker; current snapshot shows -17% range for both."
     ],
-    "why_now": "Over the next 6–18 months, quality + momentum tends to benefit from durable cash generation and resilient demand. Today’s dispersion (defensives up, mega-cap growth down) plus META-specific headline risk favors a small rotation toward staples/quality without abandoning core tech/AI exposure."
+    "why_now": "Over the next 6–18 months, the model prefers durable cash-flow businesses that can hold up through macro uncertainty while still exhibiting price leadership. Today’s tape shows defensive winners (WMT, COST) outperforming riskier mega-cap growth on the day, while UNH shows negative earnings/EPS growth in the latest snapshot. The swap upgrades near-term momentum and removes a quantified quality deterioration signal, consistent with weekly rebalance discipline for a 30-day horizon."
   },
   "target_portfolio": [
     {
       "ticker": "MSFT",
-      "weight_pct": 11,
+      "weight_pct": 12,
       "sector": "Information Technology"
     },
     {
       "ticker": "NVDA",
-      "weight_pct": 14,
+      "weight_pct": 12,
       "sector": "Information Technology"
-    },
-    {
-      "ticker": "AMZN",
-      "weight_pct": 10,
-      "sector": "Consumer Discretionary"
     },
     {
       "ticker": "GOOGL",
@@ -60,32 +59,37 @@
       "sector": "Communication Services"
     },
     {
+      "ticker": "AMZN",
+      "weight_pct": 10,
+      "sector": "Consumer Discretionary"
+    },
+    {
       "ticker": "META",
-      "weight_pct": 11,
+      "weight_pct": 8,
       "sector": "Communication Services"
     },
     {
-      "ticker": "AAPL",
-      "weight_pct": 10,
+      "ticker": "AVGO",
+      "weight_pct": 8,
       "sector": "Information Technology"
     },
     {
       "ticker": "JPM",
-      "weight_pct": 8,
+      "weight_pct": 10,
       "sector": "Financials"
     },
     {
-      "ticker": "XOM",
-      "weight_pct": 8,
-      "sector": "Energy"
+      "ticker": "BRK.B",
+      "weight_pct": 10,
+      "sector": "Financials"
     },
     {
-      "ticker": "UNH",
-      "weight_pct": 8,
+      "ticker": "LLY",
+      "weight_pct": 10,
       "sector": "Health Care"
     },
     {
-      "ticker": "COST",
+      "ticker": "WMT",
       "weight_pct": 10,
       "sector": "Consumer Staples"
     }
@@ -93,6 +97,6 @@
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
-    "notes": "Weights were deterministically rebalanced to satisfy position and sector constraints."
+    "notes": "10 US equity tickers; each weight 8–12% (min 2, max 20) and sums to 100%. Sector totals: Information Technology 32% (MSFT+NVDA+AVGO), Communication Services 18% (GOOGL+META), Financials 20% (JPM+BRK.B), Consumer Discretionary 10% (AMZN), Health Care 10% (LLY), Consumer Staples 10% (WMT). Max sector 32% <= 35%. Sector labels are assigned for portfolio constraint accounting; tool-based company-facts sector verification was rate-limited, so sector verification is UNKNOWN even though classifications are standard."
   }
 }
