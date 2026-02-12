@@ -58,8 +58,7 @@ truncate_text() {
 
 format_holdings_table() {
   local json_path="$1"
-  local max_rows="${2:-8}"
-  node - "$json_path" "$max_rows" <<'NODE'
+  node - "$json_path" <<'NODE'
 const fs = require('node:fs');
 
 function fmtWeight(x) {
@@ -72,13 +71,6 @@ function fmtWeight(x) {
 
 function normSymbol(s) {
   return String(s || '').trim().toUpperCase().replace(/-/g, '.');
-}
-
-function compactName(name, max = 20) {
-  const s = String(name || '').trim();
-  if (!s) return '';
-  if (s.length <= max) return s;
-  return `${s.slice(0, Math.max(1, max - 3))}...`;
 }
 
 async function fetchCompanyNames(tickers) {
@@ -122,7 +114,6 @@ async function fetchCompanyNames(tickers) {
 
 (async () => {
   const path = process.argv[2];
-  const maxRows = Math.max(1, Number(process.argv[3] || 8) || 8);
   let doc = {};
   try {
     doc = JSON.parse(fs.readFileSync(path, 'utf8'));
@@ -140,9 +131,6 @@ async function fetchCompanyNames(tickers) {
     return ta.localeCompare(tb);
   });
 
-  const displayed = holdings.slice(0, maxRows);
-  const hiddenCount = Math.max(0, holdings.length - displayed.length);
-
   console.log('```text');
   if (holdings.length === 0) {
     console.log('n/a');
@@ -155,14 +143,11 @@ async function fetchCompanyNames(tickers) {
 
   console.log('% | Ticker | Name | Sector');
   console.log('--- | --- | --- | ---');
-  for (const h of displayed) {
+  for (const h of holdings) {
     const ticker = String(h?.ticker || 'UNKNOWN').trim() || 'UNKNOWN';
     const sector = String(h?.sector || 'UNKNOWN').trim() || 'UNKNOWN';
-    const name = compactName(companyNames[normSymbol(ticker)] || ticker, 20);
+    const name = String(companyNames[normSymbol(ticker)] || ticker).trim() || ticker;
     console.log(`${fmtWeight(h?.weight_pct)} | ${ticker} | ${name} | ${sector}`);
-  }
-  if (hiddenCount > 0) {
-    console.log(`... | ... | ... | +${hiddenCount} more`);
   }
   console.log('```');
 })().catch(() => {
@@ -447,7 +432,7 @@ n/a
         ;;
     esac
 
-    holdings_block="$(format_holdings_table "$output_path" 8)"
+    holdings_block="$(format_holdings_table "$output_path")"
 
     trade_reasoning_summary="$(jq -r '
       [
@@ -624,11 +609,11 @@ n/a
 
   if [[ "$status" != "success" ]]; then
     if output_has_holdings "$output_path"; then
-      holdings_block="$(format_holdings_table "$output_path" 8)"
+      holdings_block="$(format_holdings_table "$output_path")"
       sector_exposure_summary="$(format_sector_exposure_summary "$output_path")"
       holdings_heading="Holdings (latest run output):"
     elif [[ -n "$prev_output_path" && -f "$prev_output_path" ]]; then
-      holdings_block="$(format_holdings_table "$prev_output_path" 8)"
+      holdings_block="$(format_holdings_table "$prev_output_path")"
       sector_exposure_summary="$(format_sector_exposure_summary "$prev_output_path")"
       if [[ -n "$prev_output_date" ]]; then
         holdings_heading="Holdings (last successful run ${prev_output_date}):"
