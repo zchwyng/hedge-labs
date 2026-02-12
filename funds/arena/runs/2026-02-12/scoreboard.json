@@ -10,7 +10,18 @@
       "remove_ticker": "BTC-USD",
       "size_change_pct": 4,
       "constraints_ok": true,
-      "run_path": "funds/fund-a/runs/2026-02-12/openai"
+      "rebalance_actions_count": 0,
+      "rebalance_actions_preview": null,
+      "benchmark_ticker": "ACWI",
+      "benchmark_name": "MSCI ACWI",
+      "fund_return_pct": 0,
+      "benchmark_return_pct": 0,
+      "excess_return_pct": 0,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-a/runs/2026-02-12/openai",
+      "rank": 1,
+      "ranking_score": 0
     },
     {
       "fund_id": "fund-b",
@@ -21,9 +32,24 @@
       "remove_ticker": null,
       "size_change_pct": 15,
       "constraints_ok": true,
-      "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
+      "rebalance_actions_count": 0,
+      "rebalance_actions_preview": null,
+      "benchmark_ticker": "ACWI",
+      "benchmark_name": "MSCI ACWI",
+      "fund_return_pct": 0,
+      "benchmark_return_pct": 0,
+      "excess_return_pct": 0,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-b/runs/2026-02-12/anthropic",
+      "rank": 2,
+      "ranking_score": 0
     }
   ],
+  "ranking": {
+    "method": "independent_performance",
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker."
+  },
   "comparison": {
     "portfolio_overlap_pct": 23.08,
     "turnover_estimate_pct": 63,

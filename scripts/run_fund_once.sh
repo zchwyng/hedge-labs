@@ -29,6 +29,8 @@ target_positions="$(jq -r '.positions // 0' "$config_path")"
 max_position_pct="$(jq -r '.max_position_pct // 0' "$config_path")"
 min_position_pct="$(jq -r '.min_position_pct // 2' "$config_path")"
 max_sector_pct="$(jq -r '.max_sector_pct // 0' "$config_path")"
+max_crypto_pct="$(jq -r '.max_crypto_pct // 10' "$config_path")"
+rebalance_cadence="$(jq -r '.rebalance // "weekly"' "$config_path")"
 if [[ "$expected_provider" != "$provider" ]]; then
   echo "Provider mismatch for ${fund_id}: config=${expected_provider}, arg=${provider}" >&2
   exit 1
@@ -41,9 +43,86 @@ if ! awk -v min="$min_position_pct" -v n="$target_positions" 'BEGIN { exit !((mi
   echo "Invalid min_position_pct for ${fund_id}: min=${min_position_pct} with positions=${target_positions} exceeds 100%" >&2
   exit 1
 fi
+if ! awk -v max_crypto="$max_crypto_pct" 'BEGIN { exit !(max_crypto >= 0 && max_crypto <= 100) }'; then
+  echo "Invalid max_crypto_pct for ${fund_id}: ${max_crypto_pct}" >&2
+  exit 1
+fi
 
 run_dir="${repo_root}/funds/${fund_id}/runs/${run_date}/${provider}"
 mkdir -p "$run_dir"
+
+latest_successful_output_before_run() {
+  local target_fund_id="$1"
+  local target_provider="$2"
+  local target_run_date="$3"
+  local runs_root="${repo_root}/funds/${target_fund_id}/runs"
+  local prev_output=""
+  local prev_date=""
+  local candidate_output=""
+  local candidate_meta=""
+  local candidate_status=""
+
+  if [[ -d "$runs_root" ]]; then
+    while IFS= read -r d; do
+      [[ "$d" < "$target_run_date" ]] || continue
+      candidate_output="${runs_root}/${d}/${target_provider}/dexter_output.json"
+      candidate_meta="${runs_root}/${d}/${target_provider}/run_meta.json"
+      if [[ ! -f "$candidate_output" ]]; then
+        continue
+      fi
+      if [[ -f "$candidate_meta" ]]; then
+        candidate_status="$(jq -r '.status // "failed"' "$candidate_meta")"
+        [[ "$candidate_status" == "success" ]] || continue
+      fi
+      prev_output="$candidate_output"
+      prev_date="$d"
+    done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
+  fi
+
+  printf '%s\t%s\n' "$prev_output" "$prev_date"
+}
+
+days_between_dates() {
+  local from_date="$1"
+  local to_date="$2"
+  node - "$from_date" "$to_date" <<'NODE'
+const fromDate = process.argv[2];
+const toDate = process.argv[3];
+const fromMs = Date.parse(`${fromDate}T00:00:00Z`);
+const toMs = Date.parse(`${toDate}T00:00:00Z`);
+if (!Number.isFinite(fromMs) || !Number.isFinite(toMs) || toMs < fromMs) {
+  process.exit(1);
+}
+const days = Math.floor((toMs - fromMs) / 86400000);
+process.stdout.write(`${days}\n`);
+NODE
+}
+
+minimum_days_between_rebalances() {
+  local cadence="$1"
+  case "$cadence" in
+    daily) printf '1\n' ;;
+    weekly) printf '7\n' ;;
+    monthly) printf '30\n' ;;
+    *) printf '0\n' ;;
+  esac
+}
+
+prev_output_path=""
+prev_output_date=""
+days_since_previous=""
+min_rebalance_days="$(minimum_days_between_rebalances "$rebalance_cadence")"
+rebalance_due=true
+
+IFS=$'\t' read -r prev_output_path prev_output_date < <(latest_successful_output_before_run "$fund_id" "$provider" "$run_date")
+if [[ -n "$prev_output_date" ]]; then
+  if days_candidate="$(days_between_dates "$prev_output_date" "$run_date" 2>/dev/null)"; then
+    days_since_previous="$days_candidate"
+    if [[ "$min_rebalance_days" -gt 0 && "$days_candidate" -lt "$min_rebalance_days" ]]; then
+      rebalance_due=false
+    fi
+  fi
+fi
 
 canonical_prompt="${run_dir}/prompt.txt"
 resolve_path() {
@@ -164,6 +243,31 @@ validate_json_output() {
     (.run_date | type == "string") and
     (.fund_name | type == "string") and
     (.trade_of_the_day | type == "object") and
+    (.rebalance_actions | type == "array") and
+    (
+      all(
+        .rebalance_actions[]?;
+        (.action == "Add" or .action == "Trim" or .action == "Replace" or .action == "Do nothing") and
+        (.size_change_pct | type == "number") and
+        (.size_change_pct >= 0) and
+        (
+          if .action == "Add" then
+            (
+              (.add_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+              ((.remove_ticker // null) == null or (.remove_ticker | type == "string" and length == 0))
+            )
+          elif .action == "Trim" or .action == "Replace" then
+            (
+              (.add_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+              (.remove_ticker | type == "string" and length > 0 and (ascii_upcase != "UNKNOWN")) and
+              ((.remove_ticker | ascii_upcase) != (.add_ticker | ascii_upcase))
+            )
+          else
+            true
+          end
+        )
+      )
+    ) and
     (
       .trade_of_the_day.action == "Add" or
       .trade_of_the_day.action == "Trim" or
@@ -199,7 +303,8 @@ validate_json_output() {
       )
     ) and
     (.constraints_check.max_position_ok == true) and
-    (.constraints_check.max_sector_ok == true)
+    (.constraints_check.max_sector_ok == true) and
+    (.constraints_check.max_crypto_ok == true)
   ' "$input_json" >/dev/null 2>&1; then
     reason="JSON validation failed (schema or risk constraints)"
     return 1
@@ -210,6 +315,7 @@ validate_json_output() {
     --argjson min_position "$min_position_pct" \
     --argjson max_position "$max_position_pct" \
     --argjson max_sector "$max_sector_pct" \
+    --argjson max_crypto "$max_crypto_pct" \
     --argjson disallowed_broad_index_etfs "$disallowed_broad_index_etfs_json" \
     '
       (.target_portfolio | length == $expected_positions) and
@@ -247,9 +353,205 @@ validate_json_output() {
         | group_by(.sector)
         | map(map(.weight_pct) | add)
         | all(. <= ($max_sector + 0.0001))
+      ) and
+      (
+        ([ .target_portfolio[]
+          | select(
+              ((.sector | ascii_upcase) == "CRYPTO")
+              or
+              ((.ticker | ascii_upcase) | test("-(USD|USDT)$"))
+            )
+          | .weight_pct
+        ] | add) as $crypto_weight
+        | (($crypto_weight // 0) <= ($max_crypto + 0.0001))
       )
     ' "$input_json" >/dev/null 2>&1; then
-    reason="Portfolio validation failed (positions, weights, or sector limits)"
+    reason="Portfolio validation failed (positions, weights, sector, or crypto limits)"
+    return 1
+  fi
+
+  return 0
+}
+
+validate_rebalance_policy() {
+  local input_json="$1"
+
+  if [[ -z "${prev_output_path:-}" || ! -f "${prev_output_path}" ]]; then
+    return 0
+  fi
+
+  local policy_error=""
+  if ! policy_error="$(
+    node - "$prev_output_path" "$input_json" "$rebalance_due" <<'NODE'
+const fs = require('node:fs');
+
+const prevPath = process.argv[2];
+const currPath = process.argv[3];
+const rebalanceDue = String(process.argv[4] || '').toLowerCase() === 'true';
+const tolerance = 0.01;
+
+function readJson(path) {
+  return JSON.parse(fs.readFileSync(path, 'utf8'));
+}
+
+function asMap(portfolio) {
+  const map = new Map();
+  for (const item of portfolio || []) {
+    if (!item || typeof item.ticker !== 'string') continue;
+    const ticker = item.ticker.trim().toUpperCase();
+    const weight = Number(item.weight_pct || 0);
+    if (!ticker || !Number.isFinite(weight)) continue;
+    map.set(ticker, weight);
+  }
+  return map;
+}
+
+function getWeight(map, ticker) {
+  if (!ticker) return 0;
+  return map.get(ticker) ?? 0;
+}
+
+function approxEqual(a, b) {
+  return Math.abs(a - b) <= tolerance;
+}
+
+function fail(message) {
+  process.stdout.write(`${message}\n`);
+  process.exit(1);
+}
+
+let prev;
+let curr;
+try {
+  prev = readJson(prevPath);
+  curr = readJson(currPath);
+} catch {
+  fail('Failed to parse portfolio state for rebalance policy validation.');
+}
+
+const prevMap = asMap(prev?.target_portfolio || []);
+const currMap = asMap(curr?.target_portfolio || []);
+const keys = [...new Set([...prevMap.keys(), ...currMap.keys()])];
+const changedTickers = keys.filter((ticker) => !approxEqual(getWeight(prevMap, ticker), getWeight(currMap, ticker)));
+const samePortfolio = changedTickers.length === 0;
+
+const action = String(curr?.trade_of_the_day?.action || '').trim();
+const addTicker = String(curr?.trade_of_the_day?.add_ticker || '').trim().toUpperCase();
+const removeTicker = String(curr?.trade_of_the_day?.remove_ticker || '').trim().toUpperCase();
+const rebalanceActions = Array.isArray(curr?.rebalance_actions) ? curr.rebalance_actions : [];
+const actionfulRebalanceActions = rebalanceActions.filter(
+  (a) => String(a?.action || '').trim() !== 'Do nothing'
+);
+const deltaByTicker = new Map(
+  keys.map((ticker) => [ticker, getWeight(currMap, ticker) - getWeight(prevMap, ticker)])
+);
+
+function increased(ticker) {
+  return (deltaByTicker.get(String(ticker || '').toUpperCase()) || 0) > tolerance;
+}
+
+function decreased(ticker) {
+  return (deltaByTicker.get(String(ticker || '').toUpperCase()) || 0) < -tolerance;
+}
+
+if (!rebalanceDue) {
+  if (action !== 'Do nothing') {
+    fail('Rebalance cadence not due yet: action must be "Do nothing".');
+  }
+  if (!samePortfolio) {
+    fail('Rebalance cadence not due yet: target_portfolio must remain unchanged.');
+  }
+  if (actionfulRebalanceActions.length > 0) {
+    fail('Rebalance cadence not due yet: rebalance_actions must be empty (or only "Do nothing").');
+  }
+  process.exit(0);
+}
+
+if (action === 'Do nothing') {
+  if (!samePortfolio) {
+    fail('Action "Do nothing" requires an unchanged target_portfolio.');
+  }
+  if (actionfulRebalanceActions.length > 0) {
+    fail('When headline action is "Do nothing", rebalance_actions cannot include active trades.');
+  }
+  process.exit(0);
+}
+
+if (samePortfolio) {
+  fail(`Action "${action}" requires at least one portfolio weight change.`);
+}
+
+if (actionfulRebalanceActions.length === 0) {
+  fail('Rebalance due today with portfolio changes: rebalance_actions must include at least one active action.');
+}
+
+if (action === 'Add') {
+  if (!addTicker) {
+    fail('Action "Add" requires add_ticker.');
+  }
+  if (removeTicker) {
+    fail('Action "Add" must not set remove_ticker.');
+  }
+  if (!increased(addTicker)) {
+    fail('Action "Add" requires add_ticker weight to increase vs prior portfolio.');
+  }
+  process.exit(0);
+}
+
+if (action === 'Trim') {
+  if (!addTicker || !removeTicker) {
+    fail('Action "Trim" requires both add_ticker and remove_ticker.');
+  }
+  if (!decreased(removeTicker)) {
+    fail('Action "Trim" requires remove_ticker weight to decrease vs prior portfolio.');
+  }
+  if (!increased(addTicker)) {
+    fail('Action "Trim" requires add_ticker weight to increase vs prior portfolio.');
+  }
+}
+
+if (action === 'Replace') {
+  if (!addTicker || !removeTicker) {
+    fail('Action "Replace" requires both add_ticker and remove_ticker.');
+  }
+  if (!decreased(removeTicker)) {
+    fail('Action "Replace" requires remove_ticker weight to decrease vs prior portfolio.');
+  }
+  if (!increased(addTicker)) {
+    fail('Action "Replace" requires add_ticker weight to increase vs prior portfolio.');
+  }
+}
+
+for (const rawAction of actionfulRebalanceActions) {
+  const actionType = String(rawAction?.action || '').trim();
+  const actionAdd = String(rawAction?.add_ticker || '').trim().toUpperCase();
+  const actionRemove = String(rawAction?.remove_ticker || '').trim().toUpperCase();
+  if (actionType === 'Add') {
+    if (!actionAdd || !increased(actionAdd)) {
+      fail(`rebalance_actions Add is not reflected in portfolio deltas for ticker ${actionAdd || 'UNKNOWN'}.`);
+    }
+    continue;
+  }
+  if (actionType === 'Trim' || actionType === 'Replace') {
+    if (!actionAdd || !actionRemove) {
+      fail(`rebalance_actions ${actionType} requires add_ticker and remove_ticker.`);
+    }
+    if (!decreased(actionRemove)) {
+      fail(`rebalance_actions ${actionType} requires remove_ticker ${actionRemove} to decrease vs prior portfolio.`);
+    }
+    if (!increased(actionAdd)) {
+      fail(`rebalance_actions ${actionType} requires add_ticker ${actionAdd} to increase vs prior portfolio.`);
+    }
+    continue;
+  }
+}
+
+if (action !== 'Add' && action !== 'Trim' && action !== 'Replace') {
+  fail(`Unsupported trade_of_the_day.action for rebalance policy validation: "${action}"`);
+}
+NODE
+  )"; then
+    reason="Rebalance policy validation failed: ${policy_error:-Unknown policy violation}"
     return 1
   fi
 
@@ -435,6 +737,7 @@ for (let i = 0; i < portfolio.length; i += 1) {
 doc.constraints_check = {
   max_position_ok: true,
   max_sector_ok: true,
+  max_crypto_ok: true,
   notes: "Weights were deterministically rebalanced to satisfy position and sector constraints."
 };
 
@@ -447,7 +750,7 @@ attempt_rebalance_if_needed() {
     return 1
   fi
 
-  if [[ "$reason" != "Portfolio validation failed (positions, weights, or sector limits)" ]]; then
+  if [[ "$reason" != "Portfolio validation failed (positions, weights, sector, or crypto limits)" ]]; then
     return 1
   fi
 
@@ -460,6 +763,9 @@ attempt_rebalance_if_needed() {
   fi
 
   if ! validate_json_output "$json_path"; then
+    return 1
+  fi
+  if ! validate_rebalance_policy "$json_path"; then
     return 1
   fi
 
@@ -525,15 +831,23 @@ run_dexter_attempt() {
     status="failed"
     return
   fi
+  if ! validate_rebalance_policy "$json_path"; then
+    status="failed"
+    return
+  fi
 }
 
 run_dexter_attempt "$canonical_prompt"
 attempt_rebalance_if_needed || true
 
-if [[ "$status" == "failed" && ( "$reason" == "JSON validation failed (schema or risk constraints)" || "$reason" == "Portfolio validation failed (positions, weights, or sector limits)" || "$reason" == "stdout did not contain a valid JSON object" ) ]]; then
+if [[ "$status" == "failed" && ( "$reason" == "JSON validation failed (schema or risk constraints)" || "$reason" == "Portfolio validation failed (positions, weights, sector, or crypto limits)" || "$reason" == "stdout did not contain a valid JSON object" || "$reason" == Rebalance\ policy\ validation\ failed:* ) ]]; then
   retry_used=true
   retry_prompt="${run_dir}/prompt.retry.txt"
   previous_output="$(cat "$json_path" 2>/dev/null || echo '{}')"
+  previous_portfolio_for_retry='[]'
+  if [[ -n "${prev_output_path:-}" && -f "${prev_output_path}" ]]; then
+    previous_portfolio_for_retry="$(jq -c '.target_portfolio // []' "$prev_output_path")"
+  fi
   cat > "$retry_prompt" <<EOF
 Your previous response failed deterministic validation. Fix it and return ONLY one valid JSON object.
 
@@ -544,12 +858,19 @@ Validation requirements:
 - Each weight_pct must be >= ${min_position_pct} and <= ${max_position_pct}.
 - Total weight must be 100% (acceptable range 99.5-100.5).
 - Any single sector total must be <= ${max_sector_pct}.
+- Crypto exposure must be <= ${max_crypto_pct}%.
 - If action is "Trim", both remove_ticker and add_ticker are required (paired reallocation).
 - If action is "Replace", both remove_ticker and add_ticker are required.
-- constraints_check.max_position_ok and constraints_check.max_sector_ok must both be true and consistent with your portfolio.
+- \`rebalance_actions\` must be an array and include the full action set for this run (empty only when no rebalance activity).
+- constraints_check.max_position_ok, constraints_check.max_sector_ok, and constraints_check.max_crypto_ok must all be true and consistent with your portfolio.
+- Rebalance cadence: ${rebalance_cadence}. Rebalance due today: ${rebalance_due}. Minimum spacing: ${min_rebalance_days} days.
+- If rebalance is not due, action must be "Do nothing" and target_portfolio must exactly match the prior portfolio.
 
 Previous failure reason:
 ${reason}
+
+Prior portfolio (previous successful run):
+${previous_portfolio_for_retry}
 
 Previous invalid output:
 ${previous_output}
@@ -591,7 +912,8 @@ copy_latest_scratchpad_since_start() {
   fi
 }
 
-count_fd_calls_since_start() {
+count_fd_tool_calls_since_start() {
+  local required_tool="$1"
   local total=0
   local count=0
   local scratch=""
@@ -603,8 +925,56 @@ count_fd_calls_since_start() {
     count="$(
       {
         jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratch" 2>/dev/null \
-          | grep -E '^(financial_search|financial_metrics)$' || true
+          | grep -E "^${required_tool}$" || true
       } | wc -l | tr -d ' '
+    )"
+    if [[ "$count" =~ ^[0-9]+$ ]]; then
+      total=$((total + count))
+    fi
+  done
+  printf '%s\n' "$total"
+}
+
+count_fd_source_urls_since_start() {
+  local total=0
+  local count=0
+  local scratch=""
+  local mtime=0
+  for scratch in "$scratchpad_dir"/*.jsonl; do
+    [[ -e "$scratch" ]] || continue
+    mtime="$(scratchpad_mtime "$scratch")"
+    [[ "$mtime" -ge "$start_epoch" ]] || continue
+    count="$(
+      jq -r '
+        [ select(.type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics")))
+          | (.result.sourceUrls // [])
+          | length
+        ] | add // 0
+      ' "$scratch" 2>/dev/null || echo 0
+    )"
+    if [[ "$count" =~ ^[0-9]+$ ]]; then
+      total=$((total + count))
+    fi
+  done
+  printf '%s\n' "$total"
+}
+
+count_fd_errors_since_start() {
+  local total=0
+  local count=0
+  local scratch=""
+  local mtime=0
+  for scratch in "$scratchpad_dir"/*.jsonl; do
+    [[ -e "$scratch" ]] || continue
+    mtime="$(scratchpad_mtime "$scratch")"
+    [[ "$mtime" -ge "$start_epoch" ]] || continue
+    count="$(
+      jq -r '
+        [ select(.type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics")))
+          | (.result.data._errors // [])
+          | length
+        ] | add // 0
+      ' "$scratch" 2>/dev/null || echo 0
     )"
     if [[ "$count" =~ ^[0-9]+$ ]]; then
       total=$((total + count))
@@ -620,8 +990,9 @@ if [[ "$status" == "success" ]]; then
     status="failed"
     reason="Dexter scratchpad file was not produced"
   else
-    fd_calls="$(count_fd_calls_since_start)"
-    if [[ "$fd_calls" == "0" ]]; then
+    fd_search_calls="$(count_fd_tool_calls_since_start "financial_search")"
+    fd_metrics_calls="$(count_fd_tool_calls_since_start "financial_metrics")"
+    if [[ "$fd_search_calls" == "0" || "$fd_metrics_calls" == "0" ]]; then
       tool_retry_prompt="${run_dir}/prompt.tools.retry.txt"
       cat > "$tool_retry_prompt" <<EOF
 Tool-use requirement was not met in your previous response.
@@ -630,6 +1001,8 @@ Before finalizing your JSON:
 1) Call \`financial_search\` at least once to gather verifiable market/news/company context.
 2) Call \`financial_metrics\` at least once to validate key financial/valuation metrics for your chosen holdings.
 3) Then return ONLY one valid JSON object matching all assignment constraints.
+4) Ensure data quality: provide enough successful source coverage and avoid unresolved API-error-heavy output.
+5) If rebalance is due, provide full action list in \`rebalance_actions\`; if not due, set \`rebalance_actions\` to [].
 
 Failure to call both required tools is treated as a failed run.
 
@@ -652,10 +1025,24 @@ if [[ "$status" == "success" ]]; then
     status="failed"
     reason="Dexter scratchpad file was not produced"
   else
-    fd_calls="$(count_fd_calls_since_start)"
-    if [[ "$fd_calls" == "0" ]]; then
+    fd_search_calls="$(count_fd_tool_calls_since_start "financial_search")"
+    fd_metrics_calls="$(count_fd_tool_calls_since_start "financial_metrics")"
+    if [[ "$fd_search_calls" == "0" || "$fd_metrics_calls" == "0" ]]; then
       status="failed"
-      reason="Dexter did not call Financial Datasets tools (financial_search/financial_metrics)"
+      reason="Dexter did not call both required Financial Datasets tools (financial_search and financial_metrics)"
+    else
+      fd_source_urls="$(count_fd_source_urls_since_start)"
+      fd_errors="$(count_fd_errors_since_start)"
+      fd_min_source_urls="${FD_MIN_SOURCE_URLS:-6}"
+      fd_max_error_ratio="${FD_MAX_ERROR_RATIO:-0.35}"
+      fd_error_ratio="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { d=e+s; if (d <= 0) printf "1.000000"; else printf "%.6f", (e/d) }')"
+      if awk -v s="$fd_source_urls" -v min="$fd_min_source_urls" 'BEGIN { exit !(s < min) }'; then
+        status="failed"
+        reason="Insufficient Financial Datasets source coverage (${fd_source_urls} successful source URLs; required >= ${fd_min_source_urls})"
+      elif awk -v r="$fd_error_ratio" -v max="$fd_max_error_ratio" 'BEGIN { exit !(r > max) }'; then
+        status="failed"
+        reason="Financial Datasets error ratio too high (ratio=${fd_error_ratio}, errors=${fd_errors}, sources=${fd_source_urls}, max=${fd_max_error_ratio})"
+      fi
     fi
   fi
 fi

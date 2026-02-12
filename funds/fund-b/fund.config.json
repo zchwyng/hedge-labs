@@ -12,6 +12,7 @@
   "min_position_pct": 2,
   "max_position_pct": 40,
   "max_sector_pct": 80,
+  "max_crypto_pct": 10,
   "rebalance": "weekly",
   "paper_only": true
 }

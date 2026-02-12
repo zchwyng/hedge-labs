@@ -2,6 +2,8 @@
 
 Paper-only fund arena using the real [virattt/dexter](https://github.com/virattt/dexter) agent runtime.
 
+Lanes operate as **stateful rebalance engines**: each run references the previous successful portfolio for that lane, injects a 7-day aggregated context summary, and enforces cadence-aware rebalance behavior.
+
 ## What runs daily
 
 - `fund-a` lane using OpenAI model from `funds/fund-a/fund.config.json`
@@ -37,7 +39,8 @@ A lane is marked failed if:
 
 - Dexter output is invalid JSON, or
 - Dexter scratchpad is missing, or
-- Dexter did not call `financial_search` or `financial_metrics`
+- Dexter did not call both `financial_search` and `financial_metrics`, or
+- Financial Datasets source coverage is too low / error ratio is too high
 
 This enforces actual Financial Datasets tool usage in successful runs.
 

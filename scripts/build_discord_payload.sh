@@ -192,6 +192,41 @@ format_sector_exposure_summary() {
   ' "$json_path"
 }
 
+format_market_summary_block() {
+  local json_path="$1"
+  jq -r '
+    (.market_summary // [])
+    | map(select(type == "string" and length > 0))
+    | if length == 0 then
+        ""
+      else
+        map("  • " + .) | join("\n")
+      end
+  ' "$json_path" 2>/dev/null || true
+}
+
+format_thesis_damage_block() {
+  local json_path="$1"
+  jq -r '
+    (.thesis_damage_flags // [])
+    | map(select(type == "object"))
+    | map(
+        (.ticker // "UNKNOWN") as $t
+        | (.why // "")
+        | if (type == "string" and length > 0) then
+            "  • " + $t + ": " + .
+          else
+            empty
+          end
+      )
+    | if length == 0 then
+        ""
+      else
+        join("\n")
+      end
+  ' "$json_path" 2>/dev/null || true
+}
+
 latest_successful_output_before_run() {
   local fund_id="$1"
   local provider="$2"
@@ -333,6 +368,9 @@ while IFS= read -r lane; do
   benchmark_display="n/a"
   trade_reasoning_summary="n/a"
   risk_snippet="n/a"
+  market_news_block=""
+  thesis_damage_block=""
+  rebalance_actions_summary="n/a"
   holdings_block='```text
 n/a
 ```'
@@ -399,6 +437,11 @@ n/a
         else map("  • " + .) | join("\n")
         end
     ' "$meta_path")"
+  fi
+
+  if [[ -f "$output_path" ]]; then
+    market_news_block="$(format_market_summary_block "$output_path")"
+    thesis_damage_block="$(format_thesis_damage_block "$output_path")"
   fi
 
   if [[ "$status" == "success" && -f "$output_path" ]]; then
@@ -480,6 +523,27 @@ n/a
     if [[ -z "$risk_snippet" ]]; then
       risk_snippet="n/a"
     fi
+    rebalance_actions_summary="$(jq -r '
+      (.rebalance_actions // [])
+      | map(
+          .action as $a
+          | .size_change_pct as $s
+          | .remove_ticker as $r
+          | .add_ticker as $ad
+          | if $a == "Do nothing" then
+              "Do nothing"
+            elif $a == "Add" then
+              ("Add " + ($ad // "?") + " (" + (($s // 0) | tostring) + "%)")
+            elif $a == "Trim" then
+              ("Trim " + ($r // "?") + "→" + ($ad // "?") + " (" + (($s // 0) | tostring) + "%)")
+            elif $a == "Replace" then
+              ("Replace " + ($r // "?") + "→" + ($ad // "?") + " (" + (($s // 0) | tostring) + "%)")
+            else
+              (($a // "UNKNOWN") + " (" + (($s // 0) | tostring) + "%)")
+            end
+        )
+      | if length == 0 then "n/a" else join("; ") end
+    ' "$output_path")"
 
     perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" "$benchmark_ticker" "$benchmark_label" 2>/dev/null || echo '{}')"
 
@@ -688,6 +752,22 @@ n/a
   fi
   lane_sections+=$'\n'
   lane_sections+="- Today: ${action_summary}"
+  if [[ "$rebalance_actions_summary" != "n/a" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- Rebalance actions: ${rebalance_actions_summary}"
+  fi
+  if [[ -n "$market_news_block" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- Market News (from dexter output):"
+    lane_sections+=$'\n'
+    lane_sections+="$market_news_block"
+  fi
+  if [[ -n "$thesis_damage_block" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- Thesis Damage Flags:"
+    lane_sections+=$'\n'
+    lane_sections+="$thesis_damage_block"
+  fi
   if [[ "$trade_reasoning_summary" != "n/a" ]]; then
     lane_sections+=$'\n'
     lane_sections+="- ${trade_reasoning_summary}"

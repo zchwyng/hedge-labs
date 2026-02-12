@@ -38,6 +38,15 @@ for fund_dir in "${fund_dirs[@]}"; do
   remove_ticker=""
   size_change_pct=0
   constraints_ok=false
+  rebalance_actions_count=0
+  rebalance_actions_preview=""
+  fund_return_pct='null'
+  benchmark_return_pct='null'
+  excess_return_pct='null'
+  performance_coverage_pct=0
+  benchmark_coverage_pct=0
+  benchmark_ticker=""
+  benchmark_name=""
 
   if [[ -f "$meta_path" ]]; then
     status="$(jq -r '.status // "failed"' "$meta_path")"
@@ -48,7 +57,38 @@ for fund_dir in "${fund_dirs[@]}"; do
     add_ticker="$(jq -r '.trade_of_the_day.add_ticker // empty' "$output_path")"
     remove_ticker="$(jq -r '.trade_of_the_day.remove_ticker // empty' "$output_path")"
     size_change_pct="$(jq -r '.trade_of_the_day.size_change_pct // 0' "$output_path")"
-    constraints_ok="$(jq -r '((.constraints_check.max_position_ok // false) and (.constraints_check.max_sector_ok // false))' "$output_path")"
+    constraints_ok="$(jq -r '((.constraints_check.max_position_ok // false) and (.constraints_check.max_sector_ok // false) and (.constraints_check.max_crypto_ok // true))' "$output_path")"
+    rebalance_actions_count="$(jq -r '(.rebalance_actions // []) | length' "$output_path")"
+    rebalance_actions_preview="$(jq -r '
+      (.rebalance_actions // [])
+      | map(
+          .action as $a
+          | .remove_ticker as $r
+          | .add_ticker as $ad
+          | if $a == "Do nothing" then
+              "Do nothing"
+            elif $a == "Add" then
+              ("Add " + ($ad // "?"))
+            elif $a == "Trim" then
+              ("Trim " + ($r // "?") + "->" + ($ad // "?"))
+            elif $a == "Replace" then
+              ("Replace " + ($r // "?") + "->" + ($ad // "?"))
+            else
+              ($a // "UNKNOWN")
+            end
+        )
+      | .[:4]
+      | join(", ")
+    ' "$output_path")"
+
+    benchmark_ticker="$(jq -r '.benchmark.ticker // .benchmark_ticker // empty' "$config_path")"
+    benchmark_name="$(jq -r '.benchmark.name // .benchmark_label // empty' "$config_path")"
+    perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" "$benchmark_ticker" "$benchmark_name" 2>/dev/null || echo '{}')"
+    fund_return_pct="$(jq -c '.fund_return_pct // null' <<<"$perf_json")"
+    benchmark_return_pct="$(jq -c '.benchmark_return_pct // null' <<<"$perf_json")"
+    excess_return_pct="$(jq -c '.excess_return_pct // null' <<<"$perf_json")"
+    performance_coverage_pct="$(jq -r '.covered_weight_pct // 0' <<<"$perf_json")"
+    benchmark_coverage_pct="$(jq -r '.benchmark_covered_weight_pct // 0' <<<"$perf_json")"
   fi
 
   jq -n \
@@ -58,9 +98,18 @@ for fund_dir in "${fund_dirs[@]}"; do
     --arg action "$action" \
     --arg add_ticker "$add_ticker" \
     --arg remove_ticker "$remove_ticker" \
+    --arg benchmark_ticker "$benchmark_ticker" \
+    --arg benchmark_name "$benchmark_name" \
+    --arg rebalance_actions_preview "$rebalance_actions_preview" \
     --arg run_path "$run_path" \
     --argjson size_change_pct "$size_change_pct" \
     --argjson constraints_ok "$constraints_ok" \
+    --argjson rebalance_actions_count "$rebalance_actions_count" \
+    --argjson fund_return_pct "$fund_return_pct" \
+    --argjson benchmark_return_pct "$benchmark_return_pct" \
+    --argjson excess_return_pct "$excess_return_pct" \
+    --argjson performance_coverage_pct "$performance_coverage_pct" \
+    --argjson benchmark_coverage_pct "$benchmark_coverage_pct" \
     '{
       fund_id: $fund_id,
       provider: $provider,
@@ -70,11 +119,49 @@ for fund_dir in "${fund_dirs[@]}"; do
       remove_ticker: (if $remove_ticker == "" then null else $remove_ticker end),
       size_change_pct: $size_change_pct,
       constraints_ok: $constraints_ok,
+      rebalance_actions_count: $rebalance_actions_count,
+      rebalance_actions_preview: (if $rebalance_actions_preview == "" then null else $rebalance_actions_preview end),
+      benchmark_ticker: (if $benchmark_ticker == "" then null else $benchmark_ticker end),
+      benchmark_name: (if $benchmark_name == "" then null else $benchmark_name end),
+      fund_return_pct: $fund_return_pct,
+      benchmark_return_pct: $benchmark_return_pct,
+      excess_return_pct: $excess_return_pct,
+      performance_coverage_pct: $performance_coverage_pct,
+      benchmark_coverage_pct: $benchmark_coverage_pct,
       run_path: $run_path
     }' >> "$lanes_tmp"
 done
 
 lanes_json="$(jq -s '.' "$lanes_tmp")"
+lanes_json="$(printf '%s' "$lanes_json" | jq '
+  def perf_score: (.excess_return_pct // .fund_return_pct // -1000000);
+  sort_by(
+    (if .status == "success" then 0 else 1 end),
+    -(perf_score),
+    -(.performance_coverage_pct // 0),
+    .fund_id,
+    .provider
+  )
+  | to_entries
+  | map(
+      .value + {
+        rank: (.key + 1),
+        ranking_score: (
+          if .value.status == "success"
+          then (.value.excess_return_pct // .value.fund_return_pct)
+          else null
+          end
+        )
+      }
+    )
+')"
+ranking_notes="$(printf '%s' "$lanes_json" | jq -r '
+  if ([.[] | select(.status == "success")] | length) == 0 then
+    "No successful lanes to rank."
+  else
+    "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker."
+  end
+')"
 
 success_paths=()
 while IFS= read -r success_path; do
@@ -127,10 +214,15 @@ jq -n \
   --argjson lanes "$lanes_json" \
   --argjson overlap "$overlap_pct" \
   --argjson turnover "$turnover_pct" \
+  --arg ranking_notes "$ranking_notes" \
   --arg notes "$comparison_notes" \
   '{
     run_date: $run_date,
     lanes: $lanes,
+    ranking: {
+      method: "independent_performance",
+      notes: $ranking_notes
+    },
     comparison: {
       portfolio_overlap_pct: $overlap,
       turnover_estimate_pct: $turnover,
@@ -141,9 +233,15 @@ jq -n \
 {
   echo "# Fund Arena Scoreboard (${run_date})"
   echo
-  echo "| Lane | Status | Action | Change | Constraints |"
-  echo "|---|---|---|---|---|"
+  echo "| Rank | Lane | Status | Action | Rebalance Actions | Change | Constraints | Fund Return | Excess vs Benchmark |"
+  echo "|---|---|---|---|---|---|---|---|---|"
   jq -r '.lanes[] |
+    def fmt_pct($v):
+      if $v == null then
+        "-"
+      else
+        ((if $v > 0 then "+" else "" end) + (((($v * 100) | round) / 100) | tostring) + "%")
+      end;
     . as $lane |
     ($lane.fund_id + "/" + $lane.provider) as $lane_name |
     (if $lane.add_ticker != null or $lane.remove_ticker != null
@@ -151,13 +249,18 @@ jq -n \
       else "-"
     end) as $change |
     [
+      ($lane.rank | tostring),
       $lane_name,
       $lane.status,
       $lane.action,
+      (($lane.rebalance_actions_count | tostring) + (if $lane.rebalance_actions_preview != null then " (" + $lane.rebalance_actions_preview + ")" else "" end)),
       $change,
-      (if $lane.constraints_ok then "OK" else "FAIL" end)
+      (if $lane.constraints_ok then "OK" else "FAIL" end),
+      fmt_pct($lane.fund_return_pct),
+      fmt_pct($lane.excess_return_pct)
     ] | "| " + join(" | ") + " |"' "$scoreboard_json_path"
   echo
+  echo "- Ranking: $(jq -r '.ranking.notes' "$scoreboard_json_path")"
   echo "- Portfolio overlap: $(jq -r '.comparison.portfolio_overlap_pct' "$scoreboard_json_path")%"
   echo "- Turnover estimate: $(jq -r '.comparison.turnover_estimate_pct' "$scoreboard_json_path")%"
   echo "- Notes: $(jq -r '.comparison.notes' "$scoreboard_json_path")"
