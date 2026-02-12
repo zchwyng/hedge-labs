@@ -233,31 +233,89 @@ function requireEnv(name) {
 async function runOpenAI({ model, prompt }) {
   const apiKey = requireEnv("OPENAI_API_KEY");
 
-  const payload = {
-    model,
-    temperature: 0,
-    response_format: { type: "json_object" },
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a paper-only investment research assistant. Return exactly one JSON object and no extra text."
-      },
-      {
-        role: "user",
-        content: prompt
-      }
-    ]
+  const baseHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${apiKey}`
   };
 
-  const data = await fetchJsonWithTimeout("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
-    },
-    body: JSON.stringify(payload)
-  });
+  async function callChatCompletions(requestModel) {
+    const payload = {
+      model: requestModel,
+      temperature: 0,
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a paper-only investment research assistant. Return exactly one JSON object and no extra text."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    };
+
+    return fetchJsonWithTimeout("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: baseHeaders,
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async function listAvailableModelIds() {
+    const data = await fetchJsonWithTimeout("https://api.openai.com/v1/models", {
+      method: "GET",
+      headers: baseHeaders
+    });
+    if (!Array.isArray(data?.data)) {
+      return [];
+    }
+    return data.data
+      .map((item) => item?.id)
+      .filter((id) => typeof id === "string" && id.length > 0);
+  }
+
+  let data;
+  let modelUsed = model;
+  try {
+    data = await callChatCompletions(model);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    const lower = message.toLowerCase();
+    const isModelError =
+      lower.includes("model") &&
+      (lower.includes("http 404") ||
+        lower.includes("does not exist") ||
+        lower.includes("not found") ||
+        lower.includes("not available") ||
+        lower.includes("unsupported"));
+    if (!isModelError) {
+      throw error;
+    }
+
+    const available = await listAvailableModelIds();
+    const availableSet = new Set(available);
+    const preferredOrder = [
+      "gpt-5.2",
+      "gpt-5.2-pro",
+      "gpt-5.1",
+      "gpt-5",
+      "gpt-4.1",
+      "gpt-4o"
+    ];
+
+    let fallbackModel = preferredOrder.find((candidate) => availableSet.has(candidate) && candidate !== model);
+    if (!fallbackModel) {
+      fallbackModel = available.find((candidate) => candidate !== model);
+    }
+    if (!fallbackModel) {
+      throw error;
+    }
+
+    data = await callChatCompletions(fallbackModel);
+    modelUsed = fallbackModel;
+  }
 
   const content = data?.choices?.[0]?.message?.content;
   if (typeof content !== "string" || !content.trim()) {
@@ -266,7 +324,7 @@ async function runOpenAI({ model, prompt }) {
 
   return {
     output: extractJsonObject(content),
-    modelUsed: model
+    modelUsed
   };
 }
 
@@ -327,10 +385,13 @@ async function runAnthropic({ model, prompt }) {
     const available = await listAvailableModelIds();
     const availableSet = new Set(available);
     const preferredOrder = [
+      "claude-opus-4-5",
+      "claude-opus-4-5-20251101",
+      "claude-opus-4-1",
+      "claude-opus-4-1-20250805",
       "claude-sonnet-4-5",
+      "claude-sonnet-4-5-20250929",
       "claude-sonnet-4-0",
-      "claude-3-7-sonnet-latest",
-      "claude-3-7-sonnet-20250219",
       "claude-3-5-sonnet-latest",
       "claude-3-5-sonnet-20241022",
       "claude-3-5-haiku-latest",
