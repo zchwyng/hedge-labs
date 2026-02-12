@@ -17,8 +17,27 @@ function dateFromTs(ts) {
   return new Date(ts * 1000).toISOString().slice(0, 10);
 }
 
-function emptyResult(benchmarkTicker = '', benchmarkName = '') {
+function isDateStr(s) {
+  return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
+
+function dateMs(dateStr) {
+  const ms = Date.parse(`${dateStr}T00:00:00Z`);
+  return Number.isFinite(ms) ? ms : null;
+}
+
+function emptyResult({
+  benchmarkTicker = '',
+  benchmarkName = '',
+  inceptionDate = null,
+  asofPortfolioDate = null,
+  asofPriceDate = null
+} = {}) {
   return {
+    performance_method: 'nav_since_start',
+    inception_date: inceptionDate,
+    asof_portfolio_date: asofPortfolioDate,
+    asof_price_date: asofPriceDate,
     fund_return_pct: null,
     covered_weight_pct: 0,
     benchmark_ticker: benchmarkTicker || null,
@@ -30,31 +49,47 @@ function emptyResult(benchmarkTicker = '', benchmarkName = '') {
   };
 }
 
-async function fetchSinceReturn(ticker, sinceDate) {
-  const sinceMs = Date.parse(`${sinceDate}T00:00:00Z`);
-  if (!Number.isFinite(sinceMs)) {
-    return null;
+function upperBound(arr, target) {
+  let lo = 0;
+  let hi = arr.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (arr[mid] <= target) lo = mid + 1;
+    else hi = mid;
   }
+  return lo;
+}
 
-  const period1 = Math.floor(sinceMs / 1000) - (3 * 86400);
-  const period2 = Math.floor(Date.now() / 1000);
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&period1=${period1}&period2=${period2}`;
+function closeOnOrBefore(chart, targetDate) {
+  if (!chart || !Array.isArray(chart.dates) || !Array.isArray(chart.closes) || chart.dates.length === 0) return null;
+  const idx = upperBound(chart.dates, targetDate) - 1;
+  if (idx < 0) return null;
+  const close = chart.closes[idx];
+  if (!Number.isFinite(close) || close <= 0) return null;
+  return { date: chart.dates[idx], close };
+}
 
+function symbolAliases(raw) {
+  const t = String(raw || '').trim();
+  if (!t) return [];
+  const out = [t];
+  if (t.includes('.')) out.push(t.replace(/\./g, '-'));
+  if (t.includes('-')) out.push(t.replace(/-/g, '.'));
+  return [...new Set(out)];
+}
+
+async function fetchYahooChart(symbol, period1, period2) {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&period1=${period1}&period2=${period2}`;
   try {
     const res = await fetch(url, {
       headers: {
         'User-Agent': 'hedge-labs-fund-arena/1.0'
       }
     });
-    if (!res.ok) {
-      return null;
-    }
-
+    if (!res.ok) return null;
     const data = await res.json();
     const result = data?.chart?.result?.[0];
-    if (!result) {
-      return null;
-    }
+    if (!result) return null;
 
     const timestamps = result.timestamp || [];
     const closes =
@@ -62,149 +97,252 @@ async function fetchSinceReturn(ticker, sinceDate) {
       result?.indicators?.quote?.[0]?.close ||
       [];
 
-    if (!timestamps.length || !closes.length) {
+    if (!Array.isArray(timestamps) || !Array.isArray(closes) || timestamps.length === 0 || closes.length === 0) {
       return null;
     }
 
-    let entryClose = null;
-    let entryDateUsed = sinceDate;
-    let latestClose = null;
-
-    for (let i = 0; i < timestamps.length; i += 1) {
+    const dates = [];
+    const cleanCloses = [];
+    for (let i = 0; i < Math.min(timestamps.length, closes.length); i += 1) {
+      const ts = timestamps[i];
       const close = closes[i];
       if (close == null) continue;
-
-      const d = dateFromTs(timestamps[i]);
-      if (entryClose == null && d >= sinceDate) {
-        entryClose = Number(close);
-        entryDateUsed = d;
-      }
-      latestClose = Number(close);
+      const n = Number(close);
+      if (!Number.isFinite(n) || n <= 0) continue;
+      const d = dateFromTs(ts);
+      if (!isDateStr(d)) continue;
+      dates.push(d);
+      cleanCloses.push(n);
     }
+    if (dates.length === 0) return null;
 
-    if (entryClose == null || latestClose == null || entryClose <= 0) {
-      return null;
-    }
-
-    return {
-      since_date: entryDateUsed,
-      return_pct: asPct(((latestClose / entryClose) - 1) * 100)
-    };
+    return { symbol, dates, closes: cleanCloses };
   } catch {
     return null;
   }
 }
 
-async function main() {
-  const [fundId, provider, runDate, benchmarkTickerArg = '', benchmarkNameArg = ''] = process.argv.slice(2);
-  const benchmarkTicker = benchmarkTickerArg.trim();
-  const benchmarkName = benchmarkNameArg.trim() || benchmarkTicker;
-  if (!fundId || !provider || !runDate) {
-    console.log(JSON.stringify(emptyResult(benchmarkTicker, benchmarkName)));
-    return;
-  }
+async function mapWithConcurrency(items, limit, mapper) {
+  const results = new Array(items.length);
+  let index = 0;
 
-  const latestPath = join('funds', fundId, 'runs', runDate, provider, 'dexter_output.json');
-  if (!existsSync(latestPath)) {
-    console.log(JSON.stringify(emptyResult(benchmarkTicker, benchmarkName)));
-    return;
-  }
-
-  const latest = parseJson(latestPath);
-  const holdings = latest?.target_portfolio || [];
-  if (!Array.isArray(holdings) || holdings.length === 0) {
-    console.log(JSON.stringify(emptyResult(benchmarkTicker, benchmarkName)));
-    return;
-  }
-
-  const tickerWeight = new Map();
-  for (const h of holdings) {
-    if (!h || typeof h.ticker !== 'string') continue;
-    const w = Number(h.weight_pct || 0);
-    tickerWeight.set(h.ticker, Number.isFinite(w) ? w : 0);
-  }
-
-  const tickerSince = new Map();
-  const runsRoot = join('funds', fundId, 'runs');
-  const runDates = existsSync(runsRoot)
-    ? readdirSync(runsRoot)
-        .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
-        .sort()
-    : [];
-
-  for (const d of runDates) {
-    const p = join(runsRoot, d, provider, 'dexter_output.json');
-    if (!existsSync(p)) continue;
-
-    const run = parseJson(p);
-    const runTickers = new Set((run?.target_portfolio || []).map((x) => x?.ticker).filter(Boolean));
-
-    for (const ticker of tickerWeight.keys()) {
-      if (!tickerSince.has(ticker) && runTickers.has(ticker)) {
-        tickerSince.set(ticker, d);
-      }
+  async function worker() {
+    while (true) {
+      const i = index;
+      index += 1;
+      if (i >= items.length) return;
+      results[i] = await mapper(items[i], i);
     }
   }
 
-  const stocks = [];
-  for (const [ticker, weight] of tickerWeight.entries()) {
-    const sinceDate = tickerSince.get(ticker) || runDate;
-    const perf = await fetchSinceReturn(ticker, sinceDate);
-    if (!perf) continue;
+  const n = Math.max(1, Math.min(limit, items.length));
+  await Promise.all(Array.from({ length: n }, () => worker()));
+  return results;
+}
 
-    stocks.push({
-      ticker,
-      since_date: perf.since_date,
-      return_pct: perf.return_pct,
-      weight_pct: asPct(weight)
-    });
+function extractPortfolio(doc) {
+  const holdings = Array.isArray(doc?.target_portfolio) ? doc.target_portfolio : [];
+  const byTicker = new Map();
+  for (const h of holdings) {
+    const ticker = String(h?.ticker || '').trim();
+    if (!ticker) continue;
+    const w = Number(h?.weight_pct ?? 0);
+    if (!Number.isFinite(w) || w <= 0) continue;
+    const key = ticker.toUpperCase();
+    byTicker.set(key, { ticker, weight_pct: (byTicker.get(key)?.weight_pct || 0) + w });
+  }
+  return [...byTicker.values()].map((h) => ({ ticker: h.ticker, weight_pct: asPct(h.weight_pct) }));
+}
+
+function listRunDates(runsRoot) {
+  if (!existsSync(runsRoot)) return [];
+  return readdirSync(runsRoot)
+    .filter((d) => isDateStr(d))
+    .sort();
+}
+
+function isSuccessfulOutput(metaPath, outputPath) {
+  if (!existsSync(outputPath)) return false;
+  const meta = existsSync(metaPath) ? parseJson(metaPath) : null;
+  if (meta && typeof meta.status === 'string' && meta.status !== 'success') return false;
+  const doc = parseJson(outputPath);
+  const holdings = extractPortfolio(doc);
+  return holdings.length > 0;
+}
+
+function loadSuccessfulRuns(fundId, provider, runDate) {
+  const runsRoot = join('funds', fundId, 'runs');
+  const dates = listRunDates(runsRoot).filter((d) => d <= runDate);
+  const out = [];
+  for (const d of dates) {
+    const outputPath = join(runsRoot, d, provider, 'dexter_output.json');
+    const metaPath = join(runsRoot, d, provider, 'run_meta.json');
+    if (!isSuccessfulOutput(metaPath, outputPath)) continue;
+    const doc = parseJson(outputPath);
+    const holdings = extractPortfolio(doc);
+    if (holdings.length === 0) continue;
+    out.push({ date: d, holdings });
+  }
+  return out;
+}
+
+async function main() {
+  const [fundId, provider, runDateArg, benchmarkTickerArg = '', benchmarkNameArg = ''] = process.argv.slice(2);
+  const runDate = String(runDateArg || '').trim();
+  const benchmarkTicker = String(benchmarkTickerArg || '').trim();
+  const benchmarkName = String(benchmarkNameArg || '').trim() || benchmarkTicker;
+
+  if (!fundId || !provider || !isDateStr(runDate)) {
+    console.log(JSON.stringify(emptyResult({ benchmarkTicker, benchmarkName })));
+    return;
   }
 
-  stocks.sort((a, b) => b.return_pct - a.return_pct);
-
-  const coveredWeight = stocks.reduce((sum, s) => sum + s.weight_pct, 0);
-  let fundReturn = null;
-  if (coveredWeight > 0) {
-    const weighted = stocks.reduce((sum, s) => sum + (s.weight_pct * s.return_pct), 0);
-    fundReturn = asPct(weighted / coveredWeight);
+  const successfulRuns = loadSuccessfulRuns(fundId, provider, runDate);
+  if (successfulRuns.length === 0) {
+    console.log(JSON.stringify(emptyResult({ benchmarkTicker, benchmarkName })));
+    return;
   }
+
+  const inceptionDate = successfulRuns[0].date;
+  const asofPortfolioDate = successfulRuns[successfulRuns.length - 1].date;
+
+  const inceptionMs = dateMs(inceptionDate);
+  const runMs = dateMs(runDate);
+  if (inceptionMs == null || runMs == null) {
+    console.log(JSON.stringify(emptyResult({ benchmarkTicker, benchmarkName })));
+    return;
+  }
+
+  const nowEpoch = Math.floor(Date.now() / 1000);
+  const period1 = Math.floor(inceptionMs / 1000) - (14 * 86400);
+  const period2Candidate = Math.floor(runMs / 1000) + (4 * 86400);
+  const period2 = Math.min(nowEpoch, period2Candidate);
+
+  const segments = [];
+  for (let i = 0; i < successfulRuns.length - 1; i += 1) {
+    segments.push({ start: successfulRuns[i], endDate: successfulRuns[i + 1].date });
+  }
+  if (runDate > asofPortfolioDate) {
+    segments.push({ start: successfulRuns[successfulRuns.length - 1], endDate: runDate });
+  } else if (segments.length === 0) {
+    // Single successful run and we're evaluating that same run date.
+    segments.push({ start: successfulRuns[0], endDate: runDate });
+  }
+
+  const tickers = new Set();
+  for (const seg of segments) {
+    for (const h of seg.start.holdings) tickers.add(h.ticker);
+  }
+  if (benchmarkTicker) tickers.add(benchmarkTicker);
+
+  const chartCache = new Map();
+  const tickerList = [...tickers.values()];
+  await mapWithConcurrency(tickerList, 8, async (ticker) => {
+    const cacheKey = `${ticker}|${period1}|${period2}`;
+    if (chartCache.has(cacheKey)) return;
+
+    let chart = null;
+    for (const symbol of symbolAliases(ticker)) {
+      chart = await fetchYahooChart(symbol, period1, period2);
+      if (chart) break;
+    }
+    chartCache.set(cacheKey, chart);
+  });
+
+  const chartFor = (ticker) => chartCache.get(`${ticker}|${period1}|${period2}`) || null;
+
+  let nav = 100;
+  let minCoverage = null;
+  let maxFundPriceDate = null;
+
+  for (const seg of segments) {
+    let covered = 0;
+    let weightedSum = 0;
+    let segEndDateUsedMax = null;
+
+    for (const h of seg.start.holdings) {
+      const ticker = h.ticker;
+      const weight = Number(h.weight_pct || 0);
+      if (!Number.isFinite(weight) || weight <= 0) continue;
+      const chart = chartFor(ticker);
+      const start = closeOnOrBefore(chart, seg.start.date);
+      const end = closeOnOrBefore(chart, seg.endDate);
+      if (!start || !end) continue;
+
+      const ret = ((end.close / start.close) - 1) * 100;
+      if (!Number.isFinite(ret)) continue;
+
+      covered += weight;
+      weightedSum += (weight * ret);
+      if (!segEndDateUsedMax || end.date > segEndDateUsedMax) segEndDateUsedMax = end.date;
+    }
+
+    if (covered <= 0) {
+      console.log(JSON.stringify(emptyResult({
+        benchmarkTicker,
+        benchmarkName,
+        inceptionDate,
+        asofPortfolioDate
+      })));
+      return;
+    }
+
+    const segReturn = weightedSum / covered;
+    nav *= (1 + (segReturn / 100));
+    minCoverage = minCoverage == null ? covered : Math.min(minCoverage, covered);
+    if (segEndDateUsedMax && (!maxFundPriceDate || segEndDateUsedMax > maxFundPriceDate)) {
+      maxFundPriceDate = segEndDateUsedMax;
+    }
+  }
+
+  const coveredWeightPct = asPct(minCoverage ?? 0);
+  const fundReturn = asPct(((nav / 100) - 1) * 100);
 
   let benchmarkReturn = null;
-  let benchmarkCoveredWeight = 0;
-  const benchmarkSinceCache = new Map();
-  if (benchmarkTicker && coveredWeight > 0) {
-    for (const stock of stocks) {
-      if (!benchmarkSinceCache.has(stock.since_date)) {
-        const benchmarkPerf = await fetchSinceReturn(benchmarkTicker, stock.since_date);
-        benchmarkSinceCache.set(stock.since_date, benchmarkPerf);
+  let benchmarkAsOfPriceDate = null;
+  if (benchmarkTicker) {
+    const benchChart = chartFor(benchmarkTicker);
+    if (benchChart) {
+      let benchNav = 100;
+      let ok = true;
+      for (const seg of segments) {
+        const start = closeOnOrBefore(benchChart, seg.start.date);
+        const end = closeOnOrBefore(benchChart, seg.endDate);
+        if (!start || !end) {
+          ok = false;
+          break;
+        }
+        const ret = ((end.close / start.close) - 1) * 100;
+        if (!Number.isFinite(ret)) {
+          ok = false;
+          break;
+        }
+        benchNav *= (1 + (ret / 100));
+        if (!benchmarkAsOfPriceDate || end.date > benchmarkAsOfPriceDate) benchmarkAsOfPriceDate = end.date;
       }
-
-      const benchmarkPerf = benchmarkSinceCache.get(stock.since_date);
-      if (!benchmarkPerf) continue;
-
-      benchmarkCoveredWeight += stock.weight_pct;
-      benchmarkReturn = (benchmarkReturn ?? 0) + (stock.weight_pct * benchmarkPerf.return_pct);
-    }
-
-    if (benchmarkReturn != null && benchmarkCoveredWeight > 0) {
-      benchmarkReturn = asPct(benchmarkReturn / benchmarkCoveredWeight);
-      benchmarkCoveredWeight = asPct(benchmarkCoveredWeight);
-    } else {
-      benchmarkReturn = null;
-      benchmarkCoveredWeight = 0;
+      if (ok) {
+        benchmarkReturn = asPct(((benchNav / 100) - 1) * 100);
+      }
     }
   }
 
+  const asofPriceDate = [maxFundPriceDate, benchmarkAsOfPriceDate].filter(Boolean).sort().pop() || null;
+
   console.log(JSON.stringify({
+    performance_method: 'nav_since_start',
+    inception_date: inceptionDate,
+    asof_portfolio_date: asofPortfolioDate,
+    asof_price_date: asofPriceDate,
     fund_return_pct: fundReturn,
-    covered_weight_pct: asPct(coveredWeight),
+    covered_weight_pct: coveredWeightPct,
     benchmark_ticker: benchmarkTicker || null,
     benchmark_name: benchmarkName || null,
     benchmark_return_pct: benchmarkReturn,
-    benchmark_covered_weight_pct: benchmarkCoveredWeight,
-    excess_return_pct: (fundReturn != null && benchmarkReturn != null) ? asPct(fundReturn - benchmarkReturn) : null,
-    stocks
+    benchmark_covered_weight_pct: benchmarkReturn != null ? coveredWeightPct : 0,
+    excess_return_pct: (benchmarkReturn != null) ? asPct(fundReturn - benchmarkReturn) : null,
+    stocks: []
   }));
 }
 
 await main();
+

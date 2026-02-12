@@ -333,7 +333,6 @@ else
 fi
 
 lane_sections=""
-perf_rows='[]'
 
 if [[ "$mode" != "overall-only" ]]; then
 
@@ -349,6 +348,13 @@ while IFS= read -r lane; do
   remove_ticker="$(jq -r '.remove_ticker // "-"' <<<"$lane")"
   constraints_ok="$(jq -r '.constraints_ok' <<<"$lane")"
   run_path="$(jq -r '.run_path' <<<"$lane")"
+  inception_date="$(jq -r '.inception_date // empty' <<<"$lane")"
+  asof_portfolio_date="$(jq -r '.asof_portfolio_date // empty' <<<"$lane")"
+  lane_benchmark_name="$(jq -r '.benchmark_name // empty' <<<"$lane")"
+  lane_fund_return_pct="$(jq -r '.fund_return_pct // empty' <<<"$lane")"
+  lane_benchmark_return_pct="$(jq -r '.benchmark_return_pct // empty' <<<"$lane")"
+  lane_excess_return_pct="$(jq -r '.excess_return_pct // empty' <<<"$lane")"
+  lane_coverage_pct="$(jq -r '.performance_coverage_pct // empty' <<<"$lane")"
   config_path="funds/${fund_id}/fund.config.json"
 
   case "$provider" in
@@ -383,7 +389,6 @@ while IFS= read -r lane; do
   stdout_path="${run_path}/dexter_stdout.txt"
 
   action_summary="No update available."
-  performance_summary="n/a"
   stock_moves_summary="n/a"
   sector_exposure_summary="n/a"
   fund_type_label="n/a"
@@ -391,6 +396,7 @@ while IFS= read -r lane; do
   benchmark_ticker=""
   benchmark_label=""
   benchmark_display="n/a"
+  since_start_line=""
   trade_reasoning_summary="n/a"
   risk_snippet="n/a"
   market_news_block=""
@@ -421,6 +427,33 @@ n/a
       benchmark_display="$benchmark_label"
     elif [[ -n "$benchmark_ticker" ]]; then
       benchmark_display="\`${benchmark_ticker}\`"
+    fi
+  fi
+
+  if [[ -z "$benchmark_label" && -n "$lane_benchmark_name" ]]; then
+    benchmark_label="$lane_benchmark_name"
+  fi
+
+  if [[ -n "$lane_fund_return_pct" && -n "$inception_date" ]]; then
+    fund_perf="$(printf "%+.2f%%" "$lane_fund_return_pct")"
+    since_start_line="- Since start: Fund ${fund_perf}"
+    if [[ -n "$lane_coverage_pct" && "$lane_coverage_pct" != "100" ]]; then
+      since_start_line+=" (cov ${lane_coverage_pct}%)"
+    fi
+
+    if [[ -n "$lane_benchmark_return_pct" && -n "$benchmark_label" ]]; then
+      benchmark_perf="$(printf "%+.2f%%" "$lane_benchmark_return_pct")"
+      since_start_line+=" vs ${benchmark_label} ${benchmark_perf}"
+      if [[ -n "$lane_excess_return_pct" ]]; then
+        since_start_line+=" (Δ $(printf "%+.2fpp" "$lane_excess_return_pct"))"
+      fi
+    else
+      since_start_line+=" (benchmark n/a)"
+    fi
+
+    since_start_line+=" since ${inception_date}"
+    if [[ "$status" != "success" && -n "$asof_portfolio_date" && "$asof_portfolio_date" != "$run_date" ]]; then
+      since_start_line+=" (stale since ${asof_portfolio_date})"
     fi
   fi
 
@@ -570,44 +603,16 @@ n/a
       | if length == 0 then "n/a" else join("; ") end
     ' "$output_path")"
 
-    perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" "$benchmark_ticker" "$benchmark_label" 2>/dev/null || echo '{}')"
-
-    fund_return_pct="$(jq -r '.fund_return_pct // empty' <<<"$perf_json")"
-    coverage_pct="$(jq -r '.covered_weight_pct // empty' <<<"$perf_json")"
-    benchmark_name="$(jq -r '.benchmark_name // empty' <<<"$perf_json")"
-    benchmark_return_pct="$(jq -r '.benchmark_return_pct // empty' <<<"$perf_json")"
-    benchmark_coverage_pct="$(jq -r '.benchmark_covered_weight_pct // empty' <<<"$perf_json")"
-    excess_return_pct="$(jq -r '.excess_return_pct // empty' <<<"$perf_json")"
-
-    if [[ -z "$benchmark_name" && -n "$benchmark_label" ]]; then
-      benchmark_name="$benchmark_label"
-    fi
-    if [[ -z "$benchmark_name" && -n "$benchmark_ticker" ]]; then
-      benchmark_name="$benchmark_ticker"
-    fi
-
-    if [[ -n "$fund_return_pct" ]]; then
-      fund_perf="$(printf "%+.2f%%" "$fund_return_pct")"
-      performance_summary="Fund ${fund_perf}"
-      if [[ -n "$coverage_pct" ]]; then
-        performance_summary+=" (cov ${coverage_pct}%)"
+    if [[ "$rebalance_actions_summary" == "n/a" ]]; then
+      if [[ "$action" == "Do nothing" ]]; then
+        rebalance_actions_summary="none"
+      elif [[ "$action" == "Add" && -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+        rebalance_actions_summary="Inferred: Add ${action_add_ticker} (${size_change}%)"
+      elif [[ "$action" == "Trim" && -n "$action_remove_ticker" && "$action_remove_ticker" != "-" && -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+        rebalance_actions_summary="Inferred: Trim ${action_remove_ticker}→${action_add_ticker} (${size_change}%)"
+      elif [[ "$action" == "Replace" && -n "$action_remove_ticker" && "$action_remove_ticker" != "-" && -n "$action_add_ticker" && "$action_add_ticker" != "-" ]]; then
+        rebalance_actions_summary="Inferred: Replace ${action_remove_ticker}→${action_add_ticker} (${size_change}%)"
       fi
-
-      if [[ -n "$benchmark_return_pct" && -n "$benchmark_name" ]]; then
-        benchmark_perf="$(printf "%+.2f%%" "$benchmark_return_pct")"
-        performance_summary+=" vs ${benchmark_name} ${benchmark_perf}"
-        if [[ -n "$excess_return_pct" ]]; then
-          performance_summary+=" (Δ $(printf "%+.2fpp" "$excess_return_pct"))"
-        fi
-        if [[ -n "$benchmark_coverage_pct" && "$benchmark_coverage_pct" != "$coverage_pct" ]]; then
-          performance_summary+=" [idx cov ${benchmark_coverage_pct}%]"
-        fi
-      fi
-
-      perf_rows="$(jq -cn --argjson rows "$perf_rows" --arg fund "$fund_label" --argjson ret "$fund_return_pct" '$rows + [{fund: $fund, ret: $ret}]')"
-    elif [[ -n "$benchmark_return_pct" && -n "$benchmark_name" ]]; then
-      benchmark_perf="$(printf "%+.2f%%" "$benchmark_return_pct")"
-      performance_summary="Fund n/a vs ${benchmark_name} ${benchmark_perf}"
     fi
 
     sector_exposure_summary="$(format_sector_exposure_summary "$output_path")"
@@ -767,6 +772,10 @@ n/a
   lane_sections+="- Type: ${fund_type_label}"
   lane_sections+=$'\n'
   lane_sections+="- BM: ${benchmark_display}"
+  if [[ -n "$since_start_line" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="${since_start_line}"
+  fi
   lane_sections+=$'\n'
   lane_sections+="- Sectors: ${sector_exposure_summary}"
   lane_sections+=$'\n'
@@ -825,22 +834,6 @@ n/a
 done < <(jq -c '.lanes[]' "$scoreboard_path")
 
 fi
-
-leader_line="$(jq -r '
-  map(select(.ret != null)) as $r
-  | if ($r | length) == 0 then
-      "n/a"
-    elif ($r | length) == 1 then
-      "\($r[0].fund) (\($r[0].ret)%)"
-    else
-      ($r | sort_by(-.ret)) as $s
-      | if ($s[0].ret == $s[1].ret) then
-          "tied"
-        else
-          "\($s[0].fund) (\($s[0].ret)%)"
-        end
-    end
-' <<<"$perf_rows")"
 
 if [[ -n "$comparison_notes" && "$comparison_notes" == Computed\ from\ first\ two\ successful\ lanes:* ]]; then
   comparison_notes="Based on today's completed fund runs."

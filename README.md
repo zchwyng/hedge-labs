@@ -8,8 +8,7 @@ Lanes operate as **stateful rebalance engines**: each run references the previou
 
 This repository runs two simulated “fund lanes” on a daily schedule, then publishes a combined summary.
 
-- `fund-a` lane uses the OpenAI model configured in `funds/fund-a/fund.config.json`.
-- `fund-b` lane uses the Anthropic model configured in `funds/fund-b/fund.config.json`.
+- Fund lanes are discovered automatically from `funds/fund-*/fund.config.json`.
 - Results are consolidated into a single commit.
 - A Discord digest is posted, including partial-failure days.
 
@@ -84,3 +83,9 @@ scripts/run_fund_once.sh fund-a openai "$RUN_DATE" "funds/fund-a/runs/${RUN_DATE
 - Strictly paper-only; no broker or execution paths.
 - Raw scratchpads under `.dexter/scratchpad/` are ignored.
 - Run-local scratchpads copied into each lane run directory are tracked.
+
+## Performance Tracking
+
+Scoreboard and Discord display fund performance as a NAV-style return **since inception** (the first successful run date for that lane). Benchmark comparisons use the fund's configured benchmark index (`fund.config.json` -> `benchmark`).
+
+On days a lane fails, performance is still shown based on the last successful portfolio and is labeled as **stale** with the last successful run date.

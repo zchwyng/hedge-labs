@@ -45,8 +45,15 @@ for fund_dir in "${fund_dirs[@]}"; do
   excess_return_pct='null'
   performance_coverage_pct=0
   benchmark_coverage_pct=0
+  performance_method=""
+  inception_date=""
+  asof_portfolio_date=""
+  asof_price_date=""
   benchmark_ticker=""
   benchmark_name=""
+
+  benchmark_ticker="$(jq -r '.benchmark.ticker // .benchmark_ticker // empty' "$config_path")"
+  benchmark_name="$(jq -r '.benchmark.name // .benchmark_label // .benchmark.ticker // .benchmark_ticker // empty' "$config_path")"
 
   if [[ -f "$meta_path" ]]; then
     status="$(jq -r '.status // "failed"' "$meta_path")"
@@ -80,16 +87,18 @@ for fund_dir in "${fund_dirs[@]}"; do
       | .[:4]
       | join(", ")
     ' "$output_path")"
-
-    benchmark_ticker="$(jq -r '.benchmark.ticker // .benchmark_ticker // empty' "$config_path")"
-    benchmark_name="$(jq -r '.benchmark.name // .benchmark_label // empty' "$config_path")"
-    perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" "$benchmark_ticker" "$benchmark_name" 2>/dev/null || echo '{}')"
-    fund_return_pct="$(jq -c '.fund_return_pct // null' <<<"$perf_json")"
-    benchmark_return_pct="$(jq -c '.benchmark_return_pct // null' <<<"$perf_json")"
-    excess_return_pct="$(jq -c '.excess_return_pct // null' <<<"$perf_json")"
-    performance_coverage_pct="$(jq -r '.covered_weight_pct // 0' <<<"$perf_json")"
-    benchmark_coverage_pct="$(jq -r '.benchmark_covered_weight_pct // 0' <<<"$perf_json")"
   fi
+
+  perf_json="$(node scripts/performance_since_added.mjs "$fund_id" "$provider" "$run_date" "$benchmark_ticker" "$benchmark_name" 2>/dev/null || echo '{}')"
+  performance_method="$(jq -r '.performance_method // empty' <<<"$perf_json")"
+  inception_date="$(jq -r '.inception_date // empty' <<<"$perf_json")"
+  asof_portfolio_date="$(jq -r '.asof_portfolio_date // empty' <<<"$perf_json")"
+  asof_price_date="$(jq -r '.asof_price_date // empty' <<<"$perf_json")"
+  fund_return_pct="$(jq -c '.fund_return_pct // null' <<<"$perf_json")"
+  benchmark_return_pct="$(jq -c '.benchmark_return_pct // null' <<<"$perf_json")"
+  excess_return_pct="$(jq -c '.excess_return_pct // null' <<<"$perf_json")"
+  performance_coverage_pct="$(jq -r '.covered_weight_pct // 0' <<<"$perf_json")"
+  benchmark_coverage_pct="$(jq -r '.benchmark_covered_weight_pct // 0' <<<"$perf_json")"
 
   jq -n \
     --arg fund_id "$fund_id" \
@@ -100,6 +109,10 @@ for fund_dir in "${fund_dirs[@]}"; do
     --arg remove_ticker "$remove_ticker" \
     --arg benchmark_ticker "$benchmark_ticker" \
     --arg benchmark_name "$benchmark_name" \
+    --arg performance_method "$performance_method" \
+    --arg inception_date "$inception_date" \
+    --arg asof_portfolio_date "$asof_portfolio_date" \
+    --arg asof_price_date "$asof_price_date" \
     --arg rebalance_actions_preview "$rebalance_actions_preview" \
     --arg run_path "$run_path" \
     --argjson size_change_pct "$size_change_pct" \
@@ -123,6 +136,10 @@ for fund_dir in "${fund_dirs[@]}"; do
       rebalance_actions_preview: (if $rebalance_actions_preview == "" then null else $rebalance_actions_preview end),
       benchmark_ticker: (if $benchmark_ticker == "" then null else $benchmark_ticker end),
       benchmark_name: (if $benchmark_name == "" then null else $benchmark_name end),
+      performance_method: (if $performance_method == "" then null else $performance_method end),
+      inception_date: (if $inception_date == "" then null else $inception_date end),
+      asof_portfolio_date: (if $asof_portfolio_date == "" then null else $asof_portfolio_date end),
+      asof_price_date: (if $asof_price_date == "" then null else $asof_price_date end),
       fund_return_pct: $fund_return_pct,
       benchmark_return_pct: $benchmark_return_pct,
       excess_return_pct: $excess_return_pct,
@@ -159,7 +176,7 @@ ranking_notes="$(printf '%s' "$lanes_json" | jq -r '
   if ([.[] | select(.status == "success")] | length) == 0 then
     "No successful lanes to rank."
   else
-    "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker."
+    "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   end
 ')"
 

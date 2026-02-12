@@ -13,18 +13,50 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  discover_lanes:
+    name: Discover lanes
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Build lane matrix
+        id: matrix
+        run: |
+          set -euo pipefail
+
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "jq is required on runner" >&2
+            exit 1
+          fi
+
+          lanes="$(
+            find funds -mindepth 1 -maxdepth 1 -type d -name 'fund-*' | sort | while read -r fund_dir; do
+              config_path="${fund_dir}/fund.config.json"
+              [ -f "$config_path" ] || continue
+              fund_id="$(basename "$fund_dir")"
+              provider="$(jq -r '.provider // empty' "$config_path")"
+              if [ -z "$provider" ] || [ "$provider" = "null" ]; then
+                continue
+              fi
+              jq -cn --arg fund_id "$fund_id" --arg provider "$provider" '{fund_id: $fund_id, provider: $provider}'
+            done | jq -cs '{include: .}'
+          )"
+
+          echo "matrix=$(echo "$lanes" | jq -c .)" >> "$GITHUB_OUTPUT"
+
   run_lanes:
     name: Run lane - ${{ matrix.fund_id }} / ${{ matrix.provider }}
     runs-on: ubuntu-latest
+    needs: discover_lanes
     strategy:
       fail-fast: false
       max-parallel: 1
-      matrix:
-        include:
-          - fund_id: fund-a
-            provider: openai
-          - fund_id: fund-b
-            provider: anthropic
+      matrix: ${{ fromJSON(needs.discover_lanes.outputs.matrix) }}
 
     steps:
       - name: Checkout
@@ -150,7 +182,7 @@ jobs:
           find .lane_artifacts -mindepth 1 -maxdepth 1 -type d | while read -r artifact_dir; do
             artifact_name="$(basename "$artifact_dir")"
 
-            if [[ "$artifact_name" =~ ^lane-(.+)-(openai|anthropic)$ ]]; then
+            if [[ "$artifact_name" =~ ^lane-(.+)-(.+)$ ]]; then
               fund_id="${BASH_REMATCH[1]}"
               provider="${BASH_REMATCH[2]}"
               dest="funds/${fund_id}/runs/${RUN_DATE}/${provider}"
@@ -182,17 +214,7 @@ jobs:
           git commit -m "fund-arena: run ${{ steps.run_date.outputs.run_date }}"
           git push origin HEAD:main
 
-      - name: Build Discord payload
-        id: discord_payload
-        run: |
-          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "overall-only" > discord_payload_overall.json
-          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-a" "no-header" > discord_payload_fund_a.json
-          scripts/build_discord_payload.sh "${{ steps.run_date.outputs.run_date }}" "fund-b" "no-header" > discord_payload_fund_b.json
-          echo "payload_overall_path=discord_payload_overall.json" >> "$GITHUB_OUTPUT"
-          echo "payload_fund_a_path=discord_payload_fund_a.json" >> "$GITHUB_OUTPUT"
-          echo "payload_fund_b_path=discord_payload_fund_b.json" >> "$GITHUB_OUTPUT"
-
-      - name: Post Discord summary
+      - name: Post Discord digest
         if: always()
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -202,20 +224,31 @@ jobs:
             exit 1
           fi
 
-          curl -sS -X POST \
-            -H "Content-Type: application/json" \
-            --data @"${{ steps.discord_payload.outputs.payload_overall_path }}" \
-            "$DISCORD_WEBHOOK_URL"
+          RUN_DATE="${{ steps.run_date.outputs.run_date }}"
+          SCOREBOARD="funds/arena/runs/${RUN_DATE}/scoreboard.json"
+          if [ ! -f "$SCOREBOARD" ]; then
+            echo "Missing scoreboard: $SCOREBOARD" >&2
+            exit 1
+          fi
 
-          curl -sS -X POST \
-            -H "Content-Type: application/json" \
-            --data @"${{ steps.discord_payload.outputs.payload_fund_a_path }}" \
-            "$DISCORD_WEBHOOK_URL"
+          first="true"
+          while IFS= read -r fund_id; do
+            if [ -z "$fund_id" ]; then
+              continue
+            fi
 
-          curl -sS -X POST \
-            -H "Content-Type: application/json" \
-            --data @"${{ steps.discord_payload.outputs.payload_fund_b_path }}" \
-            "$DISCORD_WEBHOOK_URL"
+            if [ "$first" = "true" ]; then
+              scripts/build_discord_payload.sh "$RUN_DATE" "$fund_id" > discord_payload.json
+              first="false"
+            else
+              scripts/build_discord_payload.sh "$RUN_DATE" "$fund_id" "no-header" > discord_payload.json
+            fi
+
+            curl -sS -X POST \
+              -H "Content-Type: application/json" \
+              --data @discord_payload.json \
+              "$DISCORD_WEBHOOK_URL"
+          done < <(jq -r '.lanes[].fund_id' "$SCOREBOARD" | awk '!seen[$0]++')
 
       - name: Fail workflow if any lane failed
         if: always()

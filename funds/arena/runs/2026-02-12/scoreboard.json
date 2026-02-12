@@ -14,6 +14,10 @@
       "rebalance_actions_preview": "Add XOM, Add CVX, Add LLY, Add JPM",
       "benchmark_ticker": "ACWI",
       "benchmark_name": "MSCI ACWI",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-12",
+      "asof_portfolio_date": "2026-02-12",
+      "asof_price_date": "2026-02-12",
       "fund_return_pct": 0,
       "benchmark_return_pct": 0,
       "excess_return_pct": 0,
@@ -34,8 +38,12 @@
       "constraints_ok": false,
       "rebalance_actions_count": 0,
       "rebalance_actions_preview": null,
-      "benchmark_ticker": null,
-      "benchmark_name": null,
+      "benchmark_ticker": "ACWI",
+      "benchmark_name": "MSCI ACWI",
+      "performance_method": "nav_since_start",
+      "inception_date": null,
+      "asof_portfolio_date": null,
+      "asof_price_date": null,
       "fund_return_pct": null,
       "benchmark_return_pct": null,
       "excess_return_pct": null,
@@ -48,7 +56,7 @@
   ],
   "ranking": {
     "method": "independent_performance",
-    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker."
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   },
   "comparison": {
     "portfolio_overlap_pct": 0,
