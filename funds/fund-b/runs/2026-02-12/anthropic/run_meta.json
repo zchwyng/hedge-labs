@@ -3,14 +3,12 @@
   "provider": "anthropic",
   "model": "claude-opus-4-5",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T17:21:20Z",
-  "ended_at": "2026-02-12T17:26:27Z",
-  "status": "failed",
-  "reason": "Portfolio validation failed (positions, weights, or sector limits)",
-  "api_errors": [
-    "Portfolio validation failed (positions, weights, or sector limits)"
-  ],
+  "started_at": "2026-02-12T17:29:23Z",
+  "ended_at": "2026-02-12T17:35:04Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
   "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-172121_7430f1b961e3.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-173327_712542d9f47c.jsonl"
 }
