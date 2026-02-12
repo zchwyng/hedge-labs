@@ -5,10 +5,10 @@
       "fund_id": "fund-a",
       "provider": "openai",
       "status": "success",
-      "action": "Do nothing",
-      "add_ticker": null,
-      "remove_ticker": null,
-      "size_change_pct": 0,
+      "action": "Replace",
+      "add_ticker": "META",
+      "remove_ticker": "ETH-USD",
+      "size_change_pct": 8,
       "constraints_ok": true,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
@@ -16,17 +16,17 @@
       "fund_id": "fund-b",
       "provider": "anthropic",
       "status": "success",
-      "action": "Add",
-      "add_ticker": "NVDA",
-      "remove_ticker": null,
-      "size_change_pct": 15,
+      "action": "Replace",
+      "add_ticker": "LLY",
+      "remove_ticker": "NVDA",
+      "size_change_pct": 0,
       "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
   "comparison": {
     "portfolio_overlap_pct": 33.33,
-    "turnover_estimate_pct": 51,
+    "turnover_estimate_pct": 54,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }
