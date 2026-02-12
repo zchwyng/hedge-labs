@@ -15,6 +15,23 @@ if [[ ! -f "$scoreboard_path" ]]; then
   exit 1
 fi
 
+sanitize_one_line() {
+  local raw="$1"
+  local cleaned
+  cleaned="$(printf '%s' "$raw" | tr '\n' ' ' | sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//')"
+  printf '%s' "$cleaned"
+}
+
+truncate_text() {
+  local raw="$1"
+  local max_len="$2"
+  if (( ${#raw} <= max_len )); then
+    printf '%s' "$raw"
+  else
+    printf '%s...' "${raw:0:max_len-3}"
+  fi
+}
+
 repo_web_url=""
 if [[ -n "${GITHUB_SERVER_URL:-}" && -n "${GITHUB_REPOSITORY:-}" ]]; then
   repo_web_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
@@ -107,6 +124,7 @@ while IFS= read -r lane; do
   stock_moves_summary="n/a"
   risk_snippet="n/a"
   holdings_block="  • n/a"
+  change_reason_block="  • n/a"
   error_message=""
   model_label="unknown"
 
@@ -139,7 +157,7 @@ while IFS= read -r lane; do
       | if ($p | length) == 0 then
           "  • n/a"
         else
-          ($p | map("  • `\(.ticker)` — \(.weight_pct)% (\(.sector))") | join("\n"))
+          ($p | map("  • `\(.ticker)` — \(.weight_pct)%") | join("\n"))
         end
     ' "$output_path")"
 
@@ -178,6 +196,96 @@ while IFS= read -r lane; do
             | join(", "))
         end
     ' <<<"$perf_json")"
+
+    runs_root="funds/${fund_id}/runs"
+    prev_output_path=""
+    if [[ -d "$runs_root" ]]; then
+      while IFS= read -r prev_date; do
+        [[ "$prev_date" < "$run_date" ]] || continue
+        candidate_output="${runs_root}/${prev_date}/${provider}/dexter_output.json"
+        candidate_meta="${runs_root}/${prev_date}/${provider}/run_meta.json"
+        if [[ ! -f "$candidate_output" ]]; then
+          continue
+        fi
+        if [[ -f "$candidate_meta" ]]; then
+          candidate_status="$(jq -r '.status // "failed"' "$candidate_meta")"
+          [[ "$candidate_status" == "success" ]] || continue
+        fi
+        prev_output_path="$candidate_output"
+      done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
+    fi
+
+    if [[ -z "$prev_output_path" ]]; then
+      change_reason_block="  • No prior successful run to compare."
+    else
+      change_rows="$(jq -c -n \
+        --slurpfile prev "$prev_output_path" \
+        --slurpfile curr "$output_path" '
+          def pmap($x): ($x.target_portfolio // [] | map({key: .ticker, value: (.weight_pct // 0)}) | from_entries);
+          (pmap($prev[0])) as $p
+          | (pmap($curr[0])) as $c
+          | (($p | keys) + ($c | keys) | unique | sort) as $keys
+          | [
+              $keys[] as $k
+              | ($p[$k] // 0) as $pw
+              | ($c[$k] // 0) as $cw
+              | ($cw - $pw) as $d
+              | if ((if $d < 0 then -$d else $d end) >= 0.01) then
+                  {ticker: $k, prev: $pw, curr: $cw, delta: $d}
+                else
+                  empty
+                end
+            ]
+        ')"
+
+      change_count="$(jq -r 'length' <<<"$change_rows")"
+      if [[ "$change_count" == "0" ]]; then
+        change_reason_block="  • No holding changes vs previous run."
+      else
+        change_reason_block=""
+        while IFS= read -r change; do
+          ticker="$(jq -r '.ticker' <<<"$change")"
+          prev_w_raw="$(jq -r '.prev' <<<"$change")"
+          curr_w_raw="$(jq -r '.curr' <<<"$change")"
+          delta_raw="$(jq -r '.delta' <<<"$change")"
+
+          prev_w="$(printf "%.2f" "$prev_w_raw")"
+          curr_w="$(printf "%.2f" "$curr_w_raw")"
+          abs_delta="$(awk -v d="$delta_raw" 'BEGIN { if (d < 0) d = -d; printf "%.2f", d }')"
+          if awk -v d="$delta_raw" 'BEGIN { exit !(d >= 0) }'; then
+            delta_icon="↑"
+          else
+            delta_icon="↓"
+          fi
+
+          reason=""
+          if [[ "$add_ticker" != "-" && "$ticker" == "$add_ticker" ]] && awk -v d="$delta_raw" 'BEGIN { exit !(d > 0) }'; then
+            reason="$(jq -r '(.trade_of_the_day.thesis // [] | map(select(type=="string")) | .[0]) // empty' "$output_path")"
+          elif [[ "$remove_ticker" != "-" && "$ticker" == "$remove_ticker" ]] && awk -v d="$delta_raw" 'BEGIN { exit !(d < 0) }'; then
+            reason="$(jq -r --arg t "$ticker" '(.thesis_damage_flags // [] | map(select(.ticker == $t) | .why) | .[0]) // empty' "$output_path")"
+            if [[ -z "$reason" ]]; then
+              reason="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type=="string")) | .[0]) // empty' "$output_path")"
+            fi
+          elif awk -v d="$delta_raw" 'BEGIN { exit !(d > 0) }'; then
+            reason="$(jq -r '(.trade_of_the_day.thesis // [] | map(select(type=="string")) | .[1]) // empty' "$output_path")"
+          else
+            reason="$(jq -r --arg t "$ticker" '(.thesis_damage_flags // [] | map(select(.ticker == $t) | .why) | .[0]) // empty' "$output_path")"
+            if [[ -z "$reason" ]]; then
+              reason="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type=="string")) | .[0]) // empty' "$output_path")"
+            fi
+          fi
+
+          if [[ -z "$reason" ]]; then
+            reason="$(jq -r '.trade_of_the_day.why_now // "Rebalance update based on current model thesis."' "$output_path")"
+          fi
+          reason="$(sanitize_one_line "$reason")"
+          reason="$(truncate_text "$reason" 140)"
+
+          change_reason_block+=$'\n'
+          change_reason_block+="  • \`${ticker}\` ${prev_w}% → ${curr_w}% (${delta_icon}${abs_delta}%): ${reason}"
+        done < <(jq -c '.[]' <<<"$change_rows")
+      fi
+    fi
   fi
 
   if [[ "$status" != "success" && -f "$meta_path" ]]; then
@@ -208,6 +316,10 @@ while IFS= read -r lane; do
   lane_sections+="- Since added (fund): **${performance_summary}**"
   lane_sections+=$'\n'
   lane_sections+="- Since added (stocks): ${stock_moves_summary}"
+  lane_sections+=$'\n'
+  lane_sections+="- Holding changes + reasoning:"
+  lane_sections+=$'\n'
+  lane_sections+="$change_reason_block"
 
   if [[ -n "$error_message" ]]; then
     lane_sections+=$'\n'
