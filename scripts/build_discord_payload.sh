@@ -182,7 +182,7 @@ while IFS= read -r lane; do
         else
           ($p
             | sort_by(-((.weight_pct // 0) | tonumber), (.ticker // ""))
-            | map("  • `\(.ticker)` — \(((.weight_pct // 0) | tonumber))%")
+            | map("  • `\(.ticker)` — \(((.weight_pct // 0) | tonumber))% — \(.sector // "UNKNOWN")")
             | join("\n"))
         end
     ' "$output_path")"
