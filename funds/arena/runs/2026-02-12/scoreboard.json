@@ -17,16 +17,16 @@
       "provider": "anthropic",
       "status": "success",
       "action": "Add",
-      "add_ticker": "META",
+      "add_ticker": "UNKNOWN",
       "remove_ticker": null,
-      "size_change_pct": 8,
+      "size_change_pct": 0,
       "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
   "comparison": {
     "portfolio_overlap_pct": 100,
-    "turnover_estimate_pct": 50,
+    "turnover_estimate_pct": 0,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }
