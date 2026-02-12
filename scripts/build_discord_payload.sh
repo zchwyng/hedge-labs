@@ -211,6 +211,14 @@ latest_successful_output_before_run() {
   printf '%s\t%s\n' "$prev_output" "$prev_date"
 }
 
+output_has_holdings() {
+  local json_path="$1"
+  if [[ ! -f "$json_path" ]]; then
+    return 1
+  fi
+  jq -e '(.target_portfolio // []) | type == "array" and length > 0' "$json_path" >/dev/null 2>&1
+}
+
 repo_web_url=""
 if [[ -n "${GITHUB_SERVER_URL:-}" && -n "${GITHUB_REPOSITORY:-}" ]]; then
   repo_web_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
@@ -576,13 +584,19 @@ n/a
     esac
   fi
 
-  if [[ "$status" != "success" && -n "$prev_output_path" && -f "$prev_output_path" ]]; then
-    holdings_block="$(format_holdings_table "$prev_output_path")"
-    sector_exposure_summary="$(format_sector_exposure_summary "$prev_output_path")"
-    if [[ -n "$prev_output_date" ]]; then
-      holdings_heading="Holdings (last successful run ${prev_output_date}):"
-    else
-      holdings_heading="Holdings (last successful run):"
+  if [[ "$status" != "success" ]]; then
+    if output_has_holdings "$output_path"; then
+      holdings_block="$(format_holdings_table "$output_path")"
+      sector_exposure_summary="$(format_sector_exposure_summary "$output_path")"
+      holdings_heading="Holdings (latest run output):"
+    elif [[ -n "$prev_output_path" && -f "$prev_output_path" ]]; then
+      holdings_block="$(format_holdings_table "$prev_output_path")"
+      sector_exposure_summary="$(format_sector_exposure_summary "$prev_output_path")"
+      if [[ -n "$prev_output_date" ]]; then
+        holdings_heading="Holdings (last successful run ${prev_output_date}):"
+      else
+        holdings_heading="Holdings (last successful run):"
+      fi
     fi
   fi
 

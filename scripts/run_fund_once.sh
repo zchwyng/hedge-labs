@@ -249,19 +249,21 @@ validate_json_output() {
 
 rebalance_portfolio_if_possible() {
   local input_json="$1"
-  node - "$input_json" "$target_positions" "$max_position_pct" "$max_sector_pct" <<'NODE'
+  node - "$input_json" "$target_positions" "$min_position_pct" "$max_position_pct" "$max_sector_pct" <<'NODE'
 const fs = require('node:fs');
 
-const [, , jsonPath, expectedPositionsRaw, maxPositionRaw, maxSectorRaw] = process.argv;
+const [, , jsonPath, expectedPositionsRaw, minPositionRaw, maxPositionRaw, maxSectorRaw] = process.argv;
 const expectedPositions = Number(expectedPositionsRaw);
+const minPosition = Number(minPositionRaw);
 const maxPosition = Number(maxPositionRaw);
 const maxSector = Number(maxSectorRaw);
 const targetTotalBp = 10000;
-const minWeightBp = 1;
+const minWeightBp = Math.round(minPosition * 100);
 const maxPositionBp = Math.floor(maxPosition * 100 + 1e-6);
 const maxSectorBp = Math.floor(maxSector * 100 + 1e-6);
 
 if (!Number.isFinite(expectedPositions) || expectedPositions <= 0) process.exit(1);
+if (!Number.isFinite(minWeightBp) || minWeightBp <= 0) process.exit(1);
 if (!Number.isFinite(maxPositionBp) || maxPositionBp < minWeightBp) process.exit(1);
 if (!Number.isFinite(maxSectorBp) || maxSectorBp < minWeightBp) process.exit(1);
 
@@ -432,8 +434,30 @@ NODE
 }
 
 attempt_rebalance_if_needed() {
-  # Do not auto-rewrite portfolio weights here. Invalid constraints should force model retry.
-  return 1
+  if [[ "$status" != "failed" ]]; then
+    return 1
+  fi
+
+  if [[ "$reason" != "Portfolio validation failed (positions, weights, or sector limits)" ]]; then
+    return 1
+  fi
+
+  if [[ ! -f "$json_path" ]]; then
+    return 1
+  fi
+
+  if ! rebalance_portfolio_if_possible "$json_path"; then
+    return 1
+  fi
+
+  if ! validate_json_output "$json_path"; then
+    return 1
+  fi
+
+  status="success"
+  reason=""
+  echo "Auto-corrected portfolio weights to satisfy deterministic constraints." | tee -a "$stdout_path"
+  return 0
 }
 
 run_dexter_attempt() {

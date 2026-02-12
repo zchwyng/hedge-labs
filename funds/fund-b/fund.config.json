@@ -1,10 +1,10 @@
 {
-  "name": "Value + Revisions (Monthly-hold)",
+  "name": "Quality + Momentum (Monthly-hold)",
   "provider": "anthropic",
   "model": "claude-sonnet-4-5",
   "benchmark": {
-    "name": "NASDAQ 100",
-    "ticker": "^NDX"
+    "name": "S&P 500",
+    "ticker": "^GSPC"
   },
   "universe": "US large & mid cap only",
   "hold_horizon_days": 30,
