@@ -51,11 +51,31 @@ while IFS= read -r lane; do
   fi
 
   risk_snippet="n/a"
+  holdings_snippet="n/a"
   output_path="${run_path}/dexter_output.json"
   if [[ -f "$output_path" ]]; then
     risk_snippet="$(jq -r '(.trade_of_the_day.risks // [] | map(select(type == "string")) | .[:2] | join("; ")) // "n/a"' "$output_path")"
     if [[ -z "$risk_snippet" ]]; then
       risk_snippet="n/a"
+    fi
+
+    # Keep holdings concise for Discord size limits while still showing portfolio composition.
+    holdings_snippet="$(jq -r '
+      (.target_portfolio // []) as $p
+      | ($p | length) as $n
+      | ($p
+          | map(select(.ticker != null and .weight_pct != null))
+          | .[:6]
+          | map("\(.ticker) \(.weight_pct)%")
+          | join(", ")
+        ) as $top
+      | if $n == 0 then "n/a"
+        elif $n > 6 then ($top + ", ... (" + ($n|tostring) + " total)")
+        else $top
+        end
+    ' "$output_path")"
+    if [[ -z "$holdings_snippet" ]]; then
+      holdings_snippet="n/a"
     fi
   fi
 
@@ -63,6 +83,8 @@ while IFS= read -r lane; do
   message+="- ${fund_id}/${provider}: ${status_label} | action=${action} | change=${remove_ticker} -> ${add_ticker} | constraints=${constraints_label}"
   message+=$'\n'
   message+="  risks: ${risk_snippet}"
+  message+=$'\n'
+  message+="  holdings: ${holdings_snippet}"
   message+=$'\n'
   message+="  files: ${run_path}/dexter_output.json"
 done < <(jq -c '.lanes[]' "$scoreboard_path")
