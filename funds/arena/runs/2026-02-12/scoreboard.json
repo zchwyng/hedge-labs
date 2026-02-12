@@ -16,17 +16,17 @@
       "fund_id": "fund-b",
       "provider": "anthropic",
       "status": "success",
-      "action": "Replace",
-      "add_ticker": "WMT",
-      "remove_ticker": "TSLA",
-      "size_change_pct": 0,
+      "action": "Add",
+      "add_ticker": "NVDA",
+      "remove_ticker": null,
+      "size_change_pct": 15,
       "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
   "comparison": {
-    "portfolio_overlap_pct": 53.85,
-    "turnover_estimate_pct": 40,
+    "portfolio_overlap_pct": 33.33,
+    "turnover_estimate_pct": 51,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }

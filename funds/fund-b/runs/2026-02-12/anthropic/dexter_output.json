@@ -3,100 +3,77 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Tech selloff accelerates: AAPL down 5.3%, NVDA -2.6%, META -2.6%, AMD -4.1%, AVGO -3.6% on Feb 12",
-    "Defensive sectors show relative strength: Healthcare (UNH +2.2%, LLY +2.3%, JNJ +2.1%) and Consumer Staples (WMT +3.6%, PG +1.2%) outperforming",
-    "Quality momentum divergence: High-quality defensives holding up while cyclical tech momentum deteriorates"
+    "SPY down -1.65% to 680.48, QQQ down -2.14% to 599.68 on Feb 12 - sharp tech selloff with high volume (98M SPY, 72M QQQ)",
+    "Mag 7 tech showing material weakness: AAPL -5.24%, NVDA -3.17%, META -3.24%, TSLA -3.57%. News flags memory chip shortage concerns and AI capex skepticism",
+    "Energy outperforming: XOM up 26.7% YTD to $150.44, CVX up 17.2% YTD to $182.66, COP up 13.8% YTD. Strong momentum in oil majors on supply discipline"
   ],
-  "thesis_damage_flags": [
-    {
-      "ticker": "AAPL",
-      "why": "Down 5.3% today, largest single-day decline in portfolio; weakening price momentum breaks quality+momentum thesis"
-    },
-    {
-      "ticker": "NVDA",
-      "why": "Revenue growth decelerating (13.3% vs 15.2% prior quarter); operating margin compressed to 62.3% from 64.6%"
-    },
-    {
-      "ticker": "AMD",
-      "why": "Gross margin declining (49.5% vs 48.3% prior quarter trend); inventory turnover weakening signals demand issues"
-    }
-  ],
+  "thesis_damage_flags": [],
   "trade_of_the_day": {
-    "action": "Replace",
-    "remove_ticker": "TSLA",
-    "add_ticker": "WMT",
-    "size_change_pct": 0,
+    "action": "Add",
+    "remove_ticker": null,
+    "add_ticker": "NVDA",
+    "size_change_pct": 15,
     "thesis": [
-      "WMT hit $1 trillion market cap with strongest momentum in portfolio universe (+3.6% today, +19% YTD implied from news)",
-      "Superior quality metrics: 44% operating margin vs TSLA's 5.9%; positive 1.3% revenue growth vs TSLA's -0.8% decline",
-      "Defensive positioning for tech correction: Consumer staples provide downside protection while maintaining momentum characteristics"
+      "Q3 FY26 revenue $57.0B (+22% QoQ) with gross margin 73.4% and operating margin 63.2% - exceptional profitability with $31.9B net income",
+      "Sequential revenue growth accelerating (Q1: $44B, Q2: $47B, Q3: $57B) driven by data center AI demand. Earnings momentum intact despite recent selloff",
+      "Current pullback (-3.17% today) creates entry point in dominant AI infrastructure play. Stock trading at $186.91 vs recent highs near $200"
     ],
     "risks": [
-      "Valuation premium at 15.8x sales vs TSLA's similar multiple despite slower growth profile",
-      "Lower absolute revenue growth (1.3%) may lag in strong bull market recovery scenarios",
-      "Retail sector faces margin pressure from wage inflation and competitive dynamics"
+      "Memory chip shortage concerns flagged in news (Feb 12 Benzinga) could constrain GPU production and delay customer shipments",
+      "Elevated valuation at 25x forward earnings despite growth - vulnerable to macro risk-off rotation out of high-multiple tech",
+      "Competitive threats from AMD, custom AI chips (Google TPU, Amazon Trainium) and China DeepSeek models showing cost-efficient AI alternatives"
     ],
     "falsifiable_checks": [
-      "WMT maintains positive quarterly revenue growth >1% and operating margin >43% in Q1 2026 earnings",
-      "WMT stock outperforms TSLA by >5% over next 30 days amid continued tech sector volatility"
+      "Q4 FY26 earnings (late Jan 2026): Revenue must exceed $60B with gross margins above 72% to confirm demand trajectory",
+      "Stock price below $170 or sequential revenue decline would invalidate growth thesis and trigger exit"
     ],
-    "why_now": "TSLA showing clear quality deterioration with negative revenue growth, compressed 5.9% operating margin, and 27.6% EPS decline YoY. Today's 3.1% decline extends weakness. WMT offers immediate quality upgrade with 44% margin, positive growth, and defensive characteristics as tech correction accelerates. Momentum remains strong with WMT joining trillion-dollar club this week."
+    "why_now": "NVDA offers asymmetric risk/reward after today's selloff: dominant AI infrastructure position with 63% operating margins trading at recent support levels. Sequential revenue growth accelerating ($44B→$47B→$57B) validates enterprise AI adoption despite macro volatility. News-driven weakness (memory shortage fears, AI capex skepticism) creates tactical entry in best-in-class quality compounder with 30-day mean reversion catalyst as Q4 earnings approach and memory concerns prove transitory."
   },
   "target_portfolio": [
     {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Technology"
+    },
+    {
       "ticker": "MSFT",
-      "weight_pct": 5,
+      "weight_pct": 14,
       "sector": "Technology"
     },
     {
       "ticker": "GOOGL",
-      "weight_pct": 11,
-      "sector": "Technology"
-    },
-    {
-      "ticker": "NVDA",
-      "weight_pct": 10,
+      "weight_pct": 13,
       "sector": "Technology"
     },
     {
       "ticker": "META",
-      "weight_pct": 9,
+      "weight_pct": 12,
       "sector": "Technology"
     },
     {
-      "ticker": "V",
-      "weight_pct": 10,
-      "sector": "Financials"
+      "ticker": "XOM",
+      "weight_pct": 13,
+      "sector": "Energy"
     },
     {
-      "ticker": "UNH",
-      "weight_pct": 17,
-      "sector": "Healthcare"
+      "ticker": "CVX",
+      "weight_pct": 11,
+      "sector": "Energy"
     },
     {
-      "ticker": "LLY",
-      "weight_pct": 10,
-      "sector": "Healthcare"
+      "ticker": "MU",
+      "weight_pct": 11,
+      "sector": "Technology"
     },
     {
-      "ticker": "WMT",
-      "weight_pct": 10,
-      "sector": "Consumer Staples"
-    },
-    {
-      "ticker": "JPM",
-      "weight_pct": 9,
-      "sector": "Financials"
-    },
-    {
-      "ticker": "MA",
-      "weight_pct": 9,
-      "sector": "Financials"
+      "ticker": "QQQ",
+      "weight_pct": 11,
+      "sector": "Technology"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
-    "notes": "Weights were deterministically rebalanced to satisfy position and sector constraints."
+    "notes": "Technology sector at 76% (below 80% max). Largest position NVDA at 15% (below 40% max). All positions above 2% minimum. Energy diversification at 24% provides portfolio balance."
   }
 }
