@@ -102,6 +102,13 @@ if [[ "$status" == "success" ]]; then
   fi
 fi
 
+if [[ "$status" == "success" && -f "$json_path" ]]; then
+  model_used="$(jq -r '.model_used // empty' "$json_path")"
+  if [[ -n "$model_used" ]]; then
+    model="$model_used"
+  fi
+fi
+
 latest_scratchpad=""
 latest_mtime=0
 for scratch in .dexter/scratchpad/*.jsonl; do

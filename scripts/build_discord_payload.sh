@@ -79,6 +79,11 @@ while IFS= read -r lane; do
   risk_snippet="n/a"
   holdings_block="  • n/a"
   error_message=""
+  model_label="unknown"
+
+  if [[ -f "$meta_path" ]]; then
+    model_label="$(jq -r '.model // "unknown"' "$meta_path")"
+  fi
 
   if [[ "$status" == "success" && -f "$output_path" ]]; then
     size_change="$(jq -r '.trade_of_the_day.size_change_pct // 0' "$output_path")"
@@ -162,6 +167,8 @@ while IFS= read -r lane; do
 
   lane_sections+=$'\n\n'
   lane_sections+="**${fund_emoji} ${fund_label} (${provider_label})**"
+  lane_sections+=$'\n'
+  lane_sections+="- Model: \`${model_label}\`"
   lane_sections+=$'\n'
   lane_sections+="- Status: ${status_emoji} **${status_label}**"
   lane_sections+=$'\n'

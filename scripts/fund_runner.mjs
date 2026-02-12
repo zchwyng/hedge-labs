@@ -264,7 +264,10 @@ async function runOpenAI({ model, prompt }) {
     throw new Error("OpenAI response missing text content");
   }
 
-  return extractJsonObject(content);
+  return {
+    output: extractJsonObject(content),
+    modelUsed: model
+  };
 }
 
 async function runAnthropic({ model, prompt }) {
@@ -311,6 +314,7 @@ async function runAnthropic({ model, prompt }) {
   }
 
   let data;
+  let modelUsed = model;
   try {
     data = await callMessages(model);
   } catch (error) {
@@ -340,6 +344,7 @@ async function runAnthropic({ model, prompt }) {
     }
 
     data = await callMessages(fallbackModel);
+    modelUsed = fallbackModel;
   }
 
   const contentBlocks = Array.isArray(data?.content) ? data.content : [];
@@ -353,7 +358,10 @@ async function runAnthropic({ model, prompt }) {
     throw new Error("Anthropic response missing text content");
   }
 
-  return extractJsonObject(content);
+  return {
+    output: extractJsonObject(content),
+    modelUsed
+  };
 }
 
 function asString(value, fallback = "") {
@@ -531,18 +539,25 @@ async function main() {
 
   try {
     let rawOutput;
+    let modelUsed = context.model;
     if (context.provider === "openai") {
-      rawOutput = await runOpenAI({ model: context.model, prompt });
+      const result = await runOpenAI({ model: context.model, prompt });
+      rawOutput = result.output;
+      modelUsed = result.modelUsed;
     } else if (context.provider === "anthropic") {
-      rawOutput = await runAnthropic({ model: context.model, prompt });
+      const result = await runAnthropic({ model: context.model, prompt });
+      rawOutput = result.output;
+      modelUsed = result.modelUsed;
     } else {
       throw new Error(`unsupported provider: ${context.provider}`);
     }
 
     const normalized = normalizeOutput(rawOutput, context);
+    normalized.model_used = modelUsed;
+    normalized.model_requested = context.model;
     writeScratchpad(normalized, {
       provider: context.provider,
-      model: context.model,
+      model: modelUsed,
       mode: "live"
     });
     process.stdout.write(`${JSON.stringify(normalized)}\n`);
