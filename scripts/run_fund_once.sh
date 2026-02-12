@@ -1072,20 +1072,18 @@ if [[ "$status" == "success" ]]; then
     reason="Dexter scratchpad file was not produced"
   else
     fd_search_calls="$(count_fd_tool_calls_since_start "financial_search")"
-    fd_metrics_calls="$(count_fd_tool_calls_since_start "financial_metrics")"
-    if [[ "$fd_search_calls" == "0" || "$fd_metrics_calls" == "0" ]]; then
+    if [[ "$fd_search_calls" == "0" ]]; then
       tool_retry_prompt="${run_dir}/prompt.tools.retry.txt"
       cat > "$tool_retry_prompt" <<EOF
 Tool-use requirement was not met in your previous response.
 
 Before finalizing your JSON:
 1) Call \`financial_search\` at least once to gather verifiable market/news/company context.
-2) Call \`financial_metrics\` at least once to validate key financial/valuation metrics for your chosen holdings.
-3) Then return ONLY one valid JSON object matching all assignment constraints.
-4) Ensure data quality: provide enough successful source coverage and avoid unresolved API-error-heavy output.
-5) If rebalance is due, provide full action list in \`rebalance_actions\`; if not due, set \`rebalance_actions\` to [].
+2) Then return ONLY one valid JSON object matching all assignment constraints.
+3) Ensure data quality: provide enough successful source coverage and avoid unresolved API-error-heavy output.
+4) If rebalance is due, provide full action list in \`rebalance_actions\`; if not due, set \`rebalance_actions\` to [].
 
-Failure to call both required tools is treated as a failed run.
+Failure to call the required \`financial_search\` tool is treated as a failed run.
 
 Original assignment:
 $(cat "$canonical_prompt")
@@ -1107,10 +1105,9 @@ if [[ "$status" == "success" ]]; then
     reason="Dexter scratchpad file was not produced"
   else
     fd_search_calls="$(count_fd_tool_calls_since_start "financial_search")"
-    fd_metrics_calls="$(count_fd_tool_calls_since_start "financial_metrics")"
-    if [[ "$fd_search_calls" == "0" || "$fd_metrics_calls" == "0" ]]; then
+    if [[ "$fd_search_calls" == "0" ]]; then
       status="failed"
-      reason="Dexter did not call both required Financial Datasets tools (financial_search and financial_metrics)"
+      reason="Dexter did not call required Financial Datasets tool (financial_search)"
     else
       fd_source_urls="$(count_fd_source_urls_since_start)"
       fd_errors="$(count_fd_errors_since_start)"

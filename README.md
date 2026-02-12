@@ -39,7 +39,7 @@ A lane is marked failed if any of these conditions occur:
 
 - Dexter output is invalid JSON.
 - Dexter scratchpad is missing.
-- Dexter did not call both `financial_search` and `financial_metrics`.
+- Dexter did not call `financial_search`.
 - Financial Datasets source coverage is too low or error ratio is too high.
 
 This enforces Financial Datasets tool usage for successful runs.
