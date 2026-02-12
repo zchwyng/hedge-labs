@@ -49,6 +49,11 @@ while IFS= read -r lane; do
   esac
 
   fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
+  case "$fund_id" in
+    fund-a) fund_emoji="🟦" ;;
+    fund-b) fund_emoji="🟪" ;;
+    *) fund_emoji="⬜" ;;
+  esac
 
   if [[ "$status" == "success" ]]; then
     status_emoji="🟢"
@@ -156,9 +161,9 @@ while IFS= read -r lane; do
   fi
 
   lane_sections+=$'\n\n'
-  lane_sections+="**${status_emoji} ${fund_label} (${provider_label})**"
+  lane_sections+="**${fund_emoji} ${fund_label} (${provider_label})**"
   lane_sections+=$'\n'
-  lane_sections+="- Status: **${status_label}**"
+  lane_sections+="- Status: ${status_emoji} **${status_label}**"
   lane_sections+=$'\n'
   lane_sections+="- Today: ${action_summary}"
   lane_sections+=$'\n'
