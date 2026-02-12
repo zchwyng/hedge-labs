@@ -3,14 +3,12 @@
   "provider": "openai",
   "model": "gpt-5.2",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T20:36:04Z",
-  "ended_at": "2026-02-12T20:37:58Z",
+  "started_at": "2026-02-12T20:38:57Z",
+  "ended_at": "2026-02-12T20:40:07Z",
   "status": "success",
   "reason": "",
-  "api_errors": [
-    "\"Newsflow in the last ~72h is dominated by broad market/AI-selloff commentary across mega-cap tech rather than clear company-specific fundamental breaks (news items available mainly from Investing.com/Motley Fool/Benzinga; many tickers had partial data due to rate limits).\""
-  ],
+  "api_errors": [],
   "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-203604_1f2516120a7b.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-203859_1f2516120a7b.jsonl"
 }

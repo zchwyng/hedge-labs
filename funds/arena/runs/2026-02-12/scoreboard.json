@@ -5,10 +5,10 @@
       "fund_id": "fund-a",
       "provider": "openai",
       "status": "success",
-      "action": "Trim",
-      "add_ticker": "MSFT",
-      "remove_ticker": "AAPL",
-      "size_change_pct": 2,
+      "action": "Do nothing",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
       "constraints_ok": true,
       "run_path": "funds/fund-a/runs/2026-02-12/openai"
     },
@@ -17,8 +17,8 @@
       "provider": "anthropic",
       "status": "success",
       "action": "Replace",
-      "add_ticker": "META",
-      "remove_ticker": "MSFT",
+      "add_ticker": "WMT",
+      "remove_ticker": "TSLA",
       "size_change_pct": 0,
       "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
@@ -26,7 +26,7 @@
   ],
   "comparison": {
     "portfolio_overlap_pct": 53.85,
-    "turnover_estimate_pct": 36,
+    "turnover_estimate_pct": 40,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-12/openai/dexter_output.json vs funds/fund-b/runs/2026-02-12/anthropic/dexter_output.json."
   }
 }
