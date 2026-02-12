@@ -66,19 +66,11 @@ format_holdings_table() {
       if ((v * 10) == int(v * 10)) return sprintf("%.1f%%", v)
       return sprintf("%.2f%%", v)
     }
-    function dashes(n,    s, i) {
-      s = ""
-      for (i = 0; i < n; i++) s = s "-"
-      return s
-    }
     {
       n += 1
       ticker[n] = $1
       weight[n] = fmt_weight($2)
       sector[n] = $3
-      if (length(ticker[n]) > w1) w1 = length(ticker[n])
-      if (length(weight[n]) > w2) w2 = length(weight[n])
-      if (length(sector[n]) > w3) w3 = length(sector[n])
     }
     END {
       print "```text"
@@ -87,13 +79,10 @@ format_holdings_table() {
         print "```"
         exit
       }
-      if (w1 < 6) w1 = 6
-      if (w2 < 6) w2 = 6
-      if (w3 < 6) w3 = 6
-      printf "%-*s  %-*s  %-*s\n", w1, "Ticker", w2, "Weight", w3, "Sector"
-      printf "%-*s  %-*s  %-*s\n", w1, dashes(w1), w2, dashes(w2), w3, dashes(w3)
+      print "Ticker | Wt | Sector"
+      print "--- | --- | ---"
       for (i = 1; i <= n; i++) {
-        printf "%-*s  %-*s  %-*s\n", w1, ticker[i], w2, weight[i], w3, sector[i]
+        printf "%s | %s | %s\n", ticker[i], weight[i], sector[i]
       }
       print "```"
     }
@@ -265,25 +254,6 @@ n/a
       perf_rows="$(jq -cn --argjson rows "$perf_rows" --arg fund "$fund_label" --argjson ret "$fund_return_pct" '$rows + [{fund: $fund, ret: $ret}]')"
     fi
 
-    stock_moves_summary="$(jq -r '
-      (.stocks // []) as $s
-      | if ($s | length) == 0 then
-          "n/a"
-        else
-          ($s | sort_by(-.return_pct) | .[0:2]) as $winners
-          | ($s | sort_by(.return_pct) | .[0:1]) as $laggards
-          | (($winners + $laggards)
-            | unique_by(.ticker)
-            | map(
-                .ticker + " "
-                + (if .return_pct >= 0 then "+" else "" end)
-                + (.return_pct|tostring)
-                + "%"
-              )
-            | join(", "))
-        end
-    ' <<<"$perf_json")"
-
     sector_exposure_summary="$(jq -r '
       (.target_portfolio // []) as $p
       | if ($p | length) == 0 then
@@ -296,9 +266,16 @@ n/a
                 weight: ((map(.weight_pct // 0) | add) // 0)
               })
             | sort_by(-.weight, .sector)
+          ) as $rows
+          | ($rows[0:4]
             | map(.sector + " " + ((.weight * 100 | round) / 100 | tostring) + "%")
-            | .[0:4]
-            | join(", "))
+          ) as $top
+          | (($rows[4:] | map(.weight) | add) // 0) as $other
+          | if $other > 0 then
+              ($top + ["Other " + (($other * 100 | round) / 100 | tostring) + "%"] | join(", "))
+            else
+              ($top | join(", "))
+            end
         end
     ' "$output_path")"
 
@@ -424,22 +401,18 @@ n/a
   lane_sections+="- Status: ${status_emoji} **${status_label}**"
   lane_sections+=$'\n'
   lane_sections+="- Today: ${action_summary}"
-  lane_sections+=$'\n'
-  lane_sections+="- Risk limits: ${constraints_label}"
+  if [[ "$constraints_ok" != "true" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- Risk limits: ${constraints_label}"
+  fi
   lane_sections+=$'\n'
   lane_sections+="- Since added (fund): **${performance_summary}**"
-  lane_sections+=$'\n'
-  lane_sections+="- Since added (stocks): ${stock_moves_summary}"
   if [[ -n "$api_notice_block" ]]; then
     lane_sections+=$'\n'
     lane_sections+="- API notices:"
     lane_sections+=$'\n'
     lane_sections+="$api_notice_block"
   fi
-  lane_sections+=$'\n'
-  lane_sections+="- Holding changes + reasoning:"
-  lane_sections+=$'\n'
-  lane_sections+="$change_reason_block"
 
   if [[ -n "$error_message" ]]; then
     lane_sections+=$'\n'
@@ -487,12 +460,6 @@ message+="- Portfolio overlap: **${overlap_pct}%**"
 message+=$'\n'
 message+="- Estimated turnover: **${turnover_pct}%**"
 message+=$'\n'
-message+="- Leader since launch: **${leader_line}**"
-if [[ -n "$comparison_notes" && "$comparison_notes" != "null" ]]; then
-  message+=$'\n'
-  message+="- Notes: _${comparison_notes}_"
-fi
-message+=$'\n'
 if [[ -n "$scoreboard_url" ]]; then
   message+="- Full scoreboard: <${scoreboard_url}>"
 else
@@ -515,13 +482,13 @@ if (( ${#message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Leader since launch:.*\n//mg')"
   fi
   if (( ${#compact_message} > max_len )); then
-    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Sector exposure:.*\n//mg')"
-  fi
-  if (( ${#compact_message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added \(fund\):.*\n//mg')"
   fi
   if (( ${#compact_message} > max_len )); then
     compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Risk limits:.*\n//mg')"
+  fi
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Sector exposure:.*\n//mg')"
   fi
   if (( ${#compact_message} <= max_len )); then
     message="$compact_message"
