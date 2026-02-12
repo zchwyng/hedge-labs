@@ -5,7 +5,7 @@ Run metadata:
 - Run date: 2026-02-12
 - Fund name: Value + Revisions (Monthly-hold)
 - Provider: anthropic
-- Model: claude-opus-4-5
+- Model: claude-sonnet-4-5
 - Rebalance cadence: weekly
 
 Rules:

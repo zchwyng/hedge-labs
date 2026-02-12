@@ -2,7 +2,7 @@
 
 | Lane | Status | Action | Change | Constraints |
 |---|---|---|---|---|
-| fund-a/openai | success | Do nothing | - | OK |
+| fund-a/openai | success | Replace | MO -> MRK | OK |
 | fund-b/anthropic | failed | UNKNOWN | - | FAIL |
 
 - Portfolio overlap: 0%

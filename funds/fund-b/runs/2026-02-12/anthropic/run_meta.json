@@ -1,17 +1,17 @@
 {
   "fund_id": "fund-b",
   "provider": "anthropic",
-  "model": "claude-opus-4-5",
+  "model": "claude-sonnet-4-5",
   "run_date": "2026-02-12",
-  "started_at": "2026-02-12T17:43:31Z",
-  "ended_at": "2026-02-12T17:47:05Z",
+  "started_at": "2026-02-12T17:53:52Z",
+  "ended_at": "2026-02-12T17:53:55Z",
   "status": "failed",
   "reason": "Bun v1.3.9 (Linux x64)",
   "api_errors": [
-    "error: [Anthropic API] 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CY4bQD9w7UutvHXtgm3UV\"}",
+    "error: [Anthropic API] 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CY4bvRSx3pwziCNkjo95M\"}",
     "Bun v1.3.9 (Linux x64)"
   ],
   "dexter_exit_code": 1,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-174332_7430f1b961e3.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-12-175353_2cbf598d2a98.jsonl"
 }
