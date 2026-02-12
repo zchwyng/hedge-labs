@@ -358,15 +358,37 @@ n/a
   if [[ -f "$meta_path" ]]; then
     model_label="$(jq -r '.model // "unknown"' "$meta_path")"
     api_notice_block="$(jq -r '
+      def norm:
+        gsub("[\r\n]+"; " ")
+        | gsub("\\s+"; " ")
+        | sub("^\\s+"; "")
+        | sub("\\s+$"; "")
+        | sub("^\"+"; "")
+        | sub("\"+$"; "");
+      def fd_rate_limited:
+        test("financial[_ ]datasets|financial_search|financial_metrics|data unavailable \\(rate limited\\)|tool-?limited|due to tool rate limits|hit api rate limits|placeholder|financial data|company fundamentals|price data for"; "i");
+      def classify_source:
+        if fd_rate_limited then
+          "Financial Datasets API"
+        elif test("^\\[[^\\]]+ API\\]"; "i") then
+          (capture("^\\[(?<src>[^\\]]+ API)\\]").src)
+        elif test("openai|anthropic"; "i") and test("rate limit|quota|billing|insufficient_(quota|credits|balance)|unauthorized|forbidden|invalid api key"; "i") then
+          "Model provider API"
+        else
+          "Unknown source"
+        end;
       (.api_errors // [])
-      | map(select(type == "string" and length > 0))
-      | unique
-      | .[:3]
+      | map(select(type == "string" and length > 0) | norm)
+      | map(select(length > 0))
       | map(
-          if length > 160 then .[0:157] + "..."
-          else .
+          if fd_rate_limited then
+            "Financial Datasets API: rate limited (model reported partial/placeholder data)."
+          else
+            (classify_source + ": " + .)
           end
         )
+      | unique
+      | .[:3]
       | if length == 0 then ""
         else map("  • " + .) | join("\n")
         end
@@ -670,7 +692,7 @@ n/a
   fi
   if [[ -n "$api_notice_block" ]]; then
     lane_sections+=$'\n'
-    lane_sections+="- API:"
+    lane_sections+="- Data Notes:"
     lane_sections+=$'\n'
     lane_sections+="$api_notice_block"
   fi

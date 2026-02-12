@@ -18,12 +18,12 @@ Rules:
   - Max position: {MAX_POSITION_PCT}%
   - Max sector: {MAX_SECTOR_PCT}%
 - Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
-- `target_portfolio` must contain exactly {POSITIONS} US equity tickers (no placeholders like `UNKNOWN`/`CASH`, and no ETFs/crypto).
+- `target_portfolio` must contain exactly {POSITIONS} tradable symbols (equities, ETFs, or major crypto assets) with no placeholders like `UNKNOWN`/`CASH`.
 - Every holding weight must be >= 2 and <= {MAX_POSITION_PCT}; total portfolio weight must sum to 100%.
 - Sector exposure must satisfy max sector <= {MAX_SECTOR_PCT}%.
 - `constraints_check.max_position_ok` and `constraints_check.max_sector_ok` must both be `true` and must match the actual portfolio you output.
 - You MUST call both `financial_search` and `financial_metrics` at least once before finalizing output.
-- If no prior portfolio is available, bootstrap a full diversified {POSITIONS}-name portfolio from verifiable US large/mid cap equities across at least 5 sectors.
+- If no prior portfolio is available, bootstrap a full {POSITIONS}-name high-conviction portfolio from verifiable equities, ETFs, and/or major crypto assets across at least 3 sectors/themes.
 - Never output a partial portfolio. Continue tool research until a valid full portfolio can be produced.
 
 Tasks:

@@ -530,7 +530,7 @@ Your previous response failed deterministic validation. Fix it and return ONLY o
 
 Validation requirements:
 - target_portfolio must contain exactly ${target_positions} holdings.
-- No CASH, UNKNOWN, duplicate tickers, ETFs, or crypto.
+- No CASH, UNKNOWN, or duplicate tickers. Equities, ETFs, and major crypto assets are allowed.
 - Each weight_pct must be >= ${min_position_pct} and <= ${max_position_pct}.
 - Total weight must be 100% (acceptable range 99.5-100.5).
 - Any single sector total must be <= ${max_sector_pct}.
