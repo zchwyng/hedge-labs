@@ -84,6 +84,218 @@ function sectorMaxWeight(portfolio) {
   return Number(max.toFixed(2));
 }
 
+function round2(value) {
+  return Number(value.toFixed(2));
+}
+
+function getSectorSums(portfolio) {
+  const sums = new Map();
+  for (const item of portfolio) {
+    sums.set(item.sector, (sums.get(item.sector) || 0) + item.weight_pct);
+  }
+  return sums;
+}
+
+function normalizeWeightsTo100(portfolio) {
+  const total = portfolio.reduce((sum, item) => sum + item.weight_pct, 0);
+  if (total <= 0) {
+    return false;
+  }
+  for (const item of portfolio) {
+    item.weight_pct = (item.weight_pct * 100) / total;
+  }
+  return true;
+}
+
+function computeFeasibleCapacity(portfolio, maxPositionPct, maxSectorPct) {
+  const sectorCounts = new Map();
+  for (const item of portfolio) {
+    sectorCounts.set(item.sector, (sectorCounts.get(item.sector) || 0) + 1);
+  }
+
+  let capacity = 0;
+  for (const count of sectorCounts.values()) {
+    capacity += Math.min(count * maxPositionPct, maxSectorPct);
+  }
+  return capacity;
+}
+
+function redistributeWithinCaps(portfolio, amount, maxPositionPct, maxSectorPct) {
+  let remaining = amount;
+
+  for (let iter = 0; iter < 80 && remaining > 1e-6; iter += 1) {
+    const sectorSums = getSectorSums(portfolio);
+    const capacities = portfolio.map((item) => {
+      const byPosition = Math.max(0, maxPositionPct - item.weight_pct);
+      const bySector = Math.max(0, maxSectorPct - (sectorSums.get(item.sector) || 0));
+      return Math.min(byPosition, bySector);
+    });
+
+    const totalCapacity = capacities.reduce((sum, value) => sum + value, 0);
+    if (totalCapacity <= 1e-9) {
+      break;
+    }
+
+    const delta = Math.min(remaining, totalCapacity);
+    for (let i = 0; i < portfolio.length; i += 1) {
+      const cap = capacities[i];
+      if (cap <= 0) continue;
+      portfolio[i].weight_pct += (delta * cap) / totalCapacity;
+    }
+    remaining -= delta;
+  }
+
+  return remaining;
+}
+
+function finalizeRoundedWeights(portfolio, maxPositionPct, maxSectorPct) {
+  for (const item of portfolio) {
+    item.weight_pct = round2(Math.max(0, item.weight_pct));
+  }
+
+  let residual = round2(100 - portfolio.reduce((sum, item) => sum + item.weight_pct, 0));
+  if (Math.abs(residual) < 0.01) {
+    return;
+  }
+
+  for (let iter = 0; iter < 500 && Math.abs(residual) >= 0.01; iter += 1) {
+    const sectorSums = getSectorSums(portfolio);
+    if (residual > 0) {
+      const candidate = [...portfolio]
+        .sort((a, b) => (a.weight_pct - b.weight_pct) || a.ticker.localeCompare(b.ticker))
+        .find((item) => item.weight_pct + 0.01 <= maxPositionPct && (sectorSums.get(item.sector) || 0) + 0.01 <= maxSectorPct);
+      if (!candidate) break;
+      candidate.weight_pct = round2(candidate.weight_pct + 0.01);
+      residual = round2(residual - 0.01);
+    } else {
+      const candidate = [...portfolio]
+        .sort((a, b) => (b.weight_pct - a.weight_pct) || a.ticker.localeCompare(b.ticker))
+        .find((item) => item.weight_pct >= 0.01);
+      if (!candidate) break;
+      candidate.weight_pct = round2(candidate.weight_pct - 0.01);
+      residual = round2(residual + 0.01);
+    }
+  }
+}
+
+function enforcePortfolioConstraints(initialPortfolio, context) {
+  const notes = [];
+  let portfolio = initialPortfolio.map((item) => ({ ...item }));
+
+  // Merge duplicate tickers deterministically.
+  const byTicker = new Map();
+  for (const item of portfolio) {
+    const existing = byTicker.get(item.ticker);
+    if (!existing) {
+      byTicker.set(item.ticker, { ...item });
+      continue;
+    }
+    existing.weight_pct += item.weight_pct;
+    if (existing.sector === "UNKNOWN" && item.sector !== "UNKNOWN") {
+      existing.sector = item.sector;
+    }
+  }
+  portfolio = Array.from(byTicker.values());
+
+  if (portfolio.length > context.positions) {
+    portfolio.sort((a, b) => (b.weight_pct - a.weight_pct) || a.ticker.localeCompare(b.ticker));
+    portfolio = portfolio.slice(0, context.positions);
+    notes.push(`trimmed_to_top_${context.positions}_positions=true`);
+  }
+
+  if (portfolio.length === 0 || !normalizeWeightsTo100(portfolio)) {
+    return {
+      portfolio: buildPortfolio(context.positions, context.maxPositionPct),
+      repaired: true,
+      repairNotes: ["repair_fallback=empty_or_invalid_portfolio"]
+    };
+  }
+
+  const feasibleCapacity = computeFeasibleCapacity(portfolio, context.maxPositionPct, context.maxSectorPct);
+  if (feasibleCapacity + 1e-6 < 100) {
+    return {
+      portfolio: buildPortfolio(context.positions, context.maxPositionPct),
+      repaired: true,
+      repairNotes: [`repair_fallback=infeasible_sector_capacity_${round2(feasibleCapacity)}pct`]
+    };
+  }
+
+  let excess = 0;
+  for (const item of portfolio) {
+    if (item.weight_pct > context.maxPositionPct) {
+      excess += item.weight_pct - context.maxPositionPct;
+      item.weight_pct = context.maxPositionPct;
+    }
+  }
+
+  const sectorSums = getSectorSums(portfolio);
+  for (const [sector, sum] of sectorSums.entries()) {
+    if (sum <= context.maxSectorPct + 1e-9) continue;
+    const ratio = context.maxSectorPct / sum;
+    for (const item of portfolio) {
+      if (item.sector !== sector) continue;
+      const newWeight = item.weight_pct * ratio;
+      excess += item.weight_pct - newWeight;
+      item.weight_pct = newWeight;
+    }
+  }
+
+  const remainingAfterRedistribution = redistributeWithinCaps(
+    portfolio,
+    excess,
+    context.maxPositionPct,
+    context.maxSectorPct
+  );
+  if (remainingAfterRedistribution > 0.05) {
+    notes.push(`unallocated_after_caps=${round2(remainingAfterRedistribution)}%`);
+  }
+
+  const currentTotal = portfolio.reduce((sum, item) => sum + item.weight_pct, 0);
+  if (currentTotal < 100 - 1e-6) {
+    const rem = redistributeWithinCaps(
+      portfolio,
+      100 - currentTotal,
+      context.maxPositionPct,
+      context.maxSectorPct
+    );
+    if (rem > 0.05) {
+      notes.push(`final_unallocated=${round2(rem)}%`);
+    }
+  } else if (currentTotal > 100 + 1e-6) {
+    let toTrim = currentTotal - 100;
+    for (const item of [...portfolio].sort((a, b) => (b.weight_pct - a.weight_pct) || a.ticker.localeCompare(b.ticker))) {
+      if (toTrim <= 1e-6) break;
+      const cut = Math.min(item.weight_pct, toTrim);
+      item.weight_pct -= cut;
+      toTrim -= cut;
+    }
+  }
+
+  finalizeRoundedWeights(portfolio, context.maxPositionPct, context.maxSectorPct);
+
+  const maxPositionObserved = round2(Math.max(...portfolio.map((item) => item.weight_pct)));
+  const maxSectorObserved = sectorMaxWeight(portfolio);
+  const maxPositionOk = maxPositionObserved <= context.maxPositionPct + 0.01;
+  const maxSectorOk = maxSectorObserved <= context.maxSectorPct + 0.01;
+
+  if (!maxPositionOk || !maxSectorOk) {
+    return {
+      portfolio: buildPortfolio(context.positions, context.maxPositionPct),
+      repaired: true,
+      repairNotes: [
+        ...notes,
+        `repair_fallback=post_repair_constraints_failed(max_position=${maxPositionObserved},max_sector=${maxSectorObserved})`
+      ]
+    };
+  }
+
+  return {
+    portfolio,
+    repaired: notes.length > 0,
+    repairNotes: notes
+  };
+}
+
 function writeScratchpad(event, metadata = {}) {
   const dir = ".dexter/scratchpad";
   mkdirSync(dir, { recursive: true });
@@ -486,7 +698,7 @@ function normalizeOutput(raw, context) {
     checks.push("UNKNOWN");
   }
 
-  let portfolio = Array.isArray(raw?.target_portfolio)
+  const rawPortfolio = Array.isArray(raw?.target_portfolio)
     ? raw.target_portfolio
         .map((item) => ({
           ticker: asString(item?.ticker, "").trim().toUpperCase(),
@@ -496,15 +708,24 @@ function normalizeOutput(raw, context) {
         .filter((item) => item.ticker && Number.isFinite(item.weight_pct) && item.weight_pct >= 0)
     : [];
 
-  if (portfolio.length === 0) {
-    portfolio = buildPortfolio(context.positions, context.maxPositionPct);
-  }
+  const repairedPortfolioResult = enforcePortfolioConstraints(rawPortfolio, context);
+  const portfolio = repairedPortfolioResult.portfolio;
 
   const maxPositionObserved = Number(Math.max(...portfolio.map((p) => p.weight_pct)).toFixed(2));
   const maxSectorObserved = sectorMaxWeight(portfolio);
 
   const existingNotes = asString(raw?.constraints_check?.notes, "").trim();
   const computedNotes = `max_position_observed=${maxPositionObserved}%, max_sector_observed=${maxSectorObserved}%`;
+  const repairNotes = repairedPortfolioResult.repairNotes.join("; ");
+
+  const noteParts = [];
+  if (existingNotes) {
+    noteParts.push(existingNotes);
+  }
+  if (repairNotes) {
+    noteParts.push(repairNotes);
+  }
+  noteParts.push(computedNotes);
 
   return {
     run_date: context.runDate,
@@ -524,9 +745,9 @@ function normalizeOutput(raw, context) {
     },
     target_portfolio: portfolio,
     constraints_check: {
-      max_position_ok: maxPositionObserved <= context.maxPositionPct,
-      max_sector_ok: maxSectorObserved <= context.maxSectorPct,
-      notes: existingNotes ? `${existingNotes}; ${computedNotes}` : computedNotes
+      max_position_ok: maxPositionObserved <= context.maxPositionPct + 0.01,
+      max_sector_ok: maxSectorObserved <= context.maxSectorPct + 0.01,
+      notes: noteParts.join("; ")
     }
   };
 }
