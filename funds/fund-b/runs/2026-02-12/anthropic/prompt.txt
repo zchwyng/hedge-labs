@@ -14,13 +14,15 @@ Rules:
 - Universe: US large & mid cap only.
 - Portfolio constraints:
   - Target positions: 12
+  - Min position: 2%
   - Max position: 12%
   - Max sector: 25%
 - Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
 - `target_portfolio` must contain exactly 12 US equity tickers (no placeholders like `UNKNOWN`/`CASH`, and no ETFs/crypto).
-- Every holding weight must be > 0 and <= 12; total portfolio weight must sum to 100%.
+- Every holding weight must be >= 2 and <= 12; total portfolio weight must sum to 100%.
 - Sector exposure must satisfy max sector <= 25%.
 - `constraints_check.max_position_ok` and `constraints_check.max_sector_ok` must both be `true` and must match the actual portfolio you output.
+- You MUST call both `financial_search` and `financial_metrics` at least once before finalizing output.
 - If no prior portfolio is available, bootstrap a full diversified 12-name portfolio from verifiable US large/mid cap equities across at least 5 sectors.
 - Never output a partial portfolio. Continue tool research until a valid full portfolio can be produced.
 
@@ -31,6 +33,8 @@ Tasks:
 
 2) PAPER TRADE OF THE DAY (candidate, NOT an instruction):
    - Propose exactly ONE action among: ["Add", "Trim", "Replace", "Do nothing"].
+   - If "Add": set `add_ticker` to the added ticker.
+   - If "Trim": set `remove_ticker` to the trimmed ticker AND `add_ticker` to where weight is reallocated.
    - If "Replace": specify which holding is removed and which is added.
    - Provide: thesis (3 bullets), key risks (3 bullets), falsifiable checks (2), and why-now (6-18 months).
    - Provide position sizing suggestion within constraints (e.g. +2% to target).

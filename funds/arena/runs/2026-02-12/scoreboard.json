@@ -4,23 +4,23 @@
     {
       "fund_id": "fund-a",
       "provider": "openai",
-      "status": "success",
-      "action": "Trim",
-      "add_ticker": null,
-      "remove_ticker": null,
-      "size_change_pct": -2,
-      "constraints_ok": true,
-      "run_path": "funds/fund-a/runs/2026-02-12/openai"
-    },
-    {
-      "fund_id": "fund-b",
-      "provider": "anthropic",
       "status": "failed",
       "action": "UNKNOWN",
       "add_ticker": null,
       "remove_ticker": null,
       "size_change_pct": 0,
       "constraints_ok": false,
+      "run_path": "funds/fund-a/runs/2026-02-12/openai"
+    },
+    {
+      "fund_id": "fund-b",
+      "provider": "anthropic",
+      "status": "success",
+      "action": "Add",
+      "add_ticker": "BAC",
+      "remove_ticker": null,
+      "size_change_pct": 8,
+      "constraints_ok": true,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic"
     }
   ],
