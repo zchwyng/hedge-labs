@@ -135,6 +135,45 @@ else
   exit_code=1
 fi
 
+api_errors_json='[]'
+if [[ -f "$stdout_path" ]]; then
+  api_lines="$(
+    awk '
+      BEGIN { IGNORECASE=1 }
+      {
+        line=$0
+        if (line ~ /fund_runner_error:/) {
+          sub(/^.*fund_runner_error:[[:space:]]*/, "", line)
+          print line
+          next
+        }
+        if (
+          line ~ /HTTP [0-9]{3}:/ ||
+          line ~ /rate limit/ ||
+          line ~ /quota/ ||
+          line ~ /billing/ ||
+          line ~ /insufficient/ ||
+          line ~ /unauthorized/ ||
+          line ~ /forbidden/ ||
+          line ~ /invalid api key/ ||
+          line ~ /timed out/ ||
+          line ~ /timeout/ ||
+          line ~ /service unavailable/ ||
+          line ~ /connection refused/
+        ) {
+          print line
+        }
+      }
+    ' "$stdout_path" \
+      | sed -E 's/\r$//; s/[[:space:]]+/ /g; s/^ //; s/ $//' \
+      | awk 'length > 0 && !seen[$0]++' \
+      | head -n 5
+  )"
+  if [[ -n "$api_lines" ]]; then
+    api_errors_json="$(printf '%s\n' "$api_lines" | jq -Rsc 'split("\n") | map(select(length > 0))')"
+  fi
+fi
+
 jq -n \
   --arg fund_id "$fund_id" \
   --arg provider "$provider" \
@@ -145,6 +184,7 @@ jq -n \
   --arg status "$status" \
   --arg reason "$reason" \
   --arg scratchpad_source "$latest_scratchpad" \
+  --argjson api_errors "$api_errors_json" \
   --argjson bun_exit_code "$bun_exit_code" \
   --argjson scratchpad_found "$( [[ -n "$latest_scratchpad" ]] && echo true || echo false )" \
   '{
@@ -156,6 +196,7 @@ jq -n \
     ended_at: $ended_at,
     status: $status,
     reason: $reason,
+    api_errors: $api_errors,
     bun_exit_code: $bun_exit_code,
     scratchpad_found: $scratchpad_found,
     scratchpad_source: (if $scratchpad_source == "" then null else $scratchpad_source end)

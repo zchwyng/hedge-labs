@@ -126,10 +126,25 @@ while IFS= read -r lane; do
   holdings_block="  • n/a"
   change_reason_block="  • n/a"
   error_message=""
+  api_notice_block=""
   model_label="unknown"
 
   if [[ -f "$meta_path" ]]; then
     model_label="$(jq -r '.model // "unknown"' "$meta_path")"
+    api_notice_block="$(jq -r '
+      (.api_errors // [])
+      | map(select(type == "string" and length > 0))
+      | unique
+      | .[:3]
+      | map(
+          if length > 160 then .[0:157] + "..."
+          else .
+          end
+        )
+      | if length == 0 then ""
+        else map("  • " + .) | join("\n")
+        end
+    ' "$meta_path")"
   fi
 
   if [[ "$status" == "success" && -f "$output_path" ]]; then
@@ -316,6 +331,12 @@ while IFS= read -r lane; do
   lane_sections+="- Since added (fund): **${performance_summary}**"
   lane_sections+=$'\n'
   lane_sections+="- Since added (stocks): ${stock_moves_summary}"
+  if [[ -n "$api_notice_block" ]]; then
+    lane_sections+=$'\n'
+    lane_sections+="- API notices:"
+    lane_sections+=$'\n'
+    lane_sections+="$api_notice_block"
+  fi
   lane_sections+=$'\n'
   lane_sections+="- Holding changes + reasoning:"
   lane_sections+=$'\n'
