@@ -945,11 +945,24 @@ count_fd_source_urls_since_start() {
     mtime="$(scratchpad_mtime "$scratch")"
     [[ "$mtime" -ge "$start_epoch" ]] || continue
     count="$(
-      jq -r '
-        [ select(.type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics")))
-          | (.result.sourceUrls // [])
-          | length
-        ] | add // 0
+      jq -rs '
+        def is_fd_tool_result:
+          .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+        def source_url_count:
+          [
+            .result.sourceUrls?,
+            .result.source_urls?,
+            .result.data.sourceUrls?,
+            .result.data.source_urls?
+          ]
+          | map(
+              if type == "array" then .[]
+              elif type == "string" then .
+              else empty
+              end
+            )
+          | length;
+        [ .[] | select(is_fd_tool_result) | source_url_count ] | add // 0
       ' "$scratch" 2>/dev/null || echo 0
     )"
     if [[ "$count" =~ ^[0-9]+$ ]]; then
@@ -969,11 +982,24 @@ count_fd_errors_since_start() {
     mtime="$(scratchpad_mtime "$scratch")"
     [[ "$mtime" -ge "$start_epoch" ]] || continue
     count="$(
-      jq -r '
-        [ select(.type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics")))
-          | (.result.data._errors // [])
-          | length
-        ] | add // 0
+      jq -rs '
+        def is_fd_tool_result:
+          .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+        def error_count:
+          [
+            .result.data._errors?,
+            .result._errors?,
+            .result.data.errors?,
+            .result.errors?
+          ]
+          | map(
+              if type == "array" then .[]
+              elif . == null then empty
+              else .
+              end
+            )
+          | length;
+        [ .[] | select(is_fd_tool_result) | error_count ] | add // 0
       ' "$scratch" 2>/dev/null || echo 0
     )"
     if [[ "$count" =~ ^[0-9]+$ ]]; then
