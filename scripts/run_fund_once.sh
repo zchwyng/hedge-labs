@@ -187,12 +187,20 @@ if [[ "$status" == "success" ]]; then
       .trade_of_the_day.action == "Replace" or
       .trade_of_the_day.action == "Do nothing"
     ) and
-    (.target_portfolio | type == "array") and
-    (.constraints_check.max_position_ok | type == "boolean") and
-    (.constraints_check.max_sector_ok | type == "boolean")
+    (.target_portfolio | type == "array" and length > 0) and
+    (
+      all(
+        .target_portfolio[]?;
+        (.ticker | type == "string") and
+        ((.ticker | ascii_upcase) != "UNKNOWN") and
+        (.weight_pct | type == "number")
+      )
+    ) and
+    (.constraints_check.max_position_ok == true) and
+    (.constraints_check.max_sector_ok == true)
   ' "$json_path" >/dev/null 2>&1; then
     status="failed"
-    reason="JSON schema validation failed"
+    reason="JSON validation failed (schema or risk constraints)"
   fi
 fi
 
@@ -244,7 +252,7 @@ fi
 api_errors_json='[]'
 if [[ -f "$stdout_path" ]]; then
   api_lines="$({
-    grep -Ei '\[[^]]+ API\]|HTTP [0-9]{3}:|rate limit|quota|billing|insufficient|unauthorized|forbidden|invalid api key|timed out|timeout|service unavailable|connection refused|financial_datasets|financial datasets' "$stdout_path" || true
+    grep -Ei '^\[[^]]+ API\]|^Error:|HTTP [0-9]{3}:|rate limit|quota exceeded|billing|insufficient_(quota|credits|balance)|unauthorized|forbidden|invalid api key|timed out|timeout|service unavailable|connection refused|financial_datasets( api)? error|financial datasets api error' "$stdout_path" || true
     if [[ -n "$reason" ]]; then
       printf '%s\n' "$reason"
     fi

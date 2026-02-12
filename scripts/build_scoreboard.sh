@@ -95,7 +95,12 @@ if [[ "${#success_paths[@]}" -ge 2 ]]; then
       | (tickers($b[0])) as $tb
       | (($ta + $tb) | unique) as $u
       | if ($u | length) == 0 then 0
-        else ((([$u[] | select(($ta | index(.)) != null and ($tb | index(.)) != null)] | length) * 10000 / ($u | length) | round) / 100)
+        else (
+          (([
+            $u[] as $ticker
+            | select(($ta | index($ticker)) != null and ($tb | index($ticker)) != null)
+          ] | length) * 10000 / ($u | length) | round) / 100
+        )
         end
     ')"
 
