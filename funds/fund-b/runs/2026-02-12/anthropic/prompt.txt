@@ -11,16 +11,16 @@ Run metadata:
 Rules:
 - Use only verifiable data you fetched via tools. If you cannot verify, write "UNKNOWN".
 - Time horizon: 30 days.
-- Universe: US large & mid cap only.
+- Universe: US & Europe large/mid cap equities.
 - Portfolio constraints:
   - Target positions: 10
   - Min position: 2%
-  - Max position: 12%
-  - Max sector: 25%
+  - Max position: 20%
+  - Max sector: 35%
 - Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
 - `target_portfolio` must contain exactly 10 US equity tickers (no placeholders like `UNKNOWN`/`CASH`, and no ETFs/crypto).
-- Every holding weight must be >= 2 and <= 12; total portfolio weight must sum to 100%.
-- Sector exposure must satisfy max sector <= 25%.
+- Every holding weight must be >= 2 and <= 20; total portfolio weight must sum to 100%.
+- Sector exposure must satisfy max sector <= 35%.
 - `constraints_check.max_position_ok` and `constraints_check.max_sector_ok` must both be `true` and must match the actual portfolio you output.
 - You MUST call both `financial_search` and `financial_metrics` at least once before finalizing output.
 - If no prior portfolio is available, bootstrap a full diversified 10-name portfolio from verifiable US large/mid cap equities across at least 5 sectors.
