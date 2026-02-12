@@ -356,8 +356,6 @@ while IFS= read -r lane; do
   lane_sections+=$'\n'
   lane_sections+="- Fund type: ${fund_type_label}"
   lane_sections+=$'\n'
-  lane_sections+="- Universe: ${fund_type_label}"
-  lane_sections+=$'\n'
   lane_sections+="- Sector exposure: ${sector_exposure_summary}"
   lane_sections+=$'\n'
   lane_sections+="- Model: \`${model_label}\`"
@@ -445,13 +443,28 @@ max_len=2000
 if (( ${#message} > max_len )); then
   # Keep holdings + errors; trim lower-priority commentary first.
   compact_message="$message"
-  compact_message="$(printf '%s' "$compact_message" | sed -E 's/\n- Watch-outs:.*//g')"
-  compact_message="$(printf '%s' "$compact_message" | sed -E 's/\n- Notes:.*//g')"
+  compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Watch-outs:.*\n//mg; s/^-\s*Notes:.*\n//mg')"
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/\n- Holding changes \+ reasoning:\n(?:  •.*\n)+/\n/g')"
+  fi
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Since added \(stocks\):.*\n//mg')"
+  fi
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Leader since launch:.*\n//mg')"
+  fi
+  if (( ${#compact_message} > max_len )); then
+    compact_message="$(printf '%s' "$compact_message" | perl -0pe 's/^-\s*Sector exposure:.*\n//mg')"
+  fi
   if (( ${#compact_message} <= max_len )); then
     message="$compact_message"
   else
-    cutoff=1997
-    message="${compact_message:0:cutoff}..."
+    cutoff=$((max_len - 3))
+    prefix="${compact_message:0:cutoff}"
+    if [[ "$prefix" == *$'\n'* ]]; then
+      prefix="${prefix%$'\n'*}"
+    fi
+    message="${prefix}..."
   fi
 fi
 
