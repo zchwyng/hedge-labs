@@ -1,0 +1,61 @@
+dexter_info: model=claude-sonnet-4-5 iterations=2 tool_calls=1
+```json
+{
+  "run_date": "2026-02-13",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Broad market selloff intensifies: SPY -1.54%, QQQ -1.78%, with all portfolio holdings declining except LLY +2.30%",
+    "Energy sector reverses sharply: XOM -3.55%, CVX -1.84% after strong February rally, breaking recent momentum trend",
+    "Tech mega-caps continue decline: AVGO -3.41%, KLAC -1.90%, with semiconductors under pressure; defensive assets also weak with GLD -3.47%"
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Sharp -3.55% decline breaks recent momentum; energy sector showing first significant pullback after YTD outperformance rally"
+    },
+    {
+      "ticker": "GLD",
+      "why": "Steep -3.47% decline contradicts defensive safe-haven thesis during market stress; largest portfolio weight (18%) amplifies impact"
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Weekly rebalance cadence not met: Only 1 day since prior successful run on 2026-02-12, minimum 7-day spacing required",
+      "Portfolio experiencing normal volatility: All holdings down except LLY reflects broad market weakness, not thesis breaks",
+      "Maintain discipline: Single-day moves insufficient to trigger changes; energy momentum and quality factors remain intact structurally"
+    ],
+    "risks": [
+      "Momentum reversal risk: Energy's -3.55% (XOM) and -1.84% (CVX) may signal trend exhaustion after strong YTD gains",
+      "Concentration pressure: 18% GLD position declining -3.47% creates outsized portfolio drag during broader risk-off",
+      "Tech exposure vulnerability: AVGO -3.41%, KLAC -1.90% continue sector weakness amid semiconductor concerns"
+    ],
+    "falsifiable_checks": [
+      "If XOM declines another -5% from current $149.93 or underperforms SPY by >8% cumulative over next 5 trading days, reassess energy thesis",
+      "If GLD falls below $440 (additional -2.5%) while VIX remains elevated, consider defensive positioning failure"
+    ],
+    "why_now": "Rebalance cadence discipline prevents overtrading on single-day volatility. Portfolio constructed for 6-18 month quality + momentum thesis requires minimum 7-day holding periods to avoid whipsaw. Current drawdown (-1.5% to -3.5% across most holdings) reflects market-wide pressure rather than idiosyncratic thesis damage. LLY's +2.30% resilience validates quality healthcare exposure. Next review in 6 days will assess whether energy momentum persists or requires tactical adjustment."
+  },
+  "target_portfolio": [
+    {"ticker": "XOM", "weight_pct": 15, "sector": "Energy"},
+    {"ticker": "CVX", "weight_pct": 12, "sector": "Energy"},
+    {"ticker": "LLY", "weight_pct": 12, "sector": "Healthcare"},
+    {"ticker": "JPM", "weight_pct": 12, "sector": "Financials"},
+    {"ticker": "XLI", "weight_pct": 11, "sector": "Industrials"},
+    {"ticker": "KLAC", "weight_pct": 10, "sector": "Technology"},
+    {"ticker": "AVGO", "weight_pct": 10, "sector": "Technology"},
+    {"ticker": "GLD", "weight_pct": 18, "sector": "Commodities"}
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Max position 18% (GLD) < 40% limit. Max sector 27% (Energy: XOM 15% + CVX 12%) < 80% limit. No crypto exposure. All constraints satisfied."
+  }
+}
+```
