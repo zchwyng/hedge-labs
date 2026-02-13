@@ -348,7 +348,7 @@ validate_json_output() {
           or
           ((.ticker | ascii_upcase) | test("-(USD|USDT)$"))
           or
-          (($crypto_etfs | index((.ticker | ascii_upcase))) != null)
+          ((.ticker | ascii_upcase) as $t | ($crypto_etfs | index($t)) != null)
           or
           ((.ticker | ascii_upcase) | test("(BTC|ETH)"))
         );
