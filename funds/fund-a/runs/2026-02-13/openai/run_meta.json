@@ -3,15 +3,12 @@
   "provider": "openai",
   "model": "gpt-5.2",
   "run_date": "2026-02-13",
-  "started_at": "2026-02-13T06:39:13Z",
-  "ended_at": "2026-02-13T06:39:17Z",
-  "status": "failed",
-  "reason": "Bun v1.3.9 (Linux x64)",
-  "api_errors": [
-    "error: [OpenAI API] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.",
-    "Bun v1.3.9 (Linux x64)"
-  ],
-  "dexter_exit_code": 1,
+  "started_at": "2026-02-13T11:19:02Z",
+  "ended_at": "2026-02-13T11:20:25Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
+  "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-063914_1c913dafc977.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-111903_1c913dafc977.jsonl"
 }
