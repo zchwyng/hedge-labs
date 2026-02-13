@@ -965,10 +965,15 @@ if [[ "$mode" == "overall-only" ]]; then
 fi
 
 lanes_msg="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
-if [[ "$include_header" == "true" ]]; then
-  lanes_msg="**🧩 Lane Details**"$'\n'"$lanes_msg"
-fi
+lanes_msg="**🧩 Lane Details**"$'\n'"$lanes_msg"
 lanes_msg="$(trim_discord_message "$lanes_msg")"
+
+if [[ "$mode" == "no-header" ]]; then
+  # Back-compat: "no-header" should only post lane details (historically used for subsequent per-fund posts).
+  lanes_msg="$(trim_discord_message "$lanes_msg")"
+  jq -Rn --argjson messages "$(jq -n --arg content "$lanes_msg" '[{content:$content, flags:4}]')" '$messages'
+  exit 0
+fi
 
 if [[ -n "$scoreboard_md" ]]; then
   scoreboard_msg="**🏁 Scoreboard — ${run_date}**"$'\n'$'```text\n'"$scoreboard_md"$'\n'$'```'
@@ -984,10 +989,5 @@ messages_json="$(jq -n --arg o "$overview_msg" --arg l "$lanes_msg" --arg s "$sc
     {content:$s, flags:4}
   ]
 ')"
-
-if [[ "$mode" == "no-header" ]]; then
-  # Suppress the overview message when called in "no-header" mode.
-  messages_json="$(printf '%s' "$messages_json" | jq '.[1:]')"
-fi
 
 printf '%s\n' "$messages_json"
