@@ -10,10 +10,10 @@
 - Nasdaq 100: +0%
 - MSCI ACWI: +0%
 - Gold: +0%
-- Bitcoin: +1.21%
+- Bitcoin: +1.24%
 
 ## Lanes
-- fund-a/openai: On track - since 2026-02-13: +0% vs S&P 500 +0% (excess +0%) as of 2026-02-13
+- fund-a/openai: On track - since 2026-02-13: +0% vs S&P 500 +0% (excess +0%) as of 2026-02-12
 - fund-b/anthropic: On track - since 2026-02-12: +0% vs S&P 500 +0% (excess +0%) as of 2026-02-12
 - fund-c/xai: On track - since 2026-02-13: +0% vs S&P 500 +0% (excess +0%) as of 2026-02-12
 

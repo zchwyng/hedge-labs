@@ -253,28 +253,76 @@ async function main() {
 
   let nav = 100;
   let minCoverage = null;
-  let maxFundPriceDate = null;
+  let alignedAsOfDate = null;
+
+  const benchChart = benchmarkTicker ? chartFor(benchmarkTicker) : null;
+  let benchNav = 100;
+  let benchOk = Boolean(benchmarkTicker && benchChart);
 
   for (const seg of segments) {
-    let covered = 0;
-    let weightedSum = 0;
-    let segEndDateUsedMax = null;
-
+    // Determine a single aligned price window for this segment so 24/7 assets (e.g. crypto)
+    // can't advance the segment's as-of date beyond what equities/benchmark support.
+    const leg = [];
     for (const h of seg.start.holdings) {
       const ticker = h.ticker;
       const weight = Number(h.weight_pct || 0);
       if (!Number.isFinite(weight) || weight <= 0) continue;
       const chart = chartFor(ticker);
-      const start = closeOnOrBefore(chart, seg.start.date);
-      const end = closeOnOrBefore(chart, seg.endDate);
-      if (!start || !end) continue;
+      const startCandidate = closeOnOrBefore(chart, seg.start.date);
+      const endCandidate = closeOnOrBefore(chart, seg.endDate);
+      if (!startCandidate || !endCandidate) continue;
+      leg.push({ ticker, weight, chart, startCandidate, endCandidate });
+    }
 
+    const benchStartCandidate = benchChart ? closeOnOrBefore(benchChart, seg.start.date) : null;
+    const benchEndCandidate = benchChart ? closeOnOrBefore(benchChart, seg.endDate) : null;
+
+    if (leg.length === 0) {
+      console.log(JSON.stringify(emptyResult({
+        benchmarkTicker,
+        benchmarkName,
+        inceptionDate,
+        asofPortfolioDate
+      })));
+      return;
+    }
+
+    // Align on the earliest available boundary dates across included holdings (and benchmark when available).
+    // ISO date strings compare lexicographically.
+    let alignedStartDate = leg.map((x) => x.startCandidate.date).sort()[0];
+    let alignedEndDate = leg.map((x) => x.endCandidate.date).sort()[0];
+    if (benchOk && benchStartCandidate && benchEndCandidate) {
+      if (benchStartCandidate.date < alignedStartDate) alignedStartDate = benchStartCandidate.date;
+      if (benchEndCandidate.date < alignedEndDate) alignedEndDate = benchEndCandidate.date;
+    }
+    // Avoid a negative/ill-defined window if any symbol's data is extremely stale.
+    if (alignedEndDate < alignedStartDate) alignedStartDate = alignedEndDate;
+
+    let covered = 0;
+    let weightedSum = 0;
+    for (const item of leg) {
+      const start = closeOnOrBefore(item.chart, alignedStartDate);
+      const end = closeOnOrBefore(item.chart, alignedEndDate);
+      if (!start || !end) continue;
       const ret = ((end.close / start.close) - 1) * 100;
       if (!Number.isFinite(ret)) continue;
+      covered += item.weight;
+      weightedSum += (item.weight * ret);
+    }
 
-      covered += weight;
-      weightedSum += (weight * ret);
-      if (!segEndDateUsedMax || end.date > segEndDateUsedMax) segEndDateUsedMax = end.date;
+    if (benchOk) {
+      const start = closeOnOrBefore(benchChart, alignedStartDate);
+      const end = closeOnOrBefore(benchChart, alignedEndDate);
+      if (!start || !end) {
+        benchOk = false;
+      } else {
+        const ret = ((end.close / start.close) - 1) * 100;
+        if (!Number.isFinite(ret)) {
+          benchOk = false;
+        } else {
+          benchNav *= (1 + (ret / 100));
+        }
+      }
     }
 
     if (covered <= 0) {
@@ -290,43 +338,17 @@ async function main() {
     const segReturn = weightedSum / covered;
     nav *= (1 + (segReturn / 100));
     minCoverage = minCoverage == null ? covered : Math.min(minCoverage, covered);
-    if (segEndDateUsedMax && (!maxFundPriceDate || segEndDateUsedMax > maxFundPriceDate)) {
-      maxFundPriceDate = segEndDateUsedMax;
-    }
+    alignedAsOfDate = alignedEndDate;
   }
 
   const coveredWeightPct = asPct(minCoverage ?? 0);
   const fundReturn = asPct(((nav / 100) - 1) * 100);
 
   let benchmarkReturn = null;
-  let benchmarkAsOfPriceDate = null;
-  if (benchmarkTicker) {
-    const benchChart = chartFor(benchmarkTicker);
-    if (benchChart) {
-      let benchNav = 100;
-      let ok = true;
-      for (const seg of segments) {
-        const start = closeOnOrBefore(benchChart, seg.start.date);
-        const end = closeOnOrBefore(benchChart, seg.endDate);
-        if (!start || !end) {
-          ok = false;
-          break;
-        }
-        const ret = ((end.close / start.close) - 1) * 100;
-        if (!Number.isFinite(ret)) {
-          ok = false;
-          break;
-        }
-        benchNav *= (1 + (ret / 100));
-        if (!benchmarkAsOfPriceDate || end.date > benchmarkAsOfPriceDate) benchmarkAsOfPriceDate = end.date;
-      }
-      if (ok) {
-        benchmarkReturn = asPct(((benchNav / 100) - 1) * 100);
-      }
-    }
-  }
+  if (benchOk) benchmarkReturn = asPct(((benchNav / 100) - 1) * 100);
 
-  const asofPriceDate = [maxFundPriceDate, benchmarkAsOfPriceDate].filter(Boolean).sort().pop() || null;
+  // Report the common aligned as-of date used for the latest segment.
+  const asofPriceDate = alignedAsOfDate || null;
 
   console.log(JSON.stringify({
     performance_method: 'nav_since_start',
@@ -338,11 +360,10 @@ async function main() {
     benchmark_ticker: benchmarkTicker || null,
     benchmark_name: benchmarkName || null,
     benchmark_return_pct: benchmarkReturn,
-    benchmark_covered_weight_pct: benchmarkReturn != null ? coveredWeightPct : 0,
+    benchmark_covered_weight_pct: benchmarkReturn != null ? 100 : 0,
     excess_return_pct: (benchmarkReturn != null) ? asPct(fundReturn - benchmarkReturn) : null,
     stocks: []
   }));
 }
 
 await main();
-

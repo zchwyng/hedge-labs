@@ -17,7 +17,7 @@
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-02-13",
-      "asof_price_date": "2026-02-13",
+      "asof_price_date": "2026-02-12",
       "fund_return_pct": 0,
       "benchmark_return_pct": 0,
       "excess_return_pct": 0,
@@ -112,7 +112,7 @@
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 1.21,
+        "return_pct": 1.24,
         "asof_price_date": "2026-02-13"
       }
     ]
