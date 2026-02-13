@@ -4,30 +4,22 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Mega-cap growth drawdown persists: 1-month price declines across MSFT (459.38 -> 400.30), AMZN (236.65 -> 198.07), and GOOGL (335.84 -> 307.45) based on daily closes from 2026-01-14 to 2026-02-13.",
-    "Defensive/real-asset leadership: GLD is up over the same window (425.94 -> 454.63), while Energy (XOM) is also higher (130.20 -> 150.18).",
-    "Crypto risk-off: ETH-USD fell sharply over the past month window (3354.82 -> 1955.40), consistent with higher-volatility assets under pressure."
+    "Mega-cap AI complex: NVDA (186.78), AVGO (328.43), TSM (368.00) headlines broadly AI-positive, but recent tape referenced as a tech sell-off / volatility pick-up (headline-level only; no verified macro catalyst in fetched data).",
+    "Health care momentum focus: LLY (1034.16) in focus on obesity/weight-loss pipeline; headline notes $1.5B inventory build for experimental pill ahead of FDA decision (catalyst risk).",
+    "Diversifiers: GLD (454.75, +0.65% day) bid; BTC-USD (66,940, -1.62% day) softer."
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "MSFT",
-      "why": "30D momentum damaged: close down from 459.38 (2026-01-14) to 400.30 (2026-02-13). News flow includes broad 'AI investments' selloff framing (Motley Fool, 2026-02-12) rather than clear positive catalysts in last 72h."
+      "ticker": "LLY",
+      "why": "Event-risk headline: inventory build ahead of FDA decision for experimental weight-loss pill could amplify drawdown risk on adverse decision/timing; competitor intensity also highlighted (headline level)."
     },
     {
-      "ticker": "AMZN",
-      "why": "30D momentum damaged: close down from 236.65 (2026-01-14) to 198.07 (2026-02-13). Recent headlines highlight tech/AI capex-driven pressure rather than upside catalyst (e.g., Benzinga 'tech stocks wiped out $500B', 2026-02-12; Motley Fool 'stocks plummet on AI investments', 2026-02-12)."
+      "ticker": "NVDA",
+      "why": "Headline references potential volatility spike / tech sell-off; valuation is high (P/E ~45.62, P/S ~24.18) which can magnify downside on risk-off days."
     },
     {
-      "ticker": "GOOGL",
-      "why": "30D momentum damaged: close down from 335.84 (2026-01-14) to 307.45 (2026-02-13). Recent coverage points to the same AI-investment-driven selloff narrative (Motley Fool, 2026-02-12)."
-    },
-    {
-      "ticker": "IBIT",
-      "why": "30D momentum damaged: close down from 55.44 (2026-01-14) to 37.91 (2026-02-13). High-volatility sleeve; keep sizing constrained under max crypto constraint."
-    },
-    {
-      "ticker": "ETH-USD",
-      "why": "30D momentum damaged: close down from 3354.82 (2026-01-14) to 1955.40 (2026-02-13). Crypto beta remains under pressure; position sizing kept within max crypto constraint."
+      "ticker": "AVGO",
+      "why": "Headline notes large tech wipeout / new threat (non-specific); leverage not trivial (debt-to-equity ~0.80) alongside high multiples (P/E ~67.03)."
     }
   ],
   "rebalance_actions": [
@@ -35,48 +27,6 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
       "action": "Add",
       "remove_ticker": null,
       "add_ticker": "GLD",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "XOM",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "NVDA",
-      "size_change_pct": 16
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "TSM",
-      "size_change_pct": 16
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "MSFT",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "AMZN",
-      "size_change_pct": 10
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "LLY",
-      "size_change_pct": 14
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "IBIT",
       "size_change_pct": 8
     }
   ],
@@ -84,62 +34,62 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
     "action": "Add",
     "remove_ticker": null,
     "add_ticker": "GLD",
-    "size_change_pct": 12,
+    "size_change_pct": 8,
     "thesis": [
-      "Relative strength vs risk assets: GLD 30D close rose from 425.94 (2026-01-14) to 454.63 (2026-02-13) while mega-cap growth and crypto declined over the same window.",
-      "Portfolio ballast for a quality+momo book currently facing tech drawdown risk; GLD offers differentiated exposure versus IT-heavy holdings.",
-      "Tactical 30D horizon fits: recent positive drift and day-of snapshot shows +0.77% on 2026-02-13 (454.63)."
+      "Diversifier sleeve: gold exposure can reduce portfolio drawdown risk versus a concentrated AI/mega-cap equity book over a 30-day horizon.",
+      "Immediate tape confirmation: GLD is up on the day (+0.65% at snapshot), supportive of near-term momentum/defensive bid.",
+      "Portfolio construction: adds a non-equity risk driver while staying within constraints (no broad index ETF)."
     ],
     "risks": [
-      "Gold momentum can reverse quickly if real yields rise or risk appetite snaps back; GLD could underperform if growth rebounds.",
-      "No verifiable last-72h GLD-specific news retrieved (news endpoint returned 404), so catalyst attribution is limited to price action only.",
-      "Position is non-productive (no earnings/FCF), so long-run return depends on macro regime rather than company execution."
+      "Opportunity cost if risk-on resumes strongly and gold lags equities/crypto over the next month.",
+      "Rate/FX sensitivity can pressure gold; drivers not verified in fetched data for this run.",
+      "No verified GLD fundamentals/ratios or headlines available from fetched tool output (treated as UNKNOWN beyond price snapshot)."
     ],
     "falsifiable_checks": [
-      "If GLD loses its 30D uptrend (e.g., closes below 2026-02-03 close of 454.29 and fails to recover within a week), treat as momentum break for next rebalance.",
-      "If tech complex reclaims leadership (e.g., MSFT/AMZN/GOOGL reverse and sustain higher highs vs their 30D range), reassess GLD weight as hedging need fades."
+      "If GLD fails to hold relative strength (e.g., turns down while core equities stabilize), consider reducing sizing at next rebalance.",
+      "If portfolio volatility remains elevated and GLD does not diversify (correlates with equity drawdowns over the next few weeks), reassess role/weight."
     ],
-    "why_now": "Across the last month window (2026-01-14 to 2026-02-13), GLD is one of the few verified uptrending assets in the candidate set while major growth and crypto are trending down; adding GLD now diversifies factor exposure during an ongoing drawdown regime, while keeping the fund positioned to rotate back if risk assets regain momentum over the next 6–18 months."
+    "why_now": "The current candidate portfolio is heavily exposed to Information Technology (MSFT/NVDA/AVGO/TSM). With headline-level signs of volatility/sell-off risk in the AI complex and a weekly rebalance cadence, adding a measured GLD sleeve now is a pragmatic way to keep upside participation while improving resilience for the next 6–18 months where AI capex cycles and policy/rate uncertainty can create regime shifts."
   },
   "target_portfolio": [
     {
+      "ticker": "MSFT",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "NVDA",
-      "weight_pct": 16,
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
       "sector": "Information Technology"
     },
     {
       "ticker": "TSM",
-      "weight_pct": 16,
+      "weight_pct": 12,
       "sector": "Information Technology"
     },
     {
       "ticker": "LLY",
-      "weight_pct": 14,
+      "weight_pct": 18,
       "sector": "Health Care"
     },
     {
-      "ticker": "MSFT",
+      "ticker": "JPM",
       "weight_pct": 12,
-      "sector": "Information Technology"
-    },
-    {
-      "ticker": "XOM",
-      "weight_pct": 12,
-      "sector": "Energy"
+      "sector": "Financials"
     },
     {
       "ticker": "GLD",
-      "weight_pct": 12,
-      "sector": "Commodities/Metals"
-    },
-    {
-      "ticker": "AMZN",
-      "weight_pct": 10,
-      "sector": "Consumer Discretionary"
-    },
-    {
-      "ticker": "IBIT",
       "weight_pct": 8,
+      "sector": "Commodities"
+    },
+    {
+      "ticker": "BTC-USD",
+      "weight_pct": 2,
       "sector": "Crypto"
     }
   ],
@@ -147,6 +97,6 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "8 positions; weights sum to 100. Max position 16% (<=40). Sector concentration: Information Technology = 44% (NVDA 16 + TSM 16 + MSFT 12) <=80. Crypto exposure = 8% (IBIT) <=10. Broad index ETFs excluded."
+    "notes": "Weights sum to 100%. Max position = 18% (<=40%). Sector weights: Information Technology 60% (<=80%), Health Care 18%, Financials 12%, Commodities 8%, Crypto 2% (crypto <=10%). No broad index ETFs included."
   }
 }

@@ -1,0 +1,103 @@
+You are running a PAPER fund. You must not give personal financial advice.
+You are producing a research memo + a PAPER "trade of the day" candidate for comparison across models.
+
+Run metadata:
+- Run date: 2026-02-13
+- Fund name: Quality + Momentum (Monthly-hold)
+- Provider: xai
+- Model: grok-4-1
+- Rebalance cadence: weekly
+
+Rules:
+- Use only verifiable data you fetched via tools. If you cannot verify, write "UNKNOWN".
+- Time horizon: 30 days.
+- Universe: Global large/mid cap equities, focused ETFs (including commodities/metals), and major crypto assets.
+- Tooling best practices (important to avoid rate limits and preserve data quality):
+  - Prefer `financial_search` as your primary tool. Call `financial_search` ONCE with a single, complete query.
+  - Do NOT do broad scanning (no 25-50 ticker lists). Limit any tool query to <= 12 tickers total.
+  - Only fetch fundamentals/ratios for the tickers you are actually considering for the final portfolio (ideally the final 8).
+  - Avoid requesting `get_company_facts`, full financial statements, or lots of news unless absolutely necessary.
+  - If you include news, cap it to <= 4 tickers and avoid news for index/sector ETFs.
+  - Use snapshot endpoints when possible (current price snapshot, key ratios snapshot) instead of long ranges.
+- Portfolio constraints:
+  - Target positions: 8
+  - Min position: 2%
+  - Max position: 40%
+  - Max sector: 80%
+  - Max crypto: 10%
+- Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
+- `target_portfolio` must contain exactly 8 tradable symbols (equities, ETFs, or major crypto assets) with no placeholders like `UNKNOWN`/`CASH`.
+- Broad index ETFs are not allowed (for example: SPY, IVV, VOO, VTI, QQQ, IWM, DIA, VT, ACWI, EFA, EEM).
+- Commodity/metals ETFs and focused exposures are allowed (for example: GLD, IAU, SLV).
+- Every holding weight must be >= 2 and <= 40; total portfolio weight must sum to 100%.
+- Sector exposure must satisfy max sector <= 80%.
+- Crypto exposure (sum of holdings in sector "Crypto" or tickers like BTC-USD/ETH-USD) must be <= 10%.
+- `constraints_check.max_position_ok`, `constraints_check.max_sector_ok`, and `constraints_check.max_crypto_ok` must all be `true` and must match the actual portfolio you output.
+- You MUST call `financial_search` at least once before finalizing output. Call `financial_metrics` only if you truly need it.
+- If no prior portfolio is available, bootstrap a full 8-name high-conviction portfolio from verifiable equities, ETFs, and/or major crypto assets across at least 3 sectors/themes.
+- Never output a partial portfolio. Continue tool research until a valid full portfolio can be produced.
+- This is a true rebalance engine, not an idea list. Use prior portfolio context provided in the prompt and maintain state continuity.
+
+Tasks:
+1) Portfolio Health Check (if a prior portfolio exists in repo for this fund):
+   - Summarize what changed in the last 24-72 hours: earnings, guidance, macro surprises, major news.
+   - List any holdings with "thesis damage" signals.
+
+Pre-step (before calling tools):
+- Decide on a plausible candidate 8-name portfolio first (tickers + rough weights + sectors) based on your model priors and the stateful context.
+- Then use tools to verify only what you need for those candidates (do not expand the ticker list).
+
+2) PAPER TRADE OF THE DAY (candidate, NOT an instruction):
+   - Propose exactly ONE action among: ["Add", "Trim", "Replace", "Do nothing"].
+   - If "Add": set `add_ticker` to the added ticker.
+   - If "Trim": set `remove_ticker` to the trimmed ticker AND `add_ticker` to where weight is reallocated.
+   - If "Replace": specify which holding is removed and which is added.
+   - Also output `rebalance_actions`: full list of all rebalance actions taken this run.
+   - `trade_of_the_day` is the single headline action; `rebalance_actions` is the complete action list.
+   - On non-rebalance days, set `trade_of_the_day.action` to "Do nothing" and `rebalance_actions` to [].
+   - Provide: thesis (3 bullets), key risks (3 bullets), falsifiable checks (2), and why-now (6-18 months).
+   - Provide position sizing suggestion within constraints (e.g. +2% to target).
+
+3) Update the model portfolio (paper):
+   - Output the full target portfolio weights after today's action, respecting constraints.
+   - Include a constraints check.
+
+Output ONLY JSON:
+{
+  "run_date": "YYYY-MM-DD",
+  "fund_name": "",
+  "paper_only": true,
+  "market_summary": ["", "", ""],
+  "thesis_damage_flags": [{"ticker":"","why":""}],
+  "rebalance_actions": [
+    {"action":"Add|Trim|Replace|Do nothing","remove_ticker":null,"add_ticker":null,"size_change_pct":0}
+  ],
+  "trade_of_the_day": {
+    "action": "Add|Trim|Replace|Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": ["","",""],
+    "risks": ["","",""],
+    "falsifiable_checks": ["",""],
+    "why_now": ""
+  },
+  "target_portfolio": [{"ticker":"","weight_pct":0,"sector":""}],
+  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":""}
+}
+
+Stateful rebalance context (system-provided):
+- Prior successful run date: NONE
+- Days since prior successful run: N/A
+- Rebalance due today: true
+- Rebalance cadence minimum spacing (days): 7
+- Prior target_portfolio JSON: []
+- Prior trade_of_the_day JSON: {}
+- Last 7-day aggregated context JSON: {"lookback_days":7,"successful_runs":0,"successful_run_dates":[],"action_history":[],"average_turnover_pct":null,"market_summary_bullets":[],"thesis_damage_counts":[],"recurring_holdings":[]}
+
+Execution policy:
+- Treat prior target_portfolio as the starting portfolio when available.
+- If "Rebalance due today" is false, output action "Do nothing" and keep target_portfolio exactly unchanged.
+- If "Rebalance due today" is true, make only justified changes and keep turnover efficient.
+- On rebalance-due days, use the 7-day aggregated context explicitly when selecting actions and sizing.
+- On rebalance-due days, output full action list in `rebalance_actions` (can contain multiple actions).

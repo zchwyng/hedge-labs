@@ -8,16 +8,16 @@
       "action": "Add",
       "add_ticker": "GLD",
       "remove_ticker": null,
-      "size_change_pct": 12,
+      "size_change_pct": 8,
       "constraints_ok": true,
-      "rebalance_actions_count": 8,
-      "rebalance_actions_preview": "Add GLD, Add XOM, Add NVDA, Add TSM",
+      "rebalance_actions_count": 1,
+      "rebalance_actions_preview": "Add GLD",
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-02-13",
-      "asof_price_date": "2026-02-12",
+      "asof_price_date": "2026-02-13",
       "fund_return_pct": 0,
       "benchmark_return_pct": 0,
       "excess_return_pct": 0,
@@ -52,6 +52,32 @@
       "run_path": "funds/fund-b/runs/2026-02-13/anthropic",
       "rank": 2,
       "ranking_score": 0
+    },
+    {
+      "fund_id": "fund-xai",
+      "provider": "xai",
+      "status": "failed",
+      "action": "UNKNOWN",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
+      "constraints_ok": false,
+      "rebalance_actions_count": 0,
+      "rebalance_actions_preview": null,
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": null,
+      "asof_portfolio_date": null,
+      "asof_price_date": null,
+      "fund_return_pct": null,
+      "benchmark_return_pct": null,
+      "excess_return_pct": null,
+      "performance_coverage_pct": 0,
+      "benchmark_coverage_pct": 0,
+      "run_path": "funds/fund-xai/runs/2026-02-13/xai",
+      "rank": 3,
+      "ranking_score": null
     }
   ],
   "ranking": {
@@ -59,8 +85,8 @@
     "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   },
   "comparison": {
-    "portfolio_overlap_pct": 23.08,
-    "turnover_estimate_pct": 64,
+    "portfolio_overlap_pct": 33.33,
+    "turnover_estimate_pct": 58,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-13/openai/dexter_output.json vs funds/fund-b/runs/2026-02-13/anthropic/dexter_output.json."
   }
 }

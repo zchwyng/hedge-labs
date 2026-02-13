@@ -1,0 +1,17 @@
+{
+  "fund_id": "fund-xai",
+  "provider": "xai",
+  "model": "grok-4-1",
+  "run_date": "2026-02-13",
+  "started_at": "2026-02-13T11:46:01Z",
+  "ended_at": "2026-02-13T11:46:04Z",
+  "status": "failed",
+  "reason": "Bun v1.3.9 (Linux x64)",
+  "api_errors": [
+    "error: [xAI API] 400 \"Model not found: grok-4-1\"",
+    "Bun v1.3.9 (Linux x64)"
+  ],
+  "dexter_exit_code": 1,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-114602_621a84afb3e9.jsonl"
+}

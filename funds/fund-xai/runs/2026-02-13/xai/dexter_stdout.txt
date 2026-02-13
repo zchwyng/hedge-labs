@@ -1,0 +1,13 @@
+33 |     } catch (e) {
+34 |       const message = e instanceof Error ? e.message : String(e);
+35 |       logger.error(`[${provider} API] error (attempt ${attempt + 1}/${maxAttempts}): ${message}`);
+36 | 
+37 |       if (attempt === maxAttempts - 1) {
+38 |         throw new Error(`[${provider} API] ${message}`);
+                       ^
+error: [xAI API] 400 "Model not found: grok-4-1"
+      at withRetry (/home/runner/work/hedge-labs/hedge-labs/node_modules/dexter-ts/src/model/llm.ts:38:19)
+      at async callLlm (/home/runner/work/hedge-labs/hedge-labs/node_modules/dexter-ts/src/model/llm.ts:227:20)
+      at async callModel (/home/runner/work/hedge-labs/hedge-labs/node_modules/dexter-ts/src/agent/agent.ts:125:26)
+
+Bun v1.3.9 (Linux x64)
