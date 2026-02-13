@@ -6,7 +6,7 @@
     "name": "S&P 500",
     "ticker": "SPY"
   },
-  "universe": "Global large/mid cap equities, focused ETFs (including commodities/metals), and major crypto assets",
+  "universe": "US-listed large/mid cap equities (incl. ADRs), focused ETFs (sector/commodities), and major crypto assets supported by Financial Datasets",
   "hold_horizon_days": 30,
   "positions": 8,
   "min_position_pct": 2,
