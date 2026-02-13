@@ -1,7 +1,7 @@
 {
   "name": "Quality + Momentum (Monthly-hold)",
   "provider": "openai",
-  "model": "gpt-5.2",
+  "model": "gpt-5.1",
   "benchmark": {
     "name": "MSCI ACWI",
     "ticker": "ACWI"
