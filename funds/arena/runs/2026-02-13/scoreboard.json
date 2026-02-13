@@ -7,11 +7,11 @@
       "status": "success",
       "action": "Replace",
       "add_ticker": "GLD",
-      "remove_ticker": "BTC-USD",
-      "size_change_pct": 2,
+      "remove_ticker": "MSFT",
+      "size_change_pct": 12,
       "constraints_ok": true,
-      "rebalance_actions_count": 1,
-      "rebalance_actions_preview": "Replace BTC-USD->GLD",
+      "rebalance_actions_count": 2,
+      "rebalance_actions_preview": "Replace MSFT->GLD, Trim AMZN->XOM",
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
@@ -58,12 +58,12 @@
       "provider": "xai",
       "status": "success",
       "action": "Add",
-      "add_ticker": "GLD",
+      "add_ticker": "TSM",
       "remove_ticker": null,
-      "size_change_pct": 14,
+      "size_change_pct": 15,
       "constraints_ok": true,
       "rebalance_actions_count": 8,
-      "rebalance_actions_preview": "Add NVDA, Add MSFT, Add LLY, Add AVGO",
+      "rebalance_actions_preview": "Add NVDA, Add TSM, Add AVGO, Add LLY",
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
@@ -112,7 +112,7 @@
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 1.41,
+        "return_pct": 1.38,
         "asof_price_date": "2026-02-13"
       }
     ]
@@ -122,8 +122,8 @@
     "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   },
   "comparison": {
-    "portfolio_overlap_pct": 14.29,
-    "turnover_estimate_pct": 74,
+    "portfolio_overlap_pct": 33.33,
+    "turnover_estimate_pct": 53,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-13/openai/dexter_output.json vs funds/fund-b/runs/2026-02-13/anthropic/dexter_output.json."
   }
 }

@@ -9,43 +9,72 @@ Run metadata:
 - Rebalance cadence: weekly
 
 Rules:
-- Use only verifiable data you fetched via tools. If you cannot verify, write "UNKNOWN".
+- Use only verifiable data you fetched via tools for prices/returns/ratios/news. If you cannot verify, write "UNKNOWN".
 - Time horizon: 30 days.
-- Universe: Global large/mid cap equities, focused ETFs (including commodities/metals), and major crypto assets.
-- Tooling best practices (important to avoid rate limits and preserve data quality):
-  - Prefer `financial_search` as your primary tool. Call `financial_search` ONCE with a single, complete query.
-  - Do NOT do broad scanning (no 25-50 ticker lists). Limit any tool query to <= 12 tickers total.
-  - Only fetch fundamentals/ratios for the tickers you are actually considering for the final portfolio (ideally the final 8).
-  - Avoid requesting `get_company_facts`, full financial statements, or lots of news unless absolutely necessary.
-  - If you include news, cap it to <= 4 tickers and avoid news for index/sector ETFs.
-  - Use snapshot endpoints when possible (current price snapshot, key ratios snapshot) instead of long ranges.
-- Portfolio constraints:
-  - Target positions: 8
-  - Min position: 2%
-  - Max position: 40%
-  - Max sector: 80%
-  - Max crypto: 10%
-- Output must be deterministic: if multiple candidates are similar, pick the one with the strongest evidence and explain why.
-- `target_portfolio` must contain exactly 8 tradable symbols (equities, ETFs, or major crypto assets) with no placeholders like `UNKNOWN`/`CASH`.
+- Universe: US-listed large/mid cap equities (incl. ADRs), focused ETFs (sector/commodities), and major crypto assets supported by Financial Datasets.
+
+Tooling best practices (important to avoid rate limits and preserve data quality):
+- Always call `financial_search` at least once before finalizing output.
+- Prefer `financial_search` only; avoid `financial_metrics` unless you truly cannot get the data via `financial_search`.
+- Hard cap: <= 12 tickers per `financial_search` call.
+- Prefer WEEKLY historical prices for momentum windows (interval=week) to keep payloads small and reliable.
+- News: request news ONLY for equities (no ETFs, no crypto). Cap to <= 4 equity tickers, <= 3 headlines per ticker.
+- Fundamentals: request key ratios ONLY for equities (no ETFs, no crypto).
+- Do not request company facts / key ratios / news for ETFs or crypto unless explicitly needed for validation.
+
+Rebalance/tool-call policy (STRICT):
+- If the stateful context says "Rebalance due today: false":
+  - Make EXACTLY 1 `financial_search` call: prices for the CURRENT holdings + benchmarks (SPY, QQQ).
+  - Then output action "Do nothing", `rebalance_actions` as [], and keep `target_portfolio` EXACTLY unchanged.
+- If the stateful context says "Rebalance due today: true":
+  - Make UP TO 2 `financial_search` calls total:
+    1) EQUITIES-ONLY query (prices + WEEKLY 30/90d history + key ratios snapshot + limited news for <= 4 equities).
+    2) ETF/CRYPTO-ONLY query (prices + WEEKLY 30/90d history; NO news; NO key ratios).
+  - After tools: make at most 3 portfolio changes unless thesis damage is severe.
+
+Portfolio constraints:
+- Target positions: 8
+- Min position: 2%
+- Max position: 40%
+- Max sector: 80%
+- Max crypto: 10%
+- `target_portfolio` must contain exactly 8 tradable symbols (equities, ETFs, or major crypto assets).
+- No placeholders like `UNKNOWN`/`CASH`. No duplicate tickers.
 - Broad index ETFs are not allowed (for example: SPY, IVV, VOO, VTI, QQQ, IWM, DIA, VT, ACWI, EFA, EEM).
 - Commodity/metals ETFs and focused exposures are allowed (for example: GLD, IAU, SLV).
 - Every holding weight must be >= 2 and <= 40; total portfolio weight must sum to 100%.
 - Sector exposure must satisfy max sector <= 80%.
 - Crypto exposure (sum of holdings in sector "Crypto" or tickers like BTC-USD/ETH-USD) must be <= 10%.
 - `constraints_check.max_position_ok`, `constraints_check.max_sector_ok`, and `constraints_check.max_crypto_ok` must all be `true` and must match the actual portfolio you output.
-- You MUST call `financial_search` at least once before finalizing output. Call `financial_metrics` only if you truly need it.
-- If no prior portfolio is available, bootstrap a full 8-name high-conviction portfolio from verifiable equities, ETFs, and/or major crypto assets across at least 3 sectors/themes.
-- Never output a partial portfolio. Continue tool research until a valid full portfolio can be produced.
-- This is a true rebalance engine, not an idea list. Use prior portfolio context provided in the prompt and maintain state continuity.
+
+Strategy V2 (Aggressive Quality + Momentum) - scorecard for rebalance-due days:
+- Candidate set:
+  - Start from the prior `target_portfolio` in the stateful context.
+  - Propose at most 3 changes unless thesis damage is severe.
+  - Consider up to 4 replacement candidates (so the equity tool query stays <= 12 tickers total).
+- Score each equity candidate using tool-fetched data (do not guess):
+  - Momentum (60%): 90d return (weekly) + 30d return (weekly).
+  - Quality (25%): operating margin, ROE/ROIC, revenue growth, earnings growth (key ratios snapshot).
+  - Valuation/risk sanity (15%): light penalty for extreme multiples (P/E, P/S, PEG) and severe drawdowns.
+- Selection rule:
+  - Keep winners (top scores) unless they show thesis damage.
+  - Replace bottom-ranked holdings with higher-scoring candidates, respecting constraints.
+
+Crypto sleeve rules (max 10%):
+- Only include crypto (or a crypto ETF) if 90d momentum is positive; otherwise keep it 0-5% or omit.
+- Never hold both BTC-USD and a BTC ETF at the same time.
 
 Tasks:
 1) Portfolio Health Check (if a prior portfolio exists in repo for this fund):
-   - Summarize what changed in the last 24-72 hours: earnings, guidance, macro surprises, major news.
-   - List any holdings with "thesis damage" signals.
+   - Summarize what changed in the last 24-72 hours: earnings, guidance, macro surprises, major news (equities only).
+   - List any holdings with "thesis damage" signals (must be backed by tool-fetched evidence).
 
 Pre-step (before calling tools):
-- Decide on a plausible candidate 8-name portfolio first (tickers + rough weights + sectors) based on your model priors and the stateful context.
-- Then use tools to verify only what you need for those candidates (do not expand the ticker list).
+- Decide on a plausible candidate 8-name portfolio first (tickers + rough weights + sectors) based on your priors AND the stateful context.
+- Decide which tickers are "active candidates" for the next rebalance (current holdings + up to 4 replacements).
+- Use the date helper values provided in the stateful context:
+  - lookback_30d_start and lookback_90d_start for WEEKLY price history windows (interval=week).
+  - news_7d_start for the news window (equities only).
 
 2) PAPER TRADE OF THE DAY (candidate, NOT an instruction):
    - Propose exactly ONE action among: ["Add", "Trim", "Replace", "Do nothing"].
@@ -86,11 +115,15 @@ Output ONLY JSON:
   "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":""}
 }
 
+
 Stateful rebalance context (system-provided):
 - Prior successful run date: 2026-02-12
 - Days since prior successful run: 1
 - Rebalance due today: false
 - Rebalance cadence minimum spacing (days): 7
+- lookback_30d_start: 2026-01-14
+- lookback_90d_start: 2025-11-15
+- news_7d_start: 2026-02-06
 - Prior target_portfolio JSON: [{"ticker":"XOM","weight_pct":15,"sector":"Energy"},{"ticker":"CVX","weight_pct":12,"sector":"Energy"},{"ticker":"LLY","weight_pct":12,"sector":"Healthcare"},{"ticker":"JPM","weight_pct":12,"sector":"Financials"},{"ticker":"XLI","weight_pct":11,"sector":"Industrials"},{"ticker":"KLAC","weight_pct":10,"sector":"Technology"},{"ticker":"AVGO","weight_pct":10,"sector":"Technology"},{"ticker":"GLD","weight_pct":18,"sector":"Commodities"}]
 - Prior trade_of_the_day JSON: {"action":"Add","remove_ticker":null,"add_ticker":"XOM","size_change_pct":15,"thesis":["Dominant sector momentum: Energy (XLE) +20.8% YTD vs market -1.4%, XOM +8.3% in Feb alone demonstrating exceptional relative strength during market weakness","Strong operational fundamentals: Q3 2025 revenue $85.3B (+4.6% YoY), operating margin 12.7%, consistent FCF generation $1.42/share with 56% payout ratio providing dividend safety","Risk-off beneficiary: Large-cap energy provides defensive qualities with earnings resilience (EPS +7.7% YoY) and low PE 16.0x while tech leadership falters"],"risks":["Oil price volatility: Recent swings from $149+ to current levels create revenue uncertainty; commodity exposure limits predictability","Sector rotation risk: Energy's outperformance may reverse if growth stocks regain favor or if recession fears drive broader commodity selloff","Capital allocation pressure: High payout ratio 56% limits reinvestment flexibility; maintaining dividends through downturn could strain balance sheet"],"falsifiable_checks":["If XOM underperforms SPY by >5% over next 30 days or oil prices (WTI) fall below $65/barrel, exit position","If operating margin falls below 10% for two consecutive quarters or FCF yield drops below 1%, reduce to <10%"],"why_now":"Energy sector exhibiting rare combination of extreme relative strength (+22.2% vs SPY YTD), improving fundamentals (revenue +4.6%, EPS +7.7%), and defensive characteristics during market stress. Tech leadership breakdown (AAPL -5%, semiconductors weak) creates window for quality cyclical rotation. XOM's scale, dividend support (56% payout on strong FCF), and operational efficiency (12.7% OM) position it as defensive momentum play. 6-month catalyst path: Q4 earnings momentum, dividend increases, potential M&A activity, and continued flight-to-quality in volatile markets."}
 - Last 7-day aggregated context JSON: {"lookback_days":7,"successful_runs":1,"successful_run_dates":["2026-02-12"],"action_history":[{"run_date":"2026-02-12","trade_of_the_day":{"action":"Add","add_ticker":"XOM","remove_ticker":null,"size_change_pct":15},"rebalance_actions_count":8}],"average_turnover_pct":null,"market_summary_bullets":["Major indices declined sharply: SPY -1.39%, QQQ -1.78%, IWM -1.94%, reflecting broad-based selling pressure across all market caps","Tech mega-caps under pressure: AAPL -5.02%, META -2.83%, NVDA -1.17%, MSFT -0.60%, GOOGL -0.63% amid concerns over margins and memory shortages","Energy sector demonstrates exceptional strength: XLE +20.8% YTD (best performer), XOM +8.3%, CVX +4.8% in Feb despite volatile oil prices"],"thesis_damage_counts":[],"recurring_holdings":[{"ticker":"AVGO","appearance_count":1},{"ticker":"CVX","appearance_count":1},{"ticker":"GLD","appearance_count":1},{"ticker":"JPM","appearance_count":1},{"ticker":"KLAC","appearance_count":1},{"ticker":"LLY","appearance_count":1},{"ticker":"XLI","appearance_count":1},{"ticker":"XOM","appearance_count":1}]}

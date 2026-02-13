@@ -1,39 +1,39 @@
-dexter_info: model=grok-4-1-fast-reasoning iterations=2 tool_calls=1
+dexter_info: model=grok-4-1-fast-reasoning iterations=2 tool_calls=2
 {
   "run_date": "2026-02-13",
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
-  "market_summary": ["AI leaders NVDA MSFT AVGO resilient amid positive capex news from hyperscalers", "LLY builds inventory for weight-loss pill ahead of FDA decision", "GLD rallies 1.2% today on safe-haven demand and strong yearly momentum"],
+  "market_summary": ["Tech pressured by AI fears, Nasdaq down 2% recently.", "Semis resilient; TSM +8% 30d amid peers' declines.", "Healthcare steady; LLY builds weight-loss pill inventory ahead of FDA."],
   "thesis_damage_flags": [],
   "rebalance_actions": [
     {"action": "Add", "remove_ticker": null, "add_ticker": "NVDA", "size_change_pct": 15},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "MSFT", "size_change_pct": 15},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "LLY", "size_change_pct": 12},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "AVGO", "size_change_pct": 12},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "V", "size_change_pct": 12},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "COST", "size_change_pct": 10},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "JPM", "size_change_pct": 10},
-    {"action": "Add", "remove_ticker": null, "add_ticker": "GLD", "size_change_pct": 14}
+    {"action": "Add", "remove_ticker": null, "add_ticker": "TSM", "size_change_pct": 15},
+    {"action": "Add", "remove_ticker": null, "add_ticker": "AVGO", "size_change_pct": 13},
+    {"action": "Add", "remove_ticker": null, "add_ticker": "LLY", "size_change_pct": 14},
+    {"action": "Add", "remove_ticker": null, "add_ticker": "PLTR", "size_change_pct": 12},
+    {"action": "Add", "remove_ticker": null, "add_ticker": "PANW", "size_change_pct": 11},
+    {"action": "Add", "remove_ticker": null, "add_ticker": "NOW", "size_change_pct": 10},
+    {"action": "Add", "remove_ticker": null, "add_ticker": "NVO", "size_change_pct": 10}
   ],
   "trade_of_the_day": {
     "action": "Add",
     "remove_ticker": null,
-    "add_ticker": "GLD",
-    "size_change_pct": 14,
-    "thesis": ["Top 12m momentum at +73% from Feb25 levels with low volatility", "Quality safe-haven asset amid equity stretch and macro uncertainty", "Diversifies portfolio with commodities exposure under constraints"],
-    "risks": ["Stronger USD or rate hikes cap upside", "Opportunity cost in risk-on equity rally", "Short-term correction if real yields rise"],
-    "falsifiable_checks": ["GLD <420 in 30 days: trim to 5%", "Lags equities by 5% over 30 days: reassess"],
-    "why_now": "Gold bull intact with +76% 12m outperformance, central bank demand, inflation hedge as tech P/Es expand; 6-18m tailwinds from de-dollarization and volatility."
+    "add_ticker": "TSM",
+    "size_change_pct": 15,
+    "thesis": ["Top 30d momentum +8.2% (342 to 370) while peers down.", "Elite quality: 53% OM, 31% ROE, 43% ROIC.", "Essential AI enabler as foundry leader."],
+    "risks": ["Taiwan geopolitics.", "Extreme P/E 186x.", "Chip cycle downturn."],
+    "falsifiable_checks": ["30d return turns negative.", "OM <45% in next snapshot."],
+    "why_now": "AI infrastructure buildout accelerates into 2026-27; recent outperformance signals strength."
   },
   "target_portfolio": [
     {"ticker": "NVDA", "weight_pct": 15, "sector": "Information Technology"},
-    {"ticker": "MSFT", "weight_pct": 15, "sector": "Information Technology"},
-    {"ticker": "LLY", "weight_pct": 12, "sector": "Health Care"},
-    {"ticker": "AVGO", "weight_pct": 12, "sector": "Information Technology"},
-    {"ticker": "V", "weight_pct": 12, "sector": "Financials"},
-    {"ticker": "COST", "weight_pct": 10, "sector": "Consumer Staples"},
-    {"ticker": "JPM", "weight_pct": 10, "sector": "Financials"},
-    {"ticker": "GLD", "weight_pct": 14, "sector": "Commodities"}
+    {"ticker": "TSM", "weight_pct": 15, "sector": "Information Technology"},
+    {"ticker": "AVGO", "weight_pct": 13, "sector": "Information Technology"},
+    {"ticker": "LLY", "weight_pct": 14, "sector": "Health Care"},
+    {"ticker": "PLTR", "weight_pct": 12, "sector": "Information Technology"},
+    {"ticker": "PANW", "weight_pct": 11, "sector": "Information Technology"},
+    {"ticker": "NOW", "weight_pct": 10, "sector": "Information Technology"},
+    {"ticker": "NVO", "weight_pct": 10, "sector": "Health Care"}
   ],
-  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes": "IT 42%, Financials 22%, all within limits"}
+  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes": "IT 76%, Health 24%"}
 }

@@ -1,71 +1,92 @@
-dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
+dexter_info: model=gpt-5.2 iterations=2 tool_calls=2
 {
   "run_date": "2026-02-13",
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "AI/mega-cap tape is mixed over the last ~30D: MSFT fell from 459.38 (2026-01-14 close) to 400.30 (2026-02-13 close), while NVDA was roughly flat-to-up from 183.14 (2026-01-14 close) to 186.94 (2026-02-12 close); NVDA snapshot 186.11 on 2026-02-13.",
-    "Gold acted as a risk offset: GLD rose from 425.94 (2026-01-14 close) to 454.63 (2026-02-13 close); snapshot 456.06 on 2026-02-13 (+1.15% day).",
-    "Crypto was risk-off: BTC-USD dropped from 96955.16 (2026-01-14 close) to 67063.82 (2026-02-13 close); snapshot 67079.27 on 2026-02-13 (-1.85% day)."
+    "Momentum split: Energy strong (XOM 90d +27.9%; XLE 90d +17.2%) while Software weak (IGV 90d -24.0%) based on weekly closes.",
+    "Mega-cap growth mixed: META 90d +8.9% and NVDA 90d +4.9% held up; MSFT 90d -20.9% and AMZN 90d -15.3% lagged (weekly).",
+    "Risk-off hedge bid: GLD 90d +18.3% while crypto drawdown persists (BTC-USD 90d -20.8%, ETH-USD 90d -28.6%; weekly)."
   ],
   "thesis_damage_flags": [
     {
       "ticker": "MSFT",
-      "why": "30D momentum/trend damage: 459.38 (2026-01-14 close) to 400.30 (2026-02-13 close). Recent headlines captured were largely secondary/opinion pieces rather than a single verifiable company-specific catalyst."
+      "why": "Negative momentum: 90d -20.9% (472.12 on 2025-11-16 to 403.81 on 2026-02-08 weekly close) and 30d -12.2% (459.86 on 2026-01-11 to 403.81 on 2026-02-08)."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "Negative momentum: 90d -15.3% (220.69 on 2025-11-16 to 199.29 on 2026-02-08) and 30d -16.7% (239.12 on 2026-01-11 to 199.29 on 2026-02-08); FCF growth snapshot -24.3%."
+    },
+    {
+      "ticker": "CRM",
+      "why": "Negative momentum: 90d -17.9% (227.11 on 2025-11-16 to 186.36 on 2026-02-08) and 30d -17.9% (227.11 on 2026-01-11 to 186.36 on 2026-02-08)."
+    },
+    {
+      "ticker": "NFLX",
+      "why": "Severe momentum breakdown: 90d -27.2% (104.31 on 2025-11-16 to 75.97 on 2026-02-08) and 30d -13.7% (88.00 on 2026-01-11 to 75.97 on 2026-02-08)."
     },
     {
       "ticker": "BTC-USD",
-      "why": "Sharp 30D drawdown: 96955.16 (2026-01-14 close) to 67063.82 (2026-02-13 close) indicates momentum damage; no verifiable last-72h BTC-specific headlines were available from the fetched dataset."
+      "why": "Crypto sleeve rule fail (90d momentum negative): BTC-USD -20.8% (85068.88 on 2025-11-15 to 67349.51 on 2026-02-07 weekly close)."
+    },
+    {
+      "ticker": "ETH-USD",
+      "why": "Crypto sleeve rule fail (90d momentum negative): ETH-USD -28.6% (2763.99 on 2025-11-15 to 1972.04 on 2026-02-07 weekly close)."
     }
   ],
   "rebalance_actions": [
     {
       "action": "Replace",
-      "remove_ticker": "BTC-USD",
+      "remove_ticker": "MSFT",
       "add_ticker": "GLD",
-      "size_change_pct": 2
+      "size_change_pct": 12
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "AMZN",
+      "add_ticker": "XOM",
+      "size_change_pct": 5
     }
   ],
   "trade_of_the_day": {
     "action": "Replace",
-    "remove_ticker": "BTC-USD",
+    "remove_ticker": "MSFT",
     "add_ticker": "GLD",
-    "size_change_pct": 2,
+    "size_change_pct": 12,
     "thesis": [
-      "Positive 30D tape vs risk assets: GLD up from 425.94 (2026-01-14 close) to 454.63 (2026-02-13 close); BTC-USD down sharply over the same window (96955.16 to 67063.82).",
-      "Diversification ballast for a tech-heavy quality/momentum sleeve while keeping sector concentration within limits (IT remains large but <80%).",
-      "Liquid, focused commodity exposure (not a broad index ETF) and aligns with observed cross-asset risk-off behavior into 30-day horizon."
+      "Relative momentum tailwind: GLD 90d +18.3% (387.88 on 2025-11-23 to 458.70 on 2026-02-08) and 30d +8.0% (421.29 on 2026-01-11 to 458.70 on 2026-02-08), versus MSFT 90d -20.9% and 30d -12.2% (weekly).",
+      "Portfolio ballast: adds a non-equity diversifier while several growth equities show drawdowns (e.g., AMZN, CRM, NFLX negative 90d/30d momentum).",
+      "Trend confirmation: GLD price snapshot 458.89 on 2026-02-13 with +1.5% day move; weekly trend remains up despite a late-Jan volatility spike (weekly high 509.70 on 2026-01-25)."
     ],
     "risks": [
-      "Gold can mean-revert quickly if real rates/USD move against it; recent momentum may fail.",
-      "GLD can be volatile (notably large swings around late January), so position sizing matters for a 30-day sleeve.",
-      "Opportunity cost if high-beta risk assets rebound sharply; gold may lag in a risk-on snapback."
+      "Reversal risk after strong run: GLD already up +18.3% over 90d (weekly), susceptible to mean reversion.",
+      "Concentration risk in a single defensive factor: if risk-on resumes, MSFT could rebound while GLD lags over the next 30 days.",
+      "Gap/volatility: GLD exhibited large weekly range in late Jan (high 509.70, low 430.80 week of 2026-01-25), so drawdowns can be sharp."
     ],
     "falsifiable_checks": [
-      "If GLD closes back below ~427 (near early-Feb close 2026-02-02 at 427.13) after entry, treat as momentum failure for this sleeve.",
-      "If BTC-USD reclaims prior breakdown levels (e.g., sustained closes back above ~78k, near 2026-02-02 close 78666.85) while GLD stalls, the replacement rationale weakens."
+      "Momentum break: if GLD closes below its 2026-01-11 weekly close (421.29) on a weekly basis, the 30–60d momentum thesis is weakened.",
+      "Relative momentum: if MSFT 4-week return turns positive and exceeds GLD’s 4-week return on weekly closes, replace rationale weakens."
     ],
-    "why_now": "Over the next 6–18 months, AI/mega-cap narratives can drive equity volatility while cross-asset correlations can spike. Recent 30D behavior shows defensive hedges (GLD) holding up as some growth bellwethers (MSFT) and crypto (BTC-USD) weakened. A modest increase in gold exposure aims to improve drawdown resilience without relying on broad index ETFs and while staying within sector/crypto concentration constraints.",
-    "position_sizing_suggestion_pct": 14
+    "why_now": "Over the next 6–18 months, the portfolio benefits from a sleeve that historically can perform during growth drawdowns and macro uncertainty; current tape shows dispersion (energy/gold strength vs software/mega-cap weakness) and GLD’s verified 30d/90d uptrend provides a timely, rules-consistent diversifier."
   },
   "target_portfolio": [
     {
       "ticker": "NVDA",
-      "weight_pct": 20,
+      "weight_pct": 18,
       "sector": "Information Technology"
     },
     {
-      "ticker": "MSFT",
-      "weight_pct": 16,
-      "sector": "Information Technology"
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
     },
     {
-      "ticker": "TSM",
-      "weight_pct": 16,
-      "sector": "Information Technology"
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
     },
     {
-      "ticker": "ASML",
+      "ticker": "AVGO",
       "weight_pct": 12,
       "sector": "Information Technology"
     },
@@ -75,26 +96,25 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
       "sector": "Health Care"
     },
     {
-      "ticker": "SPOT",
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
       "weight_pct": 10,
-      "sector": "Communication Services"
+      "sector": "Financials"
     },
     {
       "ticker": "GLD",
-      "weight_pct": 14,
-      "sector": "Commodities/Metals"
-    },
-    {
-      "ticker": "BTC-USD",
-      "weight_pct": 2,
-      "sector": "Crypto"
+      "weight_pct": 10,
+      "sector": "Materials"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "Holdings=8; no duplicates; no CASH/UNKNOWN; broad index ETFs avoided. Weights sum=100. Max position=20 (<=40). Sector totals: Information Technology=64, Health Care=14, Communication Services=10, Commodities/Metals=14, Crypto=2 (each <=80). Crypto exposure=2 (<=10). Rebalance cadence weekly; due today=true; prior portfolio empty so bootstrapped."
+    "notes": "8 positions; weights sum to 100%. Max position 18% (<=40). Sector concentration: IT 30% (NVDA+AVGO) is largest (<=80). Crypto 0% (<=10). Broad index ETFs excluded; GLD allowed as commodity ETF."
   }
 }
-Auto-corrected portfolio weights to satisfy deterministic constraints.
