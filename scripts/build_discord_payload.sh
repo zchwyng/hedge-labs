@@ -800,6 +800,18 @@ n/a
     lane_block+=$'\n'
     lane_block+="- Rebalance actions: ${rebalance_actions_summary}"
   fi
+
+  if [[ -n "$error_message" ]]; then
+    lane_block+=$'\n'
+    lane_block+="- ❗ Error: **${error_message}**"
+  fi
+
+  lane_block+=$'\n'
+  lane_block+="- ${holdings_heading}"
+  lane_block+=$'\n'
+  lane_block+="$holdings_block"
+
+  # Keep holdings above lower-priority commentary so it doesn't get pushed out by Discord length trimming.
   if [[ -n "$market_news_block" ]]; then
     lane_block+=$'\n'
     lane_block+="- Market News:"
@@ -826,16 +838,6 @@ n/a
     lane_block+=$'\n'
     lane_block+="$api_notice_block"
   fi
-
-  if [[ -n "$error_message" ]]; then
-    lane_block+=$'\n'
-    lane_block+="- ❗ Error: **${error_message}**"
-  fi
-
-  lane_block+=$'\n'
-  lane_block+="- ${holdings_heading}"
-  lane_block+=$'\n'
-  lane_block+="$holdings_block"
 
   if [[ "$status" == "success" ]]; then
     lane_block+=$'\n'
