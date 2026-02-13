@@ -3,8 +3,8 @@
   "provider": "anthropic",
   "model": "claude-sonnet-4-5",
   "benchmark": {
-    "name": "MSCI ACWI",
-    "ticker": "ACWI"
+    "name": "S&P 500",
+    "ticker": "SPY"
   },
   "universe": "Global large/mid cap equities, focused ETFs (including commodities/metals), and major crypto assets",
   "hold_horizon_days": 30,
