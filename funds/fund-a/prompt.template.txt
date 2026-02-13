@@ -30,7 +30,8 @@ Rebalance/tool-call policy (STRICT):
   - Make UP TO 2 `financial_search` calls total:
     1) EQUITIES-ONLY query (prices + WEEKLY 30/90d history + key ratios snapshot + limited news for <= 4 equities).
     2) ETF/CRYPTO-ONLY query (prices + WEEKLY 30/90d history; NO news; NO key ratios).
-  - After tools: make at most 3 portfolio changes unless thesis damage is severe.
+  - Bootstrap exception: if prior `target_portfolio` is empty, build a full {POSITIONS}-name portfolio and do NOT apply the 3-change cap.
+  - Otherwise, after tools: make at most 3 portfolio changes unless thesis damage is severe.
 
 Portfolio constraints:
 - Target positions: {POSITIONS}
@@ -50,7 +51,8 @@ Portfolio constraints:
 Strategy V2 (Aggressive Quality + Momentum) - scorecard for rebalance-due days:
 - Candidate set:
   - Start from the prior `target_portfolio` in the stateful context.
-  - Propose at most 3 changes unless thesis damage is severe.
+  - If prior `target_portfolio` is empty, bootstrap a full {POSITIONS}-name portfolio (3-change cap does not apply).
+  - If prior `target_portfolio` is non-empty, propose at most 3 changes unless thesis damage is severe.
   - Consider up to 4 replacement candidates (so the equity tool query stays <= 12 tickers total).
 - Score each equity candidate using tool-fetched data (do not guess):
   - Momentum (60%): 90d return (weekly) + 30d return (weekly).
@@ -114,4 +116,3 @@ Output ONLY JSON:
   "target_portfolio": [{"ticker":"","weight_pct":0,"sector":""}],
   "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":""}
 }
-
