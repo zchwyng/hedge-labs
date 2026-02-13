@@ -4,6 +4,19 @@ on:
   schedule:
     - cron: "17 6 * * *"
   workflow_dispatch:
+    inputs:
+      run_date:
+        description: "Override run date (YYYY-MM-DD). Leave blank for today's UTC date."
+        required: false
+        default: ""
+      publish_outputs:
+        description: "Commit/push run outputs to main"
+        required: false
+        default: "false"
+      post_discord:
+        description: "Post Discord digest"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -21,8 +34,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Build lane matrix
         id: matrix
@@ -61,13 +72,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Compute run context
         id: run_context
         run: |
-          RUN_DATE="$(date -u +%F)"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.run_date }}" ]; then
+            RUN_DATE="${{ github.event.inputs.run_date }}"
+          else
+            RUN_DATE="$(date -u +%F)"
+          fi
           RUN_PATH="funds/${{ matrix.fund_id }}/runs/${RUN_DATE}/${{ matrix.provider }}"
           mkdir -p "$RUN_PATH"
 
@@ -146,8 +159,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Download lane artifacts
         uses: actions/download-artifact@v4
@@ -159,6 +170,11 @@ jobs:
       - name: Determine run date
         id: run_date
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.run_date }}" ]; then
+            echo "run_date=${{ github.event.inputs.run_date }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           RUN_DATE=""
           FIRST_PROMPT="$(find .lane_artifacts -type f -name prompt.txt | head -n 1)"
           if [ -n "$FIRST_PROMPT" ]; then
@@ -201,6 +217,11 @@ jobs:
 
       - name: Commit and push run outputs
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.publish_outputs }}" != "true" ]; then
+            echo "Skipping publish: workflow_dispatch publish_outputs != true"
+            exit 0
+          fi
+
           git config user.name "fund-arena-bot"
           git config user.email "fund-arena-bot@users.noreply.github.com"
 
@@ -219,6 +240,11 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.post_discord }}" != "true" ]; then
+            echo "Skipping Discord post: workflow_dispatch post_discord != true"
+            exit 0
+          fi
+
           if [ -z "${DISCORD_WEBHOOK_URL}" ]; then
             echo "Missing required secret: DISCORD_WEBHOOK_URL" >&2
             exit 1
