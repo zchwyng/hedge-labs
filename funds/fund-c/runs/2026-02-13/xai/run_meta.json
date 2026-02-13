@@ -3,15 +3,12 @@
   "provider": "xai",
   "model": "grok-4-1-fast-reasoning",
   "run_date": "2026-02-13",
-  "started_at": "2026-02-13T11:56:35Z",
-  "ended_at": "2026-02-13T11:56:38Z",
-  "status": "failed",
-  "reason": "Bun v1.3.9 (Linux x64)",
-  "api_errors": [
-    "error: [xAI API] 400 \"Incorrect API key provided: ***. You can obtain an API key from https://console.x.ai.\"",
-    "Bun v1.3.9 (Linux x64)"
-  ],
-  "dexter_exit_code": 1,
+  "started_at": "2026-02-13T12:22:21Z",
+  "ended_at": "2026-02-13T12:24:44Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
+  "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-115636_c3974db28f27.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-122222_c3974db28f27.jsonl"
 }
