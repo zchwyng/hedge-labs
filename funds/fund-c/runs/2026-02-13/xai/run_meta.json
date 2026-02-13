@@ -3,15 +3,12 @@
   "provider": "xai",
   "model": "grok-4-1-fast-reasoning",
   "run_date": "2026-02-13",
-  "started_at": "2026-02-13T13:12:42Z",
-  "ended_at": "2026-02-13T13:17:18Z",
-  "status": "failed",
-  "reason": "Retry failed: Bun v1.3.9 (Linux x64)",
-  "api_errors": [
-    "error: Dexter returned non-JSON output even after JSON-only synthesis pass",
-    "Retry failed: Bun v1.3.9 (Linux x64)"
-  ],
-  "dexter_exit_code": 1,
+  "started_at": "2026-02-13T13:26:19Z",
+  "ended_at": "2026-02-13T13:28:15Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
+  "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-131509_1b4fc8d723c4.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-132620_c3974db28f27.jsonl"
 }
