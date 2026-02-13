@@ -5,7 +5,7 @@ Run metadata:
 - Run date: 2026-02-13
 - Fund name: Quality + Momentum (Monthly-hold)
 - Provider: xai
-- Model: grok-4-1
+- Model: grok-4-1-fast-reasoning
 - Rebalance cadence: weekly
 
 Rules:

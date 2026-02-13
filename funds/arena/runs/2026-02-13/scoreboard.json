@@ -8,10 +8,10 @@
       "action": "Add",
       "add_ticker": "GLD",
       "remove_ticker": null,
-      "size_change_pct": 8,
+      "size_change_pct": 10,
       "constraints_ok": true,
-      "rebalance_actions_count": 1,
-      "rebalance_actions_preview": "Add GLD",
+      "rebalance_actions_count": 8,
+      "rebalance_actions_preview": "Add GLD, Add XLE, Add NVDA, Add MSFT",
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
@@ -85,8 +85,8 @@
     "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   },
   "comparison": {
-    "portfolio_overlap_pct": 33.33,
-    "turnover_estimate_pct": 58,
+    "portfolio_overlap_pct": 23.08,
+    "turnover_estimate_pct": 68,
     "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-13/openai/dexter_output.json vs funds/fund-b/runs/2026-02-13/anthropic/dexter_output.json."
   }
 }
