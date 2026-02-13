@@ -339,6 +339,9 @@ else
 fi
 
 lane_sections=""
+fund_order=""
+tmpdir="$(mktemp -d 2>/dev/null || mktemp -d -t hedge_labs_discord)"
+trap 'rm -rf "$tmpdir"' EXIT
 
 if [[ "$mode" != "overall-only" ]]; then
 
@@ -770,73 +773,81 @@ n/a
     fi
   fi
 
-  lane_sections+=$'\n\n'
-  lane_sections+="**${fund_emoji} ${fund_label} (${provider_label})**"
-  lane_sections+=$'\n'
-  lane_sections+="- Name: ${fund_name_label}"
-  lane_sections+=$'\n'
-  lane_sections+="- Type: ${fund_type_label}"
-  lane_sections+=$'\n'
-  lane_sections+="- BM: ${benchmark_display}"
+  lane_block=""
+  lane_block+=$'\n\n'
+  lane_block+="**${fund_emoji} ${fund_label} (${provider_label})**"
+  lane_block+=$'\n'
+  lane_block+="- Name: ${fund_name_label}"
+  lane_block+=$'\n'
+  lane_block+="- Type: ${fund_type_label}"
+  lane_block+=$'\n'
+  lane_block+="- BM: ${benchmark_display}"
   if [[ -n "$since_start_line" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="${since_start_line}"
+    lane_block+=$'\n'
+    lane_block+="${since_start_line}"
   fi
-  lane_sections+=$'\n'
-  lane_sections+="- Sectors: ${sector_exposure_summary}"
-  lane_sections+=$'\n'
-  lane_sections+="- Model: \`${model_label}\`"
+  lane_block+=$'\n'
+  lane_block+="- Sectors: ${sector_exposure_summary}"
+  lane_block+=$'\n'
+  lane_block+="- Model: \`${model_label}\`"
   if [[ "$status" != "success" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Status: ${status_emoji} **${status_label}**"
+    lane_block+=$'\n'
+    lane_block+="- Status: ${status_emoji} **${status_label}**"
   fi
-  lane_sections+=$'\n'
-  lane_sections+="- Today: ${action_summary}"
+  lane_block+=$'\n'
+  lane_block+="- Today: ${action_summary}"
   if [[ "$rebalance_actions_summary" != "n/a" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Rebalance actions: ${rebalance_actions_summary}"
+    lane_block+=$'\n'
+    lane_block+="- Rebalance actions: ${rebalance_actions_summary}"
   fi
   if [[ -n "$market_news_block" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Market News:"
-    lane_sections+=$'\n'
-    lane_sections+="$market_news_block"
+    lane_block+=$'\n'
+    lane_block+="- Market News:"
+    lane_block+=$'\n'
+    lane_block+="$market_news_block"
   fi
   if [[ -n "$thesis_damage_block" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Thesis Damage Flags:"
-    lane_sections+=$'\n'
-    lane_sections+="$thesis_damage_block"
+    lane_block+=$'\n'
+    lane_block+="- Thesis Damage Flags:"
+    lane_block+=$'\n'
+    lane_block+="$thesis_damage_block"
   fi
   if [[ "$trade_reasoning_summary" != "n/a" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- ${trade_reasoning_summary}"
+    lane_block+=$'\n'
+    lane_block+="- ${trade_reasoning_summary}"
   fi
   if [[ "$status" == "success" && "$constraints_ok" != "true" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Limits: ${constraints_label}"
+    lane_block+=$'\n'
+    lane_block+="- Limits: ${constraints_label}"
   fi
   if [[ -n "$api_notice_block" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Data Notes:"
-    lane_sections+=$'\n'
-    lane_sections+="$api_notice_block"
+    lane_block+=$'\n'
+    lane_block+="- Data Notes:"
+    lane_block+=$'\n'
+    lane_block+="$api_notice_block"
   fi
 
   if [[ -n "$error_message" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- ❗ Error: **${error_message}**"
+    lane_block+=$'\n'
+    lane_block+="- ❗ Error: **${error_message}**"
   fi
 
-  lane_sections+=$'\n'
-  lane_sections+="- ${holdings_heading}"
-  lane_sections+=$'\n'
-  lane_sections+="$holdings_block"
+  lane_block+=$'\n'
+  lane_block+="- ${holdings_heading}"
+  lane_block+=$'\n'
+  lane_block+="$holdings_block"
 
   if [[ "$status" == "success" ]]; then
-    lane_sections+=$'\n'
-    lane_sections+="- Watch-outs: ${risk_snippet}"
+    lane_block+=$'\n'
+    lane_block+="- Watch-outs: ${risk_snippet}"
   fi
+
+  lane_sections+="$lane_block"
+
+  if ! printf '%s' "$fund_order" | grep -Fxq "$fund_id"; then
+    fund_order+="${fund_id}"$'\n'
+  fi
+  printf '%s' "$lane_block" >> "$tmpdir/${fund_id}.txt"
 done < <(jq -c '.lanes[]' "$scoreboard_path")
 
 fi
@@ -931,14 +942,36 @@ build_lanes_overview_block() {
   printf '%s' "$out"
 }
 
+format_scoreboard_snippet() {
+  local md="$1"
+  local max_lines="${2:-40}"
+
+  if [[ -z "$md" ]]; then
+    printf '%s' ""
+    return 0
+  fi
+
+  local total_lines
+  total_lines="$(printf '%s\n' "$md" | wc -l | tr -d ' ')"
+  if [[ -z "$total_lines" ]]; then total_lines=0; fi
+
+  if (( total_lines <= max_lines )); then
+    printf '%s' "$md"
+    return 0
+  fi
+
+  local head_block
+  head_block="$(printf '%s\n' "$md" | head -n "$max_lines")"
+  printf '%s\n\n... (%d more lines)\n' "$head_block" "$(( total_lines - max_lines ))"
+}
+
 scoreboard_md=""
 if [[ -f "$scoreboard_repo_path" ]]; then
   scoreboard_md="$(cat "$scoreboard_repo_path")"
 fi
 
 overview_msg=""
-lanes_msg=""
-scoreboard_msg=""
+scoreboard_snip=""
 
 if [[ "$include_header" == "true" ]]; then
   overview_msg="**📈 Daily Paper Update — ${run_date}**"
@@ -956,38 +989,61 @@ if [[ "$include_header" == "true" ]]; then
   overview_msg+=$'\n'
   overview_msg+=$'\n'
   overview_msg+="$(build_lanes_overview_block)"
+
+  scoreboard_snip="$(format_scoreboard_snippet "$scoreboard_md" 35)"
+  if [[ -n "$scoreboard_snip" ]]; then
+    overview_msg+=$'\n'
+    overview_msg+=$'\n'
+    overview_msg+="**🏁 Scoreboard**"
+    overview_msg+=$'\n'
+    overview_msg+=$'```text\n'
+    overview_msg+="$scoreboard_snip"
+    overview_msg+=$'\n```'
+  fi
 fi
 
 if [[ "$mode" == "overall-only" ]]; then
-  overview_msg="$(trim_discord_message "$overview_msg")"
+  overview_msg="$(trim_discord_message "$overview_msg" "false")"
   jq -Rn --argjson messages "$(jq -n --arg content "$overview_msg" '[{content:$content, flags:4}]')" '$messages'
   exit 0
 fi
 
-lanes_msg="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
-lanes_msg="**🧩 Lane Details**"$'\n'"$lanes_msg"
-lanes_msg="$(trim_discord_message "$lanes_msg")"
-
 if [[ "$mode" == "no-header" ]]; then
-  # Back-compat: "no-header" should only post lane details (historically used for subsequent per-fund posts).
-  lanes_msg="$(trim_discord_message "$lanes_msg")"
-  jq -Rn --argjson messages "$(jq -n --arg content "$lanes_msg" '[{content:$content, flags:4}]')" '$messages'
+  # Back-compat: only post the selected fund (or all lane blocks if no filter is provided).
+  if [[ -n "$fund_filter" ]]; then
+    fund_msg="$(cat "$tmpdir/${fund_filter}.txt" 2>/dev/null || true)"
+    fund_msg="$(printf '%s' "$fund_msg" | perl -0pe 's/^\n+//')"
+    fund_msg="$(trim_discord_message "$fund_msg")"
+    jq -Rn --argjson messages "$(jq -n --arg content "$fund_msg" '[{content:$content, flags:4}]')" '$messages'
+    exit 0
+  fi
+
+  all_lanes_msg="$(printf '%s' "$lane_sections" | perl -0pe 's/^\n+//')"
+  all_lanes_msg="$(trim_discord_message "$all_lanes_msg")"
+  jq -Rn --argjson messages "$(jq -n --arg content "$all_lanes_msg" '[{content:$content, flags:4}]')" '$messages'
   exit 0
 fi
 
-if [[ -n "$scoreboard_md" ]]; then
-  scoreboard_msg="**🏁 Scoreboard — ${run_date}**"$'\n'$'```text\n'"$scoreboard_md"$'\n'$'```'
-else
-  scoreboard_msg="**🏁 Scoreboard — ${run_date}**"$'\n'"(missing ${scoreboard_repo_path})"
-fi
-scoreboard_msg="$(trim_discord_message "$scoreboard_msg" "false")"
+messages_json="$(jq -n '[]')"
 
-messages_json="$(jq -n --arg o "$overview_msg" --arg l "$lanes_msg" --arg s "$scoreboard_msg" '
-  [
-    (if ($o | length) > 0 then {content:$o, flags:4} else empty end),
-    {content:$l, flags:4},
-    {content:$s, flags:4}
-  ]
-')"
+if [[ -n "$overview_msg" ]]; then
+  overview_msg="$(trim_discord_message "$overview_msg" "false")"
+  messages_json="$(printf '%s' "$messages_json" | jq --arg content "$overview_msg" '. + [{content:$content, flags:4}]')"
+fi
+
+if [[ -n "$fund_filter" ]]; then
+  fund_msg="$(cat "$tmpdir/${fund_filter}.txt" 2>/dev/null || true)"
+  fund_msg="$(printf '%s' "$fund_msg" | perl -0pe 's/^\n+//')"
+  fund_msg="$(trim_discord_message "$fund_msg")"
+  messages_json="$(printf '%s' "$messages_json" | jq --arg content "$fund_msg" '. + [{content:$content, flags:4}]')"
+else
+  while IFS= read -r fid; do
+    [[ -n "$fid" ]] || continue
+    fund_msg="$(cat "$tmpdir/${fid}.txt" 2>/dev/null || true)"
+    fund_msg="$(printf '%s' "$fund_msg" | perl -0pe 's/^\n+//')"
+    fund_msg="$(trim_discord_message "$fund_msg")"
+    messages_json="$(printf '%s' "$messages_json" | jq --arg content "$fund_msg" '. + [{content:$content, flags:4}]')"
+  done <<<"$(printf '%s' "$fund_order")"
+fi
 
 printf '%s\n' "$messages_json"
