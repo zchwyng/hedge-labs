@@ -379,7 +379,8 @@ Stateful rebalance context (system-provided):
 Execution policy:
 - Treat prior target_portfolio as the starting portfolio when available.
 - If "Rebalance due today" is false, output action "Do nothing" and keep target_portfolio exactly unchanged.
-- If "Rebalance due today" is true, make only justified changes and keep turnover efficient.
+- Bootstrap exception: if prior target_portfolio is empty, build a full ${positions}-name portfolio; do not apply the 3-change cap for this run.
+- If "Rebalance due today" is true and prior target_portfolio is non-empty, make only justified changes and keep turnover efficient.
 - On rebalance-due days, use the 7-day aggregated context explicitly when selecting actions and sizing.
 - On rebalance-due days, output full action list in \`rebalance_actions\` (can contain multiple actions).
 EOF
