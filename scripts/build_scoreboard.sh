@@ -225,17 +225,33 @@ fi
 
 scoreboard_json_path="${arena_dir}/scoreboard.json"
 scoreboard_md_path="${arena_dir}/scoreboard.md"
+scoreboard_txt_path="${arena_dir}/scoreboard.txt"
+
+indices_config_path="funds/arena/indices.json"
+arena_inception_date="$(printf '%s' "$lanes_json" | jq -r '
+  ([.[] | select(.status == "success" and .inception_date != null) | .inception_date] | min) // empty
+')"
+if [[ -z "$arena_inception_date" ]]; then
+  arena_inception_date="$run_date"
+fi
+
+indices_json="$(jq -n '{start_date:null,end_date:null,asof_price_date:null,items:[]}')"
+if [[ -f "$indices_config_path" ]]; then
+  indices_json="$(node scripts/index_performance.mjs "$arena_inception_date" "$run_date" "$indices_config_path" 2>/dev/null || printf '%s' "$indices_json")"
+fi
 
 jq -n \
   --arg run_date "$run_date" \
   --argjson lanes "$lanes_json" \
   --argjson overlap "$overlap_pct" \
   --argjson turnover "$turnover_pct" \
+  --argjson indices "$indices_json" \
   --arg ranking_notes "$ranking_notes" \
   --arg notes "$comparison_notes" \
   '{
     run_date: $run_date,
     lanes: $lanes,
+    indices: $indices,
     ranking: {
       method: "independent_performance",
       notes: $ranking_notes
@@ -250,38 +266,113 @@ jq -n \
 {
   echo "# Fund Arena Scoreboard (${run_date})"
   echo
-  echo "| Rank | Lane | Status | Action | Rebalance Actions | Change | Constraints | Fund Return | Excess vs Benchmark |"
-  echo "|---|---|---|---|---|---|---|---|---|"
-  jq -r '.lanes[] |
-    def fmt_pct($v):
-      if $v == null then
-        "-"
-      else
-        ((if $v > 0 then "+" else "" end) + (((($v * 100) | round) / 100) | tostring) + "%")
-      end;
-    . as $lane |
-    ($lane.fund_id + "/" + $lane.provider) as $lane_name |
-    (if $lane.add_ticker != null or $lane.remove_ticker != null
-      then ((if $lane.remove_ticker != null then $lane.remove_ticker else "-" end) + " -> " + (if $lane.add_ticker != null then $lane.add_ticker else "-" end))
-      else "-"
-    end) as $change |
-    [
-      ($lane.rank | tostring),
-      $lane_name,
-      $lane.status,
-      $lane.action,
-      (($lane.rebalance_actions_count | tostring) + (if $lane.rebalance_actions_preview != null then " (" + $lane.rebalance_actions_preview + ")" else "" end)),
-      $change,
-      (if $lane.constraints_ok then "OK" else "FAIL" end),
-      fmt_pct($lane.fund_return_pct),
-      fmt_pct($lane.excess_return_pct)
-    ] | "| " + join(" | ") + " |"' "$scoreboard_json_path"
+  echo "## Board"
+  echo "- Overlap: $(jq -r '.comparison.portfolio_overlap_pct' "$scoreboard_json_path")%"
+  echo "- Est. turnover: $(jq -r '.comparison.turnover_estimate_pct' "$scoreboard_json_path")%"
   echo
+  if [[ "$(jq -r '(.indices.items // []) | length' "$scoreboard_json_path")" -gt 0 ]]; then
+    echo "## Indices"
+    idx_asof="$(jq -r '.indices.asof_price_date // empty' "$scoreboard_json_path")"
+    if [[ -n "$idx_asof" ]]; then
+      echo "- As of: ${idx_asof} close"
+    fi
+	    jq -r '.indices.items[] |
+	      def fmt_pct($v):
+	        if $v == null then "-" else ((if ($v | tonumber) >= 0 then "+" else "" end) + (((($v | tonumber) * 100 | round) / 100) | tostring) + "%") end;
+	      "- " + (.name // .ticker) + ": " + fmt_pct(.return_pct)
+	    ' "$scoreboard_json_path"
+    echo
+  fi
+  echo "## Lanes"
+	  jq -r '.lanes[] |
+	    def fmt_pct($v):
+	      if $v == null then "-" else ((if ($v | tonumber) >= 0 then "+" else "" end) + (((($v | tonumber) * 100 | round) / 100) | tostring) + "%") end;
+	    (.benchmark_name // .benchmark_ticker // "Benchmark") as $bm |
+	    (.asof_price_date // "n/a") as $asof |
+	    (.inception_date // "n/a") as $start |
+    "- " + (.fund_id + "/" + .provider)
+    + ": "
+    + (if .status == "success" then "On track" else "Issue" end)
+    + (if .status == "success" and .fund_return_pct != null
+        then (" - since " + $start + ": " + fmt_pct(.fund_return_pct)
+          + (if .benchmark_return_pct != null then (" vs " + $bm + " " + fmt_pct(.benchmark_return_pct)) else "" end)
+          + (if .excess_return_pct != null then (" (excess " + fmt_pct(.excess_return_pct) + ")") else "" end)
+          + (" as of " + $asof)
+        )
+        else ""
+      end)
+  ' "$scoreboard_json_path"
+  echo
+  echo "## Actions"
+  jq -r '.lanes[] |
+    "- " + (.fund_id + "/" + .provider) + ": "
+    + (if .status == "success"
+        then (
+          if (.action == "Do nothing") then "No changes"
+          elif (.action == "Add") then ("Added " + (.add_ticker // "?"))
+          elif (.action == "Trim") then ("Trimmed " + (.remove_ticker // "?") + " -> " + (.add_ticker // "?"))
+          elif (.action == "Replace") then ("Replaced " + (.remove_ticker // "?") + " -> " + (.add_ticker // "?"))
+          else (.action // "Unknown")
+          end
+        )
+        else "No run"
+      end)
+  ' "$scoreboard_json_path"
+  echo
+  echo "## Notes"
   echo "- Ranking: $(jq -r '.ranking.notes' "$scoreboard_json_path")"
-  echo "- Portfolio overlap: $(jq -r '.comparison.portfolio_overlap_pct' "$scoreboard_json_path")%"
-  echo "- Turnover estimate: $(jq -r '.comparison.turnover_estimate_pct' "$scoreboard_json_path")%"
-  echo "- Notes: $(jq -r '.comparison.notes' "$scoreboard_json_path")"
+  echo "- Data: $(jq -r '.comparison.notes' "$scoreboard_json_path")"
 } > "$scoreboard_md_path"
+
+{
+  echo "Fund Arena Scoreboard (${run_date})"
+  echo
+
+  asof_common="$(jq -r '[.lanes[] | select(.status == "success") | .asof_price_date] | map(select(. != null)) | sort | first // empty' "$scoreboard_json_path")"
+  if [[ -n "$asof_common" ]]; then
+    echo "As of: ${asof_common} close"
+    echo
+  fi
+
+	  jq -r '.lanes[] |
+	    def fmt_pct($v):
+	      if $v == null then "-" else ((if ($v | tonumber) >= 0 then "+" else "" end) + (((($v | tonumber) * 100 | round) / 100) | tostring) + "%") end;
+	    def fund_label($id):
+      if ($id | test("^fund-[a-zA-Z]$")) then
+        "Fund " + (($id | split("-") | .[1]) | ascii_upcase)
+      else
+        ($id | gsub("-"; " ") | split(" ") | map(.[:1] | ascii_upcase + .[1:]) | join(" "))
+      end;
+    def provider_label($p):
+      if $p == "openai" then "OpenAI"
+      elif $p == "anthropic" then "Anthropic"
+      elif $p == "xai" then "xAI"
+      else ($p | .[:1] | ascii_upcase) + ($p | .[1:] | ascii_downcase)
+      end;
+    (.benchmark_name // .benchmark_ticker // "Benchmark") as $bm |
+    (fund_label(.fund_id) + " (" + provider_label(.provider) + ")") as $lane |
+    (if .status == "success" then "On track" else "Issue" end) as $status |
+    (if .status == "success"
+      then (
+        if (.action == "Do nothing") then "No changes"
+        elif (.action == "Add") then ("Added " + (.add_ticker // "?"))
+        elif (.action == "Trim") then ("Trimmed " + (.remove_ticker // "?") + " -> " + (.add_ticker // "?"))
+        elif (.action == "Replace") then ("Replaced " + (.remove_ticker // "?") + " -> " + (.add_ticker // "?"))
+        else (.action // "Unknown")
+        end
+      )
+      else "No run"
+    end) as $action |
+	    (if .status == "success" and .fund_return_pct != null then fmt_pct(.fund_return_pct) else "-" end) as $fund |
+	    (if .status == "success" and .benchmark_return_pct != null then fmt_pct(.benchmark_return_pct) else "-" end) as $bmret |
+	    (if .status == "success" and .excess_return_pct != null then fmt_pct(.excess_return_pct) else "-" end) as $excess |
+	    ((.rank | tostring) + ". " + $lane + " - " + $status + " | " + $action + " | Perf " + $fund
+	      + (if $bmret != "-" then (" vs " + $bm + " " + $bmret) else "" end)
+	      + (if $excess != "-" then (" (excess " + $excess + ")") else "" end)
+	    )
+	  ' "$scoreboard_json_path"
+} > "$scoreboard_txt_path"
 
 echo "Wrote ${scoreboard_json_path}"
 echo "Wrote ${scoreboard_md_path}"
+echo "Wrote ${scoreboard_txt_path}"

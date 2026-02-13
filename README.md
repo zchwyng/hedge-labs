@@ -67,6 +67,11 @@ Also set repository Actions permission to **Read and write**.
 
 - `funds/arena/runs/YYYY-MM-DD/scoreboard.json`
 - `funds/arena/runs/YYYY-MM-DD/scoreboard.md`
+- `funds/arena/runs/YYYY-MM-DD/scoreboard.txt` (plain-text snippet used in Discord "Scoreboard" block)
+
+### Arena config
+
+- `funds/arena/indices.json` (tickers used for the "Indices" performance block)
 
 ## Local smoke run
 

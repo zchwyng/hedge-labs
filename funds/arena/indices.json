@@ -1,0 +1,8 @@
+[
+  { "ticker": "SPY", "name": "S&P 500" },
+  { "ticker": "QQQ", "name": "Nasdaq 100" },
+  { "ticker": "ACWI", "name": "MSCI ACWI" },
+  { "ticker": "GLD", "name": "Gold" },
+  { "ticker": "BTC-USD", "name": "Bitcoin" }
+]
+

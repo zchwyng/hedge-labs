@@ -959,7 +959,7 @@ build_lanes_overview_block() {
         excess_perf="$(printf "%+.2f%%" "$excess_return_pct" 2>/dev/null || true)"
       fi
 
-      perf_suffix=" — **${fund_perf}** since ${inception_date}"
+      perf_suffix=" - **${fund_perf}** since ${inception_date}"
       if [[ -n "$bm_perf" ]]; then
         perf_suffix+=" vs ${benchmark_name} ${bm_perf}"
       fi
@@ -973,7 +973,7 @@ build_lanes_overview_block() {
 
     out+="- ${fund_emoji} ${fund_label} (${provider_label}): ${status_emoji} **${status_label}**${perf_suffix}"
     if [[ -n "$error_message" ]]; then
-      out+=" — ${error_message}"
+      out+=" - ${error_message}"
     fi
     out+=$'\n'
   done < <(jq -c '.lanes[]' "$scoreboard_path")
