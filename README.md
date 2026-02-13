@@ -48,6 +48,7 @@ This enforces Financial Datasets tool usage for successful runs.
 - `FINANCIAL_DATASETS_API_KEY`
 - `OPENAI_API_KEY`
 - `ANTHROPIC_API_KEY`
+- `XAI_API_KEY`
 - `DISCORD_WEBHOOK_URL`
 
 Also set repository Actions permission to **Read and write**.

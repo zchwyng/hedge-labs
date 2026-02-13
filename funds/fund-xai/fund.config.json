@@ -1,0 +1,18 @@
+{
+  "name": "Quality + Momentum (Monthly-hold)",
+  "provider": "xai",
+  "model": "grok-4-1",
+  "benchmark": {
+    "name": "S&P 500",
+    "ticker": "SPY"
+  },
+  "universe": "Global large/mid cap equities, focused ETFs (including commodities/metals), and major crypto assets",
+  "hold_horizon_days": 30,
+  "positions": 8,
+  "min_position_pct": 2,
+  "max_position_pct": 40,
+  "max_sector_pct": 80,
+  "max_crypto_pct": 10,
+  "rebalance": "weekly",
+  "paper_only": true
+}

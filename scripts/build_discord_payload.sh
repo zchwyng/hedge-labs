@@ -366,18 +366,20 @@ while IFS= read -r lane; do
   lane_coverage_pct="$(jq -r '.performance_coverage_pct // empty' <<<"$lane")"
   config_path="funds/${fund_id}/fund.config.json"
 
-  case "$provider" in
-    openai) provider_label="OpenAI" ;;
-    anthropic) provider_label="Anthropic" ;;
-    *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
-  esac
+	  case "$provider" in
+	    openai) provider_label="OpenAI" ;;
+	    anthropic) provider_label="Anthropic" ;;
+	    xai) provider_label="xAI" ;;
+	    *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
+	  esac
 
   fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
-  case "$fund_id" in
-    fund-a) fund_emoji="🟦" ;;
-    fund-b) fund_emoji="🟪" ;;
-    *) fund_emoji="⬜" ;;
-  esac
+	  case "$fund_id" in
+	    fund-a) fund_emoji="🟦" ;;
+	    fund-b) fund_emoji="🟪" ;;
+	    fund-xai) fund_emoji="🟧" ;;
+	    *) fund_emoji="⬜" ;;
+	  esac
 
   if [[ "$status" == "success" ]]; then
     status_emoji="🟢"
@@ -906,17 +908,19 @@ build_lanes_overview_block() {
     meta_path="${run_path}/run_meta.json"
     error_message=""
 
-    case "$provider" in
-      openai) provider_label="OpenAI" ;;
-      anthropic) provider_label="Anthropic" ;;
-      *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
-    esac
+	    case "$provider" in
+	      openai) provider_label="OpenAI" ;;
+	      anthropic) provider_label="Anthropic" ;;
+	      xai) provider_label="xAI" ;;
+	      *) provider_label="$(printf '%s' "$provider" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')" ;;
+	    esac
 
-    case "$fund_id" in
-      fund-a) fund_emoji="🟦" ;;
-      fund-b) fund_emoji="🟪" ;;
-      *) fund_emoji="⬜" ;;
-    esac
+	    case "$fund_id" in
+	      fund-a) fund_emoji="🟦" ;;
+	      fund-b) fund_emoji="🟪" ;;
+	      fund-xai) fund_emoji="🟧" ;;
+	      *) fund_emoji="⬜" ;;
+	    esac
     fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
 
     if [[ "$status" == "success" ]]; then
