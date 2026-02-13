@@ -126,6 +126,23 @@ minimum_days_between_rebalances() {
   esac
 }
 
+date_minus_days() {
+  local base_date="$1"
+  local days="$2"
+  node - "$base_date" "$days" <<'NODE'
+const baseDate = process.argv[2];
+const days = Number(process.argv[3]);
+const baseMs = Date.parse(`${baseDate}T00:00:00Z`);
+if (!Number.isFinite(baseMs) || !Number.isFinite(days)) process.exit(1);
+const outMs = baseMs - (days * 86400000);
+const d = new Date(outMs);
+const yyyy = d.getUTCFullYear();
+const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+const dd = String(d.getUTCDate()).padStart(2, '0');
+process.stdout.write(`${yyyy}-${mm}-${dd}\n`);
+NODE
+}
+
 build_last7_summary_json() {
   local target_fund_id="$1"
   local target_provider="$2"
@@ -324,6 +341,9 @@ previous_portfolio_json='[]'
 previous_trade_json='{}'
 rebalance_due="true"
 min_rebalance_days="$(minimum_days_between_rebalances "$rebalance")"
+lookback_30d_start="$(date_minus_days "$run_date" 30)"
+lookback_90d_start="$(date_minus_days "$run_date" 90)"
+news_7d_start="$(date_minus_days "$run_date" 7)"
 
 IFS=$'\t' read -r prev_output_path prev_output_date < <(latest_successful_output_before_run "$fund_id" "$provider" "$run_date")
 if [[ -n "$prev_output_path" && -f "$prev_output_path" ]]; then
@@ -349,6 +369,9 @@ Stateful rebalance context (system-provided):
 - Days since prior successful run: ${days_since_previous}
 - Rebalance due today: ${rebalance_due}
 - Rebalance cadence minimum spacing (days): ${min_rebalance_days}
+- lookback_30d_start: ${lookback_30d_start}
+- lookback_90d_start: ${lookback_90d_start}
+- news_7d_start: ${news_7d_start}
 - Prior target_portfolio JSON: ${previous_portfolio_json}
 - Prior trade_of_the_day JSON: ${previous_trade_json}
 - Last 7-day aggregated context JSON: ${last7_summary_json}
