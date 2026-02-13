@@ -54,7 +54,7 @@
       "ranking_score": 0
     },
     {
-      "fund_id": "fund-xai",
+      "fund_id": "fund-c",
       "provider": "xai",
       "status": "failed",
       "action": "UNKNOWN",
@@ -75,7 +75,7 @@
       "excess_return_pct": null,
       "performance_coverage_pct": 0,
       "benchmark_coverage_pct": 0,
-      "run_path": "funds/fund-xai/runs/2026-02-13/xai",
+      "run_path": "funds/fund-c/runs/2026-02-13/xai",
       "rank": 3,
       "ranking_score": null
     }

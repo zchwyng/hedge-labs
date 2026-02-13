@@ -35,7 +35,8 @@ if [[ "$mode" == "no-header" ]]; then
   include_header="false"
 fi
 scoreboard_path="funds/arena/runs/${run_date}/scoreboard.json"
-scoreboard_repo_path="funds/arena/runs/${run_date}/scoreboard.md"
+scoreboard_repo_path="funds/arena/runs/${run_date}/scoreboard.txt"
+scoreboard_repo_path_fallback="funds/arena/runs/${run_date}/scoreboard.md"
 
 if [[ ! -f "$scoreboard_path" ]]; then
   echo "Missing scoreboard: $scoreboard_path" >&2
@@ -377,7 +378,7 @@ while IFS= read -r lane; do
 	  case "$fund_id" in
 	    fund-a) fund_emoji="🟦" ;;
 	    fund-b) fund_emoji="🟪" ;;
-	    fund-xai) fund_emoji="🟧" ;;
+	    fund-c) fund_emoji="🟧" ;;
 	    *) fund_emoji="⬜" ;;
 	  esac
 
@@ -918,7 +919,7 @@ build_lanes_overview_block() {
 	    case "$fund_id" in
 	      fund-a) fund_emoji="🟦" ;;
 	      fund-b) fund_emoji="🟪" ;;
-	      fund-xai) fund_emoji="🟧" ;;
+	      fund-c) fund_emoji="🟧" ;;
 	      *) fund_emoji="⬜" ;;
 	    esac
     fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
@@ -939,12 +940,74 @@ build_lanes_overview_block() {
       fi
     fi
 
-    out+="- ${fund_emoji} ${fund_label} (${provider_label}): ${status_emoji} **${status_label}**"
+    fund_return_pct="$(jq -r '.fund_return_pct // empty' <<<"$lane")"
+    benchmark_return_pct="$(jq -r '.benchmark_return_pct // empty' <<<"$lane")"
+    excess_return_pct="$(jq -r '.excess_return_pct // empty' <<<"$lane")"
+    benchmark_name="$(jq -r '.benchmark_name // .benchmark_ticker // empty' <<<"$lane")"
+    inception_date="$(jq -r '.inception_date // empty' <<<"$lane")"
+    asof_price_date="$(jq -r '.asof_price_date // empty' <<<"$lane")"
+
+    perf_suffix=""
+    if [[ "$status" == "success" && -n "$fund_return_pct" ]]; then
+      fund_perf="$(printf "%+.2f%%" "$fund_return_pct" 2>/dev/null || true)"
+      bm_perf=""
+      if [[ -n "$benchmark_return_pct" && -n "$benchmark_name" ]]; then
+        bm_perf="$(printf "%+.2f%%" "$benchmark_return_pct" 2>/dev/null || true)"
+      fi
+      excess_perf=""
+      if [[ -n "$excess_return_pct" ]]; then
+        excess_perf="$(printf "%+.2f%%" "$excess_return_pct" 2>/dev/null || true)"
+      fi
+
+      perf_suffix=" — **${fund_perf}** since ${inception_date}"
+      if [[ -n "$bm_perf" ]]; then
+        perf_suffix+=" vs ${benchmark_name} ${bm_perf}"
+      fi
+      if [[ -n "$excess_perf" ]]; then
+        perf_suffix+=" (${excess_perf} excess)"
+      fi
+      if [[ -n "$asof_price_date" ]]; then
+        perf_suffix+=" as of ${asof_price_date}"
+      fi
+    fi
+
+    out+="- ${fund_emoji} ${fund_label} (${provider_label}): ${status_emoji} **${status_label}**${perf_suffix}"
     if [[ -n "$error_message" ]]; then
       out+=" — ${error_message}"
     fi
     out+=$'\n'
   done < <(jq -c '.lanes[]' "$scoreboard_path")
+  printf '%s' "$out"
+}
+
+build_indices_overview_block() {
+  local count
+  count="$(jq -r '(.indices.items // []) | length' "$scoreboard_path")"
+  if [[ -z "$count" || "$count" == "0" ]]; then
+    printf '%s' ""
+    return 0
+  fi
+
+  local out=""
+  out+="**📊 Indices**"
+  local idx_asof
+  idx_asof="$(jq -r '.indices.asof_price_date // empty' "$scoreboard_path")"
+  if [[ -n "$idx_asof" ]]; then
+    out+=" (as of ${idx_asof} close)"
+  fi
+  out+=$'\n'
+
+  while IFS= read -r item; do
+    name="$(jq -r '.name // .ticker // "Index"' <<<"$item")"
+    ret="$(jq -r '.return_pct // empty' <<<"$item")"
+    if [[ -z "$ret" ]]; then
+      out+="- ${name}: n/a"
+    else
+      out+="- ${name}: **$(printf "%+.2f%%" "$ret" 2>/dev/null || printf '%s' "$ret")**"
+    fi
+    out+=$'\n'
+  done < <(jq -c '.indices.items[]' "$scoreboard_path")
+
   printf '%s' "$out"
 }
 
@@ -974,6 +1037,8 @@ format_scoreboard_snippet() {
 scoreboard_md=""
 if [[ -f "$scoreboard_repo_path" ]]; then
   scoreboard_md="$(cat "$scoreboard_repo_path")"
+elif [[ -f "$scoreboard_repo_path_fallback" ]]; then
+  scoreboard_md="$(cat "$scoreboard_repo_path_fallback")"
 fi
 
 overview_msg=""
@@ -995,6 +1060,12 @@ if [[ "$include_header" == "true" ]]; then
   overview_msg+=$'\n'
   overview_msg+=$'\n'
   overview_msg+="$(build_lanes_overview_block)"
+  indices_block="$(build_indices_overview_block)"
+  if [[ -n "$indices_block" ]]; then
+    overview_msg+=$'\n'
+    overview_msg+=$'\n'
+    overview_msg+="$indices_block"
+  fi
 
   scoreboard_snip="$(format_scoreboard_snippet "$scoreboard_md" 35)"
   if [[ -n "$scoreboard_snip" ]]; then

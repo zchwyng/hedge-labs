@@ -1,5 +1,5 @@
 {
-  "fund_id": "fund-xai",
+  "fund_id": "fund-c",
   "provider": "xai",
   "model": "grok-4-1-fast-reasoning",
   "run_date": "2026-02-13",
