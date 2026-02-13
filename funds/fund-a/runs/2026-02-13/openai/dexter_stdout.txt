@@ -4,86 +4,59 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Megacap growth price action remains mixed into mid-Feb: MSFT 400.42, NVDA 186.55, AMZN 197.76 (all as of 2026-02-13T11:48Z).",
-    "Gold is bid on the day (GLD 454.33, +0.51% day) while BTC is down on the day (BTC-USD 66,954, -1.60% day).",
-    "Energy exposure remains supported near recent highs (XLE 53.76, -0.06% day)."
+    "Mega-cap growth complex has been volatile over the past month: MSFT (470.67→400.73, ~-14.9%), AMZN (242.60→197.88, ~-18.4%), CRWD (468.02→411.55, ~-12.1%) based on 2026-01-13 to 2026-02-13 closes.",
+    "Semis are mixed/flat over the same window: NVDA (185.81→186.55, ~+0.4%) while AVGO (354.61→328.51, ~-7.4%).",
+    "Gold exposure has recently outperformed/risk-hedged: GLD (421.63→454.75, ~+7.9%) over the last month; BTC-USD fell materially over the month (95384.23→67007.31, ~-29.8%) and is down -1.53% on the day at the snapshot time."
   ],
   "thesis_damage_flags": [
     {
       "ticker": "AMZN",
-      "why": "Momentum damage signal: large drawdown from early-Jan highs to 197.76 as of 2026-02-13 (price series shows ~247 area in early Jan vs ~198 now)."
+      "why": "1-month momentum is sharply negative (~-18.4% from 2026-01-13 to 2026-02-13 close), a quality+momentum model signal deterioration over a 30-day horizon."
+    },
+    {
+      "ticker": "MSFT",
+      "why": "1-month momentum is negative (~-14.9% from 2026-01-13 to 2026-02-13 close), which can impair near-term (30-day) trend capture despite high quality."
+    },
+    {
+      "ticker": "BTC-USD",
+      "why": "Large 1-month drawdown (~-29.8% from 2026-01-13 to 2026-02-13 close) increases volatility and raises probability of further de-risking in a 30-day window."
     }
   ],
   "rebalance_actions": [
     {
-      "action": "Add",
-      "remove_ticker": null,
+      "action": "Replace",
+      "remove_ticker": "BTC-USD",
       "add_ticker": "GLD",
-      "size_change_pct": 10
+      "size_change_pct": 5
     },
     {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "XLE",
-      "size_change_pct": 8
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "NVDA",
-      "size_change_pct": 18
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "MSFT",
-      "size_change_pct": 16
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "AVGO",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "LLY",
-      "size_change_pct": 14
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "COST",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "BTC-USD",
-      "size_change_pct": 10
+      "action": "Trim",
+      "remove_ticker": "AMZN",
+      "add_ticker": "GLD",
+      "size_change_pct": 3
     }
   ],
   "trade_of_the_day": {
-    "action": "Add",
-    "remove_ticker": null,
+    "action": "Replace",
+    "remove_ticker": "BTC-USD",
     "add_ticker": "GLD",
-    "size_change_pct": 10,
+    "size_change_pct": 5,
     "thesis": [
-      "Diversifier sleeve for a tech/quality-heavy basket; today GLD is up +0.51% (454.33) while BTC is down -1.60% (66,954), supporting cross-asset diversification rationale.",
-      "Recent price behavior shows GLD had a strong run into late Jan (price series peaked near ~494.56 on 2026-01-28) and remains elevated (454.33), consistent with positive intermediate momentum despite pullback.",
-      "30-day risk-control: adding a non-equity, liquid instrument can reduce portfolio drawdowns if megacap growth volatility persists."
+      "30-day momentum edge: GLD is up ~+7.9% over the last month (421.63→454.75), while BTC-USD is down ~-29.8% (95384.23→67007.31).",
+      "Portfolio stabilizer: GLD provides a non-equity risk offset versus a tech-heavy quality basket (MSFT/NVDA/AVGO/CRWD).",
+      "Deterministic evidence: price action is unambiguous in the fetched data; BTC-USD also shows a negative day move (-1.53%) at the latest snapshot."
     ],
     "risks": [
-      "Momentum reversal risk: GLD pulled back materially after late-Jan highs (e.g., ~494.56 on 2026-01-28 to ~444.95 on 2026-01-30 in the series).",
-      "Macro sensitivity: gold can fall if real yields rise or USD strengthens (macro drivers not verified in fetched data).",
-      "Instrument-specific: as an ETF trust, returns track gold less fees; no fundamental cash flow support."
+      "Gold momentum can mean-revert quickly; GLD already had a large 1-month run-up (+7.9%) and could retrace.",
+      "If risk-on resumes abruptly, crypto could rebound faster than gold, creating opportunity cost versus BTC-USD.",
+      "Model concentration: increasing GLD weight reduces exposure to high-beta upside that can dominate 30-day returns."
     ],
     "falsifiable_checks": [
-      "If GLD closes below the early-Feb swing low (~427.13 on 2026-02-02 in the fetched daily series) on a weekly basis, diversification sleeve is failing (reduce/remove next rebalance).",
-      "If equities (MSFT/NVDA/AVGO) resume strong uptrend while GLD continues lower over the next 30 days, reassess need for 10% allocation."
+      "If GLD 1-month trend breaks (e.g., closes materially below its recent range; last close in data is 454.75 on 2026-02-13), reduce/exit at next weekly rebalance.",
+      "If BTC-USD stabilizes and regains positive 1-month momentum versus GLD by next rebalance check, reconsider re-adding within the <=10% crypto cap."
     ],
-    "why_now": "Over the next 6–18 months, a dual-regime outcome (continued AI capex growth but intermittent risk-off shocks) is plausible; holding a 10% gold sleeve can improve risk-adjusted results for a quality+momo strategy without violating the no-broad-index-ETF rule."
+    "why_now": "Over the past month, BTC-USD experienced a deep drawdown (~-29.8%) while GLD rallied (~+7.9%), consistent with a regime favoring defensive/real-asset exposure. For the next 6–18 months, persistent macro/volatility risk (as reflected in recent cross-asset divergence) supports holding a liquid hedge alongside quality compounders; the immediate 30-day horizon prioritizes staying aligned with the strongest verified trend in this candidate set.",
+    "size_change_pct": 5
   },
   "target_portfolio": [
     {
@@ -97,40 +70,40 @@ dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
       "sector": "Information Technology"
     },
     {
-      "ticker": "LLY",
+      "ticker": "AVGO",
       "weight_pct": 14,
-      "sector": "Health Care"
+      "sector": "Information Technology"
     },
     {
-      "ticker": "AVGO",
+      "ticker": "CRWD",
       "weight_pct": 12,
       "sector": "Information Technology"
     },
     {
-      "ticker": "COST",
+      "ticker": "AMZN",
       "weight_pct": 12,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 13,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 10,
       "sector": "Consumer Staples"
     },
     {
       "ticker": "GLD",
-      "weight_pct": 10,
-      "sector": "Commodities/Metals"
-    },
-    {
-      "ticker": "BTC-USD",
-      "weight_pct": 10,
-      "sector": "Crypto"
-    },
-    {
-      "ticker": "XLE",
-      "weight_pct": 8,
-      "sector": "Energy"
+      "weight_pct": 5,
+      "sector": "Commodities (Gold ETF)"
     }
   ],
   "constraints_check": {
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "8 positions; weights sum to 100%. Max single position 18% (<=40). Sector concentration: Information Technology = 46% (NVDA+MSFT+AVGO), <=80. Crypto exposure = 10% (BTC-USD), <=10."
+    "notes": "Weights sum to 100%. Max position is 18% (<=40%). Information Technology sector total is 60% (NVDA+MSFT+AVGO+CRWD), <=80%. Crypto exposure is 0% (<=10%). Sector for GLD is treated as an ETF asset class (Commodities/Gold)."
   }
 }
