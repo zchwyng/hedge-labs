@@ -24,6 +24,7 @@ if [[ ! -f "$prompt_file" ]]; then
 fi
 
 expected_provider="$(jq -r '.provider // ""' "$config_path")"
+fund_name="$(jq -r '.name // ""' "$config_path")"
 model="$(jq -r '.model // "unknown"' "$config_path")"
 target_positions="$(jq -r '.positions // 0' "$config_path")"
 max_position_pct="$(jq -r '.max_position_pct // 0' "$config_path")"
@@ -238,10 +239,20 @@ NODE
 validate_json_output() {
   local input_json="$1"
   local disallowed_broad_index_etfs_json='["SPY","IVV","VOO","VTI","QQQ","IWM","DIA","VT","ACWI","EFA","EEM","VEA","IEFA","IEMG"]'
-  if ! jq -e '
+  if ! jq -e \
+    --arg expected_run_date "$run_date" \
+    --arg expected_fund_name "$fund_name" \
+    '
+    def norm_str:
+      tostring
+      | gsub("\\s+"; " ")
+      | sub("^\\s+"; "")
+      | sub("\\s+$"; "");
     .paper_only == true and
     (.run_date | type == "string") and
+    (.run_date | norm_str) == $expected_run_date and
     (.fund_name | type == "string") and
+    (.fund_name | norm_str) == $expected_fund_name and
     (.trade_of_the_day | type == "object") and
     (.rebalance_actions | type == "array") and
     (
@@ -311,13 +322,38 @@ validate_json_output() {
   fi
 
   if ! jq -e \
+    --arg expected_run_date "$run_date" \
+    --arg expected_fund_name "$fund_name" \
     --argjson expected_positions "$target_positions" \
     --argjson min_position "$min_position_pct" \
     --argjson max_position "$max_position_pct" \
     --argjson max_sector "$max_sector_pct" \
     --argjson max_crypto "$max_crypto_pct" \
     --argjson disallowed_broad_index_etfs "$disallowed_broad_index_etfs_json" \
+    --argjson crypto_etfs '[
+      "IBIT","FBTC","GBTC","ARKB","BITB","HODL","BTCO","BRRR","EZBC","BTCW","BITO",
+      "ETHA","ETHE","FETH","ETHW"
+    ]' \
     '
+      def norm_str:
+        tostring
+        | gsub("\\s+"; " ")
+        | sub("^\\s+"; "")
+        | sub("\\s+$"; "");
+      def sector_key:
+        (.sector | norm_str | ascii_upcase | gsub("[^A-Z0-9]+"; ""));
+      def is_crypto:
+        (
+          ((.sector | norm_str | ascii_upcase) | contains("CRYPTO"))
+          or
+          ((.ticker | ascii_upcase) | test("-(USD|USDT)$"))
+          or
+          (($crypto_etfs | index((.ticker | ascii_upcase))) != null)
+          or
+          ((.ticker | ascii_upcase) | test("(BTC|ETH)"))
+        );
+      (.run_date | norm_str) == $expected_run_date and
+      (.fund_name | norm_str) == $expected_fund_name and
       (.target_portfolio | length == $expected_positions) and
       (
         all(
@@ -349,18 +385,14 @@ validate_json_output() {
       ) and
       (
         .target_portfolio
-        | sort_by(.sector)
-        | group_by(.sector)
+        | sort_by(sector_key)
+        | group_by(sector_key)
         | map(map(.weight_pct) | add)
         | all(. <= ($max_sector + 0.0001))
       ) and
       (
         ([ .target_portfolio[]
-          | select(
-              ((.sector | ascii_upcase) == "CRYPTO")
-              or
-              ((.ticker | ascii_upcase) | test("-(USD|USDT)$"))
-            )
+          | select(is_crypto)
           | .weight_pct
         ] | add) as $crypto_weight
         | (($crypto_weight // 0) <= ($max_crypto + 0.0001))
