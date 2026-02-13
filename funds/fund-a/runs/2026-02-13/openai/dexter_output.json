@@ -3,120 +3,68 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Mega-cap AI complex remains headline-sensitive; recent stories cite pressure around AI investment/capex narratives impacting MSFT/AMZN sentiment (news items dated 2026-02-12 to 2026-02-13).",
-    "Gold exposure (GLD) shows near-term strength on the day (+0.96% to 456.54) and strong recent trend implied by the past ~3 months price series (GLD rallied sharply into late Jan before a pullback).",
-    "Crypto risk appetite appears weaker near-term: BTC-USD at 66,952 (-1.29% day), with a steep drawdown visible from early-Feb levels in the provided daily series."
+    "Gold proxy GLD is higher on the day (+1.21% to 456.61), consistent with a near-term hedge/ballast bid (price snapshot).",
+    "BTC-USD is lower on the day (-2.07% to 66,931.39) and has shown large swings over the past month, supporting a capped crypto sleeve (price snapshot + recent daily series).",
+    "Large-cap tech complex remains headline-sensitive around AI investment/capex narratives; recent coverage mentions volatility and AI spending focus across megacaps (news items for AMZN/MSFT/META/NVDA; sources include Motley Fool and Investing.com links in data)."
   ],
   "thesis_damage_flags": [
     {
       "ticker": "AMZN",
-      "why": "Quality/momentum signal stress: price series shows a sharp early-Feb drawdown (e.g., 246.29 close on 2026-01-08 to 210.32 on 2026-02-06; 197.76 close on 2026-02-13), consistent with recent negative AI-investment narrative headlines (2026-02-12)."
+      "why": "1-month trend appears negative in the provided daily series (2026-01-13 close 242.60 vs 2026-02-13 close 197.88; approx -18.5%), indicating momentum damage over the 30-day window (price-derived)."
     },
     {
       "ticker": "MSFT",
-      "why": "Momentum deterioration visible in price series (e.g., 503.29 close 2025-11-13 vs 401.73 close 2026-02-13) alongside negative AI-investment narrative headline coverage (2026-02-12)."
+      "why": "1-month trend appears negative in the provided daily series (2026-01-13 close 470.67 vs 2026-02-13 close 400.73; approx -14.9%), indicating momentum damage over the 30-day window (price-derived)."
     },
     {
       "ticker": "BTC-USD",
-      "why": "High volatility and downside momentum: daily series shows large drop from ~78,666 (2026-02-02 close) to ~62,791 (2026-02-05 close) with partial rebound to ~66,954 (2026-02-13 close)."
+      "why": "High volatility and drawdown over the provided period (e.g., 2026-01-14 close 96,955.16 vs 2026-02-13 close 66,922.97; approx -31%), so crypto sizing must remain small (price-derived)."
     }
   ],
   "rebalance_actions": [
     {
       "action": "Add",
       "remove_ticker": null,
-      "add_ticker": "NVDA",
-      "size_change_pct": 20
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "META",
-      "size_change_pct": 14
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "MSFT",
-      "size_change_pct": 14
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "LLY",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "COST",
-      "size_change_pct": 12
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "AMZN",
-      "size_change_pct": 10
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
       "add_ticker": "GLD",
       "size_change_pct": 10
-    },
-    {
-      "action": "Add",
-      "remove_ticker": null,
-      "add_ticker": "BTC-USD",
-      "size_change_pct": 8
     }
   ],
   "trade_of_the_day": {
     "action": "Add",
     "remove_ticker": null,
-    "add_ticker": "NVDA",
-    "size_change_pct": 20,
+    "add_ticker": "GLD",
+    "size_change_pct": 10,
     "thesis": [
-      "Quality + profitability profile remains exceptional in available metrics: gross margin 70.05%, operating margin 62.26%, net margin 53.01%, ROE 83.43% (key ratios snapshot).",
-      "Balance sheet/liquidity strength: current ratio 4.47, quick ratio 3.71, low debt-to-equity 0.09, very high interest coverage 471.7 (key ratios snapshot).",
-      "Growth still positive in snapshot metrics: revenue growth 13.27%, earnings growth 14.55%, EPS growth 15.02%, FCF growth 7.36% (key ratios snapshot)."
+      "Positive 1-month momentum in the provided daily series (2026-01-13 close 421.63 to 2026-02-13 close 454.75; approx +7.9%) (price-derived).",
+      "Diversifier sleeve versus concentrated mega-cap equity risk; GLD up +1.21% on the day to 456.61 (price snapshot).",
+      "Hedge complement while BTC-USD remains volatile and down -2.07% on the day (price snapshot)."
     ],
     "risks": [
-      "Valuation risk: P/E 45.77 and P/S 24.26 (key ratios snapshot) leave the stock vulnerable to multiple compression over a 30-day horizon.",
-      "Crowded AI trade / sentiment whipsaw: recent coverage highlights volatility and 'nearly unanimous' bullishness into late-Feb (news dated 2026-02-13), which can precede sharp reversals.",
-      "Execution/cycle risk: even small demand/capacity or competitive shifts can hit a high-expectations stock disproportionately (implied by high PEG 3.05 and low FCF yield 1.70%)."
+      "Trend risk: GLD had sharp swings in late Jan in the provided series (e.g., 2026-01-29 close 495.90 to 2026-02-02 close 427.13), so drawdowns can be fast (price-derived).",
+      "If equity risk-on resumes, gold proxies can lag and detract over a 30-day window (macro sensitivity; catalysts UNKNOWN beyond provided data).",
+      "ETF-specific structure/flows not assessed here (fund flows/holdings data UNKNOWN)."
     ],
     "falsifiable_checks": [
-      "If NVDA’s profitability profile deteriorates vs current snapshot (e.g., operating margin materially below ~62% in the next update), reduce weight.",
-      "If near-term price action breaks down versus the recent range visible in the series (e.g., fails to hold the early-Feb rebound zone after 171.88 close on 2026-02-05 and 190.04 close on 2026-02-09), treat as momentum failure and cut exposure."
+      "If GLD closes below 427.13 (2026-02-02 close) and does not reclaim it within ~1-2 weeks, treat as momentum break for this sleeve (price-derived).",
+      "If BTC-USD stabilizes and rebounds while GLD trends down over the next 2-4 weeks, the hedge/ballast thesis is weakened for this window (price-derived)."
     ],
-    "why_now": "Over 6–18 months, AI compute demand and platform buildouts are a durable theme; NVDA shows verifiable combination of strong margins (OM ~62%), high returns (ROE ~83%), solid growth (rev ~13% YoY), and strong liquidity (current ratio ~4.5). Near-term (30 days), sizing is capped to manage valuation/sentiment risk while keeping exposure to the strongest quality+momentum evidence in this candidate set."
+    "why_now": "Over a 6–18 month horizon, a modest gold sleeve can help stabilize portfolio behavior during periods where mega-cap tech sentiment is driven by AI investment/capex narratives and volatility spikes, while still keeping the portfolio concentrated in liquid, high-quality leaders."
   },
   "target_portfolio": [
     {
       "ticker": "NVDA",
-      "weight_pct": 20,
+      "weight_pct": 23,
       "sector": "Information Technology"
     },
     {
       "ticker": "META",
-      "weight_pct": 14,
+      "weight_pct": 16,
       "sector": "Communication Services"
     },
     {
       "ticker": "MSFT",
-      "weight_pct": 14,
+      "weight_pct": 12,
       "sector": "Information Technology"
-    },
-    {
-      "ticker": "LLY",
-      "weight_pct": 12,
-      "sector": "Health Care"
-    },
-    {
-      "ticker": "COST",
-      "weight_pct": 12,
-      "sector": "Consumer Staples"
     },
     {
       "ticker": "AMZN",
@@ -124,13 +72,23 @@
       "sector": "Consumer Discretionary"
     },
     {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 10,
+      "sector": "Consumer Staples"
+    },
+    {
       "ticker": "GLD",
       "weight_pct": 10,
-      "sector": "Commodities/Metals (ETF)"
+      "sector": "Commodities/Metals"
     },
     {
       "ticker": "BTC-USD",
-      "weight_pct": 8,
+      "weight_pct": 5,
       "sector": "Crypto"
     }
   ],
@@ -138,6 +96,6 @@
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "8 positions; weights sum to 100%. Max position 20% (<=40). Sector concentration: Information Technology totals 34% (MSFT 14 + NVDA 20), below 80%. Crypto exposure 8% (<=10%). Broad index ETFs excluded."
+    "notes": "Weights were deterministically rebalanced to satisfy position and sector constraints."
   }
 }

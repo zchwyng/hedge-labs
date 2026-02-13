@@ -3,12 +3,14 @@
   "provider": "anthropic",
   "model": "claude-sonnet-4-5",
   "run_date": "2026-02-13",
-  "started_at": "2026-02-13T12:21:12Z",
-  "ended_at": "2026-02-13T12:22:09Z",
-  "status": "success",
-  "reason": "",
-  "api_errors": [],
+  "started_at": "2026-02-13T13:11:07Z",
+  "ended_at": "2026-02-13T13:12:30Z",
+  "status": "failed",
+  "reason": "Retry failed: Portfolio validation failed (positions, weights, sector, or crypto limits)",
+  "api_errors": [
+    "Retry failed: Portfolio validation failed (positions, weights, sector, or crypto limits)"
+  ],
   "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-122112_15f63b804fd5.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-13-131213_86b5c59b3d14.jsonl"
 }
