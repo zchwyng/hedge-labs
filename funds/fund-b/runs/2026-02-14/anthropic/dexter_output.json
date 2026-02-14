@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-02-14",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Market showing modest strength: SPY +0.07%, QQQ +0.09% in light weekend trading, reversing prior session's weakness",
+    "Gold surges +2.49% to $462.62, extending safe-haven bid with strongest single-day gain in recent weeks",
+    "Portfolio mixed: Energy split (XOM -0.82%, CVX +0.83%), tech weakness in AVGO -1.81%, industrials/semis up (XLI +0.82%, KLAC +0.87%)"
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Systematic discipline: Weekly rebalance cadence maintains 7-day minimum spacing, next window opens February 19-20",
+      "Portfolio resilience confirmed: No thesis damage signals despite AVGO weakness (-1.81%); gold position delivering exceptional downside protection (+2.49% today, +3.9% week)",
+      "Quality + momentum intact: Energy consolidating gains (27% weight stable), LLY advancing (+0.31%), JPM flat, defensives working as designed"
+    ],
+    "risks": [
+      "AVGO vulnerability: -1.81% decline today adds to tech sector pressure, though position size (10%) limits portfolio impact to -18bps",
+      "Energy sector divergence: XOM weakness (-0.82%) vs CVX strength (+0.83%) suggests intra-sector rotation risk within 27% energy allocation",
+      "Opportunity cost: Rebalance discipline forces patience while potential higher-conviction momentum plays emerge mid-cycle"
+    ],
+    "falsifiable_checks": [
+      "If AVGO declines >5% or breaks below $310 before February 19, reassess tech allocation for emergency trim consideration",
+      "If gold retraces >4% from current levels ($462) or falls below $445, evaluate whether safe-haven thesis remains valid"
+    ],
+    "why_now": "Day 2 of weekly hold period following February 12 rebalance. Current 48-hour price action shows portfolio working as constructed: gold providing exceptional hedge (+2.49% today, offsetting tech weakness), energy consolidating recent leadership (XOM/CVX flat to +1% range), quality growth compounders stable (LLY +0.31%, JPM flat). Single-name weakness in AVGO (-1.81%) is normal volatility within 10% position size, not thesis break. Next rebalance window (Feb 19-20) allows full weekly momentum/quality rescoring across candidate universe. Premature action would sacrifice transaction cost efficiency for reactive position management. Portfolio remains positioned for 6-12 month themes: energy leadership continuation, defensive positioning via gold, quality compounders in healthcare/financials, selective tech exposure through KLAC/AVGO."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 12,
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 12,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "XLI",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 18,
+      "sector": "Commodities"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "All constraints satisfied. Max position 18% (GLD) < 40%. Max sector 27% (Energy: XOM 15% + CVX 12%) < 80%. Crypto exposure 0% < 10%. Total weight 100%."
+  }
+}

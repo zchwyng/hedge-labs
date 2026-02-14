@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-02-14",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Markets flat; SPY +0.07%, QQQ +0.09% today amid mixed tech session.",
+    "Semis pressured: NVDA -2.17%, AVGO -1.81%, TSM -0.41%; cyber/SaaS rebound: PANW +2.54%, NOW +4.02%.",
+    "Healthcare steady: LLY +0.31%, NVO +1.31%; PLTR +2.1% on resilience."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio intact; no rebalance due for 6 more days.",
+      "Holdings resilient vs benchmarks over 30d/90d windows.",
+      "No material news or drawdowns triggering changes."
+    ],
+    "risks": [
+      "Tech sector concentration at 76%.",
+      "Semis volatility persists.",
+      "Await next weekly rebalance."
+    ],
+    "falsifiable_checks": [
+      "IT sector >80%.",
+      "Any holding 90d return negative >20%."
+    ],
+    "why_now": "Non-rebalance day; monitor for weekly trigger."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "IT 76%, HC 24%; all positions 10-15%; no crypto."
+  }
+}
