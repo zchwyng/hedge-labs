@@ -1,0 +1,21 @@
+dexter_info: model=grok-4-1-fast-reasoning iterations=2 tool_calls=1
+{
+  "run_date": "2026-02-15",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": ["Markets down: SPY -1.7%, QQQ -2% over Feb9-13.", "Holdings mixed: NVDA -4%, AVGO -5.5%, PLTR -8%; PANW/NOW +0.6-3%.", "Semis/health steady amid tech pressure; no rebalance due."],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": ["Portfolio intact; rebalance not due for 6 days.", "Holdings resilient vs QQQ/SPY declines over recent sessions.", "No thesis damage; monitor momentum into weekly rebalance."],
+    "risks": ["IT sector at 76%; vulnerable to tech rotation.", "Semis drawdowns: NVDA/TSM/AVGO -4-6% recent.", "Await verified 30/90d weekly data for changes."],
+    "falsifiable_checks": ["IT exposure >80%.", "Any holding >20% 90d drawdown."],
+    "why_now": "Non-rebalance day; maintain positions pending weekly trigger."
+  },
+  "target_portfolio": [{"ticker":"NVDA","weight_pct":15,"sector":"Information Technology"},{"ticker":"TSM","weight_pct":15,"sector":"Information Technology"},{"ticker":"AVGO","weight_pct":13,"sector":"Information Technology"},{"ticker":"LLY","weight_pct":14,"sector":"Health Care"},{"ticker":"PLTR","weight_pct":12,"sector":"Information Technology"},{"ticker":"PANW","weight_pct":11,"sector":"Information Technology"},{"ticker":"NOW","weight_pct":10,"sector":"Information Technology"},{"ticker":"NVO","weight_pct":10,"sector":"Health Care"}],
+  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":"IT 76%, Health 24%; all within limits."}
+}

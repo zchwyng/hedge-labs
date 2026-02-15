@@ -1,0 +1,86 @@
+{
+  "run_date": "2026-02-15",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Benchmarks essentially flat on the latest close: SPY 681.75 (+0.07%), QQQ 601.92 (+0.09%).",
+    "Dispersion/risk-off feel: GLD 462.62 (+2.49%) up sharply while several growth/semis sold off (NVDA -2.17%, AVGO -1.81%, META -1.47%).",
+    "Notable single-name weakness: V 314.08 (-3.09%) underperformed both SPY and QQQ on the day."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "V",
+      "why": "Latest close showed sharp 1d drawdown (-3.09%) vs SPY (+0.07%) and QQQ (+0.09%); no tool-verified news fetched today (non-rebalance policy), so catalyst UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Mandate constraint: rebalance is not due today, so the model portfolio must remain unchanged (weekly cadence with 7-day minimum spacing).",
+      "Cross-asset signal is mixed: gold strength (GLD +2.49%) offset weakness in multiple growth holdings (NVDA -2.17%, AVGO -1.81%, META -1.47%), suggesting elevated dispersion rather than a clean trend.",
+      "Avoids turnover on a single-day move; momentum/quality re-score (30/90d weekly + ratios/news) is deferred to the next eligible rebalance window."
+    ],
+    "risks": [
+      "If today’s weakness in key holdings (e.g., NVDA, AVGO, META, V) extends into multi-week downside, waiting could increase drawdown before the next rebalance.",
+      "If GLD’s sharp up day (+2.49%) reverses, the hedge sleeve could give back recent gains quickly.",
+      "Without tool-verified news on a non-rebalance day, any interpretation of drivers is incomplete (earnings/guidance/catalyst status UNKNOWN)."
+    ],
+    "falsifiable_checks": [
+      "At next rebalance: if V’s 30d and 90d weekly returns are negative and lag SPY/QQQ on weekly closes, downgrade/consider replacement within the 3-change cap.",
+      "At next rebalance: if GLD’s 30d and 90d weekly momentum turns negative (weekly closes), reduce hedge exposure and reallocate to higher-scoring quality+momentum equities/sector ETFs within constraints."
+    ],
+    "why_now": "Over the next 6–18 months, maintaining a barbell of quality growth (NVDA/META/AVGO) + defensives/real-asset ballast (LLY/GLD) can help across regime shifts; today’s tape shows dispersion (gold bid, growth soft) but with rebalance not due we prioritize rules-based discipline and will reassess with full weekly momentum + quality ratios + limited news at the next eligible rebalance."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Non-rebalance day: portfolio held exactly unchanged per policy. Positions=8; weights sum to 100. Max position 18% (<=40). Sector weights: IT 30%, Comm Svcs 14%, Cons Disc 7%, Health Care 14%, Energy 15%, Financials 10%, Materials 10% (all <=80). Crypto exposure 0% (<=10)."
+  }
+}
