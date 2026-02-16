@@ -216,6 +216,10 @@ jobs:
         run: |
           scripts/build_scoreboard.sh "${{ steps.run_date.outputs.run_date }}"
 
+      - name: Build pages data
+        run: |
+          scripts/build_pages_data.sh
+
       - name: Commit and push run outputs
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.publish_outputs }}" != "true" ]; then
@@ -226,7 +230,7 @@ jobs:
           git config user.name "fund-arena-bot"
           git config user.email "fund-arena-bot@users.noreply.github.com"
 
-          git add funds
+          git add funds docs
 
           if git diff --cached --quiet; then
             echo "No changes to commit."

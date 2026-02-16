@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fund Arena — hedge-labs</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2"></script>
+<style>
+  :root {
+    --bg-primary: #0b0e14;
+    --bg-card: #151922;
+    --bg-card-alt: #1a1f2b;
+    --bg-table-row: #151922;
+    --bg-table-alt: #1a1f2b;
+    --bg-hover: #222838;
+    --text-primary: #e4e4e7;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --green: #22c55e;
+    --red: #ef4444;
+    --border: #242a38;
+    --fund-a: #3b82f6;
+    --fund-b: #a855f7;
+    --fund-c: #f97316;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* Header */
+  .header { margin-bottom: 2.5rem; }
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .header h1 span { opacity: 0.4; font-weight: 400; }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .header-meta a { color: var(--text-secondary); text-decoration: none; }
+  .header-meta a:hover { color: var(--text-primary); }
+
+  /* Stat row */
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    flex: 1;
+    min-width: 160px;
+  }
+  .stat-pill .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.25rem; }
+  .stat-pill .value { font-size: 1.35rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat-pill .sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+  /* Chart */
+  .chart-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .chart-wrap h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; }
+  .chart-hint { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 0.7rem; color: var(--text-muted); }
+  #perfChart { width: 100% !important; }
+
+  /* Table */
+  .table-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+  }
+  .table-wrap h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead th {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  thead th:hover { color: var(--text-secondary); }
+  thead th .sort-arrow { margin-left: 0.3rem; opacity: 0.4; }
+  thead th.active .sort-arrow { opacity: 1; }
+  tbody td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  tbody tr:hover { background: var(--bg-hover); }
+
+  .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  .badge-success { background: rgba(34,197,94,0.12); color: var(--green); }
+  .badge-fail { background: rgba(239,68,68,0.12); color: var(--red); }
+  .rank-cell { font-weight: 700; }
+
+  /* Fund cards */
+  .fund-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .fund-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .fund-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .fund-card[data-fund="fund-a"]::before { background: var(--fund-a); }
+  .fund-card[data-fund="fund-b"]::before { background: var(--fund-b); }
+  .fund-card[data-fund="fund-c"]::before { background: var(--fund-c); }
+
+  .fund-card .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .fund-card .card-title { font-weight: 600; font-size: 0.95rem; }
+  .fund-card .card-provider { font-size: 0.75rem; color: var(--text-secondary); }
+  .fund-card .card-model { font-size: 0.7rem; color: var(--text-muted); font-family: monospace; }
+  .fund-card .card-rank {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .fund-card .card-rank-label { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.06em; text-align: right; }
+  .fund-card .card-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+  }
+  .fund-card .card-stats .stat-label { color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; }
+  .fund-card .card-stats .stat-val { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .holdings-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+  .holdings-table th {
+    text-align: left;
+    padding: 0.35rem 0.5rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+  }
+  .holdings-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); }
+  .holdings-table .ticker { font-weight: 600; }
+  .weight-bar-bg {
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    height: 6px;
+    width: 60px;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  .weight-bar-fill { height: 100%; border-radius: 3px; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--text-secondary); text-decoration: none; }
+  .footer a:hover { color: var(--text-primary); }
+
+  /* Loading */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 1rem; }
+    .stat-row { gap: 0.5rem; }
+    .stat-pill { min-width: 120px; padding: 0.75rem; }
+    .stat-pill .value { font-size: 1.1rem; }
+    .fund-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Fund Arena <span>/ hedge-labs</span></h1>
+    <div class="header-meta">
+      <span id="lastUpdated">Loading...</span>
+      <a href="https://github.com/zchwyng/hedge-labs" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <div class="stat-row" id="statRow"></div>
+
+  <div class="chart-wrap">
+    <h2>Cumulative Performance</h2>
+    <div class="chart-hint">Scroll to zoom &middot; drag to pan</div>
+    <canvas id="perfChart" height="320"></canvas>
+  </div>
+
+  <div class="fund-cards" id="fundCards"></div>
+
+  <div class="table-wrap">
+    <h2>Daily Runs</h2>
+    <table id="runsTable">
+      <thead><tr id="tableHead"></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    Paper only &mdash; not investment advice.<br>
+    <a href="https://github.com/zchwyng/hedge-labs" target="_blank">zchwyng/hedge-labs</a>
+  </div>
+</div>
+
+<script>
+const FUND_LABELS = { 'fund-a': 'Fund A', 'fund-b': 'Fund B', 'fund-c': 'Fund C' };
+const PROVIDER_LABELS = { openai: 'OpenAI', anthropic: 'Anthropic', xai: 'xAI' };
+const INDEX_COLORS = { SPY: '#6b7280', QQQ: '#9ca3af', ACWI: '#78716c', GLD: '#eab308', 'BTC-USD': '#f59e0b' };
+
+function fmt(v, decimals = 2) {
+  if (v == null) return '—';
+  const n = Number(v);
+  const s = n >= 0 ? '+' : '';
+  return s + n.toFixed(decimals) + '%';
+}
+
+function fmtClass(v) {
+  if (v == null) return '';
+  return Number(v) >= 0 ? 'pos' : 'neg';
+}
+
+function providerLabel(p) { return PROVIDER_LABELS[p] || p; }
+function fundLabel(id) { return FUND_LABELS[id] || id; }
+
+async function init() {
+  const resp = await fetch('data.json');
+  const data = await resp.json();
+
+  // Last updated
+  const d = new Date(data.generated_at);
+  document.getElementById('lastUpdated').textContent =
+    'Updated ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
+    ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+
+  const fundIds = Object.keys(data.funds).sort();
+  const latestDay = data.days[data.days.length - 1];
+
+  // --- Stat pills ---
+  buildStatRow(data, fundIds, latestDay);
+
+  // --- Chart ---
+  buildChart(data, fundIds);
+
+  // --- Fund cards ---
+  buildFundCards(data, fundIds, latestDay);
+
+  // --- Table ---
+  buildTable(data, fundIds);
+}
+
+function buildStatRow(data, fundIds, latestDay) {
+  const row = document.getElementById('statRow');
+  if (!latestDay) return;
+
+  // Leader
+  const lanes = latestDay.lanes.filter(l => l.status === 'success').sort((a, b) => a.rank - b.rank);
+  if (lanes.length) {
+    const leader = lanes[0];
+    row.innerHTML += `
+      <div class="stat-pill">
+        <div class="label">Leader</div>
+        <div class="value" style="color:${data.funds[leader.fund_id]?.color || '#fff'}">${fundLabel(leader.fund_id)}</div>
+        <div class="sub">${providerLabel(leader.provider)} &middot; ${fmt(leader.excess_return_pct)} excess</div>
+      </div>`;
+  }
+
+  // Best fund return
+  const bestReturn = lanes.reduce((best, l) => (l.fund_return_pct ?? -Infinity) > (best.fund_return_pct ?? -Infinity) ? l : best, lanes[0]);
+  if (bestReturn) {
+    row.innerHTML += `
+      <div class="stat-pill">
+        <div class="label">Best Return</div>
+        <div class="value ${fmtClass(bestReturn.fund_return_pct)}">${fmt(bestReturn.fund_return_pct)}</div>
+        <div class="sub">${fundLabel(bestReturn.fund_id)} since inception</div>
+      </div>`;
+  }
+
+  // Overlap & turnover
+  if (latestDay.comparison) {
+    row.innerHTML += `
+      <div class="stat-pill">
+        <div class="label">Portfolio Overlap</div>
+        <div class="value">${(latestDay.comparison.portfolio_overlap_pct ?? 0).toFixed(0)}%</div>
+        <div class="sub">Between top funds</div>
+      </div>`;
+    row.innerHTML += `
+      <div class="stat-pill">
+        <div class="label">Est. Turnover</div>
+        <div class="value">${(latestDay.comparison.turnover_estimate_pct ?? 0).toFixed(0)}%</div>
+        <div class="sub">Weight divergence</div>
+      </div>`;
+  }
+
+  // Days running
+  row.innerHTML += `
+    <div class="stat-pill">
+      <div class="label">Arena Days</div>
+      <div class="value">${data.days.length}</div>
+      <div class="sub">Since ${data.days[0]?.date || '—'}</div>
+    </div>`;
+}
+
+function buildChart(data, fundIds) {
+  const dates = data.days.map(d => d.date);
+  const datasets = [];
+
+  // Fund lines
+  for (const fid of fundIds) {
+    const fund = data.funds[fid];
+    const points = data.days.map(day => {
+      const lane = day.lanes.find(l => l.fund_id === fid);
+      if (!lane || lane.status !== 'success' || lane.fund_return_pct == null) return null;
+      return lane.fund_return_pct;
+    });
+    datasets.push({
+      label: fundLabel(fid) + ' (' + providerLabel(fund.provider) + ')',
+      data: points,
+      borderColor: fund.color,
+      backgroundColor: fund.color + '18',
+      borderWidth: 2.5,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      pointBackgroundColor: fund.color,
+      spanGaps: true,
+      tension: 0.15,
+      fill: false,
+    });
+  }
+
+  // Index lines
+  if (data.days.length > 0) {
+    const last = data.days[data.days.length - 1];
+    const indexTickers = last.indices.items.map(i => i.ticker);
+    for (const ticker of indexTickers) {
+      const points = data.days.map(day => {
+        const item = day.indices.items.find(i => i.ticker === ticker);
+        return item ? item.return_pct : null;
+      });
+      const name = last.indices.items.find(i => i.ticker === ticker)?.name || ticker;
+      datasets.push({
+        label: name,
+        data: points,
+        borderColor: INDEX_COLORS[ticker] || '#6b7280',
+        borderWidth: 1.5,
+        borderDash: [6, 3],
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        spanGaps: true,
+        tension: 0.15,
+        fill: false,
+      });
+    }
+  }
+
+  new Chart(document.getElementById('perfChart'), {
+    type: 'line',
+    data: { labels: dates, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: { color: '#a1a1aa', usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 11 } }
+        },
+        tooltip: {
+          backgroundColor: '#1a1f2b',
+          titleColor: '#e4e4e7',
+          bodyColor: '#a1a1aa',
+          borderColor: '#242a38',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return ' ' + ctx.dataset.label + ': ' + (v != null ? fmt(v) : 'n/a');
+            }
+          }
+        },
+        zoom: {
+          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
+          pan: { enabled: true, mode: 'x' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#71717a', font: { size: 10 } },
+          grid: { color: '#1e2330' },
+        },
+        y: {
+          ticks: { color: '#71717a', font: { size: 10 }, callback: v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%' },
+          grid: { color: '#1e2330' },
+        }
+      }
+    }
+  });
+}
+
+function buildFundCards(data, fundIds, latestDay) {
+  const container = document.getElementById('fundCards');
+  for (const fid of fundIds) {
+    const fund = data.funds[fid];
+    const lane = latestDay?.lanes.find(l => l.fund_id === fid);
+    const holdings = data.latest_holdings[fid] || [];
+
+    const rankNum = lane?.rank ?? '—';
+    const returnPct = lane?.fund_return_pct;
+    const excessPct = lane?.excess_return_pct;
+
+    let holdingsRows = '';
+    for (const h of holdings) {
+      holdingsRows += `<tr>
+        <td class="ticker">${h.ticker}</td>
+        <td>
+          <div class="weight-bar-bg">
+            <div class="weight-bar-fill" style="width:${Math.min(h.weight_pct * 2.5, 100)}%;background:${fund.color}40"></div>
+          </div>
+          ${h.weight_pct}%
+        </td>
+        <td>${h.sector}</td>
+      </tr>`;
+    }
+
+    container.innerHTML += `
+      <div class="fund-card" data-fund="${fid}">
+        <div class="card-header">
+          <div>
+            <div class="card-title"><span class="dot" style="background:${fund.color}"></span>${fundLabel(fid)}</div>
+            <div class="card-provider">${providerLabel(fund.provider)}</div>
+            <div class="card-model">${fund.model}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="card-rank" style="color:${fund.color}">#${rankNum}</div>
+            <div class="card-rank-label">Rank</div>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div><div class="stat-label">Return</div><div class="stat-val ${fmtClass(returnPct)}">${fmt(returnPct)}</div></div>
+          <div><div class="stat-label">Excess</div><div class="stat-val ${fmtClass(excessPct)}">${fmt(excessPct)}</div></div>
+          <div><div class="stat-label">Benchmark</div><div class="stat-val">${fund.benchmark?.name || '—'}</div></div>
+        </div>
+        <table class="holdings-table">
+          <thead><tr><th>Ticker</th><th>Weight</th><th>Sector</th></tr></thead>
+          <tbody>${holdingsRows}</tbody>
+        </table>
+      </div>`;
+  }
+}
+
+// --- Sortable table ---
+const TABLE_COLS = [
+  { key: 'date',       label: 'Date' },
+  { key: 'fund',       label: 'Fund' },
+  { key: 'provider',   label: 'Provider' },
+  { key: 'status',     label: 'Status' },
+  { key: 'action',     label: 'Action' },
+  { key: 'fund_return', label: 'Return %' },
+  { key: 'bench',      label: 'Benchmark %' },
+  { key: 'excess',     label: 'Excess %' },
+  { key: 'rank',       label: 'Rank' },
+];
+
+let tableRows = [];
+let sortCol = 'date';
+let sortAsc = false;
+
+function buildTable(data, fundIds) {
+  // Flatten days x lanes into rows
+  tableRows = [];
+  for (const day of data.days) {
+    for (const lane of day.lanes) {
+      tableRows.push({
+        date: day.date,
+        fund_id: lane.fund_id,
+        fund: fundLabel(lane.fund_id),
+        provider: providerLabel(lane.provider),
+        providerRaw: lane.provider,
+        status: lane.status,
+        action: lane.action || '—',
+        fund_return: lane.fund_return_pct,
+        bench: lane.benchmark_return_pct,
+        excess: lane.excess_return_pct,
+        rank: lane.rank,
+        color: data.funds[lane.fund_id]?.color || '#6b7280',
+      });
+    }
+  }
+
+  // Build header
+  const thead = document.getElementById('tableHead');
+  thead.innerHTML = '';
+  for (const col of TABLE_COLS) {
+    const th = document.createElement('th');
+    th.innerHTML = col.label + ' <span class="sort-arrow">&#9650;</span>';
+    th.dataset.key = col.key;
+    th.addEventListener('click', () => {
+      if (sortCol === col.key) { sortAsc = !sortAsc; }
+      else { sortCol = col.key; sortAsc = true; }
+      renderTable();
+    });
+    thead.appendChild(th);
+  }
+
+  renderTable();
+}
+
+function renderTable() {
+  // Sort
+  const sorted = [...tableRows].sort((a, b) => {
+    let va = a[sortCol], vb = b[sortCol];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (typeof va === 'string') { va = va.toLowerCase(); vb = (vb || '').toLowerCase(); }
+    if (va < vb) return sortAsc ? -1 : 1;
+    if (va > vb) return sortAsc ? 1 : -1;
+    return 0;
+  });
+
+  // Update header active state
+  document.querySelectorAll('#tableHead th').forEach(th => {
+    const isActive = th.dataset.key === sortCol;
+    th.classList.toggle('active', isActive);
+    const arrow = th.querySelector('.sort-arrow');
+    if (arrow) arrow.innerHTML = isActive ? (sortAsc ? '&#9650;' : '&#9660;') : '&#9650;';
+  });
+
+  // Render rows
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  for (const r of sorted) {
+    const statusBadge = r.status === 'success'
+      ? '<span class="badge badge-success">OK</span>'
+      : '<span class="badge badge-fail">FAIL</span>';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.date}</td>
+      <td><span class="dot" style="background:${r.color}"></span>${r.fund}</td>
+      <td>${r.provider}</td>
+      <td>${statusBadge}</td>
+      <td>${r.action}</td>
+      <td class="${fmtClass(r.fund_return)}">${fmt(r.fund_return)}</td>
+      <td class="${fmtClass(r.bench)}">${fmt(r.bench)}</td>
+      <td class="${fmtClass(r.excess)}">${fmt(r.excess)}</td>
+      <td class="rank-cell">${r.rank ?? '—'}</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+init();
+</script>
+</body>
+</html>

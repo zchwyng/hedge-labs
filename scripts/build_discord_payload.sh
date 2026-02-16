@@ -1077,6 +1077,10 @@ if [[ "$include_header" == "true" ]]; then
     overview_msg+="$scoreboard_snip"
     overview_msg+=$'\n```'
   fi
+
+  overview_msg+=$'\n'
+  overview_msg+=$'\n'
+  overview_msg+="**📊 Dashboard:** <https://zchwyng.github.io/hedge-labs/>"
 fi
 
 if [[ "$mode" == "overall-only" ]]; then
