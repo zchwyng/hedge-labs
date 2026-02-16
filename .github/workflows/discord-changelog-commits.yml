@@ -26,12 +26,9 @@ jobs:
             }
 
             const { owner, repo } = context.repo;
-            const ref = context.ref || "";
-            const branch = ref.startsWith("refs/heads/") ? ref.replace("refs/heads/", "") : ref;
             const before = context.payload.before;
             const after = context.payload.after;
             const compareUrl = context.payload.compare || `https://github.com/${owner}/${repo}/compare/${before}...${after}`;
-            const pusher = context.payload.pusher?.name || context.actor || "unknown";
 
             async function fetchAllCommits(base, head) {
               const all = [];
@@ -66,27 +63,38 @@ jobs:
             }
 
             function buildCommitLine(commit) {
-              const rawSha = String(commit.sha || commit.id || "");
-              const sha = rawSha.slice(0, 7) || "unknown";
               const message = truncate(cleanLine(commit.commit?.message || commit.message || "(no message)"), 140);
               const author = cleanLine(commit.commit?.author?.name || commit.author?.name || commit.author?.username || "unknown");
-              const url = commit.html_url || commit.url || `https://github.com/${owner}/${repo}/commit/${rawSha}`;
-              return `- \`${sha}\` ${message} — ${author} <${url}>`;
+              return `- ${message} — ${author}`;
             }
 
-            function chunkLines(lines, header, maxLen = 1900) {
+            function chunkLines(lines, compareLine, maxLen = 1900) {
               const chunks = [];
-              let current = `${header}\n`;
+              let current = "";
               for (const line of lines) {
-                const candidate = `${current}${line}\n`;
-                if (candidate.length > maxLen && current !== `${header}\n`) {
-                  chunks.push(current.trimEnd());
-                  current = `${header}\n${line}\n`;
+                const candidate = current ? `${current}\n${line}` : line;
+                if (candidate.length > maxLen && current) {
+                  chunks.push(current);
+                  current = line;
                 } else {
                   current = candidate;
                 }
               }
-              chunks.push(current.trimEnd());
+              if (current) chunks.push(current);
+
+              // Put compare link only in the final message.
+              const lastIndex = chunks.length - 1;
+              if (lastIndex >= 0) {
+                const withCompare = `${chunks[lastIndex]}\n${compareLine}`;
+                if (withCompare.length <= maxLen) {
+                  chunks[lastIndex] = withCompare;
+                } else {
+                  chunks.push(compareLine);
+                }
+              } else {
+                chunks.push(compareLine);
+              }
+
               return chunks;
             }
 
@@ -110,14 +118,9 @@ jobs:
               return true;
             });
 
-            const header = [
-              `**${owner}/${repo}** push to \`${branch}\` by **${cleanLine(pusher)}**`,
-              `Compare: <${compareUrl}>`,
-              `Commits: **${commits.length}**`
-            ].join("\n");
-
             const commitLines = commits.map(buildCommitLine);
-            const messages = chunkLines(commitLines, header);
+            const compareLine = `Compare: <${compareUrl}>`;
+            const messages = chunkLines(commitLines, compareLine);
 
             for (const content of messages) {
               const response = await fetch(webhookUrl, {
