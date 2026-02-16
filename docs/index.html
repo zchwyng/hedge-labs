@@ -391,7 +391,16 @@ function buildChart(data, fundIds) {
     });
   }
 
+  // Collect benchmark tickers used by funds (shown by default)
+  const benchmarkTickers = new Set();
+  for (const fid of fundIds) {
+    const bTicker = data.funds[fid]?.benchmark?.ticker;
+    if (bTicker) benchmarkTickers.add(bTicker);
+  }
+
   // Index lines — distinct colors, dash patterns, and symbols
+  // Non-benchmark indices are hidden by default (togglable via legend)
+  const legendSelected = {};
   if (data.days.length > 0) {
     const last = data.days[data.days.length - 1];
     for (const idx of last.indices.items) {
@@ -400,6 +409,8 @@ function buildChart(data, fundIds) {
         return item ? item.return_pct : null;
       });
       const style = INDEX_STYLE[idx.ticker] || { color: '#8b8fa3', dash: [6, 4], symbol: 'none', label: idx.name };
+      const isBenchmark = benchmarkTickers.has(idx.ticker);
+      if (!isBenchmark) legendSelected[style.label] = false;
       series.push({
         name: style.label,
         type: 'line',
@@ -436,6 +447,7 @@ function buildChart(data, fundIds) {
       itemWidth: 14,
       itemHeight: 8,
       itemGap: 18,
+      selected: legendSelected,
     },
     tooltip: {
       trigger: 'axis',
