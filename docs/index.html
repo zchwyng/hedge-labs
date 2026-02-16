@@ -87,9 +87,23 @@
     margin-bottom: 2rem;
     position: relative;
   }
+  .chart-container { position: relative; height: 360px; }
   .chart-wrap h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; }
   .chart-hint { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 0.7rem; color: var(--text-muted); }
-  #perfChart { width: 100% !important; }
+  .chart-reset {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.2rem 0.6rem;
+    cursor: pointer;
+    display: none;
+  }
+  .chart-reset:hover { color: var(--text-primary); border-color: var(--text-muted); }
 
   /* Table */
   .table-wrap {
@@ -255,8 +269,10 @@
 
   <div class="chart-wrap">
     <h2>Cumulative Performance</h2>
-    <div class="chart-hint">Scroll to zoom &middot; drag to pan</div>
-    <canvas id="perfChart" height="320"></canvas>
+    <button class="chart-reset" id="chartReset" onclick="resetZoom()">Reset zoom</button>
+    <div class="chart-container">
+      <canvas id="perfChart"></canvas>
+    </div>
   </div>
 
   <div class="fund-cards" id="fundCards"></div>
@@ -425,7 +441,7 @@ function buildChart(data, fundIds) {
     }
   }
 
-  new Chart(document.getElementById('perfChart'), {
+  const chart = new Chart(document.getElementById('perfChart'), {
     type: 'line',
     data: { labels: dates, datasets },
     options: {
@@ -451,8 +467,12 @@ function buildChart(data, fundIds) {
           }
         },
         zoom: {
-          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
-          pan: { enabled: true, mode: 'x' }
+          zoom: { wheel: { enabled: false }, pinch: { enabled: true }, mode: 'x',
+            onZoom: () => { document.getElementById('chartReset').style.display = 'block'; }
+          },
+          pan: { enabled: true, mode: 'x',
+            onPan: () => { document.getElementById('chartReset').style.display = 'block'; }
+          }
         }
       },
       scales: {
@@ -467,6 +487,15 @@ function buildChart(data, fundIds) {
       }
     }
   });
+
+  window._arenaChart = chart;
+}
+
+function resetZoom() {
+  if (window._arenaChart) {
+    window._arenaChart.resetZoom();
+    document.getElementById('chartReset').style.display = 'none';
+  }
 }
 
 function buildFundCards(data, fundIds, latestDay) {
