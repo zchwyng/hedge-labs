@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <title>Fund Arena — hedge-labs</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <style>
@@ -47,6 +50,7 @@
     gap: 0.5rem;
   }
   .header h1 span { opacity: 0.4; font-weight: 400; }
+  .header-logo { height: 1.75rem; width: auto; }
   .header-meta {
     display: flex;
     align-items: center;
@@ -286,7 +290,7 @@
 <body>
 <div class="container">
   <div class="header">
-    <h1>Fund Arena <span>/ hedge-labs</span></h1>
+    <h1><img src="hedgelabs-logo.svg" alt="hedge-labs" class="header-logo">Fund Arena <span>/ hedge-labs</span></h1>
     <div class="header-meta">
       <span id="lastUpdated">Loading...</span>
       <a href="https://github.com/zchwyng/hedge-labs" target="_blank">GitHub</a>
