@@ -48,28 +48,46 @@ Portfolio constraints:
 - Crypto exposure (sum of holdings in sector "Crypto" or tickers like BTC-USD/ETH-USD) must be <= {MAX_CRYPTO_PCT}%.
 - `constraints_check.max_position_ok`, `constraints_check.max_sector_ok`, and `constraints_check.max_crypto_ok` must all be `true` and must match the actual portfolio you output.
 
-Strategy V2 (Aggressive Quality + Momentum) - scorecard for rebalance-due days:
-- Candidate set:
-  - Start from the prior `target_portfolio` in the stateful context.
+Strategy V3 (Institutional IC workflow) - rebalance-due days:
+- Gate 0: Data integrity and regime check.
+  - Verify every active candidate has tool-fetched latest price and WEEKLY 30d/90d history.
+  - Treat missing critical fields as `UNKNOWN`, apply a conservative penalty, and avoid adding low-confidence names.
+  - Classify regime using tool evidence (risk-on, risk-off, mixed) before sizing risk.
+- Gate 1: Candidate formation and thesis quality.
+  - Start from prior `target_portfolio` in the stateful context.
   - If prior `target_portfolio` is empty, bootstrap a full {POSITIONS}-name portfolio (3-change cap does not apply).
   - If prior `target_portfolio` is non-empty, propose at most 3 changes unless thesis damage is severe.
   - Consider up to 4 replacement candidates (so the equity tool query stays <= 12 tickers total).
-- Score each equity candidate using tool-fetched data (do not guess):
-  - Momentum (60%): 90d return (weekly) + 30d return (weekly).
-  - Quality (25%): operating margin, ROE/ROIC, revenue growth, earnings growth (key ratios snapshot).
-  - Valuation/risk sanity (15%): light penalty for extreme multiples (P/E, P/S, PEG) and severe drawdowns.
-- Selection rule:
-  - Keep winners (top scores) unless they show thesis damage.
-  - Replace bottom-ranked holdings with higher-scoring candidates, respecting constraints.
+  - For each active candidate, define one catalyst and one disconfirming datapoint from tool-fetched evidence.
+- Gate 2: Multi-factor scoring (0-100; do not guess).
+  - Momentum (30): 90d return (weekly) + 30d return (weekly), including relative check vs SPY/QQQ.
+  - Quality/Fundamentals (20): operating margin, ROE/ROIC, revenue growth, earnings growth.
+  - Revision proxy (15): earnings/news tone, guidance direction, and estimate-revision proxy from recent headlines.
+  - Valuation discipline (10): penalty for extreme P/E, P/S, PEG relative to growth/quality.
+  - Risk/liquidity (15): penalty for severe drawdowns, unstable volatility, and weak liquidity signals.
+  - Crowding/regime fit (10): penalize crowded exposures that conflict with current regime.
+- Gate 3: Portfolio construction objective.
+  - Optimize for: expected alpha - risk penalty - turnover/slippage penalty.
+  - Prefer no trade when edge is weak: if score improvement is marginal and does not clear a cost hurdle, keep portfolio unchanged.
+  - Keep winners unless thesis damage is evidenced; replace bottom-ranked holdings with clearly higher-scoring candidates.
+- Gate 4: Risk budget and stress testing.
+  - Check concentration and correlation risk before final sizing.
+  - Run quick scenario checks: equity index shock, rates shock, commodity shock, USD shock.
+  - If scenario losses are too concentrated in one factor/sector, resize before finalizing.
+- Gate 5: Execution realism and monitoring.
+  - Reflect realistic implementation: staged sizing and turnover efficiency.
+  - Avoid new adds immediately before major binary events unless edge is compelling and risk is sized down.
+  - Define explicit invalidation triggers and monitoring checkpoints.
 
 Crypto sleeve rules (max {MAX_CRYPTO_PCT}%):
 - Only include crypto (or a crypto ETF) if 90d momentum is positive; otherwise keep it 0-5% or omit.
 - Never hold both BTC-USD and a BTC ETF at the same time.
 
 Tasks:
-1) Portfolio Health Check (if a prior portfolio exists in repo for this fund):
+1) Portfolio health and IC framing (if a prior portfolio exists in repo for this fund):
    - Summarize what changed in the last 24-72 hours: earnings, guidance, macro surprises, major news (equities only).
-   - List any holdings with "thesis damage" signals (must be backed by tool-fetched evidence).
+   - Identify thesis damage flags with direct evidence.
+   - State the implied market regime and whether today is a high-conviction rebalance setup.
 
 Pre-step (before calling tools):
 - Decide on a plausible candidate {POSITIONS}-name portfolio first (tickers + rough weights + sectors) based on your priors AND the stateful context.
@@ -86,12 +104,16 @@ Pre-step (before calling tools):
    - Also output `rebalance_actions`: full list of all rebalance actions taken this run.
    - `trade_of_the_day` is the single headline action; `rebalance_actions` is the complete action list.
    - On non-rebalance days, set `trade_of_the_day.action` to "Do nothing" and `rebalance_actions` to [].
-   - Provide: thesis (3 bullets), key risks (3 bullets), falsifiable checks (2), and why-now (6-18 months).
-   - Provide position sizing suggestion within constraints (e.g. +2% to target).
+   - In `trade_of_the_day.thesis`, include catalyst, factor edge, and variant view.
+   - In `trade_of_the_day.risks`, include macro, idiosyncratic, and execution/liquidity risks.
+   - In `trade_of_the_day.falsifiable_checks`, use explicit numeric/time-based checks.
+   - In `trade_of_the_day.why_now`, include base/bull/bear framing and why expected edge clears trading-cost drag.
 
-3) Update the model portfolio (paper):
+3) Update the model portfolio (paper) with institutional artifacts encoded in existing fields:
    - Output the full target portfolio weights after today's action, respecting constraints.
-   - Include a constraints check.
+   - `market_summary` should read like an IC top sheet: regime, breadth/leadership, and go/no-go rationale.
+   - `constraints_check.notes` must include a compact appendix string with:
+     factor score highlights, risk budget summary, scenario stress result, execution plan, and monitoring/kill-switch triggers.
 
 Output ONLY JSON:
 {
