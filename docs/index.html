@@ -276,7 +276,13 @@
 <script>
 const FUND_LABELS = { 'fund-a': 'Fund A', 'fund-b': 'Fund B', 'fund-c': 'Fund C' };
 const PROVIDER_LABELS = { openai: 'OpenAI', anthropic: 'Anthropic', xai: 'xAI' };
-const INDEX_COLORS = { SPY: '#555b6e', QQQ: '#6b7280', ACWI: '#64748b', GLD: '#a48533', 'BTC-USD': '#b47a2b' };
+const INDEX_STYLE = {
+  SPY:       { color: '#8b8fa3', dash: [6, 4],  symbol: 'none',     label: 'S\u0026P 500' },
+  QQQ:       { color: '#5eaac7', dash: [4, 4],  symbol: 'diamond',  label: 'Nasdaq 100' },
+  ACWI:      { color: '#7c83a6', dash: [8, 3, 2, 3], symbol: 'none', label: 'MSCI ACWI' },
+  GLD:       { color: '#e8c846', dash: [6, 3],  symbol: 'triangle', label: 'Gold' },
+  'BTC-USD': { color: '#f59e42', dash: [2, 3],  symbol: 'rect',     label: 'Bitcoin' },
+};
 
 function fmt(v, decimals = 2) {
   if (v == null) return '\u2014';
@@ -385,7 +391,7 @@ function buildChart(data, fundIds) {
     });
   }
 
-  // Index lines — thin, dashed, dimmer
+  // Index lines — distinct colors, dash patterns, and symbols
   if (data.days.length > 0) {
     const last = data.days[data.days.length - 1];
     for (const idx of last.indices.items) {
@@ -393,22 +399,33 @@ function buildChart(data, fundIds) {
         const item = day.indices.items.find(i => i.ticker === idx.ticker);
         return item ? item.return_pct : null;
       });
-      const color = INDEX_COLORS[idx.ticker] || '#555b6e';
+      const style = INDEX_STYLE[idx.ticker] || { color: '#8b8fa3', dash: [6, 4], symbol: 'none', label: idx.name };
       series.push({
-        name: idx.name,
+        name: style.label,
         type: 'line',
         data: points,
-        symbol: 'none',
-        lineStyle: { width: 1.5, color, type: 'dashed' },
-        itemStyle: { color },
-        emphasis: { focus: 'series', lineStyle: { width: 3, type: 'solid' } },
+        symbol: style.symbol,
+        symbolSize: style.symbol !== 'none' ? 5 : 0,
+        showSymbol: style.symbol !== 'none',
+        lineStyle: { width: 1.8, color: style.color, type: style.dash },
+        itemStyle: { color: style.color, borderWidth: 0 },
+        emphasis: { focus: 'series', lineStyle: { width: 3.5, type: 'solid' } },
         connectNulls: true,
         z: 5,
       });
     }
   }
 
-  const chart = echarts.init(document.getElementById('perfChart'));
+  const chartDom = document.getElementById('perfChart');
+  const chart = echarts.init(chartDom);
+
+  // Track mouse Y in pixel coords relative to the chart for nearest-series detection
+  let mousePixelY = null;
+  chartDom.addEventListener('mousemove', e => {
+    const rect = chartDom.getBoundingClientRect();
+    mousePixelY = e.clientY - rect.top;
+  });
+  chartDom.addEventListener('mouseleave', () => { mousePixelY = null; });
 
   chart.setOption({
     backgroundColor: 'transparent',
@@ -416,8 +433,7 @@ function buildChart(data, fundIds) {
     legend: {
       top: 4,
       textStyle: { color: '#a1a1aa', fontSize: 11 },
-      icon: 'circle',
-      itemWidth: 8,
+      itemWidth: 14,
       itemHeight: 8,
       itemGap: 18,
     },
@@ -428,15 +444,29 @@ function buildChart(data, fundIds) {
       borderWidth: 1,
       textStyle: { color: '#e4e4e7', fontSize: 12 },
       axisPointer: {
-        type: 'cross',
-        crossStyle: { color: '#71717a' },
+        type: 'line',
         lineStyle: { color: '#333a4d', type: 'dashed' },
         label: { backgroundColor: '#242a38', color: '#a1a1aa', fontSize: 10 },
       },
       formatter: function (params) {
         if (!params || !params.length) return '';
+
+        // Find nearest series to mouse cursor by converting values to pixel Y
+        let nearestIdx = 0;
+        if (mousePixelY != null) {
+          let minDist = Infinity;
+          for (let i = 0; i < params.length; i++) {
+            if (params[i].value == null) continue;
+            // Convert data value to pixel Y using chart coord system
+            const pixelY = chart.convertToPixel({ yAxisIndex: 0 }, params[i].value);
+            const dist = Math.abs(pixelY - mousePixelY);
+            if (dist < minDist) { minDist = dist; nearestIdx = i; }
+          }
+        }
+        const nearestName = params[nearestIdx]?.seriesName;
+
         let html = '<div style="font-weight:600;margin-bottom:6px">' + params[0].axisValue + '</div>';
-        // Sort: show the series closest to the mouse first (by value proximity)
+        // Sort by value descending
         const sorted = [...params].sort((a, b) => {
           const va = a.value ?? -9999, vb = b.value ?? -9999;
           return vb - va;
@@ -445,11 +475,17 @@ function buildChart(data, fundIds) {
           if (p.value == null) continue;
           const v = Number(p.value);
           const sign = v >= 0 ? '+' : '';
-          const color = v >= 0 ? '#22c55e' : '#ef4444';
-          html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0">'
+          const valColor = v >= 0 ? '#22c55e' : '#ef4444';
+          const isNearest = p.seriesName === nearestName;
+          const opacity = isNearest ? '1' : '0.35';
+          const weight = isNearest ? '700' : '400';
+          const nameColor = isNearest ? '#f0f0f2' : '#71717a';
+          const valWeight = isNearest ? '700' : '400';
+          const arrow = isNearest ? '\u25B8 ' : '';
+          html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0;opacity:' + opacity + '">'
             + '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + p.color + '"></span>'
-            + '<span style="flex:1;color:#a1a1aa">' + p.seriesName + '</span>'
-            + '<span style="font-weight:600;font-variant-numeric:tabular-nums;color:' + color + '">' + sign + v.toFixed(2) + '%</span>'
+            + '<span style="flex:1;color:' + nameColor + ';font-weight:' + weight + '">' + arrow + p.seriesName + '</span>'
+            + '<span style="font-weight:' + valWeight + ';font-variant-numeric:tabular-nums;color:' + valColor + '">' + sign + v.toFixed(2) + '%</span>'
             + '</div>';
         }
         return html;
@@ -473,6 +509,34 @@ function buildChart(data, fundIds) {
     dataZoom: [
       { type: 'inside', xAxisIndex: 0, filterMode: 'none' },
     ],
+  });
+
+  // Dispatch highlight on the nearest series so chart lines dim via emphasis.focus
+  let lastHighlighted = null;
+  chart.on('showTip', function (params) {
+    // When tooltip shows, find nearest series and highlight it
+    if (mousePixelY == null || params.dataIndex == null) return;
+    const allSeries = chart.getOption().series;
+    let minDist = Infinity;
+    let nearestName = null;
+    for (let i = 0; i < allSeries.length; i++) {
+      const val = allSeries[i].data?.[params.dataIndex];
+      if (val == null) continue;
+      const py = chart.convertToPixel({ yAxisIndex: 0 }, val);
+      const dist = Math.abs(py - mousePixelY);
+      if (dist < minDist) { minDist = dist; nearestName = allSeries[i].name; }
+    }
+    if (nearestName && nearestName !== lastHighlighted) {
+      if (lastHighlighted) chart.dispatchAction({ type: 'downplay', seriesName: lastHighlighted });
+      chart.dispatchAction({ type: 'highlight', seriesName: nearestName });
+      lastHighlighted = nearestName;
+    }
+  });
+  chart.on('hideTip', function () {
+    if (lastHighlighted) {
+      chart.dispatchAction({ type: 'downplay', seriesName: lastHighlighted });
+      lastHighlighted = null;
+    }
   });
 
   window.addEventListener('resize', () => chart.resize());
