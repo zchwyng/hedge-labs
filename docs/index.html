@@ -197,7 +197,8 @@
     border-bottom: 1px solid var(--border);
   }
   .holdings-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); }
-  .holdings-table .ticker { font-weight: 600; }
+  .holdings-table .ticker { font-weight: 600; cursor: default; }
+  .holdings-table .ticker[title] { border-bottom: 1px dotted var(--text-muted); }
   .weight-bar-bg {
     background: rgba(255,255,255,0.06);
     border-radius: 3px;
@@ -321,6 +322,28 @@
 </div>
 
 <script>
+const TICKER_NAMES = {
+  AAPL:'Apple', ABBV:'AbbVie', ABNB:'Airbnb', ADBE:'Adobe', ADI:'Analog Devices',
+  ADP:'ADP', ADSK:'Autodesk', AMAT:'Applied Materials', AMD:'AMD', AMGN:'Amgen',
+  AMZN:'Amazon', AVGO:'Broadcom', AXP:'American Express', BA:'Boeing', BAC:'Bank of America',
+  BRK:'Berkshire Hathaway', CAT:'Caterpillar', COP:'ConocoPhillips', COST:'Costco',
+  CRM:'Salesforce', CRWD:'CrowdStrike', CSCO:'Cisco', CVX:'Chevron', DE:'Deere',
+  DIS:'Disney', ENPH:'Enphase Energy', F:'Ford', FTNT:'Fortinet', GE:'GE Aerospace',
+  GLD:'SPDR Gold Trust', GOOG:'Alphabet', GOOGL:'Alphabet', GS:'Goldman Sachs',
+  HD:'Home Depot', HON:'Honeywell', IBM:'IBM', INTC:'Intel', ISRG:'Intuitive Surgical',
+  JNJ:'Johnson & Johnson', JPM:'JPMorgan Chase', KLAC:'KLA Corp', LIN:'Linde',
+  LLY:'Eli Lilly', LMT:'Lockheed Martin', LOW:'Lowe\'s', MA:'Mastercard',
+  MCD:'McDonald\'s', META:'Meta Platforms', MRK:'Merck', MSFT:'Microsoft',
+  MU:'Micron', NEE:'NextEra Energy', NFLX:'Netflix', NOW:'ServiceNow',
+  NVDA:'Nvidia', NVO:'Novo Nordisk', PANW:'Palo Alto Networks', PEP:'PepsiCo',
+  PG:'Procter & Gamble', PLTR:'Palantir', PYPL:'PayPal', QCOM:'Qualcomm',
+  RTX:'RTX Corp', SBUX:'Starbucks', SNOW:'Snowflake', T:'AT&T', TGT:'Target',
+  TMO:'Thermo Fisher', TSLA:'Tesla', TSM:'TSMC', TXN:'Texas Instruments',
+  UNH:'UnitedHealth', UNP:'Union Pacific', V:'Visa', VZ:'Verizon',
+  WMT:'Walmart', XLI:'Industrial Select Sector SPDR', XOM:'ExxonMobil', ZS:'Zscaler',
+};
+function tickerName(t) { return TICKER_NAMES[t] || t; }
+
 const FUND_LABELS = { 'fund-a': 'Fund A', 'fund-b': 'Fund B', 'fund-c': 'Fund C' };
 const PROVIDER_LABELS = { openai: 'OpenAI', anthropic: 'Anthropic', xai: 'xAI' };
 const INDEX_STYLE = {
@@ -616,7 +639,7 @@ function buildFundCards(data, fundIds, latestDay) {
     let holdingsRows = '';
     for (const h of holdings) {
       holdingsRows += `<tr>
-        <td class="ticker">${h.ticker}</td>
+        <td class="ticker" title="${tickerName(h.ticker)}">${h.ticker}</td>
         <td>
           <div class="weight-bar-bg">
             <div class="weight-bar-fill" style="width:${Math.min(h.weight_pct * 2.5, 100)}%;background:${fund.color}40"></div>
