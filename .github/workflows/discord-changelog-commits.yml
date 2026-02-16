@@ -1,0 +1,138 @@
+name: Discord Changelog (commits)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  post_commit_changelog:
+    name: Post commit changelog to Discord
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send commit changelog
+        uses: actions/github-script@v7
+        env:
+          DISCORD_CHANGELOG_WEBHOOK_URL: ${{ secrets.DISCORD_CHANGELOG_WEBHOOK_URL }}
+        with:
+          script: |
+            const webhookUrl = process.env.DISCORD_CHANGELOG_WEBHOOK_URL;
+            if (!webhookUrl) {
+              core.setFailed("Missing required secret: DISCORD_CHANGELOG_WEBHOOK_URL");
+              return;
+            }
+
+            const { owner, repo } = context.repo;
+            const ref = context.ref || "";
+            const branch = ref.startsWith("refs/heads/") ? ref.replace("refs/heads/", "") : ref;
+            const before = context.payload.before;
+            const after = context.payload.after;
+            const compareUrl = context.payload.compare || `https://github.com/${owner}/${repo}/compare/${before}...${after}`;
+            const pusher = context.payload.pusher?.name || context.actor || "unknown";
+
+            async function fetchAllCommits(base, head) {
+              const all = [];
+              let page = 1;
+              while (true) {
+                const response = await github.rest.repos.compareCommitsWithBasehead({
+                  owner,
+                  repo,
+                  basehead: `${base}...${head}`,
+                  per_page: 100,
+                  page
+                });
+                const commits = response.data.commits || [];
+                all.push(...commits);
+                if (commits.length < 100) break;
+                page += 1;
+                if (page > 25) break;
+              }
+              return all;
+            }
+
+            function cleanLine(value) {
+              return String(value || "")
+                .replace(/\r?\n/g, " ")
+                .replace(/\s+/g, " ")
+                .trim();
+            }
+
+            function truncate(value, max) {
+              if (value.length <= max) return value;
+              return `${value.slice(0, max - 1)}…`;
+            }
+
+            function buildCommitLine(commit) {
+              const rawSha = String(commit.sha || commit.id || "");
+              const sha = rawSha.slice(0, 7) || "unknown";
+              const message = truncate(cleanLine(commit.commit?.message || commit.message || "(no message)"), 140);
+              const author = cleanLine(commit.commit?.author?.name || commit.author?.name || commit.author?.username || "unknown");
+              const url = commit.html_url || commit.url || `https://github.com/${owner}/${repo}/commit/${rawSha}`;
+              return `- \`${sha}\` ${message} — ${author} <${url}>`;
+            }
+
+            function chunkLines(lines, header, maxLen = 1900) {
+              const chunks = [];
+              let current = `${header}\n`;
+              for (const line of lines) {
+                const candidate = `${current}${line}\n`;
+                if (candidate.length > maxLen && current !== `${header}\n`) {
+                  chunks.push(current.trimEnd());
+                  current = `${header}\n${line}\n`;
+                } else {
+                  current = candidate;
+                }
+              }
+              chunks.push(current.trimEnd());
+              return chunks;
+            }
+
+            let commits = [];
+            try {
+              commits = await fetchAllCommits(before, after);
+            } catch (error) {
+              core.warning(`Compare API failed, falling back to event payload commits: ${error.message}`);
+              commits = context.payload.commits || [];
+            }
+
+            if (!Array.isArray(commits) || commits.length === 0) {
+              commits = context.payload.commits || [];
+            }
+
+            const seen = new Set();
+            commits = commits.filter((commit) => {
+              const key = String(commit.sha || commit.id || "");
+              if (!key || seen.has(key)) return false;
+              seen.add(key);
+              return true;
+            });
+
+            const header = [
+              `**${owner}/${repo}** push to \`${branch}\` by **${cleanLine(pusher)}**`,
+              `Compare: <${compareUrl}>`,
+              `Commits: **${commits.length}**`
+            ].join("\n");
+
+            const commitLines = commits.map(buildCommitLine);
+            const messages = chunkLines(commitLines, header);
+
+            for (const content of messages) {
+              const response = await fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  content,
+                  allowed_mentions: { parse: [] }
+                })
+              });
+              if (!response.ok) {
+                const body = await response.text();
+                core.setFailed(`Discord webhook request failed (${response.status}): ${body}`);
+                return;
+              }
+            }
+
+            core.info(`Posted ${commits.length} commit(s) to Discord in ${messages.length} message(s).`);

@@ -17,10 +17,12 @@ Schedule: **06:17 UTC** (`17 6 * * *`).
 ## GitHub Actions
 
 Primary workflow: `/.github/workflows/fund-arena-daily.yml`.
+Commit changelog workflow: `/.github/workflows/discord-changelog-commits.yml`.
 
 - Scheduled runs (cron) commit/push updated `funds/**` outputs to `main` and post the Discord digest.
 - Manual runs (`workflow_dispatch`) default to *not* publishing and *not* posting to Discord; set inputs to enable.
 - Optional input `run_date` overrides the UTC run date (`YYYY-MM-DD`).
+- Pushes to `main` post commit changelogs to Discord via a dedicated webhook secret.
 
 ## Runtime architecture
 
@@ -120,6 +122,7 @@ This enforces Financial Datasets tool usage for successful runs.
   - `ANTHROPIC_API_KEY`
   - `XAI_API_KEY`
 - `DISCORD_WEBHOOK_URL` (required to post the digest; scheduled runs post by default)
+- `DISCORD_CHANGELOG_WEBHOOK_URL` (required for `discord-changelog-commits.yml`; recommended to be a dedicated `#changelog` webhook)
 
 Also set repository Actions permission to **Read and write**.
 
