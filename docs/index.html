@@ -209,6 +209,48 @@
   }
   .weight-bar-fill { height: 100%; border-radius: 3px; }
 
+  /* Index cards */
+  .index-cards-section { margin-bottom: 2rem; }
+  .index-cards-section h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .index-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.65rem;
+  }
+  .index-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .index-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .index-card .idx-name {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .index-card .idx-ticker {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+  .index-card .idx-return {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.25rem;
+  }
+
   /* Footer */
   .footer {
     text-align: center;
@@ -258,6 +300,11 @@
   </div>
 
   <div class="fund-cards" id="fundCards"></div>
+
+  <div class="index-cards-section">
+    <h2>Market Indices</h2>
+    <div class="index-cards" id="indexCards"></div>
+  </div>
 
   <div class="table-wrap">
     <h2>Daily Runs</h2>
@@ -314,6 +361,7 @@ async function init() {
   buildStatRow(data, fundIds, latestDay);
   buildChart(data, fundIds);
   buildFundCards(data, fundIds, latestDay);
+  buildIndexCards(data, latestDay);
   buildTable(data, fundIds);
 }
 
@@ -601,6 +649,26 @@ function buildFundCards(data, fundIds, latestDay) {
           <thead><tr><th>Ticker</th><th>Weight</th><th>Sector</th></tr></thead>
           <tbody>${holdingsRows}</tbody>
         </table>
+      </div>`;
+  }
+}
+
+function buildIndexCards(data, latestDay) {
+  const container = document.getElementById('indexCards');
+  if (!latestDay || !latestDay.indices?.items) return;
+
+  for (const idx of latestDay.indices.items) {
+    const style = INDEX_STYLE[idx.ticker] || { color: '#8b8fa3', label: idx.name };
+    const v = idx.return_pct;
+    container.innerHTML += `
+      <div class="index-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:${style.color}"></div>
+        <div class="idx-name">
+          <span class="dot" style="background:${style.color}"></span>
+          ${style.label}
+        </div>
+        <div class="idx-ticker">${idx.ticker}</div>
+        <div class="idx-return ${fmtClass(v)}">${fmt(v)}</div>
       </div>`;
   }
 }
