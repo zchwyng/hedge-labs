@@ -680,6 +680,8 @@ function buildIndexCards(data, latestDay) {
   const container = document.getElementById('indexCards');
   if (!latestDay || !latestDay.indices?.items) return;
 
+  const inceptionDate = data.days[0]?.date || '';
+
   for (const idx of latestDay.indices.items) {
     const style = INDEX_STYLE[idx.ticker] || { color: '#8b8fa3', label: idx.name };
     const v = idx.return_pct;
@@ -692,6 +694,7 @@ function buildIndexCards(data, latestDay) {
         </div>
         <div class="idx-ticker">${idx.ticker}</div>
         <div class="idx-return ${fmtClass(v)}">${fmt(v)}</div>
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem">since ${inceptionDate}</div>
       </div>`;
   }
 }
