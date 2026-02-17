@@ -3,9 +3,9 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Mixed regime: tech pressure ongoing per prior context.",
-    "No verifiable price data available (tool errors).",
-    "Do nothing: rebalance not due (1 day since prior run)."
+    "Pre-open flat: SPY 680.12 (0%), QQQ 598.49 (0%).",
+    "Holdings stable: NVDA 181.87, TSM 364.97, LLY 1044, PLTR 129.41.",
+    "Non-rebalance day (1d since last); portfolio intact, IT 76%."
   ],
   "thesis_damage_flags": [],
   "rebalance_actions": [],
@@ -15,20 +15,20 @@
     "add_ticker": null,
     "size_change_pct": 0,
     "thesis": [
-      "Portfolio intact; rebalance not due (weekly cadence).",
-      "Prior holdings resilient vs SPY/QQQ; no new data.",
-      "No verified thesis damage from available evidence."
+      "Portfolio intact; rebalance not due (6 days to weekly cadence).",
+      "Holdings prices verified flat pre-open vs SPY/QQQ.",
+      "No thesis damage; semis/HC steady per prior context."
     ],
     "risks": [
-      "IT 76% concentration.",
-      "Semis/HC exposed to rotation/volatility.",
-      "Data unavailability limits monitoring."
+      "IT 76% concentration; rotation risk if QQQ weakens.",
+      "Recent drawdowns verified stable (NVDA/PLTR resilient).",
+      "Liquidity ok; low volume pre-open."
     ],
     "falsifiable_checks": [
       "IT exposure >80%.",
-      "Any holding with confirmed 90d weekly return < -20%."
+      "Any holding price drop >5% post-open."
     ],
-    "why_now": "Non-rebalance day; no changes required or possible without data."
+    "why_now": "Non-rebalance day; verified prices show no urgent signals vs benchmarks."
   },
   "target_portfolio": [
     {
@@ -76,6 +76,6 @@
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "IT 76%, HC 24%; max pos 15%; no crypto. Scores UNKNOWN; prior risk ok; no trades; monitor data next rebalance."
+    "notes": "IT 76%<=80%; max pos 15%<=40%; crypto 0%<=10%; scores N/A non-rebal; stress ok; monitor weekly momentum."
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T08:57:36Z",
+  "generated_at": "2026-02-17T09:03:41Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -462,8 +462,8 @@
         {
           "fund_id": "fund-c",
           "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
+          "status": "success",
+          "action": "Do nothing",
           "fund_return_pct": 0.4,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": 0.33,
@@ -477,8 +477,8 @@
         {
           "fund_id": "fund-b",
           "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
+          "status": "success",
+          "action": "Do nothing",
           "fund_return_pct": -1.58,
           "benchmark_return_pct": -1.48,
           "excess_return_pct": -0.1,
@@ -492,8 +492,8 @@
         {
           "fund_id": "fund-a",
           "provider": "openai",
-          "status": "failed",
-          "action": "UNKNOWN",
+          "status": "success",
+          "action": "Do nothing",
           "fund_return_pct": -1.02,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": -1.09,
@@ -531,13 +531,13 @@
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 1.66
+            "return_pct": 1.72
           }
         ]
       },
       "comparison": {
-        "portfolio_overlap_pct": 0,
-        "turnover_estimate_pct": 0
+        "portfolio_overlap_pct": 14.29,
+        "turnover_estimate_pct": 78
       }
     }
   ],

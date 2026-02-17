@@ -4,19 +4,19 @@
     {
       "fund_id": "fund-c",
       "provider": "xai",
-      "status": "failed",
-      "action": "UNKNOWN",
+      "status": "success",
+      "action": "Do nothing",
       "add_ticker": null,
       "remove_ticker": null,
       "size_change_pct": 0,
-      "constraints_ok": false,
+      "constraints_ok": true,
       "rebalance_actions_count": 0,
       "rebalance_actions_preview": null,
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
-      "asof_portfolio_date": "2026-02-16",
+      "asof_portfolio_date": "2026-02-17",
       "asof_price_date": "2026-02-13",
       "fund_return_pct": 0.4,
       "benchmark_return_pct": 0.07,
@@ -25,24 +25,24 @@
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-c/runs/2026-02-17/xai",
       "rank": 1,
-      "ranking_score": null
+      "ranking_score": 0.33
     },
     {
       "fund_id": "fund-b",
       "provider": "anthropic",
-      "status": "failed",
-      "action": "UNKNOWN",
+      "status": "success",
+      "action": "Do nothing",
       "add_ticker": null,
       "remove_ticker": null,
       "size_change_pct": 0,
-      "constraints_ok": false,
+      "constraints_ok": true,
       "rebalance_actions_count": 0,
       "rebalance_actions_preview": null,
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-12",
-      "asof_portfolio_date": "2026-02-16",
+      "asof_portfolio_date": "2026-02-17",
       "asof_price_date": "2026-02-13",
       "fund_return_pct": -1.58,
       "benchmark_return_pct": -1.48,
@@ -51,24 +51,24 @@
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-b/runs/2026-02-17/anthropic",
       "rank": 2,
-      "ranking_score": null
+      "ranking_score": -0.1
     },
     {
       "fund_id": "fund-a",
       "provider": "openai",
-      "status": "failed",
-      "action": "UNKNOWN",
+      "status": "success",
+      "action": "Do nothing",
       "add_ticker": null,
       "remove_ticker": null,
       "size_change_pct": 0,
-      "constraints_ok": false,
+      "constraints_ok": true,
       "rebalance_actions_count": 0,
       "rebalance_actions_preview": null,
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
-      "asof_portfolio_date": "2026-02-16",
+      "asof_portfolio_date": "2026-02-17",
       "asof_price_date": "2026-02-13",
       "fund_return_pct": -1.02,
       "benchmark_return_pct": 0.07,
@@ -77,7 +77,7 @@
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-a/runs/2026-02-17/openai",
       "rank": 3,
-      "ranking_score": null
+      "ranking_score": -1.09
     }
   ],
   "indices": {
@@ -112,18 +112,18 @@
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 1.66,
+        "return_pct": 1.72,
         "asof_price_date": "2026-02-17"
       }
     ]
   },
   "ranking": {
     "method": "independent_performance",
-    "notes": "No successful lanes to rank."
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   },
   "comparison": {
-    "portfolio_overlap_pct": 0,
-    "turnover_estimate_pct": 0,
-    "notes": "Need at least two successful lanes to compute overlap/turnover metrics."
+    "portfolio_overlap_pct": 14.29,
+    "turnover_estimate_pct": 78,
+    "notes": "Computed from first two successful lanes: funds/fund-c/runs/2026-02-17/xai/dexter_output.json vs funds/fund-b/runs/2026-02-17/anthropic/dexter_output.json."
   }
 }

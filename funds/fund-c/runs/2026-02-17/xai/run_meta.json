@@ -3,14 +3,12 @@
   "provider": "xai",
   "model": "grok-4-1-fast-reasoning",
   "run_date": "2026-02-17",
-  "started_at": "2026-02-17T08:51:15Z",
-  "ended_at": "2026-02-17T08:51:43Z",
-  "status": "failed",
-  "reason": "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)",
-  "api_errors": [
-    "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)"
-  ],
+  "started_at": "2026-02-17T09:02:55Z",
+  "ended_at": "2026-02-17T09:03:26Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
   "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-17-085116_8a2bd8e0300b.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-17-090256_8a2bd8e0300b.jsonl"
 }
