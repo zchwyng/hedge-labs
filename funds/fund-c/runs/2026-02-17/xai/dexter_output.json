@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-02-17",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Risk-off tech rotation persists; SPY -1.7%, QQQ -2% Feb10-13.",
+    "Holdings mixed: semis/NVDA/AVGO down 3-6%, cyber/SaaS/PLTR rebound +2-3%.",
+    "Non-rebalance; portfolio stable vs benchmarks, no thesis damage."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio intact; rebalance not due (1 day since last, 6 to weekly).",
+      "Mixed performance Feb10-13: PLTR +2.7%, PANW/NOW +1-2%; semis/LIY flat.",
+      "No verified thesis damage from data; IT/HC resilient vs QQQ/SPY declines."
+    ],
+    "risks": [
+      "IT 76% concentration; vulnerable to further tech rotation.",
+      "Semis weakness: NVDA -2.5%, AVGO -1.4%, TSM -0.8% on Feb13.",
+      "PLTR volatility post -8% drawdown; monitor liquidity/volume."
+    ],
+    "falsifiable_checks": [
+      "IT exposure >80%.",
+      "Any holding < -20% 90d weekly return (data partial)."
+    ],
+    "why_now": "Non-rebalance day (cadence 7d); edge insufficient vs costs; stable vs SPY/QQQ."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "IT 76%<=80%; max pos 15%<=40%; crypto 0%<=10%. Factor scores: mom mixed (semis weak), qual steady. Risk: IT corr high, stress ok (-5-10% QQQ shock). Exec: none. Monitor: 90d mom <0, IT>80%."
+  }
+}
