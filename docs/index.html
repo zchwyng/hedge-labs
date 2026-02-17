@@ -644,7 +644,13 @@ function buildChart(data, fundIds) {
 
 function buildFundCards(data, fundIds, latestDay) {
   const container = document.getElementById('fundCards');
-  for (const fid of fundIds) {
+  // Sort fund IDs by rank (rank 1 first)
+  const sortedFundIds = [...fundIds].sort((a, b) => {
+    const laneA = latestDay?.lanes.find(l => l.fund_id === a);
+    const laneB = latestDay?.lanes.find(l => l.fund_id === b);
+    return (laneA?.rank ?? Infinity) - (laneB?.rank ?? Infinity);
+  });
+  for (const fid of sortedFundIds) {
     const fund = data.funds[fid];
     const lane = latestDay?.lanes.find(l => l.fund_id === fid);
     const holdings = data.latest_holdings[fid] || [];
