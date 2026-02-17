@@ -148,6 +148,7 @@
   }
   .badge-success { background: rgba(34,197,94,0.12); color: var(--green); }
   .badge-fail { background: rgba(239,68,68,0.12); color: var(--red); }
+  .badge-closed { background: rgba(161,161,170,0.12); color: var(--text-muted); }
   .rank-cell { font-weight: 700; }
 
   /* Fund cards */
@@ -658,6 +659,7 @@ function buildFundCards(data, fundIds, latestDay) {
     const rankNum = lane?.rank ?? '\u2014';
     const returnPct = lane?.fund_return_pct;
     const excessPct = lane?.excess_return_pct;
+    const inception = lane?.inception_date || '\u2014';
 
     let holdingsRows = '';
     for (const h of holdings) {
@@ -690,6 +692,7 @@ function buildFundCards(data, fundIds, latestDay) {
           <div><div class="stat-label">Return</div><div class="stat-val ${fmtClass(returnPct)}">${fmt(returnPct)}</div></div>
           <div><div class="stat-label">Excess</div><div class="stat-val ${fmtClass(excessPct)}">${fmt(excessPct)}</div></div>
           <div><div class="stat-label">Benchmark</div><div class="stat-val">${fund.benchmark?.name || '\u2014'}</div></div>
+          <div><div class="stat-label">Inception</div><div class="stat-val">${inception}</div></div>
         </div>
         <table class="holdings-table">
           <thead><tr><th>Ticker</th><th>Weight</th><th>Sector</th></tr></thead>
@@ -742,9 +745,12 @@ let sortAsc = false;
 function buildTable(data, fundIds) {
   tableRows = [];
   for (const day of data.days) {
+    // Market is closed if no lane has an asof_price_date matching the run date
+    const marketClosed = day.lanes.every(l => !l.asof_price_date || l.asof_price_date !== day.date);
     for (const lane of day.lanes) {
       tableRows.push({
         date: day.date,
+        marketClosed,
         fund_id: lane.fund_id,
         fund: fundLabel(lane.fund_id),
         provider: providerLabel(lane.provider),
@@ -805,7 +811,7 @@ function renderTable() {
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${r.date}</td>
+      <td>${r.date}${r.marketClosed ? ' <span class="badge badge-closed">Closed</span>' : ''}</td>
       <td><span class="dot" style="background:${r.color}"></span>${r.fund}</td>
       <td>${r.provider}</td>
       <td>${statusBadge}</td>
