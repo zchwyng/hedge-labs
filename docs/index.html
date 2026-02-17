@@ -441,13 +441,29 @@ function buildStatRow(data, fundIds, latestDay) {
 }
 
 function buildChart(data, fundIds) {
-  const dates = data.days.map(d => d.date);
+  // Filter to only include days where equity prices actually changed (trading days).
+  // Keep a day if it's the first, or if any fund's asof_price_date differs from the previous day.
+  const tradingDays = [];
+  let prevPriceDate = null;
+  for (const day of data.days) {
+    const successLanes = day.lanes.filter(l => l.status === 'success' && l.asof_price_date);
+    const maxPriceDate = successLanes.length > 0
+      ? successLanes.map(l => l.asof_price_date).sort().pop()
+      : null;
+    if (prevPriceDate === null || maxPriceDate !== prevPriceDate) {
+      tradingDays.push(day);
+      if (maxPriceDate) prevPriceDate = maxPriceDate;
+    }
+  }
+  const chartDays = tradingDays;
+
+  const dates = chartDays.map(d => d.date);
   const series = [];
 
   // Fund lines — thick, solid, with emphasis focus
   for (const fid of fundIds) {
     const fund = data.funds[fid];
-    const points = data.days.map(day => {
+    const points = chartDays.map(day => {
       const lane = day.lanes.find(l => l.fund_id === fid);
       if (!lane || lane.status !== 'success' || lane.fund_return_pct == null) return null;
       return lane.fund_return_pct;
@@ -476,10 +492,10 @@ function buildChart(data, fundIds) {
   // Index lines — distinct colors, dash patterns, and symbols
   // Non-benchmark indices are hidden by default (togglable via legend)
   const legendSelected = {};
-  if (data.days.length > 0) {
-    const last = data.days[data.days.length - 1];
+  if (chartDays.length > 0) {
+    const last = chartDays[chartDays.length - 1];
     for (const idx of last.indices.items) {
-      const points = data.days.map(day => {
+      const points = chartDays.map(day => {
         const item = day.indices.items.find(i => i.ticker === idx.ticker);
         return item ? item.return_pct : null;
       });
@@ -593,9 +609,6 @@ function buildChart(data, fundIds) {
       axisLabel: { color: '#71717a', fontSize: 10, formatter: v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%' },
     },
     series,
-    dataZoom: [
-      { type: 'inside', xAxisIndex: 0, filterMode: 'none' },
-    ],
   });
 
   // Dispatch highlight on the nearest series so chart lines dim via emphasis.focus

@@ -65,6 +65,37 @@ done
 days_json="$(jq 'sort_by(.date)' <<< "$days_json")"
 
 # ---------------------------------------------------------------------------
+# 2.5 Overlay fresh daily performance (re-fetches prices for accurate daily NAV)
+# ---------------------------------------------------------------------------
+daily_nav="$(node "${REPO_ROOT}/scripts/compute_daily_nav.mjs" 2>/dev/null || echo '{}')"
+
+if [ "$(jq -r 'has("funds")' <<< "$daily_nav")" = "true" ]; then
+  days_json="$(jq --argjson nav "$daily_nav" '
+    [.[] | . as $day |
+      ($nav.funds[$day.date] // null) as $fp |
+      ($nav.indices[$day.date] // null) as $ip |
+      # Overlay fresh fund performance onto lanes
+      (if $fp then
+        .lanes = [.lanes[] |
+          ($fp[.fund_id] // null) as $perf |
+          if $perf and .status == "success" then
+            .fund_return_pct = $perf.fund_return_pct |
+            .benchmark_return_pct = $perf.benchmark_return_pct |
+            .excess_return_pct = $perf.excess_return_pct |
+            .asof_price_date = $perf.asof_price_date
+          else . end
+        ]
+      else . end) |
+      # Overlay fresh index performance
+      (if $ip then
+        .indices = $ip
+      else . end)
+    ]
+  ' <<< "$days_json")"
+  echo "Overlaid fresh daily performance data."
+fi
+
+# ---------------------------------------------------------------------------
 # 3. Latest holdings from the most recent successful dexter_output.json per fund
 # ---------------------------------------------------------------------------
 holdings_json="$(jq -n '{}')"
