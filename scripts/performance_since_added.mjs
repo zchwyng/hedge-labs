@@ -26,6 +26,12 @@ function dateMs(dateStr) {
   return Number.isFinite(ms) ? ms : null;
 }
 
+function dayBefore(dateStr) {
+  const d = new Date(`${dateStr}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
 function emptyResult({
   benchmarkTicker = '',
   benchmarkName = '',
@@ -259,22 +265,29 @@ async function main() {
   let benchNav = 100;
   let benchOk = Boolean(benchmarkTicker && benchChart);
 
+  let isFirstSegment = true;
   for (const seg of segments) {
     // Determine a single aligned price window for this segment so 24/7 assets (e.g. crypto)
     // can't advance the segment's as-of date beyond what equities/benchmark support.
+    // For the first segment, use the day before inception as the start price.
+    // The portfolio is constructed before market open using the previous day's
+    // closing prices, so performance should be measured from those prices.
+    const startDate = isFirstSegment ? dayBefore(seg.start.date) : seg.start.date;
+    isFirstSegment = false;
+
     const leg = [];
     for (const h of seg.start.holdings) {
       const ticker = h.ticker;
       const weight = Number(h.weight_pct || 0);
       if (!Number.isFinite(weight) || weight <= 0) continue;
       const chart = chartFor(ticker);
-      const startCandidate = closeOnOrBefore(chart, seg.start.date);
+      const startCandidate = closeOnOrBefore(chart, startDate);
       const endCandidate = closeOnOrBefore(chart, seg.endDate);
       if (!startCandidate || !endCandidate) continue;
       leg.push({ ticker, weight, chart, startCandidate, endCandidate });
     }
 
-    const benchStartCandidate = benchChart ? closeOnOrBefore(benchChart, seg.start.date) : null;
+    const benchStartCandidate = benchChart ? closeOnOrBefore(benchChart, startDate) : null;
     const benchEndCandidate = benchChart ? closeOnOrBefore(benchChart, seg.endDate) : null;
 
     if (leg.length === 0) {

@@ -2,6 +2,6 @@ Fund Arena Scoreboard (2026-02-12)
 
 As of: 2026-02-12 close
 
-1. Fund B (Anthropic) - On track | Added XOM | Perf +0% vs S&P 500 +0% (excess +0%)
+1. Fund B (Anthropic) - On track | Added XOM | Perf -2% vs S&P 500 -1.54% (excess -0.46%)
 2. Fund A (OpenAI) - Issue | No run | Perf -
 3. Fund C (xAI) - Issue | No run | Perf -

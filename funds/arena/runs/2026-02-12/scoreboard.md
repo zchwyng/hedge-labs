@@ -13,7 +13,7 @@
 - Bitcoin: +0%
 
 ## Lanes
-- fund-b/anthropic: On track - since 2026-02-12: +0% vs S&P 500 +0% (excess +0%) as of 2026-02-12
+- fund-b/anthropic: On track - since 2026-02-12: -2% vs S&P 500 -1.54% (excess -0.46%) as of 2026-02-12
 - fund-a/openai: Issue
 - fund-c/xai: Issue
 

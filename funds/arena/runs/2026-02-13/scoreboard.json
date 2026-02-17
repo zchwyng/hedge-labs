@@ -2,30 +2,30 @@
   "run_date": "2026-02-13",
   "lanes": [
     {
-      "fund_id": "fund-a",
-      "provider": "openai",
+      "fund_id": "fund-c",
+      "provider": "xai",
       "status": "success",
-      "action": "Replace",
-      "add_ticker": "GLD",
-      "remove_ticker": "MSFT",
-      "size_change_pct": 12,
+      "action": "Add",
+      "add_ticker": "TSM",
+      "remove_ticker": null,
+      "size_change_pct": 15,
       "constraints_ok": true,
-      "rebalance_actions_count": 2,
-      "rebalance_actions_preview": "Replace MSFT->GLD, Trim AMZN->XOM",
+      "rebalance_actions_count": 8,
+      "rebalance_actions_preview": "Add NVDA, Add TSM, Add AVGO, Add LLY",
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-02-13",
-      "asof_price_date": "2026-02-12",
-      "fund_return_pct": 0,
-      "benchmark_return_pct": 0,
-      "excess_return_pct": 0,
+      "asof_price_date": "2026-02-13",
+      "fund_return_pct": 0.4,
+      "benchmark_return_pct": 0.07,
+      "excess_return_pct": 0.33,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
-      "run_path": "funds/fund-a/runs/2026-02-13/openai",
+      "run_path": "funds/fund-c/runs/2026-02-13/xai",
       "rank": 1,
-      "ranking_score": 0
+      "ranking_score": 0.33
     },
     {
       "fund_id": "fund-b",
@@ -43,76 +43,76 @@
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-12",
       "asof_portfolio_date": "2026-02-13",
-      "asof_price_date": "2026-02-12",
-      "fund_return_pct": 0,
-      "benchmark_return_pct": 0,
-      "excess_return_pct": 0,
+      "asof_price_date": "2026-02-13",
+      "fund_return_pct": -1.58,
+      "benchmark_return_pct": -1.48,
+      "excess_return_pct": -0.1,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-b/runs/2026-02-13/anthropic",
       "rank": 2,
-      "ranking_score": 0
+      "ranking_score": -0.1
     },
     {
-      "fund_id": "fund-c",
-      "provider": "xai",
+      "fund_id": "fund-a",
+      "provider": "openai",
       "status": "success",
-      "action": "Add",
-      "add_ticker": "TSM",
-      "remove_ticker": null,
-      "size_change_pct": 15,
+      "action": "Replace",
+      "add_ticker": "GLD",
+      "remove_ticker": "MSFT",
+      "size_change_pct": 12,
       "constraints_ok": true,
-      "rebalance_actions_count": 8,
-      "rebalance_actions_preview": "Add NVDA, Add TSM, Add AVGO, Add LLY",
+      "rebalance_actions_count": 2,
+      "rebalance_actions_preview": "Replace MSFT->GLD, Trim AMZN->XOM",
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-02-13",
-      "asof_price_date": "2026-02-12",
-      "fund_return_pct": 0,
-      "benchmark_return_pct": 0,
-      "excess_return_pct": 0,
+      "asof_price_date": "2026-02-13",
+      "fund_return_pct": -1.02,
+      "benchmark_return_pct": 0.07,
+      "excess_return_pct": -1.09,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
-      "run_path": "funds/fund-c/runs/2026-02-13/xai",
+      "run_path": "funds/fund-a/runs/2026-02-13/openai",
       "rank": 3,
-      "ranking_score": 0
+      "ranking_score": -1.09
     }
   ],
   "indices": {
     "start_date": "2026-02-12",
     "end_date": "2026-02-13",
-    "asof_price_date": "2026-02-12",
+    "asof_price_date": "2026-02-13",
     "items": [
       {
         "ticker": "SPY",
         "name": "S&P 500",
-        "return_pct": 0,
-        "asof_price_date": "2026-02-12"
+        "return_pct": 0.07,
+        "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "QQQ",
         "name": "Nasdaq 100",
-        "return_pct": 0,
-        "asof_price_date": "2026-02-12"
+        "return_pct": 0.21,
+        "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "ACWI",
         "name": "MSCI ACWI",
-        "return_pct": 0,
-        "asof_price_date": "2026-02-12"
+        "return_pct": 0.2,
+        "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "GLD",
         "name": "Gold",
-        "return_pct": 0,
-        "asof_price_date": "2026-02-12"
+        "return_pct": 2.49,
+        "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 1.38,
+        "return_pct": 3.98,
         "asof_price_date": "2026-02-13"
       }
     ]
@@ -122,8 +122,8 @@
     "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
   },
   "comparison": {
-    "portfolio_overlap_pct": 33.33,
-    "turnover_estimate_pct": 53,
-    "notes": "Computed from first two successful lanes: funds/fund-a/runs/2026-02-13/openai/dexter_output.json vs funds/fund-b/runs/2026-02-13/anthropic/dexter_output.json."
+    "portfolio_overlap_pct": 14.29,
+    "turnover_estimate_pct": 78,
+    "notes": "Computed from first two successful lanes: funds/fund-c/runs/2026-02-13/xai/dexter_output.json vs funds/fund-b/runs/2026-02-13/anthropic/dexter_output.json."
   }
 }

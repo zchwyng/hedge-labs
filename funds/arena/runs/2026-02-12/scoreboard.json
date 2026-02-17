@@ -18,14 +18,14 @@
       "inception_date": "2026-02-12",
       "asof_portfolio_date": "2026-02-12",
       "asof_price_date": "2026-02-12",
-      "fund_return_pct": 0,
-      "benchmark_return_pct": 0,
-      "excess_return_pct": 0,
+      "fund_return_pct": -2,
+      "benchmark_return_pct": -1.54,
+      "excess_return_pct": -0.46,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-b/runs/2026-02-12/anthropic",
       "rank": 1,
-      "ranking_score": 0
+      "ranking_score": -0.46
     },
     {
       "fund_id": "fund-a",
