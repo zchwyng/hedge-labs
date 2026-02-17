@@ -229,7 +229,7 @@ scoreboard_txt_path="${arena_dir}/scoreboard.txt"
 
 indices_config_path="funds/arena/indices.json"
 arena_inception_date="$(printf '%s' "$lanes_json" | jq -r '
-  ([.[] | select(.status == "success" and .inception_date != null) | .inception_date] | min) // empty
+  ([.[] | select(.inception_date != null and .inception_date != "") | .inception_date] | min) // empty
 ')"
 if [[ -z "$arena_inception_date" ]]; then
   arena_inception_date="$run_date"

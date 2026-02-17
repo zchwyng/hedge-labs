@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T08:51:55Z",
+  "generated_at": "2026-02-17T08:57:36Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -91,27 +91,27 @@
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0
+            "return_pct": -1.54
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 0
+            "return_pct": -2.03
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 0
+            "return_pct": -1.39
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 0
+            "return_pct": -3.47
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 0
+            "return_pct": -1.15
           }
         ]
       },
@@ -175,27 +175,27 @@
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0.07
+            "return_pct": -1.48
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 0.21
+            "return_pct": -1.83
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 0.2
+            "return_pct": -1.2
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 2.49
+            "return_pct": -1.07
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 3.98
+            "return_pct": 2.79
           }
         ]
       },
@@ -259,27 +259,27 @@
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0.07
+            "return_pct": -1.48
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 0.21
+            "return_pct": -1.83
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 0.2
+            "return_pct": -1.2
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 2.49
+            "return_pct": -1.07
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 5.35
+            "return_pct": 4.14
           }
         ]
       },
@@ -343,27 +343,27 @@
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0.07
+            "return_pct": -1.48
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 0.21
+            "return_pct": -1.83
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 0.2
+            "return_pct": -1.2
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 2.49
+            "return_pct": -1.07
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 3.88
+            "return_pct": 2.68
           }
         ]
       },
@@ -427,27 +427,27 @@
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0.07
+            "return_pct": -1.48
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 0.21
+            "return_pct": -1.83
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 0.2
+            "return_pct": -1.2
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 2.49
+            "return_pct": -1.07
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 3.96
+            "return_pct": 2.76
           }
         ]
       },
@@ -511,27 +511,27 @@
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0
+            "return_pct": -1.48
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 0
+            "return_pct": -1.83
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 0
+            "return_pct": -1.2
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 0
+            "return_pct": -1.07
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 0
+            "return_pct": 1.66
           }
         ]
       },

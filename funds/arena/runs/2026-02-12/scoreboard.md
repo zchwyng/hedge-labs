@@ -6,11 +6,11 @@
 
 ## Indices
 - As of: 2026-02-12 close
-- S&P 500: +0%
-- Nasdaq 100: +0%
-- MSCI ACWI: +0%
-- Gold: +0%
-- Bitcoin: +0%
+- S&P 500: -1.54%
+- Nasdaq 100: -2.03%
+- MSCI ACWI: -1.39%
+- Gold: -3.47%
+- Bitcoin: -1.15%
 
 ## Lanes
 - fund-b/anthropic: On track - since 2026-02-12: -2% vs S&P 500 -1.54% (excess -0.46%) as of 2026-02-12

@@ -6,11 +6,11 @@
 
 ## Indices
 - As of: 2026-02-13 close
-- S&P 500: +0%
-- Nasdaq 100: +0%
-- MSCI ACWI: +0%
-- Gold: +0%
-- Bitcoin: +0%
+- S&P 500: -1.48%
+- Nasdaq 100: -1.83%
+- MSCI ACWI: -1.2%
+- Gold: -1.07%
+- Bitcoin: +1.66%
 
 ## Lanes
 - fund-c/xai: Issue

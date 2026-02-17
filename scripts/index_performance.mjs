@@ -17,6 +17,12 @@ function dateMs(dateStr) {
   return Number.isFinite(ms) ? ms : null;
 }
 
+function dayBefore(dateStr) {
+  const d = new Date(`${dateStr}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
 function upperBound(arr, target) {
   let lo = 0;
   let hi = arr.length;
@@ -174,7 +180,7 @@ async function main() {
 
   for (const { ticker, name } of itemsIn) {
     const chart = chartCache.get(`${ticker}|${period1}|${period2}`) || null;
-    const start = closeOnOrBefore(chart, startDate);
+    const start = closeOnOrBefore(chart, dayBefore(startDate));
     const end = closeOnOrBefore(chart, endDate);
     if (!start || !end) {
       outItems.push({ ticker, name: name || ticker, return_pct: null, asof_price_date: null });

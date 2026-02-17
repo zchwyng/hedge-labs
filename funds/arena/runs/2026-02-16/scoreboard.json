@@ -88,31 +88,31 @@
       {
         "ticker": "SPY",
         "name": "S&P 500",
-        "return_pct": 0.07,
+        "return_pct": -1.48,
         "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "QQQ",
         "name": "Nasdaq 100",
-        "return_pct": 0.21,
+        "return_pct": -1.83,
         "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "ACWI",
         "name": "MSCI ACWI",
-        "return_pct": 0.2,
+        "return_pct": -1.2,
         "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "GLD",
         "name": "Gold",
-        "return_pct": 2.49,
+        "return_pct": -1.07,
         "asof_price_date": "2026-02-13"
       },
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 3.96,
+        "return_pct": 2.76,
         "asof_price_date": "2026-02-16"
       }
     ]
