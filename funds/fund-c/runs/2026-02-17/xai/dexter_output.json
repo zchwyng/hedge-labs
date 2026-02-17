@@ -3,9 +3,9 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Risk-off tech rotation persists; SPY -1.7%, QQQ -2% Feb10-13.",
-    "Holdings mixed: semis/NVDA/AVGO down 3-6%, cyber/SaaS/PLTR rebound +2-3%.",
-    "Non-rebalance; portfolio stable vs benchmarks, no thesis damage."
+    "Mixed regime: tech pressure ongoing per prior context.",
+    "No verifiable price data available (tool errors).",
+    "Do nothing: rebalance not due (1 day since prior run)."
   ],
   "thesis_damage_flags": [],
   "rebalance_actions": [],
@@ -15,20 +15,20 @@
     "add_ticker": null,
     "size_change_pct": 0,
     "thesis": [
-      "Portfolio intact; rebalance not due (1 day since last, 6 to weekly).",
-      "Mixed performance Feb10-13: PLTR +2.7%, PANW/NOW +1-2%; semis/LIY flat.",
-      "No verified thesis damage from data; IT/HC resilient vs QQQ/SPY declines."
+      "Portfolio intact; rebalance not due (weekly cadence).",
+      "Prior holdings resilient vs SPY/QQQ; no new data.",
+      "No verified thesis damage from available evidence."
     ],
     "risks": [
-      "IT 76% concentration; vulnerable to further tech rotation.",
-      "Semis weakness: NVDA -2.5%, AVGO -1.4%, TSM -0.8% on Feb13.",
-      "PLTR volatility post -8% drawdown; monitor liquidity/volume."
+      "IT 76% concentration.",
+      "Semis/HC exposed to rotation/volatility.",
+      "Data unavailability limits monitoring."
     ],
     "falsifiable_checks": [
       "IT exposure >80%.",
-      "Any holding < -20% 90d weekly return (data partial)."
+      "Any holding with confirmed 90d weekly return < -20%."
     ],
-    "why_now": "Non-rebalance day (cadence 7d); edge insufficient vs costs; stable vs SPY/QQQ."
+    "why_now": "Non-rebalance day; no changes required or possible without data."
   },
   "target_portfolio": [
     {
@@ -76,6 +76,6 @@
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "IT 76%<=80%; max pos 15%<=40%; crypto 0%<=10%. Factor scores: mom mixed (semis weak), qual steady. Risk: IT corr high, stress ok (-5-10% QQQ shock). Exec: none. Monitor: 90d mom <0, IT>80%."
+    "notes": "IT 76%, HC 24%; max pos 15%; no crypto. Scores UNKNOWN; prior risk ok; no trades; monitor data next rebalance."
   }
 }

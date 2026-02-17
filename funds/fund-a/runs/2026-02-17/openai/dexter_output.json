@@ -3,22 +3,42 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Regime: mixed / mildly risk-off (hedge bid vs. growth) based on latest closes available: GLD +0.63% while NVDA -2.49%, AVGO -1.42%, V -3.01%; SPY +0.01%, QQQ +0.25%.",
-    "Breadth/leadership: leadership not clean; index-level flat-to-up (SPY/QQQ) with sharp single-name dispersion (notably V and semis weakness).",
-    "Go/No-go: NO-GO for rebalance (rebalance due today = false; weekly spacing rule). Maintain portfolio unchanged; monitor for multi-week confirmation at next eligible rebalance."
+    "Regime: UNKNOWN (tool price snapshot for SPY/QQQ failed today; no tool-verified breadth/leadership read).",
+    "Portfolio posture (unchanged): quality-growth barbell (NVDA/AVGO/META/AMZN) + defensives/real-asset ballast (LLY/GLD) + cyclical/energy carry (XOM) + payments quality (V).",
+    "Go/No-go: NO-GO for rebalance; rebalance not due today per rules, and today’s tool data integrity is degraded (latest prices unavailable), so we explicitly avoid discretionary turnover."
   ],
   "thesis_damage_flags": [
     {
-      "ticker": "V",
-      "why": "Single-day underperformance signal persists in recent context; latest close shows V -3.01% vs SPY +0.01% and QQQ +0.25% (no tool-verified multi-week momentum or news attribution permitted today)."
+      "ticker": "NVDA",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
     },
     {
-      "ticker": "NVDA",
-      "why": "Short-horizon drawdown on latest close: -2.49% on the day while benchmarks were flat/up (SPY +0.01%, QQQ +0.25%); thesis damage not confirmed without 30/90d weekly history today (UNKNOWN)."
+      "ticker": "META",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
     },
     {
       "ticker": "AVGO",
-      "why": "Risk appetite signal wobble: -1.42% on the latest close alongside NVDA weakness, while GLD was up; no verified earnings/news driver today (UNKNOWN)."
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
+    },
+    {
+      "ticker": "LLY",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
+    },
+    {
+      "ticker": "XOM",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
+    },
+    {
+      "ticker": "V",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
+    },
+    {
+      "ticker": "GLD",
+      "why": "UNKNOWN: no tool-verified latest price/return snapshot available today due to data retrieval failure."
     }
   ],
   "rebalance_actions": [],
@@ -28,20 +48,20 @@
     "add_ticker": null,
     "size_change_pct": 0,
     "thesis": [
-      "Mandate: rebalance not due today (minimum spacing 7 days); portfolio must remain unchanged and turnover avoided.",
-      "Tape characterization from tool data: dispersion with mild risk-off tell (GLD +0.63% vs NVDA -2.49%, AVGO -1.42%, V -3.01%) while SPY +0.01% and QQQ +0.25% are essentially flat.",
-      "Variant view: today’s relative strength in GLD could be an early hedge demand signal; confirm/deny at next eligible rebalance using 30/90d weekly momentum and equity news/ratio checks."
+      "Mandate constraint: rebalance due today = false (weekly cadence; minimum spacing 7 days), so portfolio must remain unchanged.",
+      "Data integrity constraint: tool could not verify latest prices/1-day moves for holdings or SPY/QQQ today; without verified inputs we avoid any action framed as momentum/relative-strength driven.",
+      "Variant view: the edge here is rule-discipline—avoid unverified signal-chasing; defer momentum/quality re-score to next eligible rebalance window when weekly 30/90d histories and ratios/news can be validated."
     ],
     "risks": [
-      "Macro: if risk-off accelerates, high-beta tech (NVDA/AVGO/META) could extend drawdowns before the next rebalance window.",
-      "Idiosyncratic: V’s sharp 1-day drop could reflect company-specific pressure; without tool-verified news today, causality is UNKNOWN.",
-      "Execution/liquidity: deferring action may increase future turnover needs if multi-week trends worsen; however, rule discipline reduces churn on noisy 1-day moves."
+      "Macro: if an equity index shock occurs before the next rebalance window, the growth sleeve could draw down; hedge efficacy is UNKNOWN without today’s verified pricing.",
+      "Idiosyncratic: single-name downside (earnings/guidance, regulatory, product cycles) could impair one or more concentrated holdings; no tool-verified news was pulled today (non-rebalance day).",
+      "Execution/liquidity: none today (no trades); risk is opportunity cost if a genuine regime shift occurred today that we cannot verify with tool data."
     ],
     "falsifiable_checks": [
-      "Next eligible rebalance: compute 30d and 90d returns using WEEKLY closes for each holding; if V is negative on both windows and lags SPY and QQQ on both, escalate for possible replacement within the 3-change cap.",
-      "Next eligible rebalance: if GLD’s WEEKLY 30d and 90d returns are both negative, reduce hedge allocation and reallocate toward higher-scoring quality+momentum names (candidates to be determined with tool-verified scoring)."
+      "Next eligible rebalance run: require tool-verified WEEKLY 30d/90d history for each holding plus SPY/QQQ; if any critical fields remain UNKNOWN, reduce confidence and limit changes to highest-conviction replacements only.",
+      "Next eligible rebalance run: if V shows negative 30d and 90d weekly returns AND lags both SPY and QQQ on weekly closes, prioritize a replacement candidate within the 3-change cap (unless thesis damage is severe)."
     ],
-    "why_now": "Base: mixed tape (benchmarks flat/up) argues against reacting to one-day dispersion; Bull: growth stabilizes while GLD remains supportive, making current barbell resilient; Bear: today’s risk-off tell broadens (semis/financials weakness deepens), but acting today would not clear trading-cost/turnover drag given the explicit non-rebalance constraint."
+    "why_now": "Base: rules-based hold to minimize turnover drag when rebalance is not due; Bull: today’s data outage prevents false positives and preserves optionality for a cleaner, tool-verified rebalance; Bear: if a sharp regime break happened today, we may be late by up to the cadence window—accepted tradeoff under the mandate and current data integrity."
   },
   "target_portfolio": [
     {
@@ -89,6 +109,6 @@
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "Appendix | Data integrity: latest close snapshots verified for all holdings + SPY/QQQ (timestamp 2026-02-13T16:00:00Z); weekly 30/90d momentum, ratios, and news not fetched today by policy => factor subscores UNKNOWN. Factor highlights (from 1d tape only): hedge bid (GLD +0.63%) vs growth/semis softness (NVDA -2.49%, AVGO -1.42%) and financial weakness (V -3.01%). Risk budget: barbell (IT 30%, defensives/real asset 39% across HC/Energy/Materials) within max sector 80%. Scenario quick-check (qualitative, tool-limited): Equity index shock likely hurts NVDA/AVGO/META/AMZN; commodity shock hurts XOM/helps GLD; rates shock likely pressures duration-growth and helps GLD; USD shock ambiguous (UNKNOWN). Execution plan: none (non-rebalance day); monitor V relative performance + GLD momentum into next eligible rebalance; kill-switch triggers: at next rebalance if multiple holdings show negative 30d & 90d weekly momentum vs SPY/QQQ, consider up to 3 changes; if hedge sleeve (GLD) turns negative on both weekly windows, resize down."
+    "notes": "Appendix | Factor scores: UNKNOWN today (no tool-verified prices/returns/ratios/news; momentum/quality/revision/valuation cannot be recomputed). Risk budget: unchanged; max position 18% (<40%); max sector IT=30% (<80%); crypto=0% (<=10%). Scenario stress (qualitative): equity index shock—growth sleeve likely hit; rates shock—mixed (growth duration vs. financials); commodity shock—XOM/GLD directionally exposed; USD shock—mixed; all UNKNOWN quantitatively without verified data. Execution plan: no trades; preserve turnover budget for next eligible rebalance with validated weekly histories. Monitoring/kill-switch: at next eligible rebalance, (1) require complete tool data for all holdings + SPY/QQQ, (2) if any holding shows negative 30d & 90d weekly momentum and material underperformance vs SPY/QQQ, de-rank/replace within cap, (3) if hedge sleeve (GLD) turns negative on both 30d & 90d weekly closes, resize down and reallocate to higher-scoring candidates."
   }
 }
