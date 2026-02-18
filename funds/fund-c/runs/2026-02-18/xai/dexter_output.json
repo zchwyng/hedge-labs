@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-02-18",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed session: SPY +0.16%, QQQ -0.18%; semis resilient (NVDA +2.51%, AVGO +1.11%).",
+    "Holdings mixed: cyber/SaaS dip (PANW -1.96%, NOW -1.22%); HC steady (LLY -0.19%, NVO -0.38%).",
+    "Non-rebalance day (1d since last, 6d to cadence); no action despite verified prices."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio intact; rebalance not due (6 days to weekly cadence).",
+      "Holdings prices verified: NVDA +2.51%, AVGO +1.11% vs SPY/QQQ flat.",
+      "No thesis damage; semis/HC steady per price snapshots."
+    ],
+    "risks": [
+      "IT 76% concentration; rotation risk if QQQ weakens further.",
+      "Recent sessions mixed but resilient (no >5% drops).",
+      "Liquidity ok; volumes normal pre-open."
+    ],
+    "falsifiable_checks": [
+      "IT exposure >80%.",
+      "Any holding price drop >5% intraday."
+    ],
+    "why_now": "Non-rebalance day; verified prices show no urgent signals vs benchmarks, edge below cost hurdle."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Scores/history UNKNOWN (prices only); IT 76%<80%; no crypto; risk budget ok (no stress data); no exec; monitor IT>80%, >5% drops."
+  }
+}

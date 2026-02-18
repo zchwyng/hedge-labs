@@ -1,0 +1,14 @@
+{
+  "fund_id": "fund-c",
+  "provider": "xai",
+  "model": "grok-4-1-fast-reasoning",
+  "run_date": "2026-02-18",
+  "started_at": "2026-02-18T06:43:25Z",
+  "ended_at": "2026-02-18T06:43:51Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-18-064326_ac219ad45ca7.jsonl"
+}
