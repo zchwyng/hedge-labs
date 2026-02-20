@@ -1,0 +1,14 @@
+{
+  "fund_id": "fund-a",
+  "provider": "openai",
+  "model": "gpt-5.2",
+  "run_date": "2026-02-20",
+  "started_at": "2026-02-20T06:36:02Z",
+  "ended_at": "2026-02-20T06:36:50Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-20-063603_eae453736be6.jsonl"
+}

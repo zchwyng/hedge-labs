@@ -1,0 +1,86 @@
+{
+  "run_date": "2026-02-20",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (tool-verified today): Mixed-to-risk-off on the day—benchmarks down (SPY -0.26%, QQQ -0.48%) while defensive diversifier GLD up (+0.28%).",
+    "Breadth/leadership: Portfolio mega-cap growth mostly green but small (NVDA +0.09%, META +0.24%, AMZN +0.07%, AVGO +0.14%); cyclicals/diversifiers mixed with Energy and Gold up (XOM +0.31%, GLD +0.28%) and Financials lagging (V -0.71%).",
+    "Go/No-go: NO-GO for rebalance—cadence gate blocks turnover (rebalance due today: false). Maintain exposures; treat any 24–72h thesis updates as UNKNOWN without tool-fetched equity news/fundamental refresh."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "V",
+      "why": "Relative weakness on the latest close (V -0.71%) vs major holdings mostly up and with SPY/QQQ down; not sufficient alone to act given non-rebalance day and no tool-fetched news/fundamental evidence (UNKNOWN)."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: Process gate—weekly rebalance with minimum spacing (7 days) prevents turnover today; preserve signal integrity until next eligible weekly momentum/fundamental/news refresh.",
+      "Factor edge: Avoid churn during a mixed tape (SPY -0.26%, QQQ -0.48%, GLD +0.28%) where single-day moves are noisy; maintain diversified barbell (Growth + Energy + Gold + Health Care).",
+      "Variant view: If today’s index softness persists while gold remains bid, the portfolio’s GLD/XOM ballast is valuable; premature rotation out of core winners risks whipsaw without verified 30/90d weekly momentum."
+    ],
+    "risks": [
+      "Macro: A sharper risk-off drawdown could hit concentrated mega-cap growth (NVDA/META/AVGO/AMZN) before the next eligible rebalance window.",
+      "Idiosyncratic: Company-specific catalysts (earnings/guidance/regulatory) are not validated today (no tool-fetched news; UNKNOWN), so adverse surprises could emerge intra-week.",
+      "Execution/liquidity: Deferring action can compress the decision window at next rebalance; mitigate then via staged sizing and limiting turnover to highest-conviction changes."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>=2026-02-26 given min spacing 7 days from 2026-02-19): require tool-verified WEEKLY history from 2026-01-21 (30d) and 2025-11-22 (90d) for all holdings plus SPY/QQQ; if any holding lacks history, do not add risk and prefer simplifying swaps only.",
+      "If V underperforms SPY by >=2.0% cumulatively from 2026-02-20 close to next eligible rebalance close (tool-verified), elevate V to top replacement review; otherwise keep as neutral weight and reassess with fundamentals/news."
+    ],
+    "why_now": "Base: Not a rebalance day—expected edge does not clear turnover/trading-cost drag, so the optimal action is to hold. Bull: Growth holdings stayed positive even as SPY/QQQ were down, suggesting resilience; keep winners. Bear: Mixed-to-risk-off day (gold up, indices down) argues for keeping diversifiers (GLD/XOM) rather than rotating based on a single session."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — Factor scores (today): Momentum/30 UNKNOWN (no weekly 30/90d fetched today); Quality/20 UNKNOWN (no ratios fetched today); Revision/15 UNKNOWN (no news fetched today); Valuation/10 UNKNOWN; Risk/15: mild risk-off read (SPY -0.26%, QQQ -0.48%, GLD +0.28%); Regime fit/10: barbell OK. Risk budget: max single 18% (<=40%), sector max IT 30% (<=80%), crypto 0% (<=10%). Scenarios (qualitative, tool-supported by holdings mix): equity index shock—growth sleeve largest hit; rates shock—LLY duration + growth sensitive; commodity shock—XOM/GLD offset in opposite directions; USD shock—GLD may hedge. Execution plan: none today (cadence gate); next eligible rebalance use staged reweights and cap changes to highest-conviction. Monitoring/kill-switch: if V relative weakness persists (>=2% vs SPY into next eligible rebalance) or if SPY/QQQ accelerate downside while GLD continues to outperform, prioritize defensive upgrades at the next allowed rebalance."
+  }
+}

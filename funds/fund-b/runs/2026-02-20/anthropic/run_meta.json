@@ -1,0 +1,14 @@
+{
+  "fund_id": "fund-b",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-5",
+  "run_date": "2026-02-20",
+  "started_at": "2026-02-20T06:37:05Z",
+  "ended_at": "2026-02-20T06:38:10Z",
+  "status": "success",
+  "reason": "",
+  "api_errors": [],
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-20-063706_445d07a4895a.jsonl"
+}
