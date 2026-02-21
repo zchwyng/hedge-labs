@@ -1,0 +1,86 @@
+{
+  "run_date": "2026-02-21",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime: MIXED (single-day tape only; no weekly 30/90d momentum fetched today by rule). Benchmarks green: SPY 689.43 (+0.72%), QQQ 608.81 (+0.89%).",
+    "Breadth/leadership (snapshot): Mega-cap growth participation positive (AMZN +2.59%, META +1.68%, NVDA +0.76%) while defensives/hedges also bid (GLD +1.97%); Energy lagged (XOM -2.22%).",
+    "Go/No-go: NO-GO for rebalance (rebalance due today = false; min spacing not met). Action = Do nothing; keep target portfolio unchanged."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Single-day relative weakness vs SPY/QQQ: XOM -2.22% while SPY +0.72% and QQQ +0.89% (2026-02-21 close snapshot). No tool-fetched news/fundamentals today to confirm cause (UNKNOWN)."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: Process gate—weekly rebalance spacing blocks changes today; preserve signal integrity until next eligible rebalance window with refreshed WEEKLY 30/90d momentum + ratios/news.",
+      "Factor edge: Avoid churn on a mixed leadership day (growth up, gold up, energy down). Let cross-asset signals (GLD bid vs XOM hit) develop before reallocating.",
+      "Variant view: Today’s GLD strength (+1.97%) alongside SPY/QQQ strength suggests hedges are still being paid for; maintaining the GLD ballast may be valuable if risk sentiment deteriorates intra-week."
+    ],
+    "risks": [
+      "Macro: A sharp risk-off move before next rebalance could hit growth concentration (NVDA/META/AVGO/AMZN) despite today’s strength vs benchmarks.",
+      "Idiosyncratic: Earnings/guidance/regulatory developments for holdings are UNKNOWN today (no news pull allowed/used on non-rebalance day), so adverse surprises could emerge without warning.",
+      "Execution/liquidity: Waiting concentrates decisions into the next rebalance date; mitigate then by staged sizing and limiting turnover to highest score deltas."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>= 7 days after 2026-02-20): require tool-verified WEEKLY history for all holdings from lookback_30d_start=2026-01-22 and lookback_90d_start=2025-11-23 plus SPY/QQQ; if any holding lacks history, do not add risk and prefer simplification only.",
+      "If XOM continues to lag SPY by >=3.0% cumulatively from 2026-02-21 close to next eligible rebalance close (tool-verified), escalate XOM to top replacement review; otherwise treat as normal volatility."
+    ],
+    "why_now": "Base: Not a rebalance day—expected edge does not clear turnover/trading-cost drag, so the optimal paper action is hold. Bull: Growth leaders participated (AMZN/META/NVDA up) with QQQ outperforming SPY, supporting staying with winners. Bear: GLD also surged, hinting hedging demand; keep diversification rather than reacting to one-day XOM weakness absent verified catalysts."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix (non-rebalance day): factor scores UNKNOWN (no WEEKLY 30/90d returns, no ratios, no news fetched by rule). Risk budget: concentrated growth (IT+Comm Svcs+Cons Disc = 51%) balanced by Energy 15% + Gold 10% + Health Care 14% + Financials 10%. Scenario quick-check (qualitative from 1d snapshot only): equity index shock—growth likely high beta; rates shock—UNKNOWN; commodity shock—GLD/XOM sensitivity mixed today (GLD up, XOM down); USD shock—UNKNOWN. Execution plan: no trades; reassess next eligible rebalance with weekly histories + limited equity news/ratios. Monitoring/kill-switch: if any single holding gaps >7% on a close-to-close basis (tool-verified) or if XOM relative lag vs SPY exceeds 3% into next rebalance window, elevate for action review."
+  }
+}
