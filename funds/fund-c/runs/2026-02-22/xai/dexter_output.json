@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-02-22",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Risk-on close: SPY +0.72% to 689.43, QQQ +0.89% to 608.81.",
+    "Holdings mixed: TSM +2.88%, NVDA +0.76%; laggards NOW -2.59%, NVO -2.02%, PANW -1.53%.",
+    "Non-rebalance day (1d since last); prices verified weekly to 2026-02-15, relative mom stable vs benches."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio verified; weekly cadence, 1d since last run, rebalance not due.",
+      "Prices/mom checked: TSM/NVDA/PLTR/AVGO steady+ weekly; LLY/PANW/NOW/NVO lag but intact.",
+      "IT/HC holds vs QQQ/SPY up; 90d weekly data complete (e.g. NVDA +7.8% 90d, TSM +27%), rel mom ok."
+    ],
+    "risks": [
+      "IT 76% conc. to tech/AI rotation.",
+      "Recent drawdowns: PLTR -20% 30d weekly, NOW/PANW -30%+ 30d.",
+      "Liquidity solid, avg vol normal."
+    ],
+    "falsifiable_checks": [
+      "Any holding -5% daily or IT>80%.",
+      "SPY/QQQ -2% weekly triggers review."
+    ],
+    "why_now": "Non-rebalance verification; semis resilient in risk-on, no edge over costs; mixed regime, hold."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom: top NVDA/TSM 70-90/100; qual stable; risk: IT76% ok<80; scenarios: tech -10% port -7.6%; no trades."
+  }
+}

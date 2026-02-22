@@ -1,0 +1,95 @@
+dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
+{
+  "run_date": "2026-02-22",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (evidence-limited; no weekly 30/90d history pull permitted today): mildly risk-on on latest close with SPY 689.43 (+0.72%) and QQQ 608.81 (+0.89%) outperforming.",
+    "Breadth/leadership snapshot: mega-cap growth participated (AMZN +2.59%, META +1.68%, NVDA +0.76%) while real-asset hedge also bid (GLD +1.97%); Energy lagged materially (XOM -2.22%), semis mixed (AVGO -0.41%).",
+    "Go/No-go: NO-GO for rebalance (rebalance due today=false; weekly spacing not met). Maintain target portfolio unchanged; treat catalysts/news/fundamental changes as UNKNOWN today (no news/ratios pull under policy)."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Single-day underperformance vs benchmarks on latest close (XOM -2.22% vs SPY +0.72%, QQQ +0.89%); without tool-fetched news/weekly momentum today, medium-term thesis damage is UNKNOWN—flag for review at next eligible rebalance."
+    },
+    {
+      "ticker": "LLY",
+      "why": "Down on latest close (LLY -1.15%) while benchmarks rose; no tool-fetched news or fundamental update today, so whether move reflects thesis damage is UNKNOWN."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Slightly negative on latest close (AVGO -0.41%) in an up-tape; not sufficient alone to indicate thesis damage, but worth monitoring into next rebalance when weekly momentum is refreshed."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: Process gate—rebalance not permitted today (weekly spacing). Preserve signal integrity; defer any rotation until we can re-score with tool-verified WEEKLY 30/90d momentum + (equities) ratios/news.",
+      "Factor edge: Latest close shows risk-on participation (QQQ +0.89%) with core growth holdings up (AMZN +2.59%, META +1.68%, NVDA +0.76%); holding winners avoids churn when edge cannot be revalidated.",
+      "Variant view: GLD +1.97% rising alongside QQQ suggests hedging demand persists even in an up-tape; keeping GLD ballast remains defensible until a full regime read is available."
+    ],
+    "risks": [
+      "Macro: A fast risk-off impulse before next eligible rebalance could hit growth concentration (NVDA/META/AVGO/AMZN) despite today’s positive tape.",
+      "Idiosyncratic: Earnings/guidance/regulatory headlines for holdings are UNKNOWN today (no equity news pull under non-rebalance policy).",
+      "Execution/liquidity: Deferring decisions concentrates turnover into the next rebalance window; mitigate then via staged sizing and limiting changes to highest score deltas."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>=7 days after last eligible date per system cadence): require tool-verified WEEKLY history for all holdings from lookback_30d_start=2026-01-23 and lookback_90d_start=2025-11-24 plus SPY/QQQ; if any holding lacks weekly history, do not add risk and prefer simplification only.",
+      "If XOM underperforms SPY by >=3.0% cumulatively from 2026-02-21 close to the next eligible rebalance close (tool-verified), escalate XOM to top replacement review; otherwise treat as normal volatility."
+    ],
+    "why_now": "Base: Not a rebalance day—expected edge cannot be validated with required weekly momentum/ratios/news, so it does not clear trading-cost/turnover drag. Bull: Risk-on close with QQQ leading and key growth holdings positive argues for staying the course. Bear: Energy weakness (XOM -2.22%) and concurrent GLD strength (+1.97%) hint at latent defensiveness; holding diversification is preferable to reactive turnover without confirmatory data."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — factor score highlights: UNKNOWN (policy blocks WEEKLY 30/90d returns + ratios/news today); latest close: SPY +0.72%, QQQ +0.89%, AMZN +2.59%, META +1.68%, NVDA +0.76%, GLD +1.97%, XOM -2.22%, LLY -1.15%, AVGO -0.41%. Risk budget: max position 18% (<=40%); sector concentration IT=30% (NVDA+AVGO) (<=80%); crypto=0% (<=10%). Scenario stress (qualitative, data-limited): equity index shock—portfolio likely down given growth tilt; rates shock—growth sensitive; commodity shock—GLD/XOM diversify; USD shock—mixed; quantitative P&L impact UNKNOWN without histories. Execution plan: no trades today; next rebalance stage changes over 1–3 sessions, cap turnover unless score delta is large. Monitoring/kill-switch: review XOM relative performance vs SPY threshold (-3% from 2026-02-21 close to next eligible rebalance); any large gap moves (>5% 1d) in NVDA/META/LLY trigger immediate news/filing check at next permitted tool window."
+  }
+}
