@@ -1,0 +1,16 @@
+{
+  "fund_id": "fund-c",
+  "provider": "xai",
+  "model": "grok-4-1-fast-reasoning",
+  "run_date": "2026-02-23",
+  "started_at": "2026-02-23T06:45:52Z",
+  "ended_at": "2026-02-23T06:46:41Z",
+  "status": "failed",
+  "reason": "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)",
+  "api_errors": [
+    "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)"
+  ],
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-23-064552_c8ce5c30ed5d.jsonl"
+}

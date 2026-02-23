@@ -1,0 +1,114 @@
+{
+  "run_date": "2026-02-23",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime: UNKNOWN. Tool-fetched price/return data for holdings and benchmarks (SPY/QQQ) is unavailable today (tool errors), so no verified read on risk-on/off, breadth, or leadership.",
+    "Breadth/leadership: UNKNOWN (no verified prices/returns; cannot validate whether mega-cap growth, defensives, or real assets are leading over the last 24–72h).",
+    "Go/No-go: NO-GO for rebalance (rebalance due today=false per policy). Maintain portfolio unchanged; treat all price/momentum inference as UNKNOWN until next eligible rebalance with verified weekly histories."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "NVDA",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), so momentum/stop-loss style checks cannot be verified."
+    },
+    {
+      "ticker": "META",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), so no verified 24–72h change/news impact assessment."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), preventing validated momentum/regime scoring."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), cannot confirm continuation vs drawdown."
+    },
+    {
+      "ticker": "LLY",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), cannot validate defensiveness/quality contribution."
+    },
+    {
+      "ticker": "XOM",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), cannot verify oil/energy tape or relative vs SPY."
+    },
+    {
+      "ticker": "V",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), cannot validate whether recent weakness persists."
+    },
+    {
+      "ticker": "GLD",
+      "why": "Data integrity flag: latest price and recent returns are UNKNOWN today (tool price endpoints failed), cannot validate hedge bid or gold momentum."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: Process gate—rebalance not permitted today (weekly spacing; rebalance due today=false). Preserve signal integrity; defer any rotation until we can re-score with tool-verified WEEKLY 30/90d momentum plus (equities) ratios/news on the next eligible date.",
+      "Factor edge: Turnover avoidance is the edge today—without verifiable price/return inputs (today’s tool price data is unavailable), any change would be unscored and increases model risk/slippage risk in a 30-day horizon framework.",
+      "Variant view: If the tape has shifted materially in the last 24–72h, we will not react without verification; maintaining diversified exposures (growth + health care + energy + gold + payments) avoids accidental factor bets based on unverified data."
+    ],
+    "risks": [
+      "Macro: If an unobserved (today) risk-off shock occurred, growth-heavy exposure (NVDA/META/AVGO/AMZN) could draw down before the next eligible rebalance; cannot quantify without verified prices.",
+      "Idiosyncratic: Earnings/guidance/regulatory headlines are UNKNOWN today (no verified news pull; and price tools failed), so single-name gap risk may be present but unmeasured.",
+      "Execution/liquidity: Deferring changes concentrates potential turnover into the next eligible rebalance window; mitigate then via staged resizing and limiting changes to the highest score deltas."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>=7 days cadence): require tool-verified WEEKLY history for all holdings from lookback_30d_start=2026-01-24 and lookback_90d_start=2025-11-25 plus SPY/QQQ; if any holding lacks weekly history, do not add risk and prefer simplification only.",
+      "At next eligible rebalance close: if any holding’s tool-verified 90d return underperforms SPY by >=10.0% (weekly series) AND has negative 30d return, escalate it to top replacement review; otherwise keep as core unless news shows thesis damage."
+    ],
+    "why_now": "Base: Not a rebalance day and today’s verified pricing inputs are unavailable (prices/returns UNKNOWN), so expected edge cannot be validated and does not clear trading-cost/turnover drag. Bull: If the prior portfolio thesis remains intact, doing nothing preserves exposure to ongoing quality+momentum winners. Bear: If regime has shifted, we accept short-term tracking risk rather than taking unverified action; next eligible rebalance is the correct checkpoint to re-risk with validated data."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix—data/score/risk/execution/monitoring: Data integrity=FAILED for today’s price validation (all holdings + SPY/QQQ pricing UNKNOWN due to tool errors); therefore factor scoring not performed (Momentum/Quality/Revision/Valuation/Risk/Crowding all UNKNOWN today) and no optimization changes allowed (rebalance due=false). Risk budget summary: unchanged; concentration remains IT=30% (NVDA+AVGO) <80% max sector; max position 18% <40%; crypto=0% <=10%. Scenario stress (qualitative only; unverified today): equity index shock would primarily impact NVDA/META/AVGO/AMZN; rates shock could pressure growth and support GLD; commodity shock impacts XOM/GLD; USD shock may affect GLD. Execution plan: none today (do nothing). Monitoring/kill-switch: next eligible rebalance—(1) require tool-verified weekly 30/90d histories + SPY/QQQ; (2) if any holding shows weekly 30d return < -8% AND underperforms SPY by >5% over same window, cap weight and prioritize replacement; (3) if two or more mega-cap growth names gap down on verified news/events, reassess regime fit and reduce correlated exposure at next allowed rebalance."
+  }
+}

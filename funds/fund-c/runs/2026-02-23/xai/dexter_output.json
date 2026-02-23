@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-02-23",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime; SPY/QQQ UNKNOWN (API errors), prior flat/slight up.",
+    "Holdings prices UNKNOWN; prior stable (NVDA/TSM lead, PANW/NOW lag).",
+    "Non-rebalance (1d since last, 6d to weekly cadence); no action."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio verification; weekly cadence, rebalance not due.",
+      "Prices UNKNOWN (tool errors); prior TSM/NVDA/PLTR/AVGO steady weekly.",
+      "IT/HC vs SPY/QQQ prior rel mom ok; data gaps but intact."
+    ],
+    "risks": [
+      "IT 76% conc.",
+      "Prior drawdowns PANW/NOW/PLTR.",
+      "Data unverified increases uncertainty."
+    ],
+    "falsifiable_checks": [
+      "Any holding constraints breach.",
+      "SPY/QQQ -2% or IT>80% triggers review."
+    ],
+    "why_now": "Non-rebalance day; no verifiable edge over costs; mixed regime hold."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Prior mom/qual strong; IT76%; scenarios prior ok; no exec; monitor IT>80%/-5% daily/API data."
+  }
+}
