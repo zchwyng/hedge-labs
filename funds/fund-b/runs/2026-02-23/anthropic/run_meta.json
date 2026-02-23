@@ -3,14 +3,14 @@
   "provider": "anthropic",
   "model": "claude-sonnet-4-5",
   "run_date": "2026-02-23",
-  "started_at": "2026-02-23T06:44:28Z",
-  "ended_at": "2026-02-23T06:45:42Z",
+  "started_at": "2026-02-23T21:23:49Z",
+  "ended_at": "2026-02-23T21:25:15Z",
   "status": "failed",
-  "reason": "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)",
+  "reason": "Insufficient Financial Datasets source coverage (2 successful source URLs; required >= 6)",
   "api_errors": [
-    "Insufficient Financial Datasets source coverage (0 successful source URLs; required >= 6)"
+    "Insufficient Financial Datasets source coverage (2 successful source URLs; required >= 6)"
   ],
   "dexter_exit_code": 0,
   "scratchpad_found": true,
-  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-23-064429_f8d0bb74dc2e.jsonl"
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-23-212350_f8d0bb74dc2e.jsonl"
 }

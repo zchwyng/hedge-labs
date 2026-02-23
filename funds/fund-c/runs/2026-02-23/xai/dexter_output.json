@@ -3,9 +3,9 @@
   "fund_name": "Quality + Momentum (Monthly-hold)",
   "paper_only": true,
   "market_summary": [
-    "Mixed regime; SPY/QQQ UNKNOWN (API errors), prior flat/slight up.",
-    "Holdings prices UNKNOWN; prior stable (NVDA/TSM lead, PANW/NOW lag).",
-    "Non-rebalance (1d since last, 6d to weekly cadence); no action."
+    "Mixed regime; SPY/QQQ stable per prior context (no new price data).",
+    "IT 76% leadership narrow; HC steady.",
+    "Non-rebalance day: prices unavailable (tool error), portfolio intact - hold."
   ],
   "thesis_damage_flags": [],
   "rebalance_actions": [],
@@ -15,20 +15,20 @@
     "add_ticker": null,
     "size_change_pct": 0,
     "thesis": [
-      "Portfolio verification; weekly cadence, rebalance not due.",
-      "Prices UNKNOWN (tool errors); prior TSM/NVDA/PLTR/AVGO steady weekly.",
-      "IT/HC vs SPY/QQQ prior rel mom ok; data gaps but intact."
+      "Non-rebalance (1d since last, weekly cadence); tool prices error but prior verified.",
+      "Holdings intact: IT/HC vs SPY/QQQ per context; 90d mom ok (e.g. NVDA +7.8%, TSM +27%).",
+      "No thesis damage evidenced; data incomplete but no change."
     ],
     "risks": [
-      "IT 76% conc.",
-      "Prior drawdowns PANW/NOW/PLTR.",
-      "Data unverified increases uncertainty."
+      "IT 76% conc. to tech/AI.",
+      "Laggards like PLTR/PANW/NOW per prior 30d drawdowns.",
+      "Liquidity solid; tool failure limits verification."
     ],
     "falsifiable_checks": [
-      "Any holding constraints breach.",
-      "SPY/QQQ -2% or IT>80% triggers review."
+      "Any holding -5% intraday or IT>80%.",
+      "SPY/QQQ -2% weekly review trigger."
     ],
-    "why_now": "Non-rebalance day; no verifiable edge over costs; mixed regime hold."
+    "why_now": "Verification day; no rebalance due, tool error but priors intact; no trade edge over costs in mixed regime."
   },
   "target_portfolio": [
     {
@@ -76,6 +76,6 @@
     "max_position_ok": true,
     "max_sector_ok": true,
     "max_crypto_ok": true,
-    "notes": "Prior mom/qual strong; IT76%; scenarios prior ok; no exec; monitor IT>80%/-5% daily/API data."
+    "notes": "Hold; max pos 15% ok; IT 76% ok; crypto 0% ok. Scores N/A (data error); risk neutral; scenarios prior-ok; monitor IT conc; kill if SPY-2% wkly."
   }
 }
