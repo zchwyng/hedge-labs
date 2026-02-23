@@ -1,0 +1,95 @@
+--- a/src/tools/finance/financial-search.ts
++++ b/src/tools/finance/financial-search.ts
+@@ -13,8 +13,7 @@
+ 
+ // Import all finance tools directly (avoid circular deps with index.ts)
+ import { getIncomeStatements, getBalanceSheets, getCashFlowStatements, getAllFinancialStatements } from './fundamentals.js';
+-import { getPriceSnapshot, getPrices } from './prices.js';
+-import { getKeyRatiosSnapshot, getKeyRatios } from './key-ratios.js';
++import { getKeyRatios } from './key-ratios.js';
+ import { getNews } from './news.js';
+ import { getAnalystEstimates } from './estimates.js';
+ import { getSegmentedRevenues } from './segments.js';
+@@ -23,10 +22,11 @@
+ import { getCompanyFacts } from './company_facts.js';
+ 
+ // All finance tools available for routing
++// Note: getPriceSnapshot (/prices/snapshot/), getPrices (/prices/), and
++// getKeyRatiosSnapshot (/financial-metrics/snapshot/) are excluded because
++// their API endpoints return 404 (removed from financialdatasets.ai as of 2026-02-23).
+ const FINANCE_TOOLS: StructuredToolInterface[] = [
+-  // Price Data
+-  getPriceSnapshot,
+-  getPrices,
++  // Price Data (crypto only; stock price endpoints removed from API)
+   getCryptoPriceSnapshot,
+   getCryptoPrices,
+   getCryptoTickers,
+@@ -36,7 +36,6 @@
+   getCashFlowStatements,
+   getAllFinancialStatements,
+   // Key Ratios & Estimates
+-  getKeyRatiosSnapshot,
+   getKeyRatios,
+   getAnalystEstimates,
+   // Other Data
+@@ -69,13 +68,14 @@
+    - "YTD" → start_date Jan 1 of current year, end_date today
+ 
+ 3. **Tool Selection**:
+-   - For "current" or "latest" data, use snapshot tools (get_price_snapshot, get_key_ratios_snapshot)
++   - For "current" or "latest" financial metrics → get_key_ratios (use period=ttm, limit=1)
+    - For "historical" or "over time" data, use date-range tools
+-   - For P/E ratio, market cap, valuation metrics → get_key_ratios_snapshot
++   - For P/E ratio, market cap, valuation metrics → get_key_ratios (period=ttm)
+    - For revenue, earnings, profitability → get_income_statements
+    - For debt, assets, equity → get_balance_sheets
+    - For cash flow, free cash flow → get_cash_flow_statements
+    - For comprehensive analysis → get_all_financial_statements
++   - Note: stock price snapshot/history tools are not available; use get_key_ratios for valuation context
+ 
+ 4. **Efficiency**:
+    - Prefer specific tools over general ones when possible
+@@ -98,9 +98,8 @@
+   return new DynamicStructuredTool({
+     name: 'financial_search',
+     description: `Intelligent agentic search for financial data. Takes a natural language query and automatically routes to appropriate financial data tools. Use for:
+-- Stock prices (current or historical)
+ - Company financials (income statements, balance sheets, cash flow)
+-- Financial metrics (P/E ratio, market cap, EPS, dividend yield)
++- Financial metrics (P/E ratio, market cap, EPS, dividend yield, key ratios)
+ - Analyst estimates and price targets
+ - Company news
+ - Insider trading activity
+--- a/src/tools/finance/financial-metrics.ts
++++ b/src/tools/finance/financial-metrics.ts
+@@ -13,9 +13,11 @@
+ 
+ // Import fundamental analysis tools directly (avoid circular deps with index.ts)
+ import { getIncomeStatements, getBalanceSheets, getCashFlowStatements, getAllFinancialStatements } from './fundamentals.js';
+-import { getKeyRatiosSnapshot, getKeyRatios } from './key-ratios.js';
++import { getKeyRatios } from './key-ratios.js';
+ 
+ // Fundamental analysis tools available for routing
++// Note: getKeyRatiosSnapshot (/financial-metrics/snapshot/) excluded because
++// its API endpoint returns 404 (removed from financialdatasets.ai as of 2026-02-23).
+ const METRICS_TOOLS: StructuredToolInterface[] = [
+   // Financial Statements
+   getIncomeStatements,
+@@ -23,7 +25,6 @@
+   getCashFlowStatements,
+   getAllFinancialStatements,
+   // Key Ratios
+-  getKeyRatiosSnapshot,
+   getKeyRatios,
+ ];
+ 
+@@ -50,7 +51,7 @@
+    - "YTD" → report_period_gte Jan 1 of current year
+ 
+ 3. **Tool Selection**:
+-   - For "current" or "latest" metrics → get_key_ratios_snapshot
++   - For "current" or "latest" metrics → get_key_ratios (use period=ttm)
+    - For historical metrics over time → get_key_ratios
+    - For revenue, earnings, profitability → get_income_statements
+    - For debt, assets, equity, cash position → get_balance_sheets
