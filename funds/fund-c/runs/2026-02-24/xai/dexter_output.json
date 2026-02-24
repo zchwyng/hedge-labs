@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-02-24",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime persists: recent risk-off (QQQ/SPY -0.5/-0.3% prior days), IT resilient.",
+    "IT leadership narrow (semis steady, cyber/SaaS lag); HC stable vs benchmarks.",
+    "Non-rebalance (2d since last, 5d to cadence); prices UNKNOWN due to data issue, hold intact."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "PANW",
+      "why": "Recurring lag mentions (3x in 7d context), -6% weekly prior."
+    },
+    {
+      "ticker": "NVO",
+      "why": "Lagging returns noted (2x), -1.6% prior session."
+    },
+    {
+      "ticker": "PLTR",
+      "why": "Drawdown flags (2x), -20% 30d prior weekly."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Non-rebalance verification; 2d since last run, cadence not due.",
+      "Prices UNKNOWN (tool error); rely on prior: semis steady, cyber/HC lag but theses intact.",
+      "IT/HC vs SPY/QQQ: prior rel mom ok (NVDA/TSM +ve 90d weekly)."
+    ],
+    "risks": [
+      "IT 76% conc. vulnerable to tech rotation.",
+      "Thesis damage in PANW/PLTR/NVO (drawdowns/lag).",
+      "Data gap on latest prices/vol; liquidity assumed solid."
+    ],
+    "falsifiable_checks": [
+      "Any holding -5% intraday or IT>80%.",
+      "SPY/QQQ -2% weekly or new damage flags trigger review."
+    ],
+    "why_now": "Non-rebalance hold; no verified changes, edge below costs; mixed regime favors steady winners."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Scores N/A (data error); IT 76%<80%, max pos 15%<40%, crypto 0%<10%; risk budget ok (diversified IT subthemes); scenarios: IT shock -6% est; hold/monitor PANW/NVO; no exec, check prices next run."
+  }
+}

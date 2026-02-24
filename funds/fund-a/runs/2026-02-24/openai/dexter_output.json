@@ -1,0 +1,114 @@
+{
+  "run_date": "2026-02-24",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime: UNKNOWN (required tool-verified latest prices for holdings + SPY/QQQ failed; no verifiable return/breadth evidence available today).",
+    "Breadth/leadership: UNKNOWN (no verified 1D moves for SPY/QQQ; no verified equity news pull permitted/available on non-rebalance day).",
+    "Go/No-go: NO-GO — rebalance blocked by cadence gate (rebalance due today=false). Maintain target portfolio unchanged; monitor for single-name thesis breaks via verified data on next eligible rebalance day."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "NVDA",
+      "why": "No verifiable 24–72h earnings/guidance/news or price evidence available today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "META",
+      "why": "No verifiable 24–72h earnings/guidance/news or price evidence available today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "No verifiable 24–72h earnings/guidance/news or price evidence available today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "No verifiable 24–72h earnings/guidance/news or price evidence available today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "LLY",
+      "why": "No verifiable 24–72h earnings/guidance/news or price evidence available today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "XOM",
+      "why": "No verifiable 24–72h macro/commodity linkage or company news, nor price evidence today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "V",
+      "why": "No verifiable 24–72h consumer/credit signal or company news, nor price evidence today (tool fetch failed) => thesis damage status UNKNOWN."
+    },
+    {
+      "ticker": "GLD",
+      "why": "No verifiable 24–72h rates/USD/gold move evidence today (tool fetch failed) => thesis damage status UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: Process gate — rebalance not permitted today (rebalance due today=false; minimum spacing not met).",
+      "Factor edge: Without tool-verified latest prices/returns today (fetch failed), momentum/relative strength vs SPY/QQQ is UNKNOWN; avoid turnover without validated edge.",
+      "Variant view: If an unseen 24–72h negative earnings/guidance shock occurred, doing nothing could be suboptimal; however, with no verifiable data today, the lowest-error action is to preserve the model portfolio and reassess on the next eligible rebalance with validated weekly histories + (equities) news."
+    ],
+    "risks": [
+      "Macro: Sudden risk-off/rates shock before next eligible rebalance could hurt growth concentration; regime is UNKNOWN today.",
+      "Idiosyncratic: Earnings/guidance/regulatory headlines are UNKNOWN today (no verified news), so latent single-name risk may be missed intra-week.",
+      "Execution/liquidity: Deferring action can concentrate turnover at the next eligible rebalance; mitigate then via staged sizing and keeping changes <=3 unless severe thesis damage is evidenced."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>=7 days after last eligible per cadence): require tool-verified latest price plus WEEKLY price history from lookback_30d_start=2026-01-25 and lookback_90d_start=2025-11-26 for all holdings plus SPY/QQQ; if any holding lacks required history, do not add risk and prefer simplification only.",
+      "At next eligible rebalance: if any holding’s 90d weekly total return underperforms SPY’s 90d weekly total return by >=3.0% (tool-verified), escalate that name to top replacement review; otherwise keep to minimize turnover."
+    ],
+    "why_now": "Base: Not a rebalance day and today’s required price verification failed, so expected edge cannot be validated and does not clear turnover/slippage drag. Bull: Staying invested maintains exposure to existing quality+momo mix. Bear: If an adverse catalyst occurred, risk persists until the next eligible, data-verified rebalance; monitor and act when permitted with verified evidence."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — Factor scores: UNKNOWN (no verified 30/90d weekly momentum, no ratios/news today). Risk budget: concentrated growth (IT+Comm Services=44%) balanced by Energy+Gold=25%; single-name max=18% within limits. Scenario stress (qualitative, evidence-limited): equity index shock hurts NVDA/META/AMZN/AVGO; rates shock mixed (growth - / GLD +/-); commodity shock benefits XOM/GLD; USD shock likely pressures GLD (UNKNOWN). Execution plan: none today (NO-GO); next eligible rebalance use staged sizing and <=3 changes unless severe thesis damage. Monitoring/kill-switch: on next eligible rebalance, any holding lagging SPY by >=3.0% over 90d weekly or negative 30d weekly momentum (tool-verified) triggers replacement review; any verified adverse guidance/earnings surprise triggers immediate downsize at next permitted rebalance."
+  }
+}

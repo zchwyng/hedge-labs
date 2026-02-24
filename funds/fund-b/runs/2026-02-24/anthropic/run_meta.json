@@ -1,0 +1,20 @@
+{
+  "fund_id": "fund-b",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-5",
+  "run_date": "2026-02-24",
+  "started_at": "2026-02-24T06:40:30Z",
+  "ended_at": "2026-02-24T06:42:14Z",
+  "status": "failed",
+  "reason": "Insufficient Financial Datasets source coverage (1 successful source URLs; required >= 6)",
+  "api_errors": [
+    "\"Price data unavailable due to API rate limits: unable to verify current holdings performance or benchmark levels for XOM, CVX, LLY, JPM, XLI, KLAC, AVGO, GLD, SPY, QQQ\",",
+    "\"Data integrity constraint prevents validation: API rate limits block price verification for all holdings and benchmarks, precluding evidence-based portfolio assessment required by institutional IC workflow\",",
+    "\"why_now\": \"Day 12 of systematic weekly hold period with rebalance not due until February 26. API rate limits prevent price verification for all holdings and benchmarks, eliminating evidence basis required for institutional IC process. Without verifiable data on current portfolio performance, regime conditions, or thesis validation metrics, only rational action is maintain prior allocation and defer assessment to next scheduled rebalance opportunity. Process discipline over incomplete information prevents reactive management and preserves systematic edge during normal volatility.\"",
+    "\"notes\": \"Position limits: GLD 18% max (within 40% cap), all other positions 10-15% compliant. Sector limits: Energy 27% (XOM+CVX), Technology 22% (KLAC+AVGO), all below 80% threshold. Crypto exposure: 0% (no crypto holdings). Portfolio unchanged from prior run due to non-rebalance day per 7-day minimum spacing policy. Data integrity failure: API rate limits blocked all price verifications, preventing portfolio health assessment and factor scoring updates. Risk budget cannot be validated without current prices. Execution plan: defer all activity to February 26 rebalance window when data availability resumes. Monitoring: falsifiable thresholds ($305 AVGO floor, $440 GLD floor) cannot be checked until API access restored. Kill-switch: emergency override only if market-wide circuit breaker or material idiosyncratic news emerges through non-price channels.\"",
+    "Insufficient Financial Datasets source coverage (1 successful source URLs; required >= 6)"
+  ],
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-02-24-064031_a7a698a51a53.jsonl"
+}
