@@ -72,6 +72,10 @@ function toUtcDateString(tsMs: number): string {
   return `${yyyy}-${mm}-${dd}`;
 }
 
+function todayUtcDateString(): string {
+  return toUtcDateString(Date.now());
+}
+
 function parseRunDate(dateStr: string): number {
   const ms = Date.parse(`${dateStr}T00:00:00Z`);
   if (!Number.isFinite(ms)) die(`Invalid run_date: ${dateStr}`);
@@ -128,6 +132,17 @@ function readCacheFresh(filePath: string): any | null {
   } catch {
     return null;
   }
+}
+
+function trimLiveRunDateCryptoBars(bars: Bar[], runDate: string, instrumentType: unknown): Bar[] {
+  if (runDate !== todayUtcDateString()) return bars;
+  const kind = String(instrumentType || '').toUpperCase();
+  if (!kind.includes('CRYPTO')) return bars;
+  let keep = bars.length;
+  while (keep > 0 && bars[keep - 1]?.date === runDate) {
+    keep -= 1;
+  }
+  return keep === bars.length ? bars : bars.slice(0, keep);
 }
 
 async function fetchYahooChart(repoRoot: string, symbol: string, runDate: string): Promise<{ resolvedSymbol: string; raw: any }> {
@@ -405,6 +420,7 @@ async function main() {
       symbols_requested: allSymbols,
       symbols_succeeded: [] as string[],
       symbols_failed: [] as string[],
+      trimmed_live_run_date_crypto_bars: [] as string[],
     },
     financial_datasets: {
       included_in_pack_v1: false,
@@ -423,7 +439,11 @@ async function main() {
       try {
         const { resolvedSymbol, raw } = await fetchYahooChart(repoRoot, ticker, runDate);
         const { meta, bars } = parseYahooBars(raw, runDate);
-        const lastClose = bars.length > 0 ? round(bars[bars.length - 1].close, 4) : null;
+        const trimmedBars = trimLiveRunDateCryptoBars(bars, runDate, meta?.instrumentType);
+        if (trimmedBars.length !== bars.length) {
+          sourceManifest.yahoo_chart.trimmed_live_run_date_crypto_bars.push(ticker);
+        }
+        const lastClose = trimmedBars.length > 0 ? round(trimmedBars[trimmedBars.length - 1].close, 4) : null;
         marketData[ticker] = {
           ticker,
           yahoo_symbol: resolvedSymbol,
@@ -431,10 +451,10 @@ async function main() {
           currency: meta?.currency || null,
           exchange: meta?.exchangeName || null,
           instrument_type: meta?.instrumentType || null,
-          bars_available: bars.length,
-          latest_bar_date: bars.length > 0 ? bars[bars.length - 1].date : null,
+          bars_available: trimmedBars.length,
+          latest_bar_date: trimmedBars.length > 0 ? trimmedBars[trimmedBars.length - 1].date : null,
           last_close: lastClose,
-          features: computeFeatures(bars),
+          features: computeFeatures(trimmedBars),
           fetch_status: 'success',
         };
         sourceManifest.yahoo_chart.symbols_succeeded.push(ticker);
@@ -460,6 +480,10 @@ async function main() {
     }
   }
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  sourceManifest.yahoo_chart.symbols_succeeded.sort();
+  sourceManifest.yahoo_chart.symbols_failed.sort();
+  sourceManifest.yahoo_chart.trimmed_live_run_date_crypto_bars.sort();
+  yahooErrors.sort((a, b) => a.ticker.localeCompare(b.ticker));
 
   const missingRequired = requiredBase.filter((t) => marketData[t]?.fetch_status !== 'success');
   const missingBenchmarks = benchmarkSymbols.filter((t) => marketData[t]?.fetch_status !== 'success');
@@ -530,6 +554,9 @@ async function main() {
       },
       warnings: [
         ...(yahooErrorCount > 0 ? [`Yahoo fetch errors for ${yahooErrorCount} symbol(s)`] : []),
+        ...((sourceManifest.yahoo_chart.trimmed_live_run_date_crypto_bars as string[]).length > 0
+          ? [`Trimmed live run_date crypto bars for deterministic cross-lane parity: ${(sourceManifest.yahoo_chart.trimmed_live_run_date_crypto_bars as string[]).join(', ')}`]
+          : []),
       ],
       errors: [
         ...(missingRequired.length > 0 ? [`Missing required symbol data: ${missingRequired.join(', ')}`] : []),
