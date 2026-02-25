@@ -177,6 +177,10 @@ fd_search_calls="0"
 fd_source_urls="0"
 fd_errors="0"
 fd_error_ratio="0.000000"
+fd_news_expected_calls="0"
+fd_news_source_urls="0"
+fd_news_result_entries="0"
+fd_news_warning=""
 
 rm -f "$stdout_path" "$json_path" "$scratchpad_copy_path" "$arena_pack_path" "$arena_pack_prompt_path"
 
@@ -1219,6 +1223,66 @@ count_fd_errors_since_start() {
   printf '%s\n' "$total"
 }
 
+count_fd_news_expected_calls_since_start() {
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    jq -rs '
+      [
+        .[]
+        | select(.type == "tool_result" and (.toolName == "financial_search"))
+        | (.args.query // "")
+        | strings
+        | select(test("\\b(news|headline|headlines)\\b"; "i"))
+      ] | length
+    ' "$scratchpad_copy_path" 2>/dev/null || echo 0
+    return 0
+  fi
+  echo 0
+}
+
+count_fd_news_source_urls_since_start() {
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    jq -rs '
+      def is_fd_tool_result:
+        .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+      [
+        .[]
+        | select(is_fd_tool_result)
+        | [
+            .result.sourceUrls?,
+            .result.source_urls?,
+            .result.data.sourceUrls?,
+            .result.data.source_urls?
+          ]
+        | .[]
+        | if type == "array" then .[] elif type == "string" then . else empty end
+        | strings
+        | select(test("/news/"; "i"))
+      ] | length
+    ' "$scratchpad_copy_path" 2>/dev/null || echo 0
+    return 0
+  fi
+  echo 0
+}
+
+count_fd_news_result_entries_since_start() {
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    jq -rs '
+      def is_fd_tool_result:
+        .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+      [
+        .[]
+        | select(is_fd_tool_result)
+        | (.result.data? // {})
+        | objects
+        | keys[]
+        | select(test("(^|_)news(_|$)"; "i"))
+      ] | length
+    ' "$scratchpad_copy_path" 2>/dev/null || echo 0
+    return 0
+  fi
+  echo 0
+}
+
 copy_latest_scratchpad_since_start
 
 if [[ "$status" == "success" ]]; then
@@ -1280,6 +1344,20 @@ if [[ "$status" == "success" ]]; then
     else
       fd_source_urls="$(count_fd_source_urls_since_start)"
       fd_errors="$(count_fd_errors_since_start)"
+      fd_news_expected_calls="$(count_fd_news_expected_calls_since_start)"
+      fd_news_source_urls="$(count_fd_news_source_urls_since_start)"
+      fd_news_result_entries="$(count_fd_news_result_entries_since_start)"
+      if [[ "$fd_news_expected_calls" =~ ^[0-9]+$ ]] && [[ "$fd_news_expected_calls" -gt 0 ]] && \
+         [[ "$fd_news_source_urls" =~ ^[0-9]+$ ]] && [[ "$fd_news_source_urls" -eq 0 ]] && \
+         [[ "$fd_news_result_entries" =~ ^[0-9]+$ ]] && [[ "$fd_news_result_entries" -eq 0 ]]; then
+        fd_news_warning="financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results"
+        if [[ "${FD_REQUIRE_NEWS_RESULTS:-0}" == "1" || "${FD_REQUIRE_NEWS_RESULTS:-0}" == "true" ]]; then
+          status="failed"
+          reason="Qualitative news refresh missing explicit news results (financial_search requested news/headlines, but no news entries/source URLs were returned)"
+        else
+          printf 'Warning: %s\n' "$fd_news_warning" >> "$stdout_path"
+        fi
+      fi
       if [[ "$arena_pack_enabled" == "1" || "$arena_pack_enabled" == "true" ]]; then
         fd_min_source_urls="${FD_MIN_SOURCE_URLS:-0}"
       else
@@ -1307,6 +1385,10 @@ else
 fi
 
 api_errors_json='[]'
+output_json_valid=false
+if [[ -f "$json_path" ]] && jq empty "$json_path" >/dev/null 2>&1; then
+  output_json_valid=true
+fi
 if [[ -f "$stdout_path" ]]; then
   api_lines="$({
     grep -Ei '^\[[^]]+ API\]|^Error:|HTTP [0-9]{3}:|rate limit|quota exceeded|billing|insufficient_(quota|credits|balance)|unauthorized|forbidden|invalid api key|timed out|timeout|service unavailable|connection refused|financial_datasets( api)? error|financial datasets api error' "$stdout_path" || true
@@ -1348,7 +1430,12 @@ jq -n \
   --argjson fd_source_urls "$fd_source_urls" \
   --argjson fd_errors "$fd_errors" \
   --arg fd_error_ratio "$fd_error_ratio" \
+  --argjson fd_news_expected_calls "$fd_news_expected_calls" \
+  --argjson fd_news_source_urls "$fd_news_source_urls" \
+  --argjson fd_news_result_entries "$fd_news_result_entries" \
+  --arg fd_news_warning "$fd_news_warning" \
   --argjson dexter_exit_code "$dexter_exit_code" \
+  --argjson output_json_valid "$output_json_valid" \
   --argjson scratchpad_found "$( [[ -n "$latest_scratchpad" ]] && echo true || echo false )" \
   '{
     fund_id: $fund_id,
@@ -1359,6 +1446,9 @@ jq -n \
     ended_at: $ended_at,
     status: $status,
     reason: $reason,
+    fd_search_calls: $fd_search_calls,
+    fd_source_url_count: $fd_source_urls,
+    output_json_valid: $output_json_valid,
     api_errors: $api_errors,
     data_contract_version: "arena-input-pack-v1",
     arena_input_pack: {
@@ -1381,6 +1471,11 @@ jq -n \
       fd_source_urls: $fd_source_urls,
       fd_errors: $fd_errors,
       fd_error_ratio: $fd_error_ratio,
+      fd_news_expected_calls: $fd_news_expected_calls,
+      fd_news_source_urls: $fd_news_source_urls,
+      fd_news_result_entries: $fd_news_result_entries,
+      qualitative_news_detected: (($fd_news_source_urls > 0) or ($fd_news_result_entries > 0)),
+      qualitative_news_warning: (if $fd_news_warning == "" then null else $fd_news_warning end),
       forbidden_tool_names: ($forbidden_tool_names | split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(length > 0))),
       forbidden_tool_calls: $forbidden_tool_calls
     },
