@@ -9,27 +9,28 @@ Run metadata:
 - Rebalance cadence: {REBALANCE}
 
 Rules:
-- Use only verifiable data you fetched via tools for prices/returns/ratios/news. If you cannot verify, write "UNKNOWN".
+- Use a split-source policy: use the system-provided `arena_input_pack` for prices/returns/momentum/trend/volatility/drawdown, and use tools only for qualitative/fundamental/news follow-up. If you cannot verify, write "UNKNOWN".
 - Time horizon: {HOLD_HORIZON_DAYS} days.
 - Universe: {UNIVERSE}.
+- Data-gap handling: if the `arena_input_pack` is missing a critical field for a ticker, write "UNKNOWN", reduce confidence, and do NOT attempt forbidden price/snapshot tool workarounds.
 
 Tooling best practices (important to avoid rate limits and preserve data quality):
 - Always call `financial_search` at least once before finalizing output.
 - Prefer `financial_search` only; avoid `financial_metrics` unless you truly cannot get the data via `financial_search`.
 - Hard cap: <= 12 tickers per `financial_search` call.
-- Prefer WEEKLY historical prices for momentum windows (interval=week) to keep payloads small and reliable.
+- Use the `arena_input_pack` for all price-history and momentum calculations; do not request price snapshots or price history via tools.
 - News: request news ONLY for equities (no ETFs, no crypto). Cap to <= 4 equity tickers, <= 3 headlines per ticker.
 - Fundamentals: request key ratios ONLY for equities (no ETFs, no crypto).
 - Do not request company facts / key ratios / news for ETFs or crypto unless explicitly needed for validation.
 
 Rebalance/tool-call policy (STRICT):
 - If the stateful context says "Rebalance due today: false":
-  - Make EXACTLY 1 `financial_search` call: prices for the CURRENT holdings + benchmarks (SPY, QQQ).
+  - Make EXACTLY 1 `financial_search` call for qualitative refresh only (equity news and/or fundamentals on a small subset of current holdings).
+  - Do NOT request prices, price snapshots, or price history via tools.
   - Then output action "Do nothing", `rebalance_actions` as [], and keep `target_portfolio` EXACTLY unchanged.
 - If the stateful context says "Rebalance due today: true":
-  - Make UP TO 2 `financial_search` calls total:
-    1) EQUITIES-ONLY query (prices + WEEKLY 30/90d history + key ratios snapshot + limited news for <= 4 equities).
-    2) ETF/CRYPTO-ONLY query (prices + WEEKLY 30/90d history; NO news; NO key ratios).
+  - Make 1-2 `financial_search` calls total for qualitative/fundamental follow-up on shortlisted equities (news, catalysts, key ratios, estimates).
+  - Do NOT request prices, price snapshots, or price history via tools for equities, ETFs, or crypto.
   - Bootstrap exception: if prior `target_portfolio` is empty, build a full {POSITIONS}-name portfolio and do NOT apply the 3-change cap.
   - Otherwise, after tools: make at most 3 portfolio changes unless thesis damage is severe.
 
@@ -50,15 +51,15 @@ Portfolio constraints:
 
 Strategy V3 (Institutional IC workflow) - rebalance-due days:
 - Gate 0: Data integrity and regime check.
-  - Verify every active candidate has tool-fetched latest price and WEEKLY 30d/90d history.
+  - Verify every active candidate has system-provided `arena_input_pack` price/momentum fields (latest price, 30d/90d/other momentum windows, drawdown/volatility as available).
   - Treat missing critical fields as `UNKNOWN`, apply a conservative penalty, and avoid adding low-confidence names.
-  - Classify regime using tool evidence (risk-on, risk-off, mixed) before sizing risk.
+  - Classify regime using pack-derived benchmark evidence first (risk-on, risk-off, mixed), then refine with qualitative tool evidence.
 - Gate 1: Candidate formation and thesis quality.
   - Start from prior `target_portfolio` in the stateful context.
   - If prior `target_portfolio` is empty, bootstrap a full {POSITIONS}-name portfolio (3-change cap does not apply).
   - If prior `target_portfolio` is non-empty, propose at most 3 changes unless thesis damage is severe.
   - Consider up to 4 replacement candidates (so the equity tool query stays <= 12 tickers total).
-  - For each active candidate, define one catalyst and one disconfirming datapoint from tool-fetched evidence.
+  - For each active candidate, define one catalyst and one disconfirming datapoint using pack-derived evidence plus qualitative tool evidence.
 - Gate 2: Multi-factor scoring (0-100; do not guess).
   - Momentum (30): 90d return (weekly) + 30d return (weekly), including relative check vs SPY/QQQ.
   - Quality/Fundamentals (20): operating margin, ROE/ROIC, revenue growth, earnings growth.
@@ -93,8 +94,8 @@ Pre-step (before calling tools):
 - Decide on a plausible candidate {POSITIONS}-name portfolio first (tickers + rough weights + sectors) based on your priors AND the stateful context.
 - Decide which tickers are "active candidates" for the next rebalance (current holdings + up to 4 replacements).
 - Use the date helper values provided in the stateful context:
-  - lookback_30d_start and lookback_90d_start for WEEKLY price history windows (interval=week).
-  - news_7d_start for the news window (equities only).
+  - lookback_30d_start and lookback_90d_start to interpret pack momentum windows and to anchor any qualitative lookback framing.
+  - news_7d_start for the news window (equities only) in qualitative `financial_search` follow-up.
 
 2) PAPER TRADE OF THE DAY (candidate, NOT an instruction):
    - Propose exactly ONE action among: ["Add", "Trim", "Replace", "Do nothing"].

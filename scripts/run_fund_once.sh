@@ -223,15 +223,11 @@ if [[ "$arena_pack_enabled" == "1" || "$arena_pack_enabled" == "true" ]]; then
       cat >> "$canonical_prompt" <<EOF
 
 Deterministic market data pack (system-provided; supersedes earlier tool-fetch instructions for price/history)
-- Use the system-provided arena input pack for ALL prices/returns/momentum/trend/volatility/drawdown comparisons.
+- Consistency check only: follow the template's pack-native policy.
+- Use \`arena_input_pack\` for all price/history/momentum calculations.
 - Do NOT request stock/ETF/crypto price snapshots or price history via Dexter tools.
-- You may use \`financial_search\` for qualitative follow-up only (news/catalysts/fundamental nuance on a shortlist), not as the primary source of price history.
-- If the pack reports gaps, explicitly note the gap and reduce confidence instead of trying forbidden price-history tool paths.
-- This override supersedes any earlier prompt text asking for WEEKLY price history or price snapshots via tools.
-- Mandatory qualitative evidence step (still required):
-  - Call \`financial_search\` at least once before final JSON.
-  - On non-rebalance days: make exactly 1 \`financial_search\` call for qualitative refresh only (equity news + key ratios on a small subset of current holdings; no price/history requests).
-  - On rebalance-due days: make 1-2 \`financial_search\` calls for qualitative/fundamental follow-up on shortlisted equities; no price/history requests.
+- Call \`financial_search\` at least once for qualitative/fundamental/news follow-up before final JSON.
+- If pack data is missing, write UNKNOWN and reduce confidence instead of using forbidden tool workarounds.
 
 Arena input pack file: ${arena_pack_path}
 $(cat "$arena_pack_prompt_path")
