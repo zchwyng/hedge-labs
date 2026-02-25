@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-02-25",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: SPY mom 7.1%, QQQ 6.1%; narrow semis lead (TSM 54.6%), HC/cyber/SaaS lag.",
+    "Holdings mixed: NVDA/TSM/AVGO strong rel mom, PLTR/PANW/NOW/NVO weak (-8% to -37% mom).",
+    "Non-rebalance (3d since last, 4d to weekly cadence); qual refresh no major news, hold verified."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "PANW",
+      "why": "Mom -23.6%, dd -29%; P/E 96x high, rev gth 3.5% slow."
+    },
+    {
+      "ticker": "NOW",
+      "why": "Mom -36.7%, dd -42%; P/E 91x, op mgn 17%."
+    },
+    {
+      "ticker": "NVO",
+      "why": "Mom -36.1%, dd -40%; rev gth -2%, est stable."
+    },
+    {
+      "ticker": "PLTR",
+      "why": "Mom -8.3%, dd -34%; P/E 261x extreme, but rev gth 15%."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio verified; weekly cadence, 3d since last, rebalance not due.",
+      "Qual refresh: no headlines since 2/18; PANW/NOW est up, PLTR rev gth 15%, NVO stable; semis intact.",
+      "IT/HC holds vs QQQ/SPY up; TSM/NVDA 90d +28/+8% rel strong."
+    ],
+    "risks": [
+      "IT 76% conc to AI/cyber rotation.",
+      "Deep drawdowns: NOW -42%, NVO/PLTR/PANW -30-40% 63d.",
+      "Liquidity solid, vol elevated but stable."
+    ],
+    "falsifiable_checks": [
+      "Any holding -5% daily or IT>80%.",
+      "SPY/QQQ -2% weekly or laggard mom <-40% triggers review."
+    ],
+    "why_now": "Non-rebalance verification; no thesis damage from news/est/ ratios; mixed regime semis resilient, no edge over costs; hold."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores: TSM/NVDA 80-90, laggards 20-30; IT risk 76% ok<80%; stress: equity shock diversified HC offset; hold plan, monitor PANW/NOW/NVO kill if mom<-40% or IT>80%."
+  }
+}
