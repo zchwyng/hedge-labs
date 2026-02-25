@@ -1,7 +1,7 @@
 {
   "name": "Quality + Momentum (Monthly-hold)",
   "provider": "anthropic",
-  "model": "claude-sonnet-4-5",
+  "model": "claude-sonnet-4-6",
   "benchmark": {
     "name": "S&P 500",
     "ticker": "SPY"

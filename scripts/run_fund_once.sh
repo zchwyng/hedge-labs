@@ -137,13 +137,48 @@ if [[ "$(resolve_path "$prompt_file")" != "$(resolve_path "$canonical_prompt")" 
   cp "$prompt_file" "$canonical_prompt"
 fi
 
+strip_arena_pack_appendix() {
+  local target_prompt="$1"
+  local marker="Deterministic market data pack (system-provided; supersedes earlier tool-fetch instructions for price/history)"
+  if [[ ! -f "$target_prompt" ]]; then
+    return 0
+  fi
+  if ! grep -qF "$marker" "$target_prompt"; then
+    return 0
+  fi
+  awk -v marker="$marker" '
+    index($0, marker) { exit }
+    { print }
+  ' "$target_prompt" > "${target_prompt}.tmp"
+  mv "${target_prompt}.tmp" "$target_prompt"
+}
+
 stdout_path="${run_dir}/dexter_stdout.txt"
 json_path="${run_dir}/dexter_output.json"
 meta_path="${run_dir}/run_meta.json"
 scratchpad_copy_path="${run_dir}/scratchpad.jsonl"
 scratchpad_dir="${repo_root}/.dexter/scratchpad"
+arena_pack_path="${run_dir}/arena_input_pack.json"
+arena_pack_prompt_path="${arena_pack_path}.prompt.txt"
+arena_pack_enabled="${ARENA_INPUT_PACK_ENABLED:-1}"
+arena_pack_build_status="disabled"
+arena_pack_build_reason=""
+arena_pack_quality_status="unknown"
+arena_pack_required_missing="0"
+arena_pack_benchmark_missing="0"
+arena_pack_yahoo_success="0"
+arena_pack_yahoo_total="0"
+arena_pack_warnings_json='[]'
+arena_pack_errors_json='[]'
+forbidden_tool_calls="0"
+forbidden_tool_names_csv="${ARENA_FORBIDDEN_DEXTER_TOOLS:-getPriceSnapshot,getPrices,getKeyRatiosSnapshot,getCryptoPriceSnapshot}"
+forbidden_tool_names_regex="$(printf '%s' "$forbidden_tool_names_csv" | tr -d ' ' | sed -E 's/,/|/g')"
+fd_search_calls="0"
+fd_source_urls="0"
+fd_errors="0"
+fd_error_ratio="0.000000"
 
-rm -f "$json_path" "$scratchpad_copy_path"
+rm -f "$stdout_path" "$json_path" "$scratchpad_copy_path" "$arena_pack_path" "$arena_pack_prompt_path"
 
 started_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 start_epoch="$(date +%s)"
@@ -151,6 +186,59 @@ start_epoch="$(date +%s)"
 status="success"
 reason=""
 retry_used=false
+
+strip_arena_pack_appendix "$canonical_prompt"
+
+if [[ "$arena_pack_enabled" == "1" || "$arena_pack_enabled" == "true" ]]; then
+  arena_pack_build_status="running"
+  set +e
+  if [[ -n "${prev_output_path:-}" && -f "${prev_output_path:-}" ]]; then
+    bun run scripts/build_arena_input_pack.ts "$fund_id" "$run_date" "$arena_pack_path" "$prev_output_path" >> "$stdout_path" 2>&1
+  else
+    bun run scripts/build_arena_input_pack.ts "$fund_id" "$run_date" "$arena_pack_path" >> "$stdout_path" 2>&1
+  fi
+  arena_pack_exit_code=$?
+  set -e
+  if [[ "$arena_pack_exit_code" -ne 0 || ! -f "$arena_pack_path" ]]; then
+    arena_pack_build_status="failed"
+    arena_pack_build_reason="Arena input pack build failed"
+    status="failed"
+    reason="$arena_pack_build_reason"
+  else
+    arena_pack_build_status="success"
+    arena_pack_quality_status="$(jq -r '.quality.status // "unknown"' "$arena_pack_path" 2>/dev/null || echo unknown)"
+    arena_pack_required_missing="$(jq -r '.quality.required_symbol_coverage.missing_count // 0' "$arena_pack_path" 2>/dev/null || echo 0)"
+    arena_pack_benchmark_missing="$(jq -r '.quality.benchmark_coverage.missing_count // 0' "$arena_pack_path" 2>/dev/null || echo 0)"
+    arena_pack_yahoo_success="$(jq -r '.quality.yahoo_success_count // 0' "$arena_pack_path" 2>/dev/null || echo 0)"
+    arena_pack_yahoo_total="$(jq -r '.quality.yahoo_symbol_count // 0' "$arena_pack_path" 2>/dev/null || echo 0)"
+    arena_pack_warnings_json="$(jq -c '.quality.warnings // []' "$arena_pack_path" 2>/dev/null || echo '[]')"
+    arena_pack_errors_json="$(jq -c '.quality.errors // []' "$arena_pack_path" 2>/dev/null || echo '[]')"
+
+    if [[ "$arena_pack_quality_status" == "failed" ]]; then
+      status="failed"
+      reason="Arena input pack quality failed (required_missing=${arena_pack_required_missing}, benchmark_missing=${arena_pack_benchmark_missing})"
+    fi
+
+    if [[ -f "$arena_pack_prompt_path" ]]; then
+      cat >> "$canonical_prompt" <<EOF
+
+Deterministic market data pack (system-provided; supersedes earlier tool-fetch instructions for price/history)
+- Use the system-provided arena input pack for ALL prices/returns/momentum/trend/volatility/drawdown comparisons.
+- Do NOT request stock/ETF/crypto price snapshots or price history via Dexter tools.
+- You may use \`financial_search\` for qualitative follow-up only (news/catalysts/fundamental nuance on a shortlist), not as the primary source of price history.
+- If the pack reports gaps, explicitly note the gap and reduce confidence instead of trying forbidden price-history tool paths.
+- This override supersedes any earlier prompt text asking for WEEKLY price history or price snapshots via tools.
+- Mandatory qualitative evidence step (still required):
+  - Call \`financial_search\` at least once before final JSON.
+  - On non-rebalance days: make exactly 1 \`financial_search\` call for qualitative refresh only (equity news + key ratios on a small subset of current holdings; no price/history requests).
+  - On rebalance-due days: make 1-2 \`financial_search\` calls for qualitative/fundamental follow-up on shortlisted equities; no price/history requests.
+
+Arena input pack file: ${arena_pack_path}
+$(cat "$arena_pack_prompt_path")
+EOF
+    fi
+  fi
+fi
 
 DEXTER_ROOT="${DEXTER_ROOT:-}" "${repo_root}/scripts/ensure_dexter.sh" >/dev/null
 
@@ -869,8 +957,10 @@ run_dexter_attempt() {
   fi
 }
 
-run_dexter_attempt "$canonical_prompt"
-attempt_rebalance_if_needed || true
+if [[ "$status" == "success" ]]; then
+  run_dexter_attempt "$canonical_prompt"
+  attempt_rebalance_if_needed || true
+fi
 
 if [[ "$status" == "failed" && ( "$reason" == "JSON validation failed (schema or risk constraints)" || "$reason" == "Portfolio validation failed (positions, weights, sector, or crypto limits)" || "$reason" == "stdout did not contain a valid JSON object" || "$reason" == Rebalance\ policy\ validation\ failed:* ) ]]; then
   retry_used=true
@@ -969,6 +1059,43 @@ count_fd_tool_calls_since_start() {
       {
         jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratch" 2>/dev/null \
           | grep -E "^${required_tool}$" || true
+      } | wc -l | tr -d ' '
+    )"
+    if [[ "$count" =~ ^[0-9]+$ ]]; then
+      total=$((total + count))
+    fi
+  done
+  printf '%s\n' "$total"
+}
+
+count_forbidden_tool_calls_since_start() {
+  if [[ -z "$forbidden_tool_names_regex" ]]; then
+    printf '0\n'
+    return 0
+  fi
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    local count
+    count="$(
+      {
+        jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratchpad_copy_path" 2>/dev/null \
+          | grep -E "^(${forbidden_tool_names_regex})$" || true
+      } | wc -l | tr -d ' '
+    )"
+    printf '%s\n' "$count"
+    return 0
+  fi
+  local total=0
+  local count=0
+  local scratch=""
+  local mtime=0
+  for scratch in "$scratchpad_dir"/*.jsonl; do
+    [[ -e "$scratch" ]] || continue
+    mtime="$(scratchpad_mtime "$scratch")"
+    [[ "$mtime" -ge "$start_epoch" ]] || continue
+    count="$(
+      {
+        jq -r 'select(.type == "tool_result") | .toolName // empty' "$scratch" 2>/dev/null \
+          | grep -E "^(${forbidden_tool_names_regex})$" || true
       } | wc -l | tr -d ' '
     )"
     if [[ "$count" =~ ^[0-9]+$ ]]; then
@@ -1110,10 +1237,11 @@ if [[ "$status" == "success" ]]; then
 Tool-use requirement was not met in your previous response.
 
 Before finalizing your JSON:
-1) Call \`financial_search\` at least once to gather verifiable market/news/company context.
+1) Call \`financial_search\` at least once for qualitative/fundamental/news follow-up (not for price-history retrieval).
 2) Then return ONLY one valid JSON object matching all assignment constraints.
-3) Ensure data quality: provide enough successful source coverage and avoid unresolved API-error-heavy output.
-4) If rebalance is due, provide full action list in \`rebalance_actions\`; if not due, set \`rebalance_actions\` to [].
+3) Use the system-provided arena input pack for price/returns/momentum/trend checks; do not use removed or forbidden price snapshot/history tools.
+4) Avoid unresolved API-error-heavy output.
+5) If rebalance is due, provide full action list in \`rebalance_actions\`; if not due, set \`rebalance_actions\` to [].
 
 Failure to call the required \`financial_search\` tool is treated as a failed run.
 
@@ -1136,6 +1264,19 @@ if [[ "$status" == "success" ]]; then
     status="failed"
     reason="Dexter scratchpad file was not produced"
   else
+    forbidden_tool_calls="$(count_forbidden_tool_calls_since_start)"
+    if [[ "$forbidden_tool_calls" != "0" ]]; then
+      status="failed"
+      reason="Forbidden Dexter price/snapshot tools were used (${forbidden_tool_calls} calls; forbidden=${forbidden_tool_names_csv})"
+    fi
+  fi
+fi
+
+if [[ "$status" == "success" ]]; then
+  if [[ ! -f "$scratchpad_copy_path" ]]; then
+    status="failed"
+    reason="Dexter scratchpad file was not produced"
+  else
     fd_search_calls="$(count_fd_tool_calls_since_start "financial_search")"
     if [[ "$fd_search_calls" == "0" ]]; then
       status="failed"
@@ -1143,13 +1284,17 @@ if [[ "$status" == "success" ]]; then
     else
       fd_source_urls="$(count_fd_source_urls_since_start)"
       fd_errors="$(count_fd_errors_since_start)"
-      fd_min_source_urls="${FD_MIN_SOURCE_URLS:-2}"
+      if [[ "$arena_pack_enabled" == "1" || "$arena_pack_enabled" == "true" ]]; then
+        fd_min_source_urls="${FD_MIN_SOURCE_URLS:-0}"
+      else
+        fd_min_source_urls="${FD_MIN_SOURCE_URLS:-2}"
+      fi
       fd_max_error_ratio="${FD_MAX_ERROR_RATIO:-0.35}"
-      fd_error_ratio="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { d=e+s; if (d <= 0) printf "1.000000"; else printf "%.6f", (e/d) }')"
+      fd_error_ratio="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { d=e+s; if (d <= 0) printf "0.000000"; else printf "%.6f", (e/d) }')"
       if awk -v s="$fd_source_urls" -v min="$fd_min_source_urls" 'BEGIN { exit !(s < min) }'; then
         status="failed"
         reason="Insufficient Financial Datasets source coverage (${fd_source_urls} successful source URLs; required >= ${fd_min_source_urls})"
-      elif awk -v r="$fd_error_ratio" -v max="$fd_max_error_ratio" 'BEGIN { exit !(r > max) }'; then
+      elif awk -v d="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { print e+s }')" -v r="$fd_error_ratio" -v max="$fd_max_error_ratio" 'BEGIN { exit !((d > 0) && (r > max)) }'; then
         status="failed"
         reason="Financial Datasets error ratio too high (ratio=${fd_error_ratio}, errors=${fd_errors}, sources=${fd_source_urls}, max=${fd_max_error_ratio})"
       fi
@@ -1190,6 +1335,23 @@ jq -n \
   --arg reason "$reason" \
   --arg scratchpad_source "$latest_scratchpad" \
   --argjson api_errors "$api_errors_json" \
+  --arg arena_pack_build_status "$arena_pack_build_status" \
+  --arg arena_pack_build_reason "$arena_pack_build_reason" \
+  --arg arena_pack_path "$arena_pack_path" \
+  --arg arena_pack_quality_status "$arena_pack_quality_status" \
+  --argjson arena_pack_enabled "$( [[ "$arena_pack_enabled" == "1" || "$arena_pack_enabled" == "true" ]] && echo true || echo false )" \
+  --argjson arena_pack_required_missing "$arena_pack_required_missing" \
+  --argjson arena_pack_benchmark_missing "$arena_pack_benchmark_missing" \
+  --argjson arena_pack_yahoo_success "$arena_pack_yahoo_success" \
+  --argjson arena_pack_yahoo_total "$arena_pack_yahoo_total" \
+  --argjson arena_pack_warnings "$arena_pack_warnings_json" \
+  --argjson arena_pack_errors "$arena_pack_errors_json" \
+  --arg forbidden_tool_names "$forbidden_tool_names_csv" \
+  --argjson forbidden_tool_calls "$forbidden_tool_calls" \
+  --argjson fd_search_calls "$fd_search_calls" \
+  --argjson fd_source_urls "$fd_source_urls" \
+  --argjson fd_errors "$fd_errors" \
+  --arg fd_error_ratio "$fd_error_ratio" \
   --argjson dexter_exit_code "$dexter_exit_code" \
   --argjson scratchpad_found "$( [[ -n "$latest_scratchpad" ]] && echo true || echo false )" \
   '{
@@ -1202,6 +1364,30 @@ jq -n \
     status: $status,
     reason: $reason,
     api_errors: $api_errors,
+    data_contract_version: "arena-input-pack-v1",
+    arena_input_pack: {
+      enabled: $arena_pack_enabled,
+      build_status: $arena_pack_build_status,
+      build_reason: (if $arena_pack_build_reason == "" then null else $arena_pack_build_reason end),
+      path: (if $arena_pack_path == "" then null else $arena_pack_path end),
+      quality_status: $arena_pack_quality_status,
+      market_data_quality: {
+        required_missing: $arena_pack_required_missing,
+        benchmark_missing: $arena_pack_benchmark_missing,
+        yahoo_success: $arena_pack_yahoo_success,
+        yahoo_total: $arena_pack_yahoo_total
+      },
+      warnings: $arena_pack_warnings,
+      errors: $arena_pack_errors
+    },
+    research_quality: {
+      fd_search_calls: $fd_search_calls,
+      fd_source_urls: $fd_source_urls,
+      fd_errors: $fd_errors,
+      fd_error_ratio: $fd_error_ratio,
+      forbidden_tool_names: ($forbidden_tool_names | split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(length > 0))),
+      forbidden_tool_calls: $forbidden_tool_calls
+    },
     dexter_exit_code: $dexter_exit_code,
     scratchpad_found: $scratchpad_found,
     scratchpad_source: (if $scratchpad_source == "" then null else $scratchpad_source end)

@@ -96,53 +96,58 @@ function summarizeFinancialSearchResult(result: string): string {
 
   const data = doc?.data && typeof doc.data === 'object' ? doc.data : {};
   const sourceUrls = Array.isArray(doc?.sourceUrls) ? doc.sourceUrls : [];
-
-  const snapshots: Array<{ ticker: string; price?: number; day_change_percent?: number }> = [];
-  const returns: Array<{ ticker: string; return_pct?: number }> = [];
+  const errors = [
+    ...(Array.isArray(doc?._errors) ? doc._errors : []),
+    ...(Array.isArray(doc?.errors) ? doc.errors : []),
+    ...(Array.isArray(doc?.data?._errors) ? doc.data._errors : []),
+    ...(Array.isArray(doc?.data?.errors) ? doc.data.errors : []),
+  ];
+  const keys = Object.keys(data).sort();
+  const keyRatios: Array<{ ticker: string; pe?: number; roe?: number; revenue_growth?: number }> = [];
+  const newsHits: Array<{ ticker: string; headlines: number }> = [];
 
   for (const [k, v] of Object.entries<any>(data)) {
-    if (k.startsWith('get_price_snapshot_') && v && typeof v === 'object') {
-      snapshots.push({
-        ticker: String((v as any).ticker || k.replace('get_price_snapshot_', '')).trim(),
-        price: Number((v as any).price),
-        day_change_percent: Number((v as any).day_change_percent),
+    if (k.startsWith('get_key_ratios_') && v && typeof v === 'object') {
+      keyRatios.push({
+        ticker: String((v as any).ticker || k.replace('get_key_ratios_', '')).trim(),
+        pe: Number((v as any).pe_ratio ?? (v as any).price_to_earnings_ratio),
+        roe: Number((v as any).return_on_equity ?? (v as any).roe),
+        revenue_growth: Number((v as any).revenue_growth ?? (v as any).revenue_growth_yoy),
       });
     }
-
-    if (k.startsWith('get_prices_') && Array.isArray(v) && v.length >= 2) {
-      const first = v[0];
-      const last = v[v.length - 1];
-      const firstClose = Number(first?.close);
-      const lastClose = Number(last?.close);
-      if (Number.isFinite(firstClose) && Number.isFinite(lastClose) && firstClose !== 0) {
-        returns.push({
-          ticker: String(first?.ticker || k.replace('get_prices_', '')).trim(),
-          return_pct: ((lastClose / firstClose) - 1) * 100,
-        });
-      }
+    if (k.startsWith('get_news_') && Array.isArray(v)) {
+      const ticker = String(k.replace('get_news_', '')).trim();
+      newsHits.push({ ticker, headlines: v.length });
     }
   }
 
-  snapshots.sort((a, b) => a.ticker.localeCompare(b.ticker));
-  returns.sort((a, b) => a.ticker.localeCompare(b.ticker));
+  keyRatios.sort((a, b) => a.ticker.localeCompare(b.ticker));
+  newsHits.sort((a, b) => a.ticker.localeCompare(b.ticker));
 
   const lines: string[] = [];
   lines.push(`financial_search: sources=${sourceUrls.length}`);
+  lines.push(`data_keys=${keys.length}`);
+  if (errors.length > 0) {
+    lines.push(`errors=${errors.length}`);
+  }
+  if (keys.length > 0) {
+    lines.push(`keys_sample=${keys.slice(0, 8).join(', ')}`);
+  }
 
-  if (snapshots.length > 0) {
-    lines.push('snapshots:');
-    for (const s of snapshots.slice(0, 20)) {
-      const p = Number.isFinite(s.price) ? s.price!.toFixed(2) : 'n/a';
-      const d = Number.isFinite(s.day_change_percent) ? `${s.day_change_percent!.toFixed(2)}%` : 'n/a';
-      lines.push(`- ${s.ticker}: price=${p} day=${d}`);
+  if (keyRatios.length > 0) {
+    lines.push('key_ratios:');
+    for (const r of keyRatios.slice(0, 20)) {
+      const pe = Number.isFinite(r.pe) ? r.pe!.toFixed(2) : 'n/a';
+      const roe = Number.isFinite(r.roe) ? `${(r.roe! * 100).toFixed(1)}%` : 'n/a';
+      const growth = Number.isFinite(r.revenue_growth) ? `${(r.revenue_growth! * 100).toFixed(1)}%` : 'n/a';
+      lines.push(`- ${r.ticker}: pe=${pe} roe=${roe} revenue_growth=${growth}`);
     }
   }
 
-  if (returns.length > 0) {
-    lines.push('returns (from first/last close in provided series):');
-    for (const r of returns.slice(0, 20)) {
-      const v = Number.isFinite(r.return_pct) ? `${r.return_pct!.toFixed(2)}%` : 'n/a';
-      lines.push(`- ${r.ticker}: ${v}`);
+  if (newsHits.length > 0) {
+    lines.push('news_headlines:');
+    for (const n of newsHits.slice(0, 20)) {
+      lines.push(`- ${n.ticker}: ${n.headlines}`);
     }
   }
 
