@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "dependencies": {
-    "dexter-ts": "github:virattt/dexter#v2026.2.11"
+    "dexter-ts": "github:virattt/dexter#v2026.2.17"
   },
   "patchedDependencies": {
-    "dexter-ts@github:virattt/dexter#d2f3067": "patches/dexter-ts.patch"
+    "dexter-ts@github:virattt/dexter#68f1544": "patches/dexter-ts.patch"
   }
 }

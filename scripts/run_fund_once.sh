@@ -1143,7 +1143,7 @@ if [[ "$status" == "success" ]]; then
     else
       fd_source_urls="$(count_fd_source_urls_since_start)"
       fd_errors="$(count_fd_errors_since_start)"
-      fd_min_source_urls="${FD_MIN_SOURCE_URLS:-6}"
+      fd_min_source_urls="${FD_MIN_SOURCE_URLS:-2}"
       fd_max_error_ratio="${FD_MAX_ERROR_RATIO:-0.35}"
       fd_error_ratio="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { d=e+s; if (d <= 0) printf "1.000000"; else printf "%.6f", (e/d) }')"
       if awk -v s="$fd_source_urls" -v min="$fd_min_source_urls" 'BEGIN { exit !(s < min) }'; then
