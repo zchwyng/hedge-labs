@@ -1,0 +1,37 @@
+{
+  "fund_id": "fund-b",
+  "candidate_symbols": [
+    "AAPL",
+    "AMZN",
+    "AVGO",
+    "COST",
+    "CVX",
+    "GOOGL",
+    "IBIT",
+    "JPM",
+    "KLAC",
+    "LLY",
+    "LMT",
+    "META",
+    "MSFT",
+    "NOW",
+    "NVDA",
+    "NVO",
+    "PANW",
+    "PLTR",
+    "SLV",
+    "TSM",
+    "V",
+    "XLI",
+    "XOM",
+    "GLD",
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "benchmark_symbols": ["SPY", "QQQ", "IWM", "TLT", "GLD", "BTC-USD"],
+  "required_symbols": ["SPY", "QQQ"],
+  "symbol_aliases": {
+    "BTCUSD": "BTC-USD",
+    "ETHUSD": "ETH-USD"
+  }
+}

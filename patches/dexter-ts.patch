@@ -1,6 +1,6 @@
 --- a/src/tools/finance/financial-search.ts
 +++ b/src/tools/finance/financial-search.ts
-@@ -13,8 +13,7 @@
+@@ -13,21 +13,20 @@
  
  // Import all finance tools directly (avoid circular deps with index.ts)
  import { getIncomeStatements, getBalanceSheets, getCashFlowStatements, getAllFinancialStatements } from './fundamentals.js';
@@ -10,22 +10,25 @@
  import { getNews } from './news.js';
  import { getAnalystEstimates } from './estimates.js';
  import { getSegmentedRevenues } from './segments.js';
-@@ -23,10 +22,11 @@
+-import { getCryptoPriceSnapshot, getCryptoPrices, getCryptoTickers } from './crypto.js';
++import { getCryptoPrices, getCryptoTickers } from './crypto.js';
+ import { getInsiderTrades } from './insider_trades.js';
  import { getCompanyFacts } from './company_facts.js';
  
  // All finance tools available for routing
-+// Note: getPriceSnapshot (/prices/snapshot/), getPrices (/prices/), and
-+// getKeyRatiosSnapshot (/financial-metrics/snapshot/) are excluded because
-+// their API endpoints return 404 (removed from financialdatasets.ai as of 2026-02-23).
++// Removed: getPriceSnapshot (/prices/snapshot/), getPrices (/prices/),
++// getKeyRatiosSnapshot (/financial-metrics/snapshot/), getCryptoPriceSnapshot
++// (/crypto/prices/snapshot/) — endpoints removed from financialdatasets.ai API.
  const FINANCE_TOOLS: StructuredToolInterface[] = [
 -  // Price Data
 -  getPriceSnapshot,
 -  getPrices,
-+  // Price Data (crypto only; stock price endpoints removed from API)
-   getCryptoPriceSnapshot,
+-  getCryptoPriceSnapshot,
++  // Crypto Data (snapshot removed; history and tickers still available)
    getCryptoPrices,
    getCryptoTickers,
-@@ -36,7 +36,6 @@
+   // Fundamentals
+@@ -36,7 +35,6 @@
    getCashFlowStatements,
    getAllFinancialStatements,
    // Key Ratios & Estimates
@@ -33,7 +36,7 @@
    getKeyRatios,
    getAnalystEstimates,
    // Other Data
-@@ -69,13 +68,14 @@
+@@ -69,13 +67,14 @@
     - "YTD" → start_date Jan 1 of current year, end_date today
  
  3. **Tool Selection**:
@@ -50,20 +53,25 @@
  
  4. **Efficiency**:
     - Prefer specific tools over general ones when possible
-@@ -98,9 +98,8 @@
+@@ -98,13 +97,12 @@
    return new DynamicStructuredTool({
      name: 'financial_search',
      description: `Intelligent agentic search for financial data. Takes a natural language query and automatically routes to appropriate financial data tools. Use for:
 -- Stock prices (current or historical)
  - Company financials (income statements, balance sheets, cash flow)
 -- Financial metrics (P/E ratio, market cap, EPS, dividend yield)
-+- Financial metrics (P/E ratio, market cap, EPS, dividend yield, key ratios)
++- Financial metrics and key ratios (P/E ratio, market cap, EPS, dividend yield)
  - Analyst estimates and price targets
  - Company news
  - Insider trading activity
+-- Cryptocurrency prices`,
++- Cryptocurrency price history`,
+     schema: FinancialSearchInputSchema,
+     func: async (input, _runManager, config?: RunnableConfig) => {
+       const onProgress = config?.metadata?.onProgress as ((msg: string) => void) | undefined;
 --- a/src/tools/finance/financial-metrics.ts
 +++ b/src/tools/finance/financial-metrics.ts
-@@ -13,9 +13,11 @@
+@@ -13,9 +13,10 @@
  
  // Import fundamental analysis tools directly (avoid circular deps with index.ts)
  import { getIncomeStatements, getBalanceSheets, getCashFlowStatements, getAllFinancialStatements } from './fundamentals.js';
@@ -71,12 +79,11 @@
 +import { getKeyRatios } from './key-ratios.js';
  
  // Fundamental analysis tools available for routing
-+// Note: getKeyRatiosSnapshot (/financial-metrics/snapshot/) excluded because
-+// its API endpoint returns 404 (removed from financialdatasets.ai as of 2026-02-23).
++// Removed: getKeyRatiosSnapshot (/financial-metrics/snapshot/) — endpoint removed from API.
  const METRICS_TOOLS: StructuredToolInterface[] = [
    // Financial Statements
    getIncomeStatements,
-@@ -23,7 +25,6 @@
+@@ -23,7 +24,6 @@
    getCashFlowStatements,
    getAllFinancialStatements,
    // Key Ratios
@@ -84,7 +91,7 @@
    getKeyRatios,
  ];
  
-@@ -50,7 +51,7 @@
+@@ -50,7 +50,7 @@
     - "YTD" → report_period_gte Jan 1 of current year
  
  3. **Tool Selection**:

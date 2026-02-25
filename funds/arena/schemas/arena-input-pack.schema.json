@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hedge-labs.local/funds/arena/schemas/arena-input-pack.schema.json",
+  "title": "Arena Input Pack",
+  "type": "object",
+  "required": ["meta", "quality", "symbols", "market_data", "prompt_context", "source_manifest"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["fund_id", "run_date", "generated_at", "pack_version"],
+      "properties": {
+        "fund_id": { "type": "string" },
+        "run_date": { "type": "string" },
+        "generated_at": { "type": "string" },
+        "pack_version": { "type": "string" }
+      }
+    },
+    "quality": { "type": "object" },
+    "symbols": { "type": "object" },
+    "market_data": { "type": "object" },
+    "prompt_context": { "type": "object" },
+    "source_manifest": { "type": "object" }
+  }
+}
