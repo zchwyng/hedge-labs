@@ -1,0 +1,218 @@
+You are running a PAPER fund. You must not give personal financial advice.
+You are producing a research memo + a PAPER "trade of the day" candidate for comparison across models.
+
+Run metadata:
+- Run date: 2026-02-26
+- Fund name: Quality + Momentum (Monthly-hold)
+- Provider: openai
+- Model: gpt-5.2
+- Rebalance cadence: weekly
+
+Rules:
+- Use a split-source policy: use the system-provided `arena_input_pack` for prices/returns/momentum/trend/volatility/drawdown, and use tools only for qualitative/fundamental/news follow-up. If you cannot verify, write "UNKNOWN".
+- Time horizon: 30 days.
+- Universe: US-listed large/mid cap equities (incl. ADRs), focused ETFs (sector/commodities), and major crypto assets supported by Financial Datasets.
+- Data-gap handling: if the `arena_input_pack` is missing a critical field for a ticker, write "UNKNOWN", reduce confidence, and do NOT attempt forbidden price/snapshot tool workarounds.
+
+Tooling best practices (important to avoid rate limits and preserve data quality):
+- Always call `financial_search` at least once before finalizing output.
+- Prefer `financial_search` only; avoid `financial_metrics` unless you truly cannot get the data via `financial_search`.
+- Hard cap: <= 12 tickers per `financial_search` call.
+- Use the `arena_input_pack` for all price-history and momentum calculations; do not request price snapshots or price history via tools.
+- News: request news ONLY for equities (no ETFs, no crypto). Cap to <= 4 equity tickers, <= 3 headlines per ticker.
+- Fundamentals: request key ratios ONLY for equities (no ETFs, no crypto).
+- Do not request company facts / key ratios / news for ETFs or crypto unless explicitly needed for validation.
+
+Rebalance/tool-call policy (STRICT):
+- If the stateful context says "Rebalance due today: false":
+  - Make EXACTLY 1 `financial_search` call for qualitative refresh only (equity news and/or fundamentals on a small subset of current holdings).
+  - Do NOT request prices, price snapshots, or price history via tools.
+  - Then output action "Do nothing", `rebalance_actions` as [], and keep `target_portfolio` EXACTLY unchanged.
+- If the stateful context says "Rebalance due today: true":
+  - Make 1-2 `financial_search` calls total for qualitative/fundamental follow-up on shortlisted equities (news, catalysts, key ratios, estimates).
+  - Do NOT request prices, price snapshots, or price history via tools for equities, ETFs, or crypto.
+  - Bootstrap exception: if prior `target_portfolio` is empty, build a full 8-name portfolio and do NOT apply the 3-change cap.
+  - Otherwise, after tools: make at most 3 portfolio changes unless thesis damage is severe.
+
+Portfolio constraints:
+- Target positions: 8
+- Min position: 2%
+- Max position: 40%
+- Max sector: 80%
+- Max crypto: 10%
+- `target_portfolio` must contain exactly 8 tradable symbols (equities, ETFs, or major crypto assets).
+- No placeholders like `UNKNOWN`/`CASH`. No duplicate tickers.
+- Broad index ETFs are not allowed (for example: SPY, IVV, VOO, VTI, QQQ, IWM, DIA, VT, ACWI, EFA, EEM).
+- Commodity/metals ETFs and focused exposures are allowed (for example: GLD, IAU, SLV).
+- Every holding weight must be >= 2 and <= 40; total portfolio weight must sum to 100%.
+- Sector exposure must satisfy max sector <= 80%.
+- Crypto exposure (sum of holdings in sector "Crypto" or tickers like BTC-USD/ETH-USD) must be <= 10%.
+- `constraints_check.max_position_ok`, `constraints_check.max_sector_ok`, and `constraints_check.max_crypto_ok` must all be `true` and must match the actual portfolio you output.
+
+Strategy V3 (Institutional IC workflow) - rebalance-due days:
+- Gate 0: Data integrity and regime check.
+  - Verify every active candidate has system-provided `arena_input_pack` price/momentum fields (latest price, 30d/90d/other momentum windows, drawdown/volatility as available).
+  - Treat missing critical fields as `UNKNOWN`, apply a conservative penalty, and avoid adding low-confidence names.
+  - Classify regime using pack-derived benchmark evidence first (risk-on, risk-off, mixed), then refine with qualitative tool evidence.
+- Gate 1: Candidate formation and thesis quality.
+  - Start from prior `target_portfolio` in the stateful context.
+  - If prior `target_portfolio` is empty, bootstrap a full 8-name portfolio (3-change cap does not apply).
+  - If prior `target_portfolio` is non-empty, propose at most 3 changes unless thesis damage is severe.
+  - Consider up to 4 replacement candidates (so the equity tool query stays <= 12 tickers total).
+  - For each active candidate, define one catalyst and one disconfirming datapoint using pack-derived evidence plus qualitative tool evidence.
+- Gate 2: Multi-factor scoring (0-100; do not guess).
+  - Momentum (30): 90d return (weekly) + 30d return (weekly), including relative check vs SPY/QQQ.
+  - Quality/Fundamentals (20): operating margin, ROE/ROIC, revenue growth, earnings growth.
+  - Revision proxy (15): earnings/news tone, guidance direction, and estimate-revision proxy from recent headlines.
+  - Valuation discipline (10): penalty for extreme P/E, P/S, PEG relative to growth/quality.
+  - Risk/liquidity (15): penalty for severe drawdowns, unstable volatility, and weak liquidity signals.
+  - Crowding/regime fit (10): penalize crowded exposures that conflict with current regime.
+- Gate 3: Portfolio construction objective.
+  - Optimize for: expected alpha - risk penalty - turnover/slippage penalty.
+  - Prefer no trade when edge is weak: if score improvement is marginal and does not clear a cost hurdle, keep portfolio unchanged.
+  - Keep winners unless thesis damage is evidenced; replace bottom-ranked holdings with clearly higher-scoring candidates.
+- Gate 4: Risk budget and stress testing.
+  - Check concentration and correlation risk before final sizing.
+  - Run quick scenario checks: equity index shock, rates shock, commodity shock, USD shock.
+  - If scenario losses are too concentrated in one factor/sector, resize before finalizing.
+- Gate 5: Execution realism and monitoring.
+  - Reflect realistic implementation: staged sizing and turnover efficiency.
+  - Avoid new adds immediately before major binary events unless edge is compelling and risk is sized down.
+  - Define explicit invalidation triggers and monitoring checkpoints.
+
+Crypto sleeve rules (max 10%):
+- Only include crypto (or a crypto ETF) if 90d momentum is positive; otherwise keep it 0-5% or omit.
+- Never hold both BTC-USD and a BTC ETF at the same time.
+
+Tasks:
+1) Portfolio health and IC framing (if a prior portfolio exists in repo for this fund):
+   - Summarize what changed in the last 24-72 hours: earnings, guidance, macro surprises, major news (equities only).
+   - Identify thesis damage flags with direct evidence.
+   - State the implied market regime and whether today is a high-conviction rebalance setup.
+
+Pre-step (before calling tools):
+- Decide on a plausible candidate 8-name portfolio first (tickers + rough weights + sectors) based on your priors AND the stateful context.
+- Decide which tickers are "active candidates" for the next rebalance (current holdings + up to 4 replacements).
+- Use the date helper values provided in the stateful context:
+  - lookback_30d_start and lookback_90d_start to interpret pack momentum windows and to anchor any qualitative lookback framing.
+  - news_7d_start for the news window (equities only) in qualitative `financial_search` follow-up.
+
+2) PAPER TRADE OF THE DAY (candidate, NOT an instruction):
+   - Propose exactly ONE action among: ["Add", "Trim", "Replace", "Do nothing"].
+   - If "Add": set `add_ticker` to the added ticker.
+   - If "Trim": set `remove_ticker` to the trimmed ticker AND `add_ticker` to where weight is reallocated.
+   - If "Replace": specify which holding is removed and which is added.
+   - Also output `rebalance_actions`: full list of all rebalance actions taken this run.
+   - `trade_of_the_day` is the single headline action; `rebalance_actions` is the complete action list.
+   - On non-rebalance days, set `trade_of_the_day.action` to "Do nothing" and `rebalance_actions` to [].
+   - In `trade_of_the_day.thesis`, include catalyst, factor edge, and variant view.
+   - In `trade_of_the_day.risks`, include macro, idiosyncratic, and execution/liquidity risks.
+   - In `trade_of_the_day.falsifiable_checks`, use explicit numeric/time-based checks.
+   - In `trade_of_the_day.why_now`, include base/bull/bear framing and why expected edge clears trading-cost drag.
+
+3) Update the model portfolio (paper) with institutional artifacts encoded in existing fields:
+   - Output the full target portfolio weights after today's action, respecting constraints.
+   - `market_summary` should read like an IC top sheet: regime, breadth/leadership, and go/no-go rationale.
+   - `constraints_check.notes` must include a compact appendix string with:
+     factor score highlights, risk budget summary, scenario stress result, execution plan, and monitoring/kill-switch triggers.
+
+Output ONLY JSON:
+{
+  "run_date": "YYYY-MM-DD",
+  "fund_name": "",
+  "paper_only": true,
+  "market_summary": ["", "", ""],
+  "thesis_damage_flags": [{"ticker":"","why":""}],
+  "rebalance_actions": [
+    {"action":"Add|Trim|Replace|Do nothing","remove_ticker":null,"add_ticker":null,"size_change_pct":0}
+  ],
+  "trade_of_the_day": {
+    "action": "Add|Trim|Replace|Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": ["","",""],
+    "risks": ["","",""],
+    "falsifiable_checks": ["",""],
+    "why_now": ""
+  },
+  "target_portfolio": [{"ticker":"","weight_pct":0,"sector":""}],
+  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":""}
+}
+
+Stateful rebalance context (system-provided):
+- Prior successful run date: 2026-02-25
+- Days since prior successful run: 1
+- Rebalance due today: false
+- Rebalance cadence minimum spacing (days): 7
+- lookback_30d_start: 2026-01-27
+- lookback_90d_start: 2025-11-28
+- news_7d_start: 2026-02-19
+- Prior target_portfolio JSON: [{"ticker":"NVDA","weight_pct":18,"sector":"Information Technology"},{"ticker":"META","weight_pct":14,"sector":"Communication Services"},{"ticker":"AMZN","weight_pct":7,"sector":"Consumer Discretionary"},{"ticker":"AVGO","weight_pct":12,"sector":"Information Technology"},{"ticker":"LLY","weight_pct":14,"sector":"Health Care"},{"ticker":"XOM","weight_pct":15,"sector":"Energy"},{"ticker":"V","weight_pct":10,"sector":"Financials"},{"ticker":"GLD","weight_pct":10,"sector":"Materials"}]
+- Prior trade_of_the_day JSON: {"action":"Do nothing","remove_ticker":null,"add_ticker":null,"size_change_pct":0,"thesis":["Catalyst: Process gate—rebalance not permitted today (rebalance due today=false). Avoid reacting mid-cycle to dispersion (gold/energy strength vs mixed mega-cap growth) without weekly rebalance authorization.","Factor edge: Portfolio still owns the strongest pack momentum sleeves (GLD mom +39.59%, XOM +28.85%, NVDA +15.35%, LLY +16.30%, AVGO +14.26). Weak sleeves (AMZN, V, META) are monitored but not rotated intra-week to limit turnover/slippage.","Variant view: If the tape is transitioning from growth concentration to broader cyclicals/real assets (pack: IWM 3m +15.32% and GLD surge), the current mix already contains diversifiers (XOM/GLD). If instead growth re-accelerates, NVDA/AVGO keep exposure—doing nothing keeps optionality."],"risks":["Macro: Mixed regime can flip quickly; if rates/FX shocks hit, high-multiple tech (NVDA/AVGO) and levered equity duration could draw down (AVGO dd63 -25.26%).","Idiosyncratic: Equity news/earnings headlines for the last 7 days are UNKNOWN in the provided tool output (no news items returned), so latent single-name risk could exist without detection.","Execution/liquidity: Deferring action concentrates decision-making at the next eligible rebalance; mitigate then via staged trades and a strict 3-change cap unless thesis damage is severe."],"falsifiable_checks":["Next eligible rebalance (>=7 days spacing): if AMZN mom stays < 0 AND remains below SPY 3m by >=10 percentage points (pack-verified at that time), escalate AMZN to replacement short list.","Next eligible rebalance: if V mom remains < 0 AND price is below both MA50 and MA200 in the pack at that time (trend break), prioritize a swap into a top-momentum large/mid-cap candidate from the pack list (e.g., TSM/KLAC/GOOGL) subject to news/fundamental checks."],"why_now":"Base: Not a rebalance day; edge does not clear turnover/slippage drag given process constraints. Bull: Winners (GLD/XOM/NVDA) keep working and we avoid whipsaw by holding. Bear: If risk-off deepens, GLD ballast and non-tech exposure help; we reassess at the next eligible rebalance with full scoring and (equities) tool-verified headline review."}
+- Last 7-day aggregated context JSON: {"lookback_days":7,"successful_runs":6,"successful_run_dates":["2026-02-19","2026-02-20","2026-02-21","2026-02-22","2026-02-23","2026-02-25"],"action_history":[{"run_date":"2026-02-19","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-02-20","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-02-21","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-02-22","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-02-23","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-02-25","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0}],"average_turnover_pct":0,"market_summary_bullets":["Regime (evidence-limited; non-rebalance day): mildly risk-on tape on the close with SPY +0.50% and QQQ +0.68%, while portfolio cyclicals/hedges also worked (XOM +3.28%, GLD +2.25%).","Breadth/leadership snapshot: semis/mega-cap growth up (NVDA +1.54%, AMZN +1.76%, META +0.58%, AVGO +0.27%), energy led (XOM +3.28%); notable laggard today was LLY (-1.60%).","Go/No-go: NO-GO for rebalance (rebalance due today=false). Per policy, only price snapshots were verified; no weekly 30/90d momentum, no fundamentals snapshot, and no equity news validation today.","Regime (tool-verified today): Mixed-to-risk-off on the day—benchmarks down (SPY -0.26%, QQQ -0.48%) while defensive diversifier GLD up (+0.28%).","Breadth/leadership: Portfolio mega-cap growth mostly green but small (NVDA +0.09%, META +0.24%, AMZN +0.07%, AVGO +0.14%); cyclicals/diversifiers mixed with Energy and Gold up (XOM +0.31%, GLD +0.28%) and Financials lagging (V -0.71%).","Go/No-go: NO-GO for rebalance—cadence gate blocks turnover (rebalance due today: false). Maintain exposures; treat any 24–72h thesis updates as UNKNOWN without tool-fetched equity news/fundamental refresh.","Regime: MIXED (single-day tape only; no weekly 30/90d momentum fetched today by rule). Benchmarks green: SPY 689.43 (+0.72%), QQQ 608.81 (+0.89%).","Breadth/leadership (snapshot): Mega-cap growth participation positive (AMZN +2.59%, META +1.68%, NVDA +0.76%) while defensives/hedges also bid (GLD +1.97%); Energy lagged (XOM -2.22%).","Go/No-go: NO-GO for rebalance (rebalance due today = false; min spacing not met). Action = Do nothing; keep target portfolio unchanged.","Regime (evidence-limited; no weekly 30/90d history pull permitted today): mildly risk-on on latest close with SPY 689.43 (+0.72%) and QQQ 608.81 (+0.89%) outperforming.","Breadth/leadership snapshot: mega-cap growth participated (AMZN +2.59%, META +1.68%, NVDA +0.76%) while real-asset hedge also bid (GLD +1.97%); Energy lagged materially (XOM -2.22%), semis mixed (AVGO -0.41%).","Go/No-go: NO-GO for rebalance (rebalance due today=false; weekly spacing not met). Maintain target portfolio unchanged; treat catalysts/news/fundamental changes as UNKNOWN today (no news/ratios pull under policy)."],"thesis_damage_counts":[{"ticker":"LLY","count":3},{"ticker":"V","count":3},{"ticker":"XOM","count":3},{"ticker":"AMZN","count":2},{"ticker":"AVGO","count":2},{"ticker":"GLD","count":2},{"ticker":"META","count":2},{"ticker":"NVDA","count":1}],"recurring_holdings":[{"ticker":"AMZN","appearance_count":6},{"ticker":"AVGO","appearance_count":6},{"ticker":"GLD","appearance_count":6},{"ticker":"LLY","appearance_count":6},{"ticker":"META","appearance_count":6},{"ticker":"NVDA","appearance_count":6},{"ticker":"V","appearance_count":6},{"ticker":"XOM","appearance_count":6}]}
+
+Execution policy:
+- Treat prior target_portfolio as the starting portfolio when available.
+- If "Rebalance due today" is false, output action "Do nothing" and keep target_portfolio exactly unchanged.
+- Bootstrap exception: if prior target_portfolio is empty, build a full 8-name portfolio; do not apply the 3-change cap for this run.
+- If "Rebalance due today" is true and prior target_portfolio is non-empty, make only justified changes and keep turnover efficient.
+- On rebalance-due days, use the 7-day aggregated context explicitly when selecting actions and sizing.
+- On rebalance-due days, output full action list in `rebalance_actions` (can contain multiple actions).
+
+Deterministic market data pack (system-provided; supersedes earlier tool-fetch instructions for price/history)
+- Consistency check only: follow the template's pack-native policy.
+- Use `arena_input_pack` for all price/history/momentum calculations.
+- Do NOT request stock/ETF/crypto price snapshots or price history via Dexter tools.
+- Call `financial_search` at least once for qualitative/fundamental/news follow-up before final JSON.
+- If pack data is missing, write UNKNOWN and reduce confidence instead of using forbidden tool workarounds.
+
+Arena input pack file: /home/runner/work/hedge-labs/hedge-labs/funds/fund-a/runs/2026-02-26/openai/arena_input_pack.json
+Arena input pack v1 (Yahoo deterministic prices) for 2026-02-26
+Pack status: ok
+Yahoo coverage: 30/30 (errors=0)
+Required symbol coverage: 13/13
+Benchmark coverage: 6/6
+Candidate pool config: /home/runner/work/hedge-labs/hedge-labs/funds/arena/config/fund-a.candidates.json
+
+Benchmarks (deterministic price/history features):
+- SPY: close=693.15 1m=0.06% 3m=5.49% 6m=8.51% 12m=17.43% mom=7.87% MA50=true MA200=true
+- QQQ: close=616.68 1m=-1.40% 3m=4.64% 6m=8.39% 12m=19.22% mom=7.71% MA50=true MA200=true
+- IWM: close=264.58 1m=0.23% 3m=12.68% 6m=14.57% 12m=23.74% mom=12.80% MA50=true MA200=true
+- TLT: close=89.91 1m=2.15% 3m=1.60% 6m=5.90% 12m=4.52% mom=3.54% MA50=true MA200=true
+- GLD: close=473.42 1m=1.88% 3m=26.49% 6m=52.80% 12m=73.92% mom=38.77% MA50=true MA200=true
+- BTC-USD: close=67960.13 1m=-6.93% 3m=-22.43% 6m=-36.89% 12m=-35.20% mom=-25.36% MA50=false MA200=false
+
+Current holdings (deterministic price/history features):
+- NVDA: close=195.56 1m=4.88% 3m=9.33% 6m=8.77% 12m=50.15% mom=18.28% vol20=37.91% dd63=-10.72%
+- META: close=653.69 1m=-2.78% 3m=10.09% 6m=-13.09% 12m=-1.85% mom=-1.91% vol20=44.88% dd63=-13.69%
+- AMZN: close=210.64 1m=-11.65% 3m=-4.55% 6m=-7.59% 12m=-0.97% mom=-6.19% vol20=32.38% dd63=-19.64%
+- AVGO: close=332.31 1m=2.30% 3m=-2.13% 6m=13.35% 12m=61.26% mom=18.70% vol20=38.16% dd63=-25.26%
+- LLY: close=1028.83 1m=-3.03% 3m=-2.75% 6m=48.43% 12m=17.59% mom=15.06% vol20=54.73% dd63=-11.51%
+- XOM: close=149.06 1m=11.28% 3m=28.16% 6m=35.46% 12m=38.56% mom=28.37% vol20=30.73% dd63=-5.48%
+- V: close=312.99 1m=-4.52% 3m=-4.37% 6m=-9.91% 12m=-9.87% mom=-7.17% vol20=30.22% dd63=-14.10%
+- GLD: close=473.42 1m=1.88% 3m=26.49% 6m=52.80% 12m=73.92% mom=38.77% vol20=57.05% dd63=-13.87%
+
+Top momentum candidates (from deterministic pack):
+- SLV: mom=89.63% 3m=76.69% 6m=128.56% 12m=171.88%
+- KLAC: mom=57.30% 3m=41.16% 6m=76.37% 12m=111.29%
+- TSM: mom=57.12% 3m=41.34% 6m=65.54% 12m=105.04%
+- GLD: mom=38.77% 3m=26.49% 6m=52.80% 12m=73.92%
+- LMT: mom=37.77% 3m=41.59% 6m=46.78% 12m=51.40%
+- GOOGL: mom=30.98% 3m=4.49% 6m=50.31% 12m=75.24%
+- XOM: mom=28.37% 3m=28.16% 6m=35.46% 12m=38.56%
+- CVX: mom=18.98% 3m=24.03% 6m=18.90% 12m=21.93%
+- AVGO: mom=18.70% 3m=-2.13% 6m=13.35% 12m=61.26%
+- XLI: mom=18.48% 3m=17.76% 6m=16.70% 12m=32.62%
+
+Weakest momentum candidates (from deterministic pack):
+- NVO: mom=-37.30% 3m=-19.88% 6m=-32.27% 12m=-56.72%
+- NOW: mom=-36.02% 3m=-35.93% 6m=-40.77% 12m=-43.82%
+- IBIT: mom=-25.84% 3m=-18.22% 6m=-37.61% 12m=-26.55%
+- BTC-USD: mom=-25.36% 3m=-22.43% 6m=-36.89% 12m=-35.20%
+- ETH-USD: mom=-24.76% 3m=-30.25% 6m=-46.05% 12m=-18.61%
+- PANW: mom=-21.91% 3m=-20.81% 6m=-21.52% 12m=-23.93%
+- MSFT: mom=-12.47% 3m=-14.96% 6m=-20.23% 12m=-0.08%
+- V: mom=-7.17% 3m=-4.37% 6m=-9.91% 12m=-9.87%
+- AMZN: mom=-6.19% 3m=-4.55% 6m=-7.59% 12m=-0.97%
+- META: mom=-1.91% 3m=10.09% 6m=-13.09% 12m=-1.85%
