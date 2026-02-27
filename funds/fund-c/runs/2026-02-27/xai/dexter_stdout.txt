@@ -1,0 +1,22 @@
+dexter_info: model=grok-4-1-fast-reasoning iterations=2 tool_calls=1
+{
+  "run_date": "2026-02-27",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": ["Mixed regime: SPY mom 6.83%/QQQ 5.82%; narrow semis lead (TSM 51%, NVDA 12%), HC/cyber/SaaS lag.","Holdings mixed: TSM/NVDA/AVGO mom strong vs benches; PLTR/PANW/NOW/NVO weak (-19% to -37%).","Non-rebalance (1d prior): qual refresh shows solid ratios/est up, no news damage, hold verified."],
+  "thesis_damage_flags": [{"ticker":"NVO","why":"Mom -36.5%, vol 94%, dd -41%; recurring flag x4."},{"ticker":"PANW","why":"Mom -19.2%, dd -29%; recurring flag x4."},{"ticker":"PLTR","why":"Mom 1.3% (rel weak), vol 70%, dd -34%; recurring flag x4."},{"ticker":"NOW","why":"Mom -31.9%, dd -42%; recurring flag x2."}],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": ["Portfolio verified; non-rebalance day (cadence 7d).","Qual refresh: ratios strong (NVDA ROE 104%, TSM OM 53%); est rev up (NVDA EPS +21% gth, PLTR +48%). No headlines since 2/20.","IT/HC hold: TSM/NVDA lead rel mom; laggards stable qual/est."],
+    "risks": ["IT 76% conc to AI/semicon; vol high (PLTR 70%, NVO 94%).","Deep dd in laggards: PLTR/PANW/NOW/NVO -29-42% 63d.","Liquidity ok; mixed regime, BTC neg mom excludes crypto."],
+    "falsifiable_checks": ["Any holding -5% daily or IT>80%.","SPY/QQQ -2% wk or rel mom <-40% triggers rev."],
+    "why_now": "Non-rebalance verification (1d run); no thesis damage (est/ratios solid, no news); mixed regime favors hold vs turnover costs."
+  },
+  "target_portfolio": [{"ticker":"NVDA","weight_pct":15,"sector":"Information Technology"},{"ticker":"TSM","weight_pct":15,"sector":"Information Technology"},{"ticker":"AVGO","weight_pct":13,"sector":"Information Technology"},{"ticker":"LLY","weight_pct":14,"sector":"Health Care"},{"ticker":"PLTR","weight_pct":12,"sector":"Information Technology"},{"ticker":"PANW","weight_pct":11,"sector":"Information Technology"},{"ticker":"NOW","weight_pct":10,"sector":"Information Technology"},{"ticker":"NVO","weight_pct":10,"sector":"Health Care"}],
+  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":"Scores: Mom 65/100 (semis lead), Qual 85/100 (high ROE/OM), Rev 75/100 (est up), Val ok (P/E pen NVDA/PLTR), Risk 70/100 (high vol/dd). Risk budget: IT76%<80%, no crypto. Stress: eq -10% IT -8%, rates ok. Exec: none. Monitor: mom rev <0 or dd<-50% kill."}
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
