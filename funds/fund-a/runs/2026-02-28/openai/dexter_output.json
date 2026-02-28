@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-02-28",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (pack): MIXED to mildly risk-off in growth. SPY 1m -1.36%, QQQ 1m -4.09% and both MA50=false (MA200=true) while IWM 3m +7.00% and MA50/MA200=true; TLT 1m +4.07% and GLD 3m +27.28% indicate defensive/real-asset bid alongside selective cyclicals.",
+    "Breadth/leadership (pack): Leaders are real assets (GLD mom +39.90%) and Energy (XOM mom +31.77%); top single-name momentum is SLV/KLAC/TSM/LMT. Current book has dispersion: XOM/GLD/LLY positive vs AMZN/META/V negative momentum and AVGO in a deeper drawdown (dd63 -25.26%).",
+    "Go/No-go: NO-GO for rebalance (rebalance due today=false; spacing not met). Today is a qualitative health-check only; keep portfolio unchanged and treat missing fundamentals/news as UNKNOWN where not tool-verified."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AMZN",
+      "why": "Pack shows sustained weakness (1m -13.58%, 3m -8.56%, mom -8.13%, dd63 -19.64%). No tool-verified negative catalyst in the 7d window in this run; fundamental/news driver is UNKNOWN."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Pack drawdown is elevated (dd63 -25.26%) with 3m -16.85% despite positive longer-term trend (12m +51.42%, mom +9.32%). Qualitative confirmation of demand/guide is UNKNOWN (key ratios/news not retrieved)."
+    },
+    {
+      "ticker": "META",
+      "why": "Pack momentum negative (mom -4.43%) with 6m -13.14% and dd63 -13.69%. No tool-verified 7d headlines here; driver remains UNKNOWN."
+    },
+    {
+      "ticker": "V",
+      "why": "Pack momentum negative (mom -5.57%; 12m -8.01%) with dd63 -14.10%. No tool-verified 7d fundamental/news change in this run; catalyst is UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst/process: Cadence gate blocks trades today (rebalance due today=false). Use this run for qualitative risk check; no tool-verified breaking news/fundamental shock was obtained (key ratios/news retrieval failed; estimates only).",
+      "Factor edge: Portfolio still tilts to strongest pack trends (GLD mom +39.90%, XOM mom +31.77%, LLY mom +14.36%) while maintaining quality/scale exposure (NVDA/AVGO/META/AMZN/V). In a mixed regime (QQQ MA50=false), minimizing turnover avoids whipsaw.",
+      "Variant view: If breadth continues to rotate toward industrials/defense/semicapex (IWM strong; pack leaders include LMT/KLAC/TSM), next eligible rebalance can swap out weakest-momentum holdings (AMZN/V/META) after tool-verified headline/estimate context."
+    ],
+    "risks": [
+      "Macro: If growth de-risks further (QQQ MA50=false), NVDA/AVGO/META/AMZN could extend drawdowns; if real rates rise, GLD’s momentum could mean-revert quickly.",
+      "Idiosyncratic: Tool could not retrieve key ratios or headlines; any near-term earnings/guidance/regulatory developments for holdings are UNKNOWN in this run.",
+      "Execution/liquidity: None today (no trades). Risk is opportunity cost if laggards (AMZN/META/V) continue underperforming before next eligible rebalance."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>=2026-03-06): if AMZN 1m remains <0 AND underperforms SPY 1m by >=10pp (pack), elevate to Replace list (e.g., KLAC/TSM/LMT) pending tool-verified headlines.",
+      "Next eligible rebalance: if AVGO dd63 worsens to <=-30% OR its mom turns <=0 (pack), cap/resize and consider switching to higher-momentum semicapex (e.g., KLAC) after qualitative validation."
+    ],
+    "why_now": "Base: Non-rebalance day; expected incremental alpha from micro-rotations is unlikely to clear turnover/slippage drag under the strict cadence policy. Bull: GLD/XOM/LLY continue to carry in the pack’s mixed regime while NVDA retains positive composite momentum (mom +6.19%) despite recent weakness. Bear: If risk-off accelerates, GLD/TLT-style exposures help stabilize; we act at the next authorized rebalance with full scoring + tool-verified news/ratios."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix—Scores (0-100, evidence-limited): Momentum highlights: GLD 39.9, XOM 31.8, LLY 14.4, NVDA 6.2; drags: AMZN -8.1, V -5.6, META -4.4; Risk: AVGO dd63 -25.3 elevated, AMZN dd63 -19.6. Fundamentals/news: key ratios + headlines FAILED via tool => UNKNOWN; only analyst estimates retrieved (NVDA FY2027E rev 316.3B EPS 7.29; META FY2026E rev 248.5B EPS 29.62; AMZN FY2026E rev 802.9B EPS 7.76; AVGO FY2026E rev 94.9B EPS 8.70). Risk budget: max pos 18% (<40%); sector: IT 30% (<80%); crypto 0% (<=10%). Scenarios (qualitative): equity shock hurts NVDA/AVGO/META/AMZN; rates-up hurts GLD/LLY duration; oil-down hurts XOM; USD-up may pressure GLD—portfolio has partial offset via GLD vs growth beta. Execution plan: none today; pre-stage watchlist for next rebalance. Monitoring/kill-switch: AMZN relative underperf trigger (>=10pp vs SPY over 1m); AVGO dd63 <=-30% or mom<=0; if QQQ MA200 flips false (pack) reduce growth beta at next rebalance."
+  }
+}
