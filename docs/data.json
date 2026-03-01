@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T06:36:22Z",
+  "generated_at": "2026-03-01T06:37:22Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -1455,7 +1455,91 @@
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": -4.32
+            "return_pct": 0.01
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 14.29,
+        "turnover_estimate_pct": 78
+      }
+    },
+    {
+      "date": "2026-03-01",
+      "lanes": [
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 0.47,
+          "benchmark_return_pct": -0.86,
+          "excess_return_pct": 1.33,
+          "rank": 1,
+          "inception_date": "2026-02-12",
+          "asof_price_date": "2026-02-27",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": -2.85,
+          "benchmark_return_pct": 0.69,
+          "excess_return_pct": -3.54,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-02-27",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": 0.12,
+          "benchmark_return_pct": 0.69,
+          "excess_return_pct": -0.57,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-02-27",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-02-27",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -0.86
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -0.95
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -0.22
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": 3.45
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -0.1
           }
         ]
       },

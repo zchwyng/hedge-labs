@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-03-01",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (pack): MIXED. SPY 1m -1.36% and QQQ 1m -4.09% with both below MA50 (MA50=false), but SPY 6m +6.70% and IWM 3m +7.00% (MA50/MA200=true) suggest broader participation vs mega-cap growth leadership.",
+    "Breadth/leadership (pack): Real assets remain dominant (GLD mom +39.90%, 3m +27.28%), Energy strong (XOM mom +31.77%, 1m +11.58%). Within growth, dispersion is high: NVDA 1m -7.48%, AMZN 1m -13.58% while LLY is +2.92% 1m.",
+    "Go/No-go: NO-GO for rebalance (rebalance due today=false; spacing not met). Today is strictly a qualitative risk check for a small subset of equities; maintain portfolio unchanged."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AMZN",
+      "why": "Pack shows sustained drawdown/momentum weakness (1m -13.58%, 3m -8.56%, dd63 -19.64%) vs SPY 1m -1.36%; no tool-verified negative headline/guidance in this run (news=UNKNOWN)."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Pack drawdown elevated (dd63 -25.26%) and 3m weak (-16.85%) while vol20 is high (39.75%); fundamentals show strong TTM operating leverage (TTM op inc 25.484B on rev 63.887B => op margin ~39.9%), but near-term tape remains fragile."
+    },
+    {
+      "ticker": "META",
+      "why": "Pack momentum mixed/soft (mom -4.43%, dd63 -13.69%) and 12m -3.48%; fundamentals (TTM op margin ~41.4% from statements) look strong, but trend is not confirming (MA50 for QQQ is false; headline risk this week is UNKNOWN)."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst/process: Policy gate blocks turnover (rebalance due today=false). Use today to confirm no obvious fundamental collapse in core growth holdings; tool data supports strong TTM profitability in NVDA/META/AMZN/AVGO despite mixed price action.",
+      "Factor edge: Current book already tilts to strongest pack trends (GLD mom +39.90%, XOM mom +31.77%) plus quality/earnings power (NVDA TTM op margin ~60.4%; META ~41.4%; AMZN ~11.2%; AVGO ~39.9%). Staying put avoids whipsaw in a MA50-below regime for SPY/QQQ.",
+      "Variant view: If the next 30 days rotate toward semicapex/defense (KLAC/LMT in pack leaders) while AMZN/V remain laggards, act at next eligible rebalance with a higher-momentum swap after a fresh headline check."
+    ],
+    "risks": [
+      "Macro: Mixed-to-risk-off risk (SPY/QQQ MA50=false) could extend drawdowns in NVDA/AVGO/META/AMZN; rates down (TLT 1m +4.07%) could help duration assets but signals growth caution.",
+      "Idiosyncratic: No tool-verified headlines were retrieved in this run for holdings (news=UNKNOWN), so late-breaking litigation/regulatory/product issues may be unreflected here.",
+      "Execution/liquidity: None today (no trades). Main risk is opportunity cost if laggards (AMZN/V/META) continue to underperform before the next authorized rebalance."
+    ],
+    "falsifiable_checks": [
+      "Next eligible rebalance (>=2026-03-06): if AMZN remains <0 on both 1m and 3m returns and underperforms SPY 1m by >=10pp (pack), elevate to Replace list (e.g., KLAC/LMT/TSM) pending news verification.",
+      "Next eligible rebalance: if AVGO dd63 worsens to <= -30% OR its 1m return trails SPY 1m by >=8pp (pack), reduce size or rotate to higher-momentum semicap exposure (e.g., KLAC) after qualitative check."
+    ],
+    "why_now": "Base: Not a rebalance day; expected incremental alpha from micro-rotations is unlikely to clear turnover/slippage drag under policy. Bull: Energy/Gold leadership persists while quality earnings power (NVDA/META/AVGO) provides upside optionality if growth stabilizes. Bear: If risk-off deepens, GLD/XOM ballast helps; we preserve flexibility to rotate at the next authorized rebalance with full scoring + refreshed headlines."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 7,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "V",
+      "weight_pct": 10,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Data integrity: pack coverage OK for all 8 holdings + benchmarks; qualitative ratios partially available (key ratios/news missing => UNKNOWN). Factor highlights (pack): strongest momentum sleeves GLD (mom +39.90%), XOM (+31.77%); weakest in-book AMZN (mom -8.13%), V (-5.57%), META (-4.43%); QQQ MA50=false suggests growth regime fragility. Fundamentals (tool, statements only): NVDA TTM op margin ~60.4% (op inc 130.387B / rev 215.938B); META ~41.4% (83.276B/200.966B); AMZN ~11.2% (79.975B/716.924B); AVGO ~39.9% (25.484B/63.887B). Risk budget: concentration moderate (top weight 18%); sector max IT=30% (<80%); crypto=0% (<=10%). Scenario stress (qualitative, pack-driven): equity-index shock hurts NVDA/AVGO/META/AMZN; rates-down shock supportive to duration/growth but may signal recession risk; commodity shock negative for GLD/XOM; USD shock could affect XOM/GLD (direction UNKNOWN). Execution plan: no trades today; next rebalance window >=2026-03-06 with pre-committed swap list (KLAC/TSM/LMT) if laggards fail checks. Monitoring/kill-switches: AMZN underperform vs SPY by >=10pp (1m) or dd63 <= -25%; AVGO dd63 <= -30%; portfolio regime check if SPY MA200 flips false or GLD 3m momentum turns negative."
+  }
+}
