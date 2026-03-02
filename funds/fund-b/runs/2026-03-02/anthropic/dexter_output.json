@@ -1,0 +1,92 @@
+{
+  "run_date": "2026-03-02",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: Mixed/Cautious — SPY -1.36% 1m, below MA50 (above MA200); QQQ -4.09% 1m, below MA50; IWM -0.72% 1m but above both MAs (+7.0% 3m) signals cyclical/value rotation. TLT +4.07% 1m above both MAs confirms a flight-to-quality bid. BTC-USD mom=-27.27%, below both MAs — crypto fully risk-off. Regime classification: Risk-Off lean with commodity, defense, and energy as the only clean leadership pockets.",
+    "LEADERSHIP: Gold (GLD mom=+39.90%, 3m=+27.28%) remains dominant momentum anchor. Energy (XOM mom=+31.77%, 3m=+34.06%; CVX mom=+20.88%, 3m=+26.97%) continues to outperform all benchmarks on all windows. Defense (LMT mom=+39.29%, 3m=+46.56%, dd63=-5.23%) is cleanest high-momentum name not yet in portfolio. KLAC (mom=+51.76%, 3m=+33.22%) is the only technology holding with intact momentum. AVGO (3m=-16.85%, dd63=-25.26%) remains the weakest current holding — deterioration now flagged for 3 consecutive runs. JPM (mom=+4.78%, 3m=-0.44%, below MA50) flatlined; financials sector leadership absent.",
+    "GO/NO-GO: Non-rebalance day — Day 1 of new 7-day minimum cadence following 2026-03-01 run. No emergency conditions triggered — all kill-switch thresholds intact (AVGO $319.55 > $300 kill-switch ✓, LLY $1051.99 > $960 kill-switch ✓, GLD $483.75 > $445 kill-switch ✓). Qualitative refresh confirms: XOM Q1-2026 EPS est $1.60 ramping to $1.83 Q3; CVX Q1 est $1.54 ramping to $1.84 Q3; LLY Q1 est $7.34 accelerating to $9.46 Q4 2026; JPM Q1 est $5.41 steady. All four quality anchors intact. Next eligible rebalance window: March 9 at earliest. Portfolio holds."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "3m=-16.85%, dd63=-25.26%, below MA50 — momentum deterioration persists for 4th consecutive run. Still above $300 kill-switch ($319.55) but approaching threshold. AVGO→TSM or AVGO→LMT remains highest-conviction swap candidate for March 9 rebalance."
+    },
+    {
+      "ticker": "JPM",
+      "why": "mom=+4.78%, 3m=-0.44%, below MA50 ($300.30 vs MA50=$313.03) — financials sector leadership thesis remains absent. Q1 2026 EPS est $5.41 is solid but price momentum score is bottom-ranked in portfolio. JPM→LMT replacement thesis strengthening entering March 9 window."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Non-rebalance day discipline enforced: Day 1 of 7-day minimum cadence following 2026-03-01 run. No emergency override conditions triggered — AVGO at $319.55 holds above the $300 kill-switch, LLY at $1051.99 holds above $960 kill-switch, GLD at $483.75 holds above $445 kill-switch. Qualitative refresh confirms all four quality anchors intact: XOM Q1-2026 EPS est $1.60 ramping to $1.83 by Q3 2026, CVX Q1 est $1.54 ramping to $1.84 Q3, LLY Q1 est $7.34 accelerating to $9.46 Q4 2026, JPM Q1 est $5.41 stable through 2026.",
+      "March 9 rebalance pre-positioning: (1) AVGO→LMT is the highest-conviction candidate swap — LMT mom=+39.29%, 3m=+46.56%, dd63=-5.23%, above both MAs, European defense rearmament secular tailwind, low correlation to existing energy/gold positions. AVGO 3m=-16.85%, dd63=-25.26% — deterioration now flagged 4 consecutive runs, thesis damage accumulating. (2) AVGO→TSM is the valid alternative — TSM mom=+48.47%, 3m=+31.93%, dd63=-10.46%, above both MAs; stronger raw momentum but higher geopolitical Taiwan risk. (3) JPM→LMT gains conviction if JPM fails to reclaim MA50 (~$313) by March 9 — financials sector leadership is absent on every momentum window. (4) GLD 18% weight remains fully validated: mom=+39.90%, 3m=+27.28%, above both MAs, regime hedge working.",
+      "Regime assessment: Mixed/Cautious with defensive/commodity posture appropriate. SPY -1.36% 1m below MA50, QQQ -4.09% 1m below MA50 — both benchmark indices in near-term correction. TLT +4.07% 1m above both MAs confirms flight-to-quality bid. BTC-USD mom=-27.27%, below both MAs, 3m=-25.16% — crypto full risk-off validates zero crypto sleeve. IWM above both MAs (+7.0% 3m) is the sole broad risk-on signal, pointing to cyclical/value not growth. Energy+gold+industrials positioning is well-aligned; AVGO is the sole misaligned position."
+    ],
+    "risks": [
+      "MACRO: SPY -1.36% 1m and QQQ -4.09% 1m both below MA50 — deteriorating broad market breadth risks cyclical compression. Energy (XOM+CVX=27%) combined with Financials (JPM 12%) = 39% combined cyclical concentration. Tariff escalation (US-China/EU trade friction), oil demand shock, or a negative growth surprise could compress energy multiples and financials simultaneously. TLT +4.07% 1m bond bid confirms some flight-to-quality already underway — if it accelerates, risk-off could pressure even energy names.",
+      "IDIOSYNCRATIC: AVGO dd63=-25.26% continues deteriorating for 4th consecutive run — any close below $300 triggers emergency review protocol ahead of March 9 scheduled rebalance window. LLY dd63=-11.06% with 3m=-5.06% risks further drawdown if GLP-1/weight-loss drug demand narrative is challenged or pricing pressure re-emerges. KLAC vol20=70.91% with dd63=-22.41% — high-volatility semiconductor name vulnerable to wafer demand guidance cuts or inventory correction headlines despite strong composite momentum.",
+      "EXECUTION/LIQUIDITY: Non-rebalance day discipline means no action is taken despite clearly identified replacement candidates (LMT, TSM). Seven-day minimum spacing prevents reactive trading on short-term noise. Primary execution risk is AVGO continuing to deteriorate toward $300 kill-switch before March 9 — if triggered, emergency review adds unplanned turnover with potential slippage. Secondary risk: if both AVGO and JPM are replaced on March 9, 2-name turnover may require staged execution to minimize market impact in the context of current mixed regime."
+    ],
+    "falsifiable_checks": [
+      "If AVGO closes below $300 before March 9, 2026, initiate emergency review and replace with LMT at 10-12% weight — kill-switch breach invalidates 'hold AVGO' thesis.",
+      "If LMT 3m momentum remains above +40% AND AVGO 3m momentum remains below -10% on March 9, 2026, score AVGO→LMT as confirmed highest-priority rebalance action with size_change_pct = 10.",
+      "If JPM fails to reclaim MA50 (~$313) by March 9, 2026, score JPM as second replacement candidate (→LMT or →TSM); financials sector leadership thesis formally invalidated.",
+      "If GLD closes below $445 (approx -8% from $483.75) before March 9, reduce GLD from 18% to 12-14% — extended gold rally mean-reversion risk with vol20=55.66%."
+    ],
+    "why_now": "Day 1 of 7-day minimum cadence — no edge clears transaction-cost hurdle today under process discipline. Base case: energy/gold leadership extends into March (XOM 3m=+34%, CVX 3m=+27%, GLD 3m=+27%), KLAC re-rates on EPS acceleration ($9.10→$11.53 across 2026 quarterly estimates), LLY sustains recovery above MA50 ($1051.99 vs MA50=$1051.68 — barely above). Bull case: crude oil recovers on supply discipline, GLD extends toward $500+ on tariff/geopolitical uncertainty, LMT added at March 9 rebalance captures European defense rearmament alongside XLI industrials exposure. Bear case: macro risk-off intensifies — tariff shock or growth scare simultaneously hits XOM/CVX/JPM (39% combined cyclical); AVGO deteriorates through $300 kill-switch triggering emergency turnover. AVGO watch remains active; all kill-switch levels intact; March 9 is the next decision gate."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 12,
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 12,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "XLI",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 18,
+      "sector": "Commodities"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (0-100): XOM=82 (momentum+quality+low dd), GLD=80 (dominant mom+regime hedge), KLAC=78 (top composite mom, penalized vol20=70.91%), LMT=76 (watchlist — not yet held, AVGO replacement candidate), CVX=74 (strong momentum, low vol), LLY=68 (recovering, EPS ramp intact, 3m negative), XLI=72 (clean trend, lowest vol20=14.4%), AVGO=44 (damaged momentum 3m=-16.85%, dd63=-25.26%), JPM=42 (flatlined momentum, below MA50). | RISK BUDGET: Energy 27% (XOM+CVX) | Technology 20% (KLAC+AVGO) | Financials 12% | Healthcare 12% | Industrials 11% | Commodities 18% | Crypto 0%. Max single position GLD=18% (<40% cap ✓). Max sector Energy=27% (<80% cap ✓). Crypto=0% (<10% cap ✓). | SCENARIO STRESS: (1) Equity index -10% shock: Energy/Financials lose ~3-4% portfolio; GLD+18% likely offsets 1-2%. Net portfolio loss est -5 to -7%. (2) Rates shock +50bps: JPM benefits modestly; GLD modest headwind; energy neutral. Net: -1 to -2%. (3) Commodity shock (oil -20%): XOM+CVX = -5 to -6% portfolio drag; GLD may partially offset if driven by macro fear. (4) USD shock +5%: GLD -2%, TSM/XOM modest pressure; JPM neutral. All scenarios within acceptable risk parameters for mixed-regime defensive posture. | EXECUTION PLAN: No action today (non-rebalance day). March 9 priority actions: (1) Replace AVGO with LMT (highest conviction, 4-run deterioration streak); (2) Consider JPM→TSM if JPM still below MA50 on March 9. | KILL-SWITCH TRIGGERS: AVGO<$300 (emergency replace→LMT); LLY<$960 (trim to 8%); GLD<$445 (trim to 12-14%); XOM 3m momentum turns negative (reduce energy sleeve); JPM below $280 (exit financials). All intact as of 2026-03-02."
+  }
+}
