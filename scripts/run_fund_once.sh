@@ -83,6 +83,52 @@ latest_successful_output_before_run() {
   printf '%s\t%s\n' "$prev_output" "$prev_date"
 }
 
+has_active_rebalance_action() {
+  local output_path="$1"
+  [[ -f "$output_path" ]] || return 1
+  jq -e '
+    [
+      (.trade_of_the_day.action // empty),
+      ((.rebalance_actions // [])[]?.action // empty)
+    ]
+    | map(select(type == "string") | ascii_downcase | gsub("^\\s+|\\s+$"; ""))
+    | any(. != "do nothing")
+  ' "$output_path" >/dev/null 2>&1
+}
+
+latest_rebalance_checkpoint_before_run() {
+  local target_fund_id="$1"
+  local target_provider="$2"
+  local target_run_date="$3"
+  local runs_root="${repo_root}/funds/${target_fund_id}/runs"
+  local checkpoint_output=""
+  local checkpoint_date=""
+  local candidate_output=""
+  local candidate_meta=""
+  local candidate_status=""
+
+  if [[ -d "$runs_root" ]]; then
+    while IFS= read -r d; do
+      [[ "$d" < "$target_run_date" ]] || continue
+      candidate_output="${runs_root}/${d}/${target_provider}/dexter_output.json"
+      candidate_meta="${runs_root}/${d}/${target_provider}/run_meta.json"
+      if [[ ! -f "$candidate_output" ]]; then
+        continue
+      fi
+      if [[ -f "$candidate_meta" ]]; then
+        candidate_status="$(jq -r '.status // "failed"' "$candidate_meta")"
+        [[ "$candidate_status" == "success" ]] || continue
+      fi
+      if has_active_rebalance_action "$candidate_output"; then
+        checkpoint_output="$candidate_output"
+        checkpoint_date="$d"
+      fi
+    done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
+  fi
+
+  printf '%s\t%s\n' "$checkpoint_output" "$checkpoint_date"
+}
+
 days_between_dates() {
   local from_date="$1"
   local to_date="$2"
@@ -111,14 +157,16 @@ minimum_days_between_rebalances() {
 
 prev_output_path=""
 prev_output_date=""
-days_since_previous=""
+last_rebalance_date=""
+days_since_last_rebalance="N/A"
 min_rebalance_days="$(minimum_days_between_rebalances "$rebalance_cadence")"
 rebalance_due=true
 
 IFS=$'\t' read -r prev_output_path prev_output_date < <(latest_successful_output_before_run "$fund_id" "$provider" "$run_date")
-if [[ -n "$prev_output_date" ]]; then
-  if days_candidate="$(days_between_dates "$prev_output_date" "$run_date" 2>/dev/null)"; then
-    days_since_previous="$days_candidate"
+IFS=$'\t' read -r _last_rebalance_output_path last_rebalance_date < <(latest_rebalance_checkpoint_before_run "$fund_id" "$provider" "$run_date")
+if [[ -n "$last_rebalance_date" ]]; then
+  if days_candidate="$(days_between_dates "$last_rebalance_date" "$run_date" 2>/dev/null)"; then
+    days_since_last_rebalance="$days_candidate"
     if [[ "$min_rebalance_days" -gt 0 && "$days_candidate" -lt "$min_rebalance_days" ]]; then
       rebalance_due=false
     fi
@@ -985,7 +1033,7 @@ Validation requirements:
 - If action is "Replace", both remove_ticker and add_ticker are required.
 - \`rebalance_actions\` must be an array and include the full action set for this run (empty only when no rebalance activity).
 - constraints_check.max_position_ok, constraints_check.max_sector_ok, and constraints_check.max_crypto_ok must all be true and consistent with your portfolio.
-- Rebalance cadence: ${rebalance_cadence}. Rebalance due today: ${rebalance_due}. Minimum spacing: ${min_rebalance_days} days.
+- Rebalance cadence: ${rebalance_cadence}. Last checkpoint: ${last_rebalance_date:-NONE}. Days since checkpoint: ${days_since_last_rebalance}. Rebalance due today: ${rebalance_due}. Minimum spacing: ${min_rebalance_days} days.
 - If rebalance is not due, action must be "Do nothing" and target_portfolio must exactly match the prior portfolio.
 
 Previous failure reason:

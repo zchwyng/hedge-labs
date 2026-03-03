@@ -53,7 +53,7 @@ Each lane is a paper-only, stateful rebalance engine. There is no deterministic 
    - prior successful `target_portfolio`
    - prior `trade_of_the_day`
    - a 7-day aggregated context JSON summary (recent actions, recurring holdings, thesis-damage counts, average turnover, and deduped market-summary bullets)
-   - whether a rebalance is due today (based on the lane's cadence and last successful run date)
+   - whether a rebalance is due today (based on the lane's cadence and the last successful run that had an active rebalance action)
 3. Dexter executes the prompt and is required (by prompt + validation) to call `financial_search` to fetch verifiable market data. The template also pushes a "single combined query" workflow and caps the ticker count to reduce broad scanning.
 4. The agent outputs a full `target_portfolio` (exactly `positions` tickers with weights) plus a `trade_of_the_day` headline action and `rebalance_actions` list for the run.
 
@@ -72,7 +72,7 @@ Anything the model cannot verify via tools is expected to be marked `UNKNOWN` by
 Rebalancing is both *suggested* to the model (via prompt context) and *enforced* in the runner:
 
 - Cadence is configured per lane via `fund.config.json` -> `rebalance` (supported: `daily`, `weekly`, `monthly`).
-- For each run, the runner finds the **previous successful run** for that lane and computes `rebalance_due` using a minimum spacing of 1/7/30 days.
+- For each run, the runner finds the **last successful active rebalance checkpoint** for that lane and computes `rebalance_due` using a minimum spacing of 1/7/30 days.
 - If `rebalance_due` is false, the prompt explicitly instructs: action must be `"Do nothing"` and `target_portfolio` must remain **exactly unchanged**.
 - `scripts/run_fund_once.sh` validates that policy. Any portfolio change or active action on a non-due day fails the lane.
 - If `rebalance_due` is true and the model makes changes, validation also checks internal consistency:
