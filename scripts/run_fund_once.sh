@@ -225,6 +225,10 @@ fd_search_calls="0"
 fd_source_urls="0"
 fd_errors="0"
 fd_error_ratio="0.000000"
+fd_billing_errors="0"
+fd_non_billing_errors="0"
+fd_non_billing_error_ratio="0.000000"
+fd_error_gate_relaxed=false
 fd_news_expected_calls="0"
 fd_news_source_urls="0"
 fd_news_result_entries="0"
@@ -539,6 +543,45 @@ validate_json_output() {
   fi
 
   return 0
+}
+
+normalize_trade_action_sizes() {
+  local input_json="$1"
+  local tmp_json
+  tmp_json="$(mktemp "${input_json}.normalize.XXXXXX")"
+
+  if ! jq '
+    def normalize_action:
+      if type != "object" then
+        .
+      else
+        (
+          if (.size_change_pct | type) == "number" then
+            .size_change_pct |= abs
+          else
+            .
+          end
+        )
+        | if ((.action // "") | tostring | ascii_downcase) == "do nothing" then
+            .size_change_pct = 0
+          else
+            .
+          end
+      end;
+    .rebalance_actions |= (
+      if type == "array" then
+        map(normalize_action)
+      else
+        .
+      end
+    )
+    | .trade_of_the_day |= normalize_action
+  ' "$input_json" > "$tmp_json"; then
+    rm -f "$tmp_json"
+    return 1
+  fi
+
+  mv "$tmp_json" "$input_json"
 }
 
 validate_rebalance_policy() {
@@ -995,6 +1038,12 @@ run_dexter_attempt() {
     return
   fi
 
+  if ! normalize_trade_action_sizes "$json_path"; then
+    status="failed"
+    reason="failed to normalize model JSON output"
+    return
+  fi
+
   if ! validate_json_output "$json_path"; then
     status="failed"
     return
@@ -1031,6 +1080,7 @@ Validation requirements:
 - Crypto exposure must be <= ${max_crypto_pct}%.
 - If action is "Trim", both remove_ticker and add_ticker are required (paired reallocation).
 - If action is "Replace", both remove_ticker and add_ticker are required.
+- size_change_pct in trade_of_the_day and every rebalance_actions item must be a non-negative number (use positive magnitude for Trim/Replace).
 - \`rebalance_actions\` must be an array and include the full action set for this run (empty only when no rebalance activity).
 - constraints_check.max_position_ok, constraints_check.max_sector_ok, and constraints_check.max_crypto_ok must all be true and consistent with your portfolio.
 - Rebalance cadence: ${rebalance_cadence}. Last checkpoint: ${last_rebalance_date:-NONE}. Days since checkpoint: ${days_since_last_rebalance}. Rebalance due today: ${rebalance_due}. Minimum spacing: ${min_rebalance_days} days.
@@ -1271,6 +1321,76 @@ count_fd_errors_since_start() {
   printf '%s\n' "$total"
 }
 
+count_fd_billing_errors_since_start() {
+  local billing_regex='(402|payment required|insufficient_(quota|credits|balance)|quota exceeded|billing)'
+  if [[ -f "$scratchpad_copy_path" ]]; then
+    jq -rs --arg billing_regex "$billing_regex" '
+      def is_fd_tool_result:
+        .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+      def error_entries:
+        [
+          .result.data._errors?,
+          .result._errors?,
+          .result.data.errors?,
+          .result.errors?
+        ]
+        | map(
+            if type == "array" then .[]
+            elif . == null then empty
+            else .
+            end
+          );
+      [
+        .[]
+        | select(is_fd_tool_result)
+        | error_entries[]
+        | tostring
+        | select(test($billing_regex; "i"))
+      ] | length
+    ' "$scratchpad_copy_path" 2>/dev/null || echo 0
+    return 0
+  fi
+  local total=0
+  local count=0
+  local scratch=""
+  local mtime=0
+  for scratch in "$scratchpad_dir"/*.jsonl; do
+    [[ -e "$scratch" ]] || continue
+    mtime="$(scratchpad_mtime "$scratch")"
+    [[ "$mtime" -ge "$start_epoch" ]] || continue
+    count="$(
+      jq -rs --arg billing_regex "$billing_regex" '
+        def is_fd_tool_result:
+          .type == "tool_result" and ((.toolName == "financial_search") or (.toolName == "financial_metrics"));
+        def error_entries:
+          [
+            .result.data._errors?,
+            .result._errors?,
+            .result.data.errors?,
+            .result.errors?
+          ]
+          | map(
+              if type == "array" then .[]
+              elif . == null then empty
+              else .
+              end
+            );
+        [
+          .[]
+          | select(is_fd_tool_result)
+          | error_entries[]
+          | tostring
+          | select(test($billing_regex; "i"))
+        ] | length
+      ' "$scratch" 2>/dev/null || echo 0
+    )"
+    if [[ "$count" =~ ^[0-9]+$ ]]; then
+      total=$((total + count))
+    fi
+  done
+  printf '%s\n' "$total"
+}
+
 count_fd_news_expected_calls_since_start() {
   if [[ -f "$scratchpad_copy_path" ]]; then
     jq -rs '
@@ -1392,9 +1512,18 @@ if [[ "$status" == "success" ]]; then
     else
       fd_source_urls="$(count_fd_source_urls_since_start)"
       fd_errors="$(count_fd_errors_since_start)"
+      fd_billing_errors="$(count_fd_billing_errors_since_start)"
       fd_news_expected_calls="$(count_fd_news_expected_calls_since_start)"
       fd_news_source_urls="$(count_fd_news_source_urls_since_start)"
       fd_news_result_entries="$(count_fd_news_result_entries_since_start)"
+      fd_error_gate_relaxed=false
+      fd_non_billing_errors="$fd_errors"
+      if [[ "$fd_errors" =~ ^[0-9]+$ ]] && [[ "$fd_billing_errors" =~ ^[0-9]+$ ]]; then
+        fd_non_billing_errors=$((fd_errors - fd_billing_errors))
+        if [[ "$fd_non_billing_errors" -lt 0 ]]; then
+          fd_non_billing_errors=0
+        fi
+      fi
       if [[ "$fd_news_expected_calls" =~ ^[0-9]+$ ]] && [[ "$fd_news_expected_calls" -gt 0 ]] && \
          [[ "$fd_news_source_urls" =~ ^[0-9]+$ ]] && [[ "$fd_news_source_urls" -eq 0 ]] && \
          [[ "$fd_news_result_entries" =~ ^[0-9]+$ ]] && [[ "$fd_news_result_entries" -eq 0 ]]; then
@@ -1413,12 +1542,17 @@ if [[ "$status" == "success" ]]; then
       fi
       fd_max_error_ratio="${FD_MAX_ERROR_RATIO:-0.35}"
       fd_error_ratio="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { d=e+s; if (d <= 0) printf "0.000000"; else printf "%.6f", (e/d) }')"
+      fd_non_billing_error_ratio="$(awk -v e="$fd_non_billing_errors" -v s="$fd_source_urls" 'BEGIN { d=e+s; if (d <= 0) printf "0.000000"; else printf "%.6f", (e/d) }')"
+      if [[ "$fd_billing_errors" =~ ^[0-9]+$ ]] && [[ "$fd_billing_errors" -gt 0 ]] && [[ "$fd_non_billing_errors" == "0" ]]; then
+        fd_error_gate_relaxed=true
+        printf 'Warning: Financial Datasets returned %s billing/quota errors; ratio gate uses non-billing errors only.\n' "$fd_billing_errors" >> "$stdout_path"
+      fi
       if awk -v s="$fd_source_urls" -v min="$fd_min_source_urls" 'BEGIN { exit !(s < min) }'; then
         status="failed"
         reason="Insufficient Financial Datasets source coverage (${fd_source_urls} successful source URLs; required >= ${fd_min_source_urls})"
-      elif awk -v d="$(awk -v e="$fd_errors" -v s="$fd_source_urls" 'BEGIN { print e+s }')" -v r="$fd_error_ratio" -v max="$fd_max_error_ratio" 'BEGIN { exit !((d > 0) && (r > max)) }'; then
+      elif awk -v d="$(awk -v e="$fd_non_billing_errors" -v s="$fd_source_urls" 'BEGIN { print e+s }')" -v r="$fd_non_billing_error_ratio" -v max="$fd_max_error_ratio" 'BEGIN { exit !((d > 0) && (r > max)) }'; then
         status="failed"
-        reason="Financial Datasets error ratio too high (ratio=${fd_error_ratio}, errors=${fd_errors}, sources=${fd_source_urls}, max=${fd_max_error_ratio})"
+        reason="Financial Datasets non-billing error ratio too high (ratio=${fd_non_billing_error_ratio}, non_billing_errors=${fd_non_billing_errors}, billing_errors=${fd_billing_errors}, sources=${fd_source_urls}, max=${fd_max_error_ratio})"
       fi
     fi
   fi
@@ -1478,6 +1612,10 @@ jq -n \
   --argjson fd_source_urls "$fd_source_urls" \
   --argjson fd_errors "$fd_errors" \
   --arg fd_error_ratio "$fd_error_ratio" \
+  --argjson fd_billing_errors "$fd_billing_errors" \
+  --argjson fd_non_billing_errors "$fd_non_billing_errors" \
+  --arg fd_non_billing_error_ratio "$fd_non_billing_error_ratio" \
+  --argjson fd_error_gate_relaxed "$( [[ "$fd_error_gate_relaxed" == "true" ]] && echo true || echo false )" \
   --argjson fd_news_expected_calls "$fd_news_expected_calls" \
   --argjson fd_news_source_urls "$fd_news_source_urls" \
   --argjson fd_news_result_entries "$fd_news_result_entries" \
@@ -1519,6 +1657,10 @@ jq -n \
       fd_source_urls: $fd_source_urls,
       fd_errors: $fd_errors,
       fd_error_ratio: $fd_error_ratio,
+      fd_billing_errors: $fd_billing_errors,
+      fd_non_billing_errors: $fd_non_billing_errors,
+      fd_non_billing_error_ratio: $fd_non_billing_error_ratio,
+      fd_error_gate_relaxed: $fd_error_gate_relaxed,
       fd_news_expected_calls: $fd_news_expected_calls,
       fd_news_source_urls: $fd_news_source_urls,
       fd_news_result_entries: $fd_news_result_entries,
