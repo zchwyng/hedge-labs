@@ -1,0 +1,82 @@
+{
+  "run_date": "2026-03-03",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: IWM11%/SPY6%/QQQ6%; semis/GLD lead (TSM50%/GLD42%), HC/cyber/SaaS lag, BTC-27%.",
+    "Holdings mixed: TSM/NVDA/AVGO strong mom>10%, PLTR/PANW/NOW/NVO weak(-19-37%) but qual solid.",
+    "Non-rebalance (1d post-3/2, 6d to weekly); qual refresh (news>2/24 none, ratios/est up), hold verified."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Portfolio verified; non-rebalance (cadence 7d min).",
+      "Qual refresh (news>2/24): PLTR OM37%/ROE26%/rev g56%/EPS g252%; PANW OM17%/ROE17%; NOW OM17%/ROE15%; NVO OM42%/ROE61%; est rev/EPS up FY27.",
+      "IT/HC hold: TSM leads; laggards qual solid, mom lag contained, no headlines."
+    ],
+    "risks": [
+      "IT76% conc; vol high (PLTR71%/NVO94%).",
+      "Deep dd laggards: PLTR/PANW/NOW/NVO -29-42% 63d.",
+      "Liq ok; mixed regime (GLD/BTC diverge), narrow breadth."
+    ],
+    "falsifiable_checks": [
+      "IT>80% or any -5% daily.",
+      "SPY/QQQ -2% wk or rel mom <-40% rev.",
+      "HC/cyber est dn or news catalyst."
+    ],
+    "why_now": "Non-rebalance (1d post-3/2); no damage (qual/est up, no news>2/24); mixed regime favors hold over turnover (edge<cost)."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NOW",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "NVO",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom(30): TSM95/PLTR65/PANW45/NOW40/NVO35; Qual(20): all>15% (PLTR37%/NVO42% OM); Risk(15): dd-42% pen; IT76%<80; Scenarios: SPY-10%/rates+100bps <8% loss; Hold, mon est/breakouts."
+  }
+}
