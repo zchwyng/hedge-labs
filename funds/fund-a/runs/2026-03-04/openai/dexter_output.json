@@ -1,0 +1,113 @@
+{
+  "run_date": "2026-03-04",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (pack): MIXED / risk-off tilt for growth. SPY 1m -1.68% and QQQ 1m -3.26% with MA50=false for both; GLD is strong (1m +5.21%, 3m +20.69%, MA50/MA200=true) and TLT supportive (1m +3.38%).",
+    "Breadth/leadership (pack): Real assets + defense + select cyclicals lead (GLD, XOM; LMT top-3m), while mega-cap growth is broadly weak (AMZN 1m -12.78%, META 1m -8.57%; AVGO 3m -21.97%). Dispersion remains high → prefer concentrated winners + reduce persistent laggards.",
+    "Go/No-go: GO for a small, disciplined rebalance (due=true; last rebalance checkpoint 19d ago). Edge is primarily momentum/regime-fit rotation out of weakest 30–90d names into higher-momentum, quality-acceptable leaders; keep turnover capped (<=3 changes)."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AMZN",
+      "why": "Pack shows persistent tape damage (1m -12.78%, 3m -10.50%, dd63 -19.64%) versus SPY/QQQ weakness but not collapsing; qualitative news/earnings/guidance in the window is UNKNOWN (no tool-verified headlines available in provided data), so conviction comes mainly from factor evidence."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Pack shows deep 3m drawdown/weak momentum (3m -21.97%, dd63 -25.26%, vol20 40.01%) despite positive 12m; qualitative catalyst check is UNKNOWN beyond fundamentals access limits for this ticker in provided tool data."
+    },
+    {
+      "ticker": "META",
+      "why": "Pack momentum is negative (1m -8.57%, mom -5.06%) and trend is not confirmed by MA50 at benchmark level; qualitative refresh is UNKNOWN (tool ratios/news unavailable for META in provided data)."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "AMZN",
+      "add_ticker": "LMT",
+      "size_change_pct": 7
+    },
+    {
+      "action": "Replace",
+      "remove_ticker": "V",
+      "add_ticker": "TSM",
+      "size_change_pct": 10
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "META",
+      "add_ticker": "GLD",
+      "size_change_pct": 4
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "V",
+    "add_ticker": "TSM",
+    "size_change_pct": 10,
+    "thesis": [
+      "Catalyst/process: Regime favors leaders with strong multi-month momentum while growth beta is being de-rated (SPY/QQQ MA50=false). Rotate out of a low-momentum financial (V mom -5.82%, 6m -8.43%, 12m -10.88%) into a top-momentum semi/AI supply-chain leader (TSM mom +45.10%, 3m +21.46%, 12m +98.24%).",
+      "Factor edge (30d horizon): This is a momentum + leadership switch—TSM sits in the pack’s top cohort while V is in the weakest momentum list. Expected edge comes from continued leadership persistence in semicapex/AI complex despite choppy index tape.",
+      "Variant view: Consensus may be leaning ‘rates up = financials help’ while the tape is actually rewarding real assets + select tech leaders; this trade expresses that leadership view with explicit sizing discipline."
+    ],
+    "risks": [
+      "Macro: If the market snaps into risk-off (further SPY/QQQ weakness) semis can gap down; gold/energy ballast helps but won’t fully hedge a sharp equity shock.",
+      "Idiosyncratic: TSM headline/earnings/guidance items in the stated window are UNKNOWN in provided tool output, so there is a non-zero risk of missing a near-term negative development.",
+      "Execution/liquidity: Semiconductor names can have high intraday volatility; implement as staged execution (2–3 tranches) to reduce slippage."
+    ],
+    "falsifiable_checks": [
+      "Over the next 30 days: if TSM underperforms SPY by >=5 percentage points on a total-return basis (pack-based) while V outperforms SPY by >=5 points, mark the switch as a failed leadership read and revert at next eligible rebalance.",
+      "Risk stop (time + drawdown): if TSM experiences a >=12% peak-to-trough drawdown within the next 30 days (pack drawdown metric when available) without a corresponding improvement in SPY/QQQ trend (MA50 remains false), cut the position by 50% at the next checkpoint."
+    ],
+    "why_now": "Base: Mixed tape with growth under pressure; rotate from persistent laggard (V) into a clear momentum leader (TSM) with a 10% weight that is meaningful but not portfolio-dominant. Bull: Semis/AI leadership reasserts and the replacement captures upside convexity into the next month. Bear: Broad risk-off accelerates; we’re not increasing total high-beta exposure aggressively (trim META, add GLD; add LMT ballast) so the expected edge clears turnover drag via improved factor alignment rather than leverage."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 10,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Split-source compliance: all momentum/trend/risk evidence from arena_input_pack; qualitative fundamentals available only for NVDA and partially for GOOGL (GOOGL ratios appear corrupted/UNKNOWN in provided tool output); news/headlines/estimates for most equities in-window are UNKNOWN → confidence reduced, changes kept to 3 and sized conservatively. Factor score highlights (qualitative, not numeric): +Momentum leaders added (TSM, LMT), -laggards removed (AMZN, V), +defensive ballast increased (GLD). Risk budget: keep max single-name 18% (NVDA), add Industrials defense (LMT 7%), maintain real-asset hedge (GLD 14%) and Energy (XOM 15%). Scenario stress (quick): equity index shock hurts NVDA/AVGO/TSM/META; mitigants GLD/XOM/LMT. Rates shock: TLT strength suggests some duration hedge in system; portfolio neutral-to-slightly pro-inflation via XOM/GLD. Commodity shock (down): hurts XOM/GLD; offset by tech weights. USD shock (up): potential EM/ADR pressure (TSM ADR) → sized at 10%. Execution plan: implement 3 actions in 2–3 tranches each; avoid chasing at open; use limit discipline. Monitoring/kill-switch: (1) If SPY and QQQ remain MA50=false and portfolio drawdown over 30d exceeds -8% (pack), de-risk by +5% GLD and -5% highest-vol tech at next checkpoint. (2) If AMZN reverses to positive 1m and 3m while LMT/TSM momentum decays (pack), reconsider rotates at next eligible rebalance. NVDA fundamental anchor (tool): ttm op margin ~65.6%, ROE ~104%, P/E ~38 (high but supported by strong margins); other holdings fundamentals/news: UNKNOWN in provided tool output."
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "run_date": "2026-03-04",
+  "lanes": [
+    {
+      "fund_id": "fund-b",
+      "provider": "anthropic",
+      "status": "success",
+      "action": "Replace",
+      "add_ticker": "LMT",
+      "remove_ticker": "AVGO",
+      "size_change_pct": 10,
+      "constraints_ok": true,
+      "rebalance_actions_count": 3,
+      "rebalance_actions_preview": "Replace AVGO->LMT, Replace JPM->TSM, Trim LLY->GLD",
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-12",
+      "asof_portfolio_date": "2026-03-04",
+      "asof_price_date": "2026-03-03",
+      "fund_return_pct": -1.38,
+      "benchmark_return_pct": -1.68,
+      "excess_return_pct": 0.3,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-b/runs/2026-03-04/anthropic",
+      "rank": 1,
+      "ranking_score": 0.3
+    },
+    {
+      "fund_id": "fund-a",
+      "provider": "openai",
+      "status": "success",
+      "action": "Replace",
+      "add_ticker": "TSM",
+      "remove_ticker": "V",
+      "size_change_pct": 10,
+      "constraints_ok": true,
+      "rebalance_actions_count": 3,
+      "rebalance_actions_preview": "Replace AMZN->LMT, Replace V->TSM, Trim META->GLD",
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-13",
+      "asof_portfolio_date": "2026-03-04",
+      "asof_price_date": "2026-03-03",
+      "fund_return_pct": -0.65,
+      "benchmark_return_pct": -0.14,
+      "excess_return_pct": -0.51,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-a/runs/2026-03-04/openai",
+      "rank": 2,
+      "ranking_score": -0.51
+    },
+    {
+      "fund_id": "fund-c",
+      "provider": "xai",
+      "status": "success",
+      "action": "Replace",
+      "add_ticker": "SLV",
+      "remove_ticker": "NVO",
+      "size_change_pct": 0,
+      "constraints_ok": true,
+      "rebalance_actions_count": 3,
+      "rebalance_actions_preview": "Replace PANW->LMT, Replace NOW->XOM, Replace NVO->SLV",
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-13",
+      "asof_portfolio_date": "2026-03-04",
+      "asof_price_date": "2026-03-03",
+      "fund_return_pct": -2.64,
+      "benchmark_return_pct": -0.14,
+      "excess_return_pct": -2.5,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-c/runs/2026-03-04/xai",
+      "rank": 3,
+      "ranking_score": -2.5
+    }
+  ],
+  "indices": {
+    "start_date": "2026-02-12",
+    "end_date": "2026-03-04",
+    "asof_price_date": "2026-03-03",
+    "items": [
+      {
+        "ticker": "SPY",
+        "name": "S&P 500",
+        "return_pct": -1.68,
+        "asof_price_date": "2026-03-03"
+      },
+      {
+        "ticker": "QQQ",
+        "name": "Nasdaq 100",
+        "return_pct": -1.88,
+        "asof_price_date": "2026-03-03"
+      },
+      {
+        "ticker": "ACWI",
+        "name": "MSCI ACWI",
+        "return_pct": -2.73,
+        "asof_price_date": "2026-03-03"
+      },
+      {
+        "ticker": "GLD",
+        "name": "Gold",
+        "return_pct": 0.11,
+        "asof_price_date": "2026-03-03"
+      },
+      {
+        "ticker": "BTC-USD",
+        "name": "Bitcoin",
+        "return_pct": 2.23,
+        "asof_price_date": "2026-03-04"
+      }
+    ]
+  },
+  "ranking": {
+    "method": "independent_performance",
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
+  },
+  "comparison": {
+    "portfolio_overlap_pct": 45.45,
+    "turnover_estimate_pct": 44,
+    "notes": "Computed from first two successful lanes: funds/fund-b/runs/2026-03-04/anthropic/dexter_output.json vs funds/fund-a/runs/2026-03-04/openai/dexter_output.json."
+  }
+}

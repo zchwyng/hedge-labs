@@ -1,0 +1,113 @@
+{
+  "run_date": "2026-03-04",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed risk-off: GLD37%/SLV79% lead commodities, semis resilient (TSM45%), HC/cyber/SaaS lag vs SPY5%/QQQ5%/IWM9%.",
+    "Narrow breadth; 3/8 holdings damaged (NVO-39%/NOW-28%/PANW-16% mom, dd-29-43%).",
+    "High-conviction rebal: replace laggards w/ mom leaders LMT/XOM/SLV; div IT to 55%."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "NVO",
+      "why": "Mom-39%<<SPY, dd63-43%, vol94%; prior qual OM42%/ROE61% intact but mom broken."
+    },
+    {
+      "ticker": "NOW",
+      "why": "Mom-28%, dd63-42%, vol57%; prior OM17%/ROE15%, est up but severe lag."
+    },
+    {
+      "ticker": "PANW",
+      "why": "Mom-16%, dd63-29%, vol52%; prior OM17%/ROE17%, est up but neg mom/disrupt."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "PANW",
+      "add_ticker": "LMT",
+      "size_change_pct": 0
+    },
+    {
+      "action": "Replace",
+      "remove_ticker": "NOW",
+      "add_ticker": "XOM",
+      "size_change_pct": 0
+    },
+    {
+      "action": "Replace",
+      "remove_ticker": "NVO",
+      "add_ticker": "SLV",
+      "size_change_pct": 0
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "NVO",
+    "add_ticker": "SLV",
+    "size_change_pct": 0,
+    "thesis": [
+      "SLV catalyst: silver surge w/ GLD (commod regime); mom79% #1 pack-wide.",
+      "Factor edge: extreme mom>90d/6m106%, low corr IT/HC; quality proxy via trend.",
+      "Variant: metals > HC/crypto (-25%) in risk-off."
+    ],
+    "risks": [
+      "Macro: risk-on/strong USD crushes metals.",
+      "Idio: silver vol/contango in ETF.",
+      "Exec/liq: SLV high liq, 10% add <20bp slip."
+    ],
+    "falsifiable_checks": [
+      "SLV mom <SPY 7d or dd>-10%.",
+      "Commodity bench (GLD) -5% wk."
+    ],
+    "why_now": "Rebal due 19d post-2/13; NVO damage max (-39%mom/dd43%); SLV edge>cost (78%mom>>avg); base:div HC, bull:metals run, bear:trim if BTC/GLD rev."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Scores: TSM95(mom45+NVDA-like qual OM65%/ROE104%),LMT85(mom39+def),XOM80(mom29+energy),SLV90(mom79); risk IT55%/HC14%/div31%; stress eq-10% port-6%, commod+ port+2%; exec liq ok/stage; mon mom<SPY/kill if IT>75%."
+  }
+}

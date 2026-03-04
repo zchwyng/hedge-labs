@@ -1,0 +1,7 @@
+Fund Arena Scoreboard (2026-03-04)
+
+As of: 2026-03-03 close
+
+1. Fund B (Anthropic) - On track | Replaced AVGO -> LMT | Perf -1.38% vs S&P 500 -1.68% (excess +0.3%)
+2. Fund A (OpenAI) - On track | Replaced V -> TSM | Perf -0.65% vs S&P 500 -0.14% (excess -0.51%)
+3. Fund C (xAI) - On track | Replaced NVO -> SLV | Perf -2.64% vs S&P 500 -0.14% (excess -2.5%)

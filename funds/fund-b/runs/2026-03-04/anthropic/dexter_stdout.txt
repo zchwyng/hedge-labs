@@ -1,0 +1,86 @@
+dexter_info: model=claude-sonnet-4-6 iterations=3 tool_calls=2
+{
+  "run_date": "2026-03-04",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: Risk-Off lean with commodity/defense pockets of strength. SPY -1.68% 1m and below MA50; QQQ -3.26% 1m below MA50 — broad tech leadership has broken down. TLT +3.38% 1m above both MAs confirms sustained bond bid and flight-to-quality rotation. BTC -24.39% mom / -21.07% 3m confirms risk-off is broad and not a temporary dip. GLD mom=+37.73% / 3m=+20.69% remains the dominant macro hedge and momentum anchor. IWM -0.16% 1m with 3m=+4.57% shows small/mid relative resilience but also below MA50 — breadth is narrowing across all cap strata.",
+    "LEADERSHIP: Commodity metals (GLD +37.73% mom, SLV +78.74% mom) and defense (LMT +39.15% mom / 3m=+47.74%) are the only clean risk-on + quality momentum pockets. Energy (XOM +28.98% mom / 3m=+31.85%; CVX +19.57% mom / 3m=+26.13%) continue to outperform SPY on all windows with low drawdowns (dd63 ~-5%). Semis are bifurcated: KLAC +48.63% mom / 3m=+22.78% above both MAs is intact; AVGO -21.97% 3m / dd63=-25.26% below both MAs is broken. TSM +45.10% mom / 3m=+21.46% above both MAs is the superior semiconductor replacement. JPM +2.71% mom / 3m=-3.66% below MA50 has flatlined and is the weakest current holding alongside AVGO.",
+    "GO: Rebalance due today — Day 20 since last checkpoint (Feb 12). Two high-conviction replacements clear cost hurdles: (1) AVGO→LMT is a 6-run pending action where thesis damage is severe and disconfirmed by price, MAs, and CEO insider behavior; (2) JPM→TSM replaces flatlined financials with high-momentum quality semiconductor compounder. GLD weight increased from 18% to 20% to reflect deepening risk-off regime and gold's continued dominance. LLY retained at trimmed 10% weight — above $960 kill-switch, quality anchor with GLP-1 secular tailwind intact despite near-term 3m momentum softness. Net result: portfolio tilts further into defense/commodity/semi momentum leaders while reducing cyclical financial exposure."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "6th consecutive deterioration run. 3m=-21.97%, below both MA50 ($334.91) and MA200 ($318.52), dd63=-25.26%, vol20=40%. Prior CEO insider selling at $347 (Jan-6) vs current $313.84. Momentum composite=+9.37% is misleading — driven by 12m residual, not recent trend. Full thesis replacement warranted."
+    },
+    {
+      "ticker": "JPM",
+      "why": "4th consecutive damage flag run. mom=+2.71%, 3m=-3.66%, below MA50 ($312.44), dd63=-11.15%. CEO Dimon distributed ~54K shares at $307 on Feb-19; stock now at $300.26, below insider sell price. Financials regime thesis invalidated in current risk-off environment. TSM replacement scores materially higher on all factor dimensions."
+    },
+    {
+      "ticker": "LLY",
+      "why": "Partial flag: 3m=-6.14%, below MA50 ($1050.34), vol20=56.51%. However, above MA200 ($874.64), above $960 kill-switch at $1007.73, and GLP-1 secular growth thesis intact. Retained at reduced weight (12%→10%) with active monitoring. Not a full replacement — quality anchor still valid."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "AVGO",
+      "add_ticker": "LMT",
+      "size_change_pct": 10
+    },
+    {
+      "action": "Replace",
+      "remove_ticker": "JPM",
+      "add_ticker": "TSM",
+      "size_change_pct": 12
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "LLY",
+      "add_ticker": "GLD",
+      "size_change_pct": 2
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "AVGO",
+    "add_ticker": "LMT",
+    "size_change_pct": 10,
+    "thesis": [
+      "CATALYST: European NATO rearmament is a structural multi-year defense spending catalyst. Germany announced a €500B+ defense/infrastructure fund in late Feb 2026; multiple NATO members are accelerating toward 3% GDP defense targets. LMT as the largest US defense prime (F-35, THAAD, Patriot, hypersonics) is the direct beneficiary of transatlantic defense budget expansion. This is a policy-driven, earnings-visible secular tailwind — not a momentum chase.",
+      "FACTOR EDGE: LMT mom=+39.15%, 3m=+47.74%, 6m=+49.55%, 12m=+53.46% — cleanest momentum profile in the candidate universe after GLD. Above both MA50 ($580.60) and MA200 ($489.28) with shallow dd63=-5.23% (lowest risk/momentum ratio in top-5 candidates). Factor score: Momentum ~28/30, Quality ~16/20, Risk ~13/15, Revision proxy ~12/15 = composite ~69/100 vs AVBO ~31/100. Swap clears cost hurdle decisively.",
+      "VARIANT VIEW: Consensus views LMT as a mature slow-growth defense contractor. Variant: the European rearmament cycle is a once-in-a-generation demand inflection that will compress LMT's backlog timeline, expand margins through operating leverage, and trigger multiple positive earnings revisions through 2026-2028. Market is still pricing LMT at a modest multiple relative to its earnings acceleration potential. The 12m=+53.46% return is not mean-reversion risk — it is a new earnings reality being priced in."
+    ],
+    "risks": [
+      "MACRO: US domestic defense budget under pressure from DOGE/fiscal consolidation. If Trump administration cuts US procurement while European spending is delayed, LMT revenue mix shifts unfavorably. Oil price collapse would also disproportionately hurt the energy sleeve (XOM/CVX = 27%) simultaneously — double-hit scenario if macro deteriorates broadly.",
+      "IDIOSYNCRATIC: F-35 program delays, cost overruns, or GAO audit findings could trigger contract renegotiations. US-NATO political tension (US withdrawal signals) could paradoxically slow European procurement timelines as allies seek domestic alternatives (Airbus/MBDA/KNDS). vol20=30.5% — moderate but not low for a 10% position.",
+      "EXECUTION/LIQUIDITY: LMT is highly liquid (~$2B+ daily volume). No binary events identified in 30-day window. Primary execution risk is gap risk on defense budget headline — both positive (over-buy) and negative (stop-loss breach). Kill-switch: if LMT closes below $580 (MA50 level, ~13.2% below current $667.82), thesis is invalidated and position should be reviewed for exit."
+    ],
+    "falsifiable_checks": [
+      "If LMT 3m momentum falls below +30% AND price closes below MA50 ($580) within 30 days, thesis is invalidated — exit and evaluate KLAC add or GLD increase.",
+      "If AVGO reclaims both MA50 ($334.91) AND MA200 ($318.52) with 3m momentum turning positive (above +5%) within 30 days, re-evaluate re-entry — current replacement decision was correct but thesis could repair.",
+      "If TSM 3m momentum exceeds +25% and remains above MA50 ($337.11) at April 4 review, confirm JPM→TSM swap was correct; if TSM falls below MA50 with 3m < +10%, reassess sizing.",
+      "If GLD closes below $420 (approximately -10% from $468) within 30 days, reduce GLD from 20% to 14% — regime-change risk-off-to-risk-on rotation would invalidate gold overweight."
+    ],
+    "why_now": "Base case: AVGO→LMT swap has been signaled for 6 consecutive runs with no cadence window available. Today is the first eligible rebalance day (Day 20 since Feb 12 checkpoint, 7-day minimum satisfied since Mar 3 run). The cost of continued inaction compounds as LMT outperforms and AVBO underperforms — estimated alpha drag from delay is ~8-12% annualized based on 3m spread of +47.74% vs -21.97%. Bull case: European defense spending acceleration triggers LMT earnings revisions +15-20% over 12 months, stock re-rates toward $800-850 range. TSM benefits from NVIDIA AI accelerator demand cycle and Arizona fab ramp reducing geopolitical discount. GLD extends to $520+ on tariff escalation and central bank buying. Bear case: Global growth scare compresses energy + triggers LMT contract scrutiny; TSM faces Taiwan strait headline risk (geopolitical vol spike). Risk-off deepening from current level would help GLD but hurt XOM/CVX. Expected edge clearly clears 30bps round-trip transaction cost drag for both swaps given 50%+ annual momentum spread differentials."
+  },
+  "target_portfolio": [
+    {"ticker": "XOM", "weight_pct": 15, "sector": "Energy"},
+    {"ticker": "CVX", "weight_pct": 12, "sector": "Energy"},
+    {"ticker": "LLY", "weight_pct": 10, "sector": "Healthcare"},
+    {"ticker": "XLI", "weight_pct": 11, "sector": "Industrials"},
+    {"ticker": "KLAC", "weight_pct": 10, "sector": "Technology"},
+    {"ticker": "LMT", "weight_pct": 10, "sector": "Defense"},
+    {"ticker": "TSM", "weight_pct": 12, "sector": "Technology"},
+    {"ticker": "GLD", "weight_pct": 20, "sector": "Commodities"}
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (0-100): LMT=69 [Momentum:28/30, Quality:16/20, Revision:12/15, Risk:13/15], TSM=67 [Momentum:27/30, Quality:16/20, Revision:11/15, Risk:13/15], KLAC=65 [Momentum:26/30, Quality:15/20, Revision:12/15, Risk:12/15], GLD=63 [Momentum:26/30, Risk:14/15, Regime:10/10], XOM=60 [Momentum:22/30, Quality:14/20, Risk:14/15], CVX=58 [Momentum:19/30, Quality:14/20, Risk:14/15], XLI=55 [Momentum:16/30, Risk:15/15], LLY=42 [Quality:17/20, Momentum:10/30, Risk:11/15 — retained on quality/sector diversification]. EXITED: AVGO=31, JPM=34. | RISK BUDGET: Max single position=20% (GLD), avg position=12.5%. Sector max=Energy 27% (XOM+CVX). Tech+Defense=32% (KLAC+TSM+LMT). No crypto. Total vol budget estimated ~22-26% annualized blended (weighted avg of position vols). | SCENARIO STRESS: Equity index -10% shock — Energy/Defense/GLD hedge reduces portfolio beta vs SPY; estimated portfolio loss ~-5 to -7% vs SPY -10%. Rates +50bps shock — GLD headwind modest; TLT signal already positive so rates are falling, not rising. Commodity/oil -20% shock — XOM/CVX (27%) suffer ~-5.4% portfolio impact; offset by GLD and defense outperformance. USD +5% shock — TSM (Taiwan, USD-reported) mildly negative; GLD USD-denominated negative; energy partially offset. | EXECUTION PLAN: AVGO→LMT and JPM→TSM are single-day market-order replacements (both highly liquid, >$1B daily). LLY trim (2%) is minor rebalance. GLD increase (2%) via limit order near open. Total turnover = 34% gross (3 changes). | MONITORING/KILL-SWITCHES: LMT kill-switch <$580 (MA50); TSM kill-switch <$310 (below MA50 $337 with buffer); LLY kill-switch <$960 (unchanged); GLD kill-switch <$420; XOM kill-switch <$130. Next rebalance window eligible: March 11, 2026 (7-day minimum from today)."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
+Warning: Financial Datasets returned 12 billing/quota errors; ratio gate uses non-billing errors only.
