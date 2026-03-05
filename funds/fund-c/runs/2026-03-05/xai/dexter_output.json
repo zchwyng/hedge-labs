@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-05",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: SPY mom6.47%/QQQ7.09% lag IWM11.54%; commod/GLD38% lead, semis/defensives resilient.",
+    "No news since 2026-02-26; analyst est up (NVDA/TSM/AVGO/LLY rev+EPS growth 10-30% fwd).",
+    "Non-rebalance (1d prior, 6d to weekly); qual refresh solid est/ no ratios, no damage flags, hold vs costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores hi: SLV78/TSM49/LMT39>SPY6; Qual: est rev+10-30%/EPS up; Risk: IT55%<80, dd/vol ok (SLV-37/dd hi); Scenarios: commod/IT hold -5% shock; Hold exec, mon: mom<SPY7d or GLD-5% kill."
+  }
+}

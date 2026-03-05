@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-04T06:40:48Z",
+  "generated_at": "2026-03-05T06:39:17Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -1682,90 +1682,6 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-03-02",
-        "items": [
-          {
-            "ticker": "SPY",
-            "name": "S&P 500",
-            "return_pct": -1.68
-          },
-          {
-            "ticker": "QQQ",
-            "name": "Nasdaq 100",
-            "return_pct": -1.88
-          },
-          {
-            "ticker": "ACWI",
-            "name": "MSCI ACWI",
-            "return_pct": -2.73
-          },
-          {
-            "ticker": "GLD",
-            "name": "Gold",
-            "return_pct": 0.11
-          },
-          {
-            "ticker": "BTC-USD",
-            "name": "Bitcoin",
-            "return_pct": 2.66
-          }
-        ]
-      },
-      "comparison": {
-        "portfolio_overlap_pct": 33.33,
-        "turnover_estimate_pct": 53
-      }
-    },
-    {
-      "date": "2026-03-04",
-      "lanes": [
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -1.38,
-          "benchmark_return_pct": -1.68,
-          "excess_return_pct": 0.3,
-          "rank": 1,
-          "inception_date": "2026-02-12",
-          "asof_price_date": "2026-03-03",
-          "add_ticker": "LMT",
-          "remove_ticker": "AVGO",
-          "rebalance_actions_preview": "Replace AVGO->LMT, Replace JPM->TSM, Trim LLY->GLD"
-        },
-        {
-          "fund_id": "fund-a",
-          "provider": "openai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -0.65,
-          "benchmark_return_pct": -0.14,
-          "excess_return_pct": -0.51,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-03",
-          "add_ticker": "TSM",
-          "remove_ticker": "V",
-          "rebalance_actions_preview": "Replace AMZN->LMT, Replace V->TSM, Trim META->GLD"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -2.64,
-          "benchmark_return_pct": -0.14,
-          "excess_return_pct": -2.5,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-03",
-          "add_ticker": "SLV",
-          "remove_ticker": "NVO",
-          "rebalance_actions_preview": "Replace PANW->LMT, Replace NOW->XOM, Replace NVO->SLV"
-        }
-      ],
-      "indices": {
         "asof_price_date": "2026-03-03",
         "items": [
           {
@@ -1791,7 +1707,175 @@
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 2.23
+            "return_pct": 1.94
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 33.33,
+        "turnover_estimate_pct": 53
+      }
+    },
+    {
+      "date": "2026-03-04",
+      "lanes": [
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": -1.31,
+          "benchmark_return_pct": -0.99,
+          "excess_return_pct": -0.32,
+          "rank": 1,
+          "inception_date": "2026-02-12",
+          "asof_price_date": "2026-03-04",
+          "add_ticker": "LMT",
+          "remove_ticker": "AVGO",
+          "rebalance_actions_preview": "Replace AVGO->LMT, Replace JPM->TSM, Trim LLY->GLD"
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 0.14,
+          "benchmark_return_pct": 0.57,
+          "excess_return_pct": -0.43,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-04",
+          "add_ticker": "TSM",
+          "remove_ticker": "V",
+          "rebalance_actions_preview": "Replace AMZN->LMT, Replace V->TSM, Trim META->GLD"
+        },
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": -0.94,
+          "benchmark_return_pct": 0.57,
+          "excess_return_pct": -1.51,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-04",
+          "add_ticker": "SLV",
+          "remove_ticker": "NVO",
+          "rebalance_actions_preview": "Replace PANW->LMT, Replace NOW->XOM, Replace NVO->SLV"
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-03-04",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -0.99
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -0.38
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -1.83
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": 0.89
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 8.54
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 45.45,
+        "turnover_estimate_pct": 44
+      }
+    },
+    {
+      "date": "2026-03-05",
+      "lanes": [
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": -1.31,
+          "benchmark_return_pct": -0.99,
+          "excess_return_pct": -0.32,
+          "rank": 1,
+          "inception_date": "2026-02-12",
+          "asof_price_date": "2026-03-04",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 0.14,
+          "benchmark_return_pct": 0.57,
+          "excess_return_pct": -0.43,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-04",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": -0.94,
+          "benchmark_return_pct": 0.57,
+          "excess_return_pct": -1.51,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-04",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-03-04",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -0.99
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -0.38
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -1.83
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": 0.89
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 7.97
           }
         ]
       },
