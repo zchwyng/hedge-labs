@@ -1,0 +1,90 @@
+{
+  "run_date": "2026-03-06",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (pack): MIXED. SPY 1m=-1.19% and QQQ 1m=-1.23% with MA50=false (growth trend not clean); TLT MA50/MA200=true offers ballast; real assets leadership persists (GLD mom=34.57%, MA50/MA200=true).",
+    "Breadth/leadership (pack): Leadership concentrated in real assets + energy + defense + select semis: TSM mom=44.98%, LMT mom=37.88%, XOM mom=29.73%, GLD mom=34.57%; within mega-cap growth dispersion remains (META mom=-2.26%).",
+    "Go/No-go: NO-GO for rebalance (rebalance due today=false; spacing gate). Today is a qualitative validation day: verify no acute thesis breaks across key equity holdings; otherwise preserve winners and avoid turnover drag over a 30d horizon."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "META",
+      "why": "Pack shows negative momentum (mom=-2.26%, 1m=-4.50%) in a mixed tape; no tool-verified 7-day headline/guidance items available in this run slice (news=UNKNOWN), so keep as a monitored laggard rather than act today."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Risk/valuation flag: dd63=-25.26% with elevated vol20=39.31% (pack) and high valuation multiples in ratios snapshot (P/E ~75.48, EV/EBITDA ~51.83); no tool-verified 7-day catalysts available in this run slice (news=UNKNOWN)."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst/process: Rebalance is not permitted today by policy (spacing gate). Use the day to validate fundamentals/estimates snapshots and scan for acute thesis breaks; in this run’s tool slice, equity headlines are UNKNOWN, so we default to risk control via no turnover.",
+      "Factor edge (30d horizon): Pack leadership remains GLD/XOM/LMT/TSM (strong momentum + trend), and the current portfolio already expresses that mix with ballast (GLD/XOM/LMT) plus selective semis (TSM/NVDA/AVGO).",
+      "Variant view: In mixed regimes, minimizing unnecessary churn can dominate—hold the leaders and only rotate out of laggards (META/AVGO if confirmed) at the next eligible rebalance when qualitative evidence is clearer."
+    ],
+    "risks": [
+      "Macro: If mixed regime snaps to risk-off, semis (NVDA/AVGO/TSM) can gap lower; mitigants (GLD/XOM/LMT) are diversifiers but not full hedges.",
+      "Idiosyncratic: News for the 7-day window is UNKNOWN in the provided tool output; residual headline risk remains (regulatory/AI competition for META; product-cycle/customer concentration for AVGO; geopolitics for TSM).",
+      "Execution/liquidity: None today (no trade). Next eligible rebalance should still assume staged execution in higher-vol names (NVDA/LLY/AVGO/TSM)."
+    ],
+    "falsifiable_checks": [
+      "By next eligible rebalance (>=7 days): if META mom remains <0 and underperforms SPY by >=3pp over that interval (pack-based), elevate to Replace candidate (subject to qualitative confirmation).",
+      "Risk trigger (next 30 days): if AVGO experiences an additional >=10% peak-to-trough drawdown from today (pack drawdown when available) while QQQ MA50 remains false, pre-plan a size reduction at the next checkpoint."
+    ],
+    "why_now": "Base: Mixed regime + rebalance gate forces discipline; expected edge from trading today is low vs turnover drag. Bull: Leadership persistence (GLD/TSM/LMT/XOM) continues and current positioning captures it without churn. Bear: A negative catalyst emerges (news UNKNOWN); best response is monitoring and acting at the next eligible rebalance with confirmed information and controlled turnover."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 10,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — Scores/flags (pack+tools): Leadership tailwinds in TSM (mom 44.98%, OM~54%), GLD (mom 34.57%), LMT (mom 37.88%, FCF yld~6.17%), XOM (mom 29.73%, EV/EBITDA~8.0); watchlist laggards: META (mom -2.26%), AVGO (dd63 -25.26% + high P/E~75). Risk budget: IT 40% (NVDA/AVGO/TSM) <80% cap; diversifiers GLD 14% + XOM 15% + LMT 7% reduce single-factor concentration. Scenario quick-check: Equity index shock hits semis most; mitigated by GLD/XOM/LMT. Rates-down shock supportive via TLT regime signal; commodity shock benefits XOM/GLD; USD-up shock risk for TSM ADR. Execution plan: no trades today; next eligible rebalance use staged orders in NVDA/AVGO/TSM; keep turnover <=3 changes unless tool-verified thesis break. Monitoring/kill-switch: META underperform SPY by >=3pp over next eligible window + mom<0; AVGO addl >=10% drawdown with QQQ MA50=false; any tool-verified negative guidance/earnings surprise (news window) triggers review."
+  }
+}

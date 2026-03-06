@@ -1,0 +1,60 @@
+dexter_info: model=claude-sonnet-4-6 iterations=3 tool_calls=2
+{
+  "run_date": "2026-03-06",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: Mixed/Cautious — SPY -1.19% 1m, below MA50 but above MA200 (dd63=-2.58%); QQQ -1.23% 1m, below MA50, mom=+6.84% — tech leadership marginally intact on 90d but near-term distribution continuing. IWM -2.29% 1m and below MA50, 3m=+5.08% — small/mid rotation stalling. TLT +2.68% 1m, above both MAs — bond bid persistent. BTC-USD mom=-20.39%, below both MAs — crypto fully risk-off. Regime: MIXED, defensive lean with commodities and defense as only clean leadership pockets.",
+    "LEADERSHIP: GLD mom=+34.57%, 3m=+20.37%, 6m=+42.05%, 12m=+73.24% — dominant momentum anchor, above both MAs, thesis fully intact. LMT mom=+37.88%, 3m=+49.03%, 6m=+47.74% — cleanest equity momentum name, above both MAs, dd63=-5.23%, FY2025 EPS $21.68 with earnings growth +19.5%, FCF yield ~6.2%, 2026 EPS est $29.75 ramping to $34.74 by 2028. KLAC mom=+50.45%, 3m=+20.29%, 12m=+106% — top semiconductor compounder, operating margin 43.3%, ROIC 40.4%, 2026 EPS est $36.51 rising to $52.98 by 2028. TSM mom=+44.98%, 3m=+21.48%, 12m=+99.24% — above both MAs, AI foundry thesis intact. XOM mom=+29.73%, 3m=+31.54% — above both MAs, FCF yield 4.65%, P/E 17.6x, 2026 EPS est $6.72 growing to $8.64 by 2028. CVX mom=+22.14%, 3m=+27.63% — above both MAs, lowest vol20=17.76% in portfolio.",
+    "NON-REBALANCE DAY: Rebalance due = false (Day 2 of 7-day minimum cadence; last checkpoint 2026-03-04; next window earliest 2026-03-11). No emergency invalidation conditions triggered. LLY watch continues: mom=+8.68%, 3m=-5.85%, below MA50 ($1047.59) but well above MA200 ($877.17), close=$983.26. Fundamental anchor strong: gross margin 83%, ROE 78-102%, 2026 EPS est $34.66, revenue growing to $81.8B in 2026 and $93.8B in 2027. No kill-switch breach (close $983 >> $960 threshold). XOM slight earnings growth decline (-3.7% TTM) noted but offset by strong momentum and FCF yield. All 8 portfolio holdings retain valid thesis. DO NOTHING."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LLY",
+      "why": "3m=-5.85%, below MA50 ($1047.59), vol20=41.87%, 1w=-3.79%. Momentum eroding near-term. Close $983.26 still above MA200 ($877.17) and kill-switch $960. Fundamental thesis (83% gross margin, EPS est $34.66 in 2026 growing to $52.14 by 2028) remains intact but price action remains a concern for 4th consecutive run."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "dd63=-22.41%, 1w=-6.23%, below MA50 ($1433.69). Near-term drawdown elevated despite strong 90d momentum (3m=+20.29%) and excellent fundamentals (operating margin 43.3%, ROIC 40.4%). Risk: semiconductor capex cycle deceleration could extend drawdown. Monitor MA50 reclaim."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "NON-REBALANCE DAY: Process discipline enforced. Day 2 post-2026-03-04 rebalance checkpoint; 7-day minimum cadence requires next eligible window no earlier than 2026-03-11. No emergency invalidation conditions breached across any of the 8 holdings.",
+      "PORTFOLIO HEALTH STRONG: All 8 holdings show positive momentum composites significantly above SPY benchmark (+6.25%). Rank by momentum: KLAC (+50.45%), TSM (+44.98%), LMT (+37.88%), GLD (+34.57%), XOM (+29.73%), CVX (+22.14%), XLI (+15.74%), LLY (+8.68%). Even weakest name (LLY) retains robust fundamentals — 83% gross margin, ROE 78%+, 2026-2028 EPS growth from $34.66 to $52.14. Qualitative refresh confirms LMT FY2025 earnings growth +19.5%, FCF yield 6.2%; KLAC operating margin 43.3%, ROIC 40.4%, EPS est $36.51→$52.98 FY26-28.",
+      "WATCHLIST FOR NEXT REBALANCE (Mar 11+): LLY continues as primary watch — 3m=-5.85%, below MA50, but above MA200 and kill-switch. If momentum does not recover toward MA50 ($1047) by next window, evaluate sizing trim. KLAC dd63=-22.41% elevated — monitor for MA50 reclaim. GLD 1w=-2.38% minor pullback from highs; 3m=+20.37% trend intact above both MAs. No new replacement candidates clear a higher score than current holdings on combined quality+momentum+risk framework."
+    ],
+    "risks": [
+      "MACRO: SPY and QQQ both below MA50 — broadening distribution could pressure cyclical names (XOM, CVX, XLI). TLT bid (+2.68% 1m) consistent with rates-rally/growth-scare scenario that would compress energy earnings estimates. Tariff escalation risk could strengthen USD, headwind for GLD and TSM (Taiwan geopolitical premium).",
+      "IDIOSYNCRATIC: LLY is the primary watch name — close $983 vs MA50 $1047, 3m=-5.85%, vol20=41.87%. Kill-switch at $960; if breached before next window, emergency review warranted. KLAC dd63=-22.41% — if semiconductor capex guidance weakens, drawdown could extend toward $1250-1300 range (MA200 proxy). LMT 3m=+49% run is extended; any DoD budget news or Ukraine peace resolution could trigger mean reversion.",
+      "EXECUTION/LIQUIDITY: No major binary events pre-positioned against. GLD 1w=-2.38% minor pullback — if gold corrects sharply on USD strength (>5% from current $466), the 20% GLD weight is the primary portfolio concentration risk. Cost of doing nothing (zero slippage, zero turnover) clearly exceeds marginal alpha of any tactical adjustment today."
+    ],
+    "falsifiable_checks": [
+      "If LLY closes below $960 (kill-switch threshold) before 2026-03-11 rebalance window, trigger emergency thesis review — evaluate trim from 10% to 5% or replacement with COST (mom=+1.45%, above both MAs, lower vol20=21.67%, defensive consumer staples hedge).",
+      "If GLD closes below $430 (~8% from current $466) within 30 days, reduce GLD from 20% to 12-14% at next rebalance — regime shift to risk-on/USD-strength would invalidate safe-haven overweight thesis. Monitor weekly closes."
+    ],
+    "why_now": "Base case: Non-rebalance day, no emergency conditions, process discipline enforced. Portfolio composite momentum (~35% weighted avg) materially exceeds SPY benchmark (+6.25%). Round-trip slippage cost (~30-40bps per trade) exceeds any marginal alpha from tactical adjustment with no thesis damage. Bull case: LMT defense rearmament, KLAC/TSM AI capex cycle, XOM/CVX energy supply tightness, and GLD safe-haven flows all continue to compound. Bear case: Growth scare deepens, SPY breaks MA200, LLY/KLAC drawdowns accelerate — GLD 20% sleeve and XLI/CVX lower-vol positions provide ballast. Expected edge of holding clearly exceeds cost of action; next decision point is 2026-03-11 at earliest."
+  },
+  "target_portfolio": [
+    {"ticker": "XOM", "weight_pct": 15, "sector": "Energy"},
+    {"ticker": "CVX", "weight_pct": 12, "sector": "Energy"},
+    {"ticker": "LLY", "weight_pct": 10, "sector": "Healthcare"},
+    {"ticker": "XLI", "weight_pct": 11, "sector": "Industrials"},
+    {"ticker": "KLAC", "weight_pct": 10, "sector": "Technology"},
+    {"ticker": "LMT", "weight_pct": 10, "sector": "Defense"},
+    {"ticker": "TSM", "weight_pct": 12, "sector": "Technology"},
+    {"ticker": "GLD", "weight_pct": 20, "sector": "Commodities"}
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (approx 0-100): LMT=82 (mom 37.88%, quality ROE 80.5%, FCF yield 6.2%, low dd63=-5.23%), KLAC=80 (mom 50.45%, OM 43.3%, ROIC 40.4%, penalized for dd63=-22.41%), GLD=79 (mom 34.57%, safe-haven regime fit, above both MAs), TSM=78 (mom 44.98%, above both MAs, dd63=-10.46%), XOM=75 (mom 29.73%, FCF yield 4.65%, P/E 17.6x, slight earnings decline penalty), CVX=74 (mom 22.14%, lowest vol20=17.76%, above both MAs), XLI=70 (mom 15.74%, low vol/dd, regime fit industrials), LLY=58 (mom 8.68%, strong fundamentals, penalized for 3m=-5.85% and below MA50). | RISK BUDGET: Max position GLD=20% (within 40% cap). Energy sector XOM+CVX=27% (within 80% sector cap). Technology KLAC+TSM=22% (within 80%). Defense LMT=10%. No crypto exposure (0% vs 10% max). Total=100%. | SECTOR CHECK: Energy 27%, Technology 22%, Commodities 20%, Industrials 11%, Healthcare 10%, Defense 10% — all within constraints. | SCENARIO STRESS: Equity shock (-10% SPY): GLD+LMT provide ~30% portfolio ballast, estimated portfolio drawdown ~5-6%. Rates shock (TLT -5%): energy and defense benefit, GLD neutral, net portfolio impact modest. Commodity shock (GLD -10%): 20% weight = -2% portfolio drag, offset by equity momentum names. USD shock (+5%): headwind for TSM (ADR) and GLD, partial offset from XOM/CVX domestic revenues. No single scenario creates >8% portfolio loss — risk budget acceptable. | EXECUTION PLAN: No action today. Monitor LLY vs $960 kill-switch and KLAC MA50 reclaim daily. Next eligible rebalance: 2026-03-11. Primary watchlist actions: (1) LLY sizing review if momentum does not recover, (2) SLV vol20=103% disqualifies near-term addition despite mom=72.83%. | KILL-SWITCHES: LLY<$960 → emergency review; GLD<$430 → reduce to 12-14% at next rebalance; KLAC<$1250 (MA200 proxy) → evaluate trim or replace."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
