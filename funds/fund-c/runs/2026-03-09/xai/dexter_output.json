@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-09",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: GLD37%/SLV75%/LMT41% lead vs SPY4%/QQQ5%/IWM6%; semis/energy resilient (TSM38%/XOM29%), BTC-28%.",
+    "Holdings strong: SLV/LMT/TSM/XOM top mom, NVDA/PLTR/AVGO/LLY stable; qual refresh solid (NVDA OM66%/ROE104%, PLTR OM37%/ROE26%, LLY GM83%/ROE78%, LMT OM9%/ROE81%).",
+    "Non-rebalance (3d post-3/6, 5d to weekly cadence); no news since 3/2, ratios/est up/growing, hold verified vs costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores: SLV98/LMT95/TSM92 (90d+30d rel SPY); Qual: NVDA92/PLTR88/LLY90/LMT85 (OM/ROE/rev g up); Rev/est tone pos; Risk low (dd/vol stable); Scenarios ok (IT55% cushioned by div); No turnover; Monitor news/est rev post-3/9."
+  }
+}
