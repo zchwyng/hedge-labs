@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-10",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: SLV86%/LMT38%/XOM29%/GLD37% lead vs SPY6%/QQQ8%/IWM8%; semis resilient (TSM42%/NVDA20%).",
+    "Holdings strong: SLV/TSM/LMT/XOM top mom; qual solid (NVDA OM74%/TSM57%/LLY43%/PLTR44%).",
+    "Non-rebalance (1d post-3/9, 6d to weekly); no news since 3/3, ratios/est up (NVDA rev+20%/EPS+35%, TSM+6%/12%), hold verified."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores: SLV95/TSM92/LMT88 (90d+30d rel SPY); Qual: NVDA85/TSM82/LLY78/PLTR75 (OM/ROE/rev gth); Risk ok (dd/vol pen<10); Scenarios: eq-10%/rates+100bps/comms-20% port -4-6%; No exec/hold; Kill: any mom<-20% or OM drop>10pts."
+  }
+}

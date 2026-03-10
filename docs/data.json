@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-09T06:44:31Z",
+  "generated_at": "2026-03-10T06:33:36Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -1976,12 +1976,12 @@
           "provider": "xai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": -1.19,
-          "benchmark_return_pct": -1.3,
-          "excess_return_pct": 0.11,
+          "fund_return_pct": 0.56,
+          "benchmark_return_pct": -0.44,
+          "excess_return_pct": 1,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-06",
+          "asof_price_date": "2026-03-09",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -1991,12 +1991,12 @@
           "provider": "anthropic",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": -2.75,
-          "benchmark_return_pct": -2.83,
-          "excess_return_pct": 0.08,
+          "fund_return_pct": -1.81,
+          "benchmark_return_pct": -1.98,
+          "excess_return_pct": 0.17,
           "rank": 2,
           "inception_date": "2026-02-12",
-          "asof_price_date": "2026-03-06",
+          "asof_price_date": "2026-03-09",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -2018,38 +2018,122 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-03-06",
+        "asof_price_date": "2026-03-09",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": -2.83
+            "return_pct": -1.98
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": -2.18
+            "return_pct": -0.87
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": -4.08
+            "return_pct": -3.15
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 1.26
+            "return_pct": 1.05
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 0.5
+            "return_pct": 2.11
           }
         ]
       },
       "comparison": {
         "portfolio_overlap_pct": 33.33,
         "turnover_estimate_pct": 58
+      }
+    },
+    {
+      "date": "2026-03-10",
+      "lanes": [
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 0.56,
+          "benchmark_return_pct": -0.44,
+          "excess_return_pct": 1,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-09",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": 0.78,
+          "benchmark_return_pct": -0.44,
+          "excess_return_pct": 1.22,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-09",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": -1.81,
+          "benchmark_return_pct": -1.98,
+          "excess_return_pct": 0.17,
+          "rank": 3,
+          "inception_date": "2026-02-12",
+          "asof_price_date": "2026-03-09",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-03-09",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -1.98
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -0.87
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -3.15
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": 1.05
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 4.68
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
       }
     }
   ],
