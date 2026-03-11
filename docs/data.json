@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-10T06:33:36Z",
+  "generated_at": "2026-03-11T06:40:28Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -2060,12 +2060,12 @@
           "provider": "xai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 0.56,
-          "benchmark_return_pct": -0.44,
-          "excess_return_pct": 1,
+          "fund_return_pct": -0.1,
+          "benchmark_return_pct": -0.6,
+          "excess_return_pct": 0.5,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-09",
+          "asof_price_date": "2026-03-10",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -2102,12 +2102,12 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-03-09",
+        "asof_price_date": "2026-03-10",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": -1.98
+            "return_pct": -2.14
           },
           {
             "ticker": "QQQ",
@@ -2122,18 +2122,102 @@
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": 1.05
+            "return_pct": 2.19
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 4.68
+            "return_pct": 4.38
           }
         ]
       },
       "comparison": {
         "portfolio_overlap_pct": 0,
         "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-03-11",
+      "lanes": [
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": -0.1,
+          "benchmark_return_pct": -0.6,
+          "excess_return_pct": 0.5,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-10",
+          "add_ticker": "KLAC",
+          "remove_ticker": "LLY",
+          "rebalance_actions_preview": "Replace LLY->KLAC"
+        },
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": -2.22,
+          "benchmark_return_pct": -2.14,
+          "excess_return_pct": -0.08,
+          "rank": 2,
+          "inception_date": "2026-02-12",
+          "asof_price_date": "2026-03-10",
+          "add_ticker": "SLV",
+          "remove_ticker": "XLI",
+          "rebalance_actions_preview": "Replace XLI->SLV, Trim LLY->GLD, Add GLD"
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": 0.63,
+          "benchmark_return_pct": -0.6,
+          "excess_return_pct": 1.23,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-03-10",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-03-10",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -2.14
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -0.87
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -3.15
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": 2.19
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 4.31
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 45.45,
+        "turnover_estimate_pct": 50
       }
     }
   ],
@@ -2193,13 +2277,13 @@
       },
       {
         "ticker": "LLY",
-        "weight_pct": 10,
+        "weight_pct": 8,
         "sector": "Healthcare"
       },
       {
-        "ticker": "XLI",
-        "weight_pct": 11,
-        "sector": "Industrials"
+        "ticker": "SLV",
+        "weight_pct": 8,
+        "sector": "Commodities"
       },
       {
         "ticker": "KLAC",
@@ -2218,7 +2302,7 @@
       },
       {
         "ticker": "GLD",
-        "weight_pct": 20,
+        "weight_pct": 25,
         "sector": "Commodities"
       }
     ],
@@ -2239,9 +2323,9 @@
         "sector": "Information Technology"
       },
       {
-        "ticker": "LLY",
+        "ticker": "KLAC",
         "weight_pct": 14,
-        "sector": "Health Care"
+        "sector": "Information Technology"
       },
       {
         "ticker": "PLTR",

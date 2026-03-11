@@ -1,0 +1,109 @@
+{
+  "run_date": "2026-03-11",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: Mixed/Defensive — SPY mom=+5.26%, 1m=-1.95%, below MA50 but above MA200 (dd63=-3.32%); QQQ mom=+6.61%, 1m=-0.31%, 3m=-2.71%, below MA50 but above MA200 — broad tech leadership erosion continues but composite momentum stabilizing. IWM 1m=-4.40%, below MA50, confirming broad equity distribution. TLT above both MAs (1m=+1.18%) — bond bid persistent, flight-to-quality tone intact. BTC-USD mom=-21.70%, 3m=-25.39%, below both MAs — crypto fully risk-off. Regime: MIXED, defensive lean; commodity metals (GLD mom=+37.34%, SLV mom=+87.39%) and defense (LMT mom=+33.67%) are the only clean dual-momentum + low-drawdown leadership pockets.",
+    "LEADERSHIP: GLD (mom=+37.34%, 3m=+23.66%, 6m=+42.72%, 12m=+78.05%, above both MAs) is the dominant portfolio anchor — thesis structurally intact with gold at all-time highs. SLV (mom=+87.39%, 3m=+51.26%, 6m=+113.52%, above both MAs) is the highest absolute momentum name in the entire candidate pool, now at $80.09 with vol20=77.63% and dd63=-37.15% — extreme momentum/risk tradeoff. LMT (mom=+33.67%, 3m=+44.77%, dd63=-5.23%, above both MAs, FY2026 EPS est Q1=$6.89→Q4=$8.25, earnings growth +19.5% YoY, FCF yield 6.2%) is the cleanest equity quality/momentum name. KLAC (mom=+46.69%, 3m=+19.79%, above both MAs, operating margin 43.3%, ROIC 40.4%, FY2026 EPS Q1=$9.13→Q4=$11.74 accelerating) retains strongest semiconductor momentum. TSM (mom=+39.36%, 3m=+18.09%, above both MAs, operating margin 54%, ROIC 46.7%, FY2026 EPS ramp $3.25→$3.95) quality foundry compounder intact. XOM (mom=+26.37%, 3m=+27.95%, above both MAs, P/E=17.6x, FCF yield 4.65%, FY2026 EPS $1.58→$1.83 ramping) energy value anchor. CVX (mom=+19.36%, 3m=+25.41%, above both MAs, vol20=18.14% lowest in portfolio, dd63=-5.28%) defensive energy ballast. LLY (mom=+11.52%, 3m=-0.72%, below MA50=$1043.19, above MA200=$881.09, gross margin 83%, ROE 78-102%, FY2026 EPS $7.49→$9.46 ramp intact) — quality anchor recovering from near-term price pressure.",
+    "GO/NO-GO: REBALANCE DUE. Last checkpoint 2026-03-04 (7 days ago). Key decision: SLV is the standout replacement candidate — mom=+87.39% vs XLI mom=+12.54%, and SLV's momentum edge (~75pp spread) more than clears cost hurdle even accounting for vol20=77.63%. XLI thesis (industrials ballast) is the weakest remaining position by quality+momentum score, with 1m=-1.82%, 3m=+10.37%, and the lowest composite momentum of the 8 holdings outside LLY. Replace XLI (11%) with SLV (8%) and reallocate 3% to GLD to reinforce dominant macro momentum theme. LLY (1m=-5.21%, 3m=-0.72%, below MA50 but above MA200) watch continues — close $1001.35 comfortably above MA200 $881.09 and kill-switch $960; reduce modestly from 10% to 8% and reallocate to GLD given persistent near-term momentum headwind. Max 3 changes applied: (1) XLI→SLV, (2) LLY trim from 10%→8%, (3) GLD increase from 20%→25%. All other 6 names retain full thesis."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XLI",
+      "why": "Weakest momentum in portfolio (mom=+12.54%, 1m=-1.82%, 3m=+10.37%) with no fundamental quality anchor — industrials ETF offers no earnings revision edge vs pure-play names. SLV's 75pp momentum spread (87.39% vs 12.54%) is overwhelming and clears all cost hurdles. XLI thesis as 'defensive ballast' is superseded by GLD/CVX which offer lower-volatility defensive characteristics with superior momentum."
+    },
+    {
+      "ticker": "LLY",
+      "why": "Persistent near-term momentum headwind: 1m=-5.21%, 3m=-0.72%, below MA50 ($1043.19) for 3rd consecutive week. Close $1001.35 is approaching but not breaching MA50 from below. FY2026 EPS ramp ($7.49 Q1→$9.46 Q4) and gross margin 83% keep fundamental thesis intact — modest trim from 10% to 8% reduces risk drag without abandoning quality anchor. Kill-switch $960 (MA200=$881 + buffer) remains intact."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "XLI",
+      "add_ticker": "SLV",
+      "size_change_pct": 8
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "LLY",
+      "add_ticker": "GLD",
+      "size_change_pct": 2
+    },
+    {
+      "action": "Add",
+      "remove_ticker": null,
+      "add_ticker": "GLD",
+      "size_change_pct": 3
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "XLI",
+    "add_ticker": "SLV",
+    "size_change_pct": 8,
+    "thesis": [
+      "CATALYST: Silver (SLV) is the highest absolute momentum name in the entire 30-symbol candidate pool at mom=+87.39%, 3m=+51.26%, 6m=+113.52%, 12m=+170.67% — a 75pp spread vs XLI (mom=+12.54%). Both MAs confirmed above (MA50=$77.82, MA200=$49.79), with 1m=+14.1% showing continued fresh buying. Silver benefits from the same macro tailwinds driving GLD (risk-off, USD hedging, central bank demand) PLUS industrial demand from solar panels, EVs, and AI data center cooling — a dual-use commodity with no single-sector dependence.",
+      "FACTOR EDGE: Momentum (30/30): SLV dominates all windows. Quality/Fundamentals (N/A for ETF — structural commodity demand): silver supply deficit widening per industry data. Revision proxy (15): gold/silver ratio compressing from historic highs suggests silver catch-up trade with elevated conviction. Valuation (N/A for commodity). Risk/liquidity (15): vol20=77.63% and dd63=-37.15% are elevated — position sized conservatively at 8% (below the 11% XLI was carrying) to keep portfolio risk budget stable. Regime fit (10): commodity metals are the only clean leadership pocket in current mixed/defensive regime, confirmed by GLD's +37% momentum; adding SLV aligns with existing regime positioning rather than fighting it.",
+      "VARIANT VIEW: Consensus is treating silver as a volatility-adjusted afterthought vs gold. The variant view is that silver's industrial demand floor (EV/solar buildout structural, not cyclical) combined with its safe-haven premium creates a uniquely durable momentum factor that the risk-off narrative alone does not fully price. The 87% composite momentum vs 12% for XLI is not noise — it represents genuine fundamental+macro convergence. At 8% weight, even a 37% drawdown (dd63 historical max) would cost the portfolio ~3% — a manageable stop-loss scenario."
+    ],
+    "risks": [
+      "MACRO: Silver is highly sensitive to USD strength — any dollar rally triggered by Fed hawkishness, tariff-driven safe-haven USD demand, or China growth scare could compress the gold/silver ratio sharply and amplify SLV drawdowns. Industrial demand component (solar, EVs) is vulnerable to global growth slowdown or tariff-driven capex cuts. A commodity rotation out of metals back into tech (if AI spending accelerates and risk appetite recovers) would rapidly erode the momentum advantage.",
+      "IDIOSYNCRATIC: vol20=77.63% is the highest in the portfolio — SLV can experience 5-10% daily moves on positioning unwinds. dd63=-37.15% shows this instrument has experienced severe drawdowns even during strong bull phases. Thin market microstructure relative to GLD means SLV can experience sharp ETF premium/discount distortions during illiquid periods. Position is capped at 8% precisely to manage this concentration of volatility.",
+      "EXECUTION/LIQUIDITY: SLV average daily volume is adequate for an 8% position in a paper fund but would face meaningful market impact at institutional scale. Round-trip slippage estimated 40-60bps given vol20=77%. Replacing XLI (highly liquid ETF, ~5bps slippage) with SLV increases execution cost by ~35-55bps — this is fully offset by the 75pp momentum spread between the two names, clearing the cost hurdle by a wide margin."
+    ],
+    "falsifiable_checks": [
+      "If SLV closes below MA50 ($77.82) for 2 consecutive weekly closes, thesis is damaged — evaluate exit back to GLD or XLI. Kill-switch: SLV close below $65 (representing ~19% drawdown from current $80.09 and breakdown below 50-day + 13% buffer).",
+      "If XLI composite momentum closes above 20% OR SLV composite momentum falls below 40% within the next 30-day hold window (by 2026-04-11), re-evaluate the relative edge. If portfolio dd63 increases by more than 5pp attributable to SLV, size down from 8% to 4% at next rebalance."
+    ],
+    "why_now": "Base case: SLV's 87pp composite momentum dominates every other candidate in the pool. The 7-day rebalance cadence has been fully respected (last checkpoint 2026-03-04, exactly 7 days). XLI's industrials thesis has been progressively eroded over the past 4 weeks (1m=-1.82%) with no fundamental quality anchor to justify holding at 11% weight when a name with 7x the momentum is available. Bull case: Commodity metals cycle continues (central bank gold/silver buying, geopolitical hedging demand, USD weakness thesis) combined with silver's industrial demand from energy transition — SLV could sustain 50%+ momentum for another 30-60 days. Bear case: USD reversal or China demand shock triggers metals selloff; SLV reverts to dd63 max (-37%), costing portfolio ~3% — fully absorbed by the 20% GLD sleeve which acts as a correlated but more stable hedge. Expected edge: replacing XLI(+12.5% mom) with SLV(+87.4% mom) at 8% weight generates ~6pp expected momentum alpha vs the replaced position, far exceeding the ~0.5% round-trip execution cost. This is a high-conviction, appropriately-sized rebalance action."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 8,
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 8,
+      "sector": "Commodities"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 10,
+      "sector": "Defense"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 25,
+      "sector": "Commodities"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (0-100): GLD=91 (momentum 30/30, regime fit 10/10, risk 14/15), LMT=88 (mom 27/30, quality 19/20, revision 14/15, risk 14/15), KLAC=84 (mom 28/30, quality 18/20, revision 13/15, risk 11/15 penalized for dd63=-22%), SLV=80 (mom 30/30, regime fit 10/10, risk 10/15 penalized for vol20=77%), TSM=82 (mom 26/30, quality 18/20, revision 12/15, risk 13/15), XOM=78 (mom 22/30, quality 14/20, revision 11/15, val 9/10, risk 14/15), CVX=76 (mom 18/30, quality 13/20, val 9/10, risk 15/15), LLY=72 (mom 14/30, quality 19/20, revision 13/15, val 8/10, risk 12/15) | SECTOR EXPOSURE: Commodities (GLD+SLV)=33%, Energy (XOM+CVX)=27%, Technology (KLAC+TSM)=22%, Defense (LMT)=10%, Healthcare (LLY)=8% — all below 80% max sector cap | POSITION CHECK: Max position GLD=25% < 40% limit ✓; Min position SLV=LLY=8% > 2% floor ✓; Total=15+12+8+8+10+10+12+25=100% ✓ | CRYPTO CHECK: 0% crypto exposure < 10% limit ✓ | RISK BUDGET: Portfolio weighted avg mom ~34% (vs SPY +5.26% — 29pp alpha spread). Weighted avg dd63 ~-10.5% (GLD-13.87% x0.25 + LMT-5.23% x0.10 + KLAC-22.41% x0.10 + SLV-37.15% x0.08 + TSM-12.60% x0.12 + XOM-5.48% x0.15 + CVX-5.28% x0.12 + LLY-11.12% x0.08). Portfolio vol20 estimated ~27% (blended). | SCENARIO STRESS: (1) Equity index shock -10%: GLD/SLV commodity sleeve (33%) partially offsets; LMT defense (10%) defensive; net portfolio -5 to -7% estimated. (2) Rates shock (yields +50bps): GLD/SLV negative, LMT/energy mixed, KLAC/TSM pressure; portfolio -4 to -6%. (3) Commodity shock (gold -15%): GLD+SLV = 33% weight, -5% portfolio drag; offset by equity momentum. (4) USD shock (+5%): negative for GLD/SLV, TSM, LLY; +for XOM/CVX; broadly net -2 to -3%. No single scenario drives >8% drawdown. | EXECUTION PLAN: XLI→SLV replace at open (limit orders given vol20=77.63%); LLY trim 2% → GLD add; staged over 2 sessions to reduce slippage. Total turnover: ~13% of portfolio (XLI 11% out + SLV 8% in + LLY 2% trim + GLD 5% add). Estimated round-trip cost ~0.5-0.7% of NAV. | MONITORING/KILL-SWITCHES: LLY kill-switch $960 (MA200=$881+buffer); if breached evaluate exit. KLAC kill-switch: close below MA200 $1115; if breached reduce from 10%→5%. SLV kill-switch: close below $65 or MA50 ($77.82) for 2 consecutive weeks. GLD kill-switch: close below MA50 ($448.72). Next rebalance window earliest 2026-03-18 (7-day cadence from today)."
+  }
+}
