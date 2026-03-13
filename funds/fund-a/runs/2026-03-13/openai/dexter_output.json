@@ -1,0 +1,97 @@
+{
+  "run_date": "2026-03-13",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (pack): MIXED-to-RISK-OFF tilt. SPY 1m=-3.74% / QQQ 1m=-2.58% with MA50=false (trend not repaired); GLD remains structurally strong (MA50/MA200=true, 3m=+20.0%).",
+    "Breadth/leadership (pack): Leadership concentrated in real assets/defense/energy + select semis. LMT (1m=+4.38%, mom=+32.61%), GLD (mom=+33.01%), XOM (mom=+28.30%), TSM (mom=+30.57% but 1m=-9.99%) show factor dispersion.",
+    "Go/No-go (IC): GO for a small, high-signal rebalance (<=3 changes). Primary objective is to cut weakest momentum with modest quality support (META mom=-4.47%) and rotate into higher-momentum, high-quality semicap tooling (KLAC mom=+41.36%) while keeping diversifying ballast (GLD/XOM/LMT)."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "META",
+      "why": "Pack: persistent relative weakness (mom=-4.47%, 6m=-14.88%) vs benchmarks; trend is not providing tailwind (QQQ MA50=false). Tools: fundamentals still strong (OM ~42.8%, P/E ~27.5) but factor setup is misaligned for a 30d horizon; catalyst support in last 7d is UNKNOWN (news not verified in tool output)."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Pack: deeper intermediate drawdown (dd63=-24.05%) and weak 3m (-18.49%) despite positive mom (+11.96%). Tools: valuation looks stretched (P/E ~62.9, P/S ~23.0, PEG ~8.33) raising fragility risk if sentiment/rates tighten; last-7d catalyst news is UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "META",
+      "add_ticker": "KLAC",
+      "size_change_pct": 10
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "META",
+    "add_ticker": "KLAC",
+    "size_change_pct": 10,
+    "thesis": [
+      "Catalyst/process: rotate out of weakest momentum incumbent (META mom=-4.47%) into a top-pack leader in semicap tooling (KLAC mom=+41.36%) that tends to benefit from capex normalization and AI/logic memory complexity; near-term catalyst headlines are UNKNOWN, so this is primarily factor-driven.",
+      "Factor edge (30d): momentum + quality blend. KLAC shows strong pack momentum (top list) and strong profitability/quality in tools (GM ~61.6%, OM ~43.3%, ROE ~0.95) while META’s pack momentum is negative and regime is not supportive for growth beta (SPY/QQQ MA50=false).",
+      "Variant view: consensus may be over-focused on mega-cap platform earnings durability; the higher-probability 30d edge is in upstream semiconductor equipment with stronger trend persistence, while retaining AI exposure via NVDA/TSM."
+    ],
+    "risks": [
+      "Macro: if risk-off deepens, semis/equipment can de-rate quickly despite strong momentum; rates up / USD shock could compress multiples.",
+      "Idiosyncratic: KLAC is exposed to wafer-fab equipment cycle and customer capex timing; any sudden order pushouts would hurt (tool-verified news in last 7d is UNKNOWN).",
+      "Execution/liquidity: gap risk around sector headlines; implement as staged entry (e.g., 2-3 tranches) to reduce slippage given equity vol regimes."
+    ],
+    "falsifiable_checks": [
+      "Timebox: over the next 30 calendar days, if KLAC underperforms SPY by >=5.0pp on a total-return basis (pack-based at next run), revert/resize the Replace decision review.",
+      "Risk stop: if KLAC experiences a >=12% peak-to-trough drawdown from entry (pack dd/price path at next checkpoints), cap position back to <=6% at the next eligible rebalance unless semis breadth improves (QQQ MA50 turns true)."
+    ],
+    "why_now": "Base: market trend is mixed with defensive leadership; we keep ballast (GLD/XOM/LMT) but upgrade the weakest sleeve by replacing negative-momentum META with a top-momentum, high-quality KLAC, aiming for 30d momentum persistence. Bull: semicap leadership continues even if mega-cap platforms lag, and KLAC’s quality metrics support continuation. Bear: broad risk-off hits all cyclicals—position size is kept moderate (10%) and offset by GLD/XOM/LMT; expected factor edge must clear turnover drag, and this is a single swap (one change) to keep costs low."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix | Scores (0-100, pack+tools, no guessing): Momentum—GLD/LMT/XOM/TSM/KLAC strong; META weak => Replace justified. Quality—NVDA (OM~65.6%, ROE~1.04), TSM (OM~54.0%, ROE~0.35), KLAC (OM~43.3%, ROE~0.95), META (OM~42.8%) strong; AVGO quality ok but valuation high. Revision proxy—analyst ests available for all names but last-7d news tone is UNKNOWN (not verified in tool output). Valuation discipline—penalty flags: AVGO (P/E~62.9, PEG~8.33), PLTR avoided (P/E~260+); XOM/LMT reasonable. Risk budget—keep ballast weights (GLD 14, XOM 15, LMT 7) with controlled semi concentration (IT total 50% incl. TSM ADR). Scenarios (qual+pack): Equity index shock hurts NVDA/AVGO/TSM/KLAC; mitigated by GLD/XOM/LMT. Rates up shock penalizes high-multiple tech (NVDA/AVGO/KLAC) => keep adds modest. Commodity shock: oil down hits XOM, partially offset by GLD. USD shock: TSM ADR sensitivity. Execution plan: single swap (META->KLAC) in 2-3 tranches today/next session; avoid chasing. Monitoring/kill-switch: if QQQ MA50 remains false and semis breadth deteriorates, cap IT to <=45% next rebalance; if AVGO dd worsens by additional >=10% from today (pack), consider trim at next checkpoint."
+  }
+}

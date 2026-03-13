@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-13",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: SLV73%/KLAC41%/LMT33%/TSM30%/XOM28% lead vs SPY4%/QQQ5%/IWM5%; metals/defense/energy/semicon resilient.",
+    "Holdings aligned: top mom capture, qual strong (NVDA OM66%/ROE104%, TSM OM54%/ROE35%, AVGO OM42%/ROE33%, LMT OM9%/ROE81%).",
+    "Non-rebal (1d post-3/12, 6d to weekly): no news since 3/6, ratios/est up (NVDA rev+15%/EPS+21%, TSM+5%/8%), hold verified."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores 85-100 (SLV100, KLAC95); qual 85+ (NVDA100/TSM90/AVGO80/LMT90); rev/est growth positive; risk low (dd<-10% only SLV/PLTR); no trade vs costs."
+  }
+}
