@@ -1,0 +1,90 @@
+{
+  "run_date": "2026-03-16",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (pack): MIXED / fragile risk-on attempt. SPY 1m=-2.79% and QQQ 1m=-1.15% with MA50=false (trend not repaired), while GLD remains strong (1m=+2.09%, mom=+31.04%, MA50/MA200=true).",
+    "Breadth/leadership (pack): leadership remains concentrated in real assets/defense/energy + select semis. XOM (mom=+31.39%), LMT (mom=+29.82%), GLD (mom=+31.04%) lead; semis are mixed but still high-mom on 90d (KLAC mom=+42.31%, TSM mom=+33.48%) despite recent 1m softness in parts of the complex (TSM 1m=-8.09%).",
+    "Go/No-go (IC): NO-GO for rebalance (rebalance due today=false). Maintain portfolio; only monitor for thesis damage and readiness to act at next eligible checkpoint if trend/breadth improves or idiosyncratic risk emerges."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack shows weak intermediate momentum vs peers (3m=-20.57%, dd63=-14.25%) and elevated valuation risk (P/E ~62.9; EV/EBITDA ~43.4) with meaningful leverage (debt/equity ~1.13). No tool-verified 7d catalyst in this run (news signals: UNKNOWN)."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Momentum remains top-tier (mom=+42.31%) but near-term risk is elevated: high vol20 ~45.47% and dd63 ~-22.41% (pack). Requires tighter monitoring; no tool-verified 7d catalyst in this run (news signals: UNKNOWN)."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: none (non-rebalance day). Maintain the existing quality+momentum barbell: real assets/defense ballast (GLD/XOM/LMT) + AI/semi leaders (NVDA/TSM/KLAC/AVGO) + quality growth in HC (LLY).",
+      "Factor edge: with SPY/QQQ MA50=false (pack), turnover is penalized; current book already aligns with relative leaders (GLD/XOM/LMT/KLAC/TSM) and avoids adding low-confidence names.",
+      "Variant view: resist forcing changes in a mixed regime; preserve optionality for next eligible rebalance if breadth repairs or if AVGO/TSM/NVDA show renewed 30d strength vs benchmarks."
+    ],
+    "risks": [
+      "Macro: renewed equity drawdown or rates/credit stress could hit semis and high-multiple growth even if GLD holds up.",
+      "Idiosyncratic: single-name shocks in semis (NVDA/AVGO/TSM/KLAC) or drug pricing/regulatory headlines (LLY) could dominate 30d outcomes.",
+      "Execution/liquidity: none today (no trades). Next rebalance should use staged sizing for higher-vol names (KLAC/NVDA/TSM)."
+    ],
+    "falsifiable_checks": [
+      "Trend check (next runs, pack-based): if SPY MA50 remains false AND SPY 1m stays < 0, maintain defensive ballast (GLD/XOM/LMT) and cap incremental cyclicality adds.",
+      "Holding-level risk check (next eligible rebalance, pack-based): if KLAC dd63 worsens to <= -30% or AVGO 3m stays <= -20% with mom falling below +5%, review for replacement at next eligible rebalance."
+    ],
+    "why_now": "Base: rebalance is not permitted today (cadence min spacing not met). Bull: existing leaders (GLD/XOM/LMT + select semis) continue to carry returns with contained drawdowns. Bear: if mixed regime deteriorates, avoiding turnover today preserves flexibility and reduces whipsaw/slippage."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — factor scores (indicative, pack+tools where available): Momentum highlights: KLAC mom=+42.31, TSM=+33.48, XOM=+31.39, GLD=+31.04, LMT=+29.82; lag risk: AVGO 3m=-20.57. Quality snapshot (tools, ttm): NVDA OM~65.6% ROE~1.04 P/E~38; AVGO OM~41.8% ROE~0.33 P/E~62.9 (valuation/leverage penalty); XOM OM~12.3% P/E~17.6 FCF yld~4.65%; LLY ratios partially missing/erroneous in snapshot (P/E/OM fields UNKNOWN/invalid) -> confidence penalty. Risk budget: maintain barbell; monitor KLAC vol20~45.5% and dd63~-22.4%. Scenario stress (quick): equity index shock hurts semis; rates shock pressures high-multiple tech; commodity shock benefits XOM/GLD; USD shock risks TSM/NVDA supply chain. Execution plan: no trades today; next eligible rebalance use <=3 changes, staged entries for high-vol names. Monitoring/kill-switch: if SPY/QQQ MA50 stays false and semis breadth weakens (pack 1m/3m deteriorates) then trim cyclicality; if any holding underperforms SPY by >=5pp over 30d (pack) or hits dd63 <= -30%, force review at next eligible checkpoint."
+  }
+}
