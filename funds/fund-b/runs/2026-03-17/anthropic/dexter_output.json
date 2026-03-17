@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-03-17",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: Mixed/Defensive — SPY mom=+5.17%, 1m=-1.80%, below MA50 but above MA200 (dd63 context: broad equity distribution continues for 6th+ consecutive session across all cap sizes). QQQ mom=+6.87%, 1m=-0.04%, 3m=-3.90%, below MA50 but above MA200 — tech breadth erosion persists. IWM 1m=-4.09%, 3m=-3.12%, below MA50 — small-cap distribution intact. TLT mom=-0.59%, 1m=-1.94%, below MA50, above MA200 — bond bid absent, stagflation/rate-pressure regime persists. BTC-USD mom=-19.03%, 3m=-19.86%, below MA200 — crypto fully risk-off. GLD above both MAs (mom=+30.93%), SLV mom=+66.09% with 1m=+8.11% bounce (improvement vs prior session $72.69→$73.22) — precious metals remain the only clean dual-momentum leadership pocket. Regime classification: MIXED/DEFENSIVE, unchanged from prior session.",
+    "LEADERSHIP: Portfolio weighted avg momentum ~33% vs SPY mom=+5.17% — +28pp alpha spread maintained. SLV leads at mom=+66.09%, 3m=+27.07%, 6m=+90.97%, 12m=+138.19%; close $73.22 vs prior $72.69 (+0.73%) — slight stabilization but still below MA50, kill-switch watch active for 2026-03-18 rebalance. KLAC mom=+44.27%, 3m=+15.56%, 1m=-0.74% — slight improvement from prior -7.57% TSM drag. TSM mom=+34.24%, 3m=+11.61%, 1m=-7.57% — tariff/geopolitical overhang persists, monitoring flag. XOM mom=+32.32%, 3m=+32.41%, 1m=+4.87% — cleanest energy momentum, no flags. LMT mom=+29.66%, 3m=+36.58%, above both MAs — strongest equity quality/momentum combination, FY2026 EPS Q1=$6.89→Q4=$8.25 intact. GLD mom=+30.93%, above both MAs — macro anchor dominant. CVX mom=+25.67%, 3m=+31.88%, vol20=19.85% — lowest-volatility holding, no flags. LLY mom=+12.31%, 3m=-1.84%, 1m=-4.58%, close $989.12 — above kill-switch $960 floor (gap=+3.0%), above MA200, below MA50; Q1-FY2026 EPS est $7.49→Q4=$9.46 ramp confirmed intact by qualitative refresh.",
+    "GO/NO-GO: NON-REBALANCE DAY — Rebalance due = false. Days since last rebalance checkpoint = 6 (minimum cadence = 7 days; next eligible window = 2026-03-18, TOMORROW). No emergency kill-switch breaches: LLY close $989.12 > kill-switch floor $960 (gap=+3.0%); SLV close $73.22 shows 1m=+8.11% bounce but remains below MA50 — pre-scheduled kill-switch evaluation confirmed for 2026-03-18. KLAC and TSM both below MA50 but above MA200, no emergency override threshold crossed. Qualitative refresh confirms all four equity EPS acceleration trajectories intact: LLY FY2026 Q1=$7.49→Q4=$9.46; KLAC FY2026 Q1=$9.14→Q4=$11.74; LMT FY2026 Q1=$6.89→Q4=$8.25; TSM FY2026 Q1=$3.26→Q4=$3.99. DO NOTHING — hold portfolio exactly unchanged. Full rebalance evaluation due tomorrow 2026-03-18."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LLY",
+      "why": "5th+ consecutive session below MA50 ($1036); close $989.12 is +3.0% above kill-switch floor $960 — gap narrowed vs prior $985.08. 1m=-4.58%, 3m=-1.84% momentum headwind persists. EPS ramp Q1=$7.49→Q4=$9.46 qualitatively intact, but near-term price momentum remains a persistent flag. Full evaluation at 2026-03-18 rebalance."
+    },
+    {
+      "ticker": "SLV",
+      "why": "Close $73.22 remains below MA50 (~$78.41); dd63=-37.15%, vol20=64.21% — elevated risk profile. 1m=+8.11% bounce provides mild stabilization but does not clear MA50 breach. Third consecutive weekly session below MA50. Mandatory trim evaluation (8%→4%) pre-scheduled for 2026-03-18 rebalance if MA50 breach persists."
+    },
+    {
+      "ticker": "TSM",
+      "why": "1m=-7.57%, 3m=+11.61%, close $340.23 below MA50 (~$345.99). Tariff escalation and geopolitical overhang on Taiwan Strait exposure continues to drag near-term momentum. Above MA200 ($281.06) — no emergency override, but monitoring flag for 2026-03-18 scoring."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "1m=-0.74% (slight improvement), 3m=+15.56%, close $1438.24 below MA50 (~$1452); dd63=-22.41%, vol20=45.77% — elevated drawdown. FY2026 EPS Q1=$9.14→Q4=$11.74 acceleration intact; semiconductor capex cycle thesis supported. Monitoring flag, no kill-switch breach."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "NON-REBALANCE DAY: Rebalance due = false. Day 6 since last rebalance checkpoint (2026-03-11); 7-day minimum cadence requires holding until 2026-03-18 (TOMORROW). No emergency kill-switch invalidation conditions have been triggered: LLY close $989.12 > kill-switch floor $960 (gap=+3.0%); SLV close $73.22 shows 1m=+8.11% intraday stabilization but MA50 breach persists — mandatory evaluation pre-scheduled for tomorrow's rebalance session. KLAC and TSM both below MA50 but well above MA200 — no emergency override thresholds crossed.",
+      "PORTFOLIO HEALTH: All eight holdings retain intact fundamental and/or momentum thesis. Weighted average portfolio momentum ~33% vs SPY +5.17% — +28pp alpha spread maintained. Four equity EPS acceleration trajectories confirmed by qualitative refresh today: LLY FY2026 Q1=$7.49→Q4=$9.46 (intact); KLAC FY2026 Q1=$9.14→Q4=$11.74 (accelerating); LMT FY2026 Q1=$6.89→Q4=$8.25 (intact, strongest equity quality/momentum); TSM FY2026 Q1=$3.26→Q4=$3.99 (intact, tariff risk priced). Commodity metals sleeve (GLD 25% + SLV 8% = 33%) remains the dominant macro hedge in a regime where TLT is below MA50, bond bid absent, and stagflation risk from tariff escalation is the leading macro scenario. SLV 1m=+8.11% bounce is a mild positive data point heading into tomorrow's mandatory evaluation.",
+      "VARIANT VIEW: The do-nothing decision on 2026-03-17 is the strictly correct mechanical output — day 6 of a 7-day cadence with no emergency override conditions. Tomorrow's 2026-03-18 rebalance window is the first eligible execution point. Key decisions pre-loaded for tomorrow: (1) SLV mandatory trim evaluation from 8% to 4% if MA50 breach persists at close — reallocation target is GLD or XOM/CVX; (2) LLY trim evaluation from 8% to 4% if 3m momentum prints below -5% or close below $960 at scoring; (3) potential TSM sizing reduction from 12% to 8% if 1m deteriorates further below -10% at rebalance scoring, with reallocation to LMT or GLD. GLD at 25% remains the maximum high-conviction position given dual-momentum, macro hedge, and regime fit."
+    ],
+    "risks": [
+      "MACRO: TLT close=87.21, 1m=-1.94%, mom=-0.59%, below MA50 — bond bid absent, stagflation scenario from tariff escalation is the dominant macro risk for ALL equity holdings simultaneously. SPY 1m=-1.80%, below MA50 — broad equity distribution could accelerate if tariff rhetoric escalates before 2026-03-18 rebalance window. USD strength could compress both GLD and SLV via commodity demand destruction, compressing the portfolio's largest allocation.",
+      "IDIOSYNCRATIC: LLY close $989.12 is only +3.0% above the $960 kill-switch floor — a -3% move before tomorrow's rebalance would trigger emergency evaluation before the scheduled window. SLV dd63=-37.15% with vol20=64.21% is the highest-risk single holding; a gap-down open tomorrow would worsen the MA50 breach and potentially expand the mandatory trim scope. TSM 1m=-7.57% tariff/geopolitical exposure remains the most externally-driven equity risk; any Taiwan-related news could trigger rapid repricing.",
+      "EXECUTION/LIQUIDITY: No execution risks today as no trades are being made. Key monitoring checkpoints before 2026-03-18 rebalance: (1) LLY close vs $960 kill-switch floor — gap currently $989.12 vs $960 = +3.0%; (2) SLV close vs MA50 ~$78.41 — close $73.22 = -6.6% below; (3) KLAC close vs MA200 ~$1128 (well above at $1438 — buffer intact); (4) TSM close vs MA200 ~$281.06 (well above at $340 — buffer intact). CVX vol20=19.85% and XOM vol20=24.69% provide the most stable liquidity anchors in the portfolio."
+    ],
+    "falsifiable_checks": [
+      "SLV MANDATORY EVALUATION AT 2026-03-18 REBALANCE: If SLV close at 2026-03-18 EOD remains below MA50 (~$78.41) for 3rd consecutive weekly close — initiate trim from 8% to 4% and reallocate to GLD. Current gap: close $73.22 vs MA50 ~$78.41 = -6.6%. If SLV recovers above $78.41 before 2026-03-18 close, trim is discretionary (evaluate vs scoring). This is a pre-committed rule, not discretionary.",
+      "LLY TRIM TRIGGER AT 2026-03-18: If LLY close at 2026-03-18 falls below $960 (kill-switch floor) OR 3m momentum scores below -5% at rebalance cross-sectional scoring (currently -1.84%), reduce weight from 8% to 4% and reallocate to GLD or LMT. Current gap to kill-switch: $989.12 vs $960 = +3.0%. Secondary trigger: if LLY close prints below $960 at ANY point before 2026-03-18 rebalance session opens, initiate emergency evaluation immediately regardless of cadence."
+    ],
+    "why_now": "Base case: Do nothing. The 7-day cadence minimum is a hard constraint (day 6 of 7) and no emergency override threshold has been crossed. Portfolio alpha spread vs SPY is +28pp, commodity metals + defense thesis remains intact, all equity EPS acceleration trajectories confirmed. Bull case: SLV stabilizes and recovers toward MA50 by 2026-03-18 (1m=+8.11% bounce is encouraging), GLD continues all-time high trajectory, LMT benefits from continued European rearmament acceleration, and KLAC/TSM recover on tariff de-escalation rhetoric. Bear case: LLY breaks $960 before 2026-03-18 triggering emergency evaluation; SLV gaps down further tomorrow worsening the mandatory trim from 4% to potentially 0%; TSM tariff escalation pushes 1m below -10% triggering a third simultaneous damage evaluation. Expected edge of trading today: ~0pp (no improvement over holding; turnover costs are pure drag on a 1-day horizon). Holding is the strictly dominant action on day 6 of a 7-day cadence with no emergency invalidations present. Tomorrow's 2026-03-18 rebalance window is the correct and pre-committed execution point for all pending evaluations."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 8,
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 8,
+      "sector": "Commodities"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 10,
+      "sector": "Defense"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 25,
+      "sector": "Commodities"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "CONSTRAINTS VERIFIED: Max position = GLD 25% (≤40% ✓). Sector exposures: Commodities=33% (GLD25%+SLV8%), Energy=27% (XOM15%+CVX12%), Technology=22% (KLAC10%+TSM12%), Defense=10% (LMT10%), Healthcare=8% (LLY8%) — all sectors ≤80% ✓. Crypto=0% (≤10% ✓). Total=100% ✓. No placeholders, no broad index ETFs, no duplicates. | FACTOR SCORE HIGHLIGHTS (non-rebalance qualitative refresh only): GLD scores highest on momentum+regime fit (30.93% mom, above both MAs, dominant macro hedge); SLV highest raw momentum (66.09%) but risk-penalized (vol20=64.21%, dd63=-37.15%, below MA50); LMT strongest equity quality/momentum (mom=29.66%, 3m=36.58%, above both MAs, FY2026 EPS Q1=$6.89→Q4=$8.25, earnings growth +19.5%, FCF yield ~6.2%); KLAC semiconductor compounder (mom=44.27%, FY2026 EPS Q1=$9.14→Q4=$11.74 confirmed, ROIC 40.4%); LLY quality anchor with near-term momentum headwind (mom=12.31%, 3m=-1.84%, gross margin 83%, FY2026 EPS Q1=$7.49→Q4=$9.46 intact). | RISK BUDGET: Portfolio weighted avg vol ~32% (SLV 64.21% and KLAC 45.77% are vol outliers, offset by CVX 19.85%, GLD 28.50%, LMT 25.25%). Max single-name drawdown: SLV dd63=-37.15% at 8% weight = -3.0pp portfolio contribution — within tolerance. Correlation risk: GLD+SLV (33% combined) are positively correlated in stagflation; Energy block (XOM+CVX, 27%) positively correlated to each other but negatively correlated to SLV in demand-destruction scenarios. | SCENARIO STRESS: Equity index shock (-10% SPY): estimated portfolio impact ~-5% (equity names ~47% weight, metals hedge offsets). Rates shock (TLT -5%): minimal direct impact (no bond holdings); positive for GLD/SLV as real rates suppression boosts precious metals. Commodity shock (oil -15%): XOM+CVX (27%) = ~-4pp; partially offset by metals bid in risk-off. USD shock (DXY +5%): GLD/SLV compression -2 to -3pp offset partially by energy/equity stability. No scenario produces concentrated >-8% single-factor loss at current sizing. | EXECUTION PLAN: No trades today (day 6 of 7-day cadence). Pre-committed rebalance actions queued for 2026-03-18: (A) SLV mandatory trim from 8%→4% if MA50 breach confirmed at EOD close (gap currently -6.6%); (B) LLY trim evaluation from 8%→4% if 3m momentum <-5% or close <$960; (C) TSM sizing evaluation from 12%→8% if 1m deteriorates below -10% at scoring. Max 3 changes cap applies. | KILL-SWITCH TRIGGERS: LLY < $960 = immediate emergency evaluation; SLV 3rd consecutive weekly close below MA50 ~$78.41 = mandatory trim at next rebalance; KLAC close below MA200 ~$1128 = reduce to 5%; TSM close below MA200 ~$281 = reduce to 5%; GLD close below MA200 = sell 50% and reallocate to TLT if bond bid recovers."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-03-17",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (arena_input_pack): MIXED / fragile risk-on attempt. SPY 1m=-1.80% and QQQ 1m=-0.04% with MA50=false for both; MA200=true suggests longer-trend intact but near-term trend not repaired. GLD remains a clear risk-off/real-asset leader (1m=+2.00%, 3m=+17.09%, MA50/MA200=true).",
+    "Breadth/leadership: leadership remains concentrated in real assets/energy/defense plus select semicap tooling. Strong 90d momentum leaders in-book: KLAC mom=+44.27%, TSM mom=+34.24%, XOM mom=+32.32%, GLD mom=+30.93%, LMT mom=+29.66%. Semis show dispersion with some 30d softness (TSM 1m=-7.57%) but still strong 90d momentum.",
+    "Go/No-go (IC): NO-GO for rebalance (rebalance due today=false; cadence constraint). Maintain portfolio unchanged; only monitor for thesis damage (semi drawdowns/volatility; any negative idiosyncratic news) into the next eligible checkpoint."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack shows weak intermediate momentum (3m=-19.89%) with still-elevated vol20=34.05% and dd63=-14.25%. Valuation/quality snapshot: P/E ~62.9, EV/EBITDA ~43.4, PEG ~8.33 (tool), implying less valuation buffer if momentum fails to re-accelerate over the next 30d."
+    },
+    {
+      "ticker": "TSM",
+      "why": "Pack indicates notable 30d pullback (1m=-7.57%) despite strong 90d momentum (mom=+34.24%) and elevated vol20=38.07%. Not thesis-broken, but short-horizon risk increased; needs stabilization vs benchmarks."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Pack: highest momentum in-book (mom=+44.27%) but also highest realized risk (vol20=45.77%) and a deeper dd63 (-22.41%) than most holdings; position requires risk-budget discipline and staged sizing at next rebalance if volatility persists."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst (next 30d): none today (non-rebalance day). Maintain barbell aligned with current leadership: real-asset/energy/defense ballast (GLD/XOM/LMT) plus semicap leaders (NVDA/AVGO/TSM/KLAC) and quality growth (LLY).",
+      "Factor edge: trend not repaired (SPY/QQQ MA50=false) so turnover is penalized; current book already owns the strongest pack momentum cluster (KLAC/TSM/XOM/GLD/LMT) while keeping quality anchors (NVDA op margin ~65.6%, ROE ~104% ttm; tool).",
+      "Variant view: resist forcing rotation into marginal 90d names when breadth is narrow; wait for next eligible rebalance to address AVGO’s weaker 3m momentum/valuation if it does not improve vs SPY/QQQ."
+    ],
+    "risks": [
+      "Macro: equity downside or rates shock could pressure high-multiple semis (NVDA/AVGO/TSM/KLAC) even if GLD/XOM provide partial offset.",
+      "Idiosyncratic: regulatory/pricing headlines in obesity drugs could hit LLY; semicap booking/cycle headlines could hit KLAC/TSM/NVDA; energy price reversal could weaken XOM.",
+      "Execution/liquidity: none today (no trades). Next rebalance should use staged sizing for higher-vol names (KLAC/TSM/NVDA) to reduce slippage/whipsaw risk."
+    ],
+    "falsifiable_checks": [
+      "Regime check (pack-based, next runs): if SPY MA50 remains false AND SPY 1m stays < 0 through the next eligible rebalance window, keep ballast (GLD/XOM/LMT) >= 30% combined and cap incremental high-beta adds.",
+      "Holding risk check (pack-based, through next eligible rebalance): if AVGO 3m stays <= -15% OR dd63 deteriorates to <= -20%, prioritize it as the first replacement candidate; if KLAC dd63 worsens to <= -30%, consider trimming at next eligible checkpoint."
+    ],
+    "why_now": "Base: rebalance not permitted today (min spacing not met), and pack trend signals (SPY/QQQ MA50=false) argue for low turnover. Bull: current leaders (GLD/XOM/LMT + KLAC/TSM) continue to dominate 90d momentum with manageable drawdowns outside KLAC. Bear: if mixed regime deteriorates, avoiding churn preserves flexibility and reduces trading-cost drag; reassess at next eligible rebalance with updated pack momentum and any new company-specific catalysts."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 14,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — Scores (indicative, pack+tool anchored, no rebalance today): Momentum highlights: KLAC mom=44.27, TSM=34.24, XOM=32.32, GLD=30.93, LMT=29.66; lag watch: AVGO 3m=-19.89. Quality snapshot (tools): NVDA op margin~65.6%, ROIC~119.7%, P/E~38; AVGO op margin~41.8% but P/E~62.9/EV/EBITDA~43.4/PEG~8.33; XOM P/E~17.6, EV/EBITDA~8.0, FCF yield~4.65%. Risk budget: keep ballast (GLD+XOM+LMT=36%) while SPY/QQQ MA50=false; high-vol semis sized with single-name cap <20% (NVDA 18%, KLAC 10%, TSM 10%, AVGO 12%). Scenario stress (qualitative): equity index shock hits semis first; rates shock negative for high-multiple tech but partially hedged by GLD; commodity shock downside hurts XOM but GLD diversifies; USD shock mixed (TSM sensitivity). Execution plan: none today; next eligible rebalance—stage orders in highest vol names (KLAC/TSM/NVDA) and enforce <=3 changes unless severe thesis damage. Monitoring/kill-switch: AVGO dd63<=-20% or 3m<=-15% persists; KLAC dd63<=-30%; TSM 1m stays <=-10% with deteriorating mom; regime remains SPY/QQQ MA50=false + SPY 1m<0."
+  }
+}
