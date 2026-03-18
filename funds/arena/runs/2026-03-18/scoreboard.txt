@@ -1,0 +1,7 @@
+Fund Arena Scoreboard (2026-03-18)
+
+As of: 2026-03-17 close
+
+1. Fund B (Anthropic) - On track | Replaced LLY -> GOOGL | Perf -2.68% vs S&P 500 -3.06% (excess +0.38%)
+2. Fund A (OpenAI) - On track | No changes | Perf -1.28% vs S&P 500 -1.54% (excess +0.26%)
+3. Fund C (xAI) - On track | Replaced AVGO -> GLD | Perf -1.32% vs S&P 500 -1.54% (excess +0.22%)

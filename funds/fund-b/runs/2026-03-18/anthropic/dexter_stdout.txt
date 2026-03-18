@@ -1,0 +1,83 @@
+dexter_info: model=claude-sonnet-4-6 iterations=4 tool_calls=3
+{
+  "run_date": "2026-03-18",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: Mixed/Defensive — SPY mom=+4.74%, 1m=-1.77%, below MA50 but above MA200 (dd63=-4.77%); QQQ mom=+6.79%, 1m=+0.33%, below MA50 but above MA200; IWM 1m=-4.77%, below MA50 — broad equity distribution persists across all cap sizes. TLT 1m=-2.37%, below MA50 but above MA200 (mom=-0.36%) — bond bid absent, stagflation/rates-pressure macro backdrop continues. BTC-USD mom=-16.87%, 3m=-22.45%, below MA200 — crypto fully risk-off. GLD mom=+29.93%, 3m=+16.04%, above BOTH MAs — precious metals remain the dominant leadership pocket. Regime: MIXED/DEFENSIVE; no regime upgrade warranted. Portfolio composite weighted momentum ~34% vs SPY +4.74% — +29pp alpha spread maintained heading into this rebalance.",
+    "LEADERSHIP ASSESSMENT & DAMAGE FLAGS: LLY is the critical holding under review — close=$930.35 (1m=-10.20%, 3m=-12.27%, mom=+3.30%), now below MA50=$1031 and approaching MA200=$889; dd63=-15.90%, vol20=34.96%. This constitutes severe momentum deterioration (5+ consecutive thesis damage flags in 7d context) and now crosses the pre-committed trim trigger (3m momentum -12.27% well below the -5% threshold, close approaching $960 kill-switch floor at -3.2% gap). REPLACE action warranted: LLY → XOM weight increase or GOOGL add. SLV close=$71.66 vs MA50=$78.59 (-8.9% below) — third consecutive weekly close below MA50, pre-committed mandatory trim from 8% to 4% triggered; reallocate to GLD. All other six holdings retain intact thesis: XOM (1m=+8.63%, 3m=+35.76%, above both MAs, FY2026 EPS=$7.03 growing), CVX (1m=+9.65%, 3m=+33.45%, above both MAs, vol20=18.79% lowest), KLAC (mom=+44.91%, back above MA50=$1464, above MA200=$1136, FY2026 EPS=$36.55 accelerating to $53.91 by FY2028), LMT (mom=+26.55%, 3m=+32.05%, above both MAs, dd63=-5.97%, FY2026 EPS=$29.87), TSM (mom=+37.03%, 3m=+20.58%, above MA200=$282, FY2026 EPS=$14.34 growing to $21.27 by FY2028), GLD (mom=+29.93%, above both MAs, dominant macro hedge — increase weight).",
+    "GO/NO-GO: REBALANCE DUE (7 days since last checkpoint 2026-03-11). High-conviction rebalance setup. Two pre-committed rules triggered: (1) SLV mandatory trim 8%→4% (3rd weekly close below MA50 confirmed); (2) LLY replace/trim triggered (3m=-12.27% < -5% threshold, close=$930.35 approaching $960 kill-switch, momentum composite +3.30% near bottom of portfolio). Max 3 changes applied: Change 1: SLV trim 8%→4%, reallocate 4% to GLD (GLD→29%). Change 2: LLY replace 8%→0%, reallocate proceeds to XOM (+4% to 19%) as energy value anchor with strongest near-term momentum (1m=+8.63%, 3m=+35.76%) and intact FY2026 EPS ramp. Change 3: TSM trim 12%→10% given persistent MA50 breach (1m=-4.74%), with 2% reallocated to CVX (12%→14%) for defensive ballast. Portfolio after changes: XOM 19%, CVX 14%, GLD 29%, SLV 4%, KLAC 10%, LMT 10%, TSM 10%, [need 8 names — add GOOGL 4% to fill LLY slot, funded from XOM trim back to 17%]."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LLY",
+      "why": "SEVERE DAMAGE: close=$930.35, 1m=-10.20%, 3m=-12.27% (well below -5% pre-committed trim trigger), mom composite=+3.30% (lowest equity in portfolio). Below MA50=$1031 (-9.8%), gap to kill-switch floor $960 is only -3.2%. dd63=-15.90%, vol20=34.96%. Q4-2025 EPS=$7.40 actual vs est $7.49 (miss). FY2026 analyst est=$34.67 intact but near-term price momentum is broken across all windows. 5th+ consecutive damage flag. Pre-committed replacement rule triggered."
+    },
+    {
+      "ticker": "SLV",
+      "why": "MANDATORY TRIM TRIGGERED: close=$71.66 vs MA50=$78.59 (-8.9%). Third consecutive weekly close below MA50 — pre-committed rule from prior sessions requires trim from 8% to 4%. dd63=-37.15% (worst in portfolio), vol20=59.27% (highest in portfolio). 1w=-8.02% negative weekly return. Momentum composite still +62.38% on 12m/6m basis so do not exit entirely — reduce to 4% and reallocate to GLD."
+    },
+    {
+      "ticker": "TSM",
+      "why": "MONITORING FLAG (not severe): close=$345.98, 1m=-4.74%, below MA50=$346.09 (borderline), tariff/geopolitical overhang from Taiwan. 3m=+20.58% and mom=+37.03% remain solid — trim only modestly from 12% to 10%."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Trim",
+      "remove_ticker": "SLV",
+      "add_ticker": "GLD",
+      "size_change_pct": -4
+    },
+    {
+      "action": "Replace",
+      "remove_ticker": "LLY",
+      "add_ticker": "GOOGL",
+      "size_change_pct": 8
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "TSM",
+      "add_ticker": "CVX",
+      "size_change_pct": -2
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "LLY",
+    "add_ticker": "GOOGL",
+    "size_change_pct": 8,
+    "thesis": [
+      "CATALYST: LLY pre-committed replacement rule triggered — 3m=-12.27% breaches -5% threshold, close=$930.35 is only 3.2% above $960 kill-switch floor, momentum composite=+3.30% is the lowest equity in the portfolio, and 5 consecutive thesis damage flags in the 7-day context. Replacing with GOOGL (mom=+29.46%, 1m=+3.02%, 3m=+0.95%, 6m=+23.96%, 12m=+89.91%, above MA200=$258, vol20=22.90%, dd63=-13.14%) which offers superior near-term momentum, lower drawdown, and quality mega-cap fundamentals.",
+      "FACTOR EDGE: GOOGL scores meaningfully higher than LLY on the current rebalance scoring — Momentum (30pts): GOOGL 3m=+0.95%/12m=+89.91% vs LLY 3m=-12.27%/12m=+13.64%; Quality (20pts): GOOGL search/cloud/AI monetization intact, no near-term guidance risk vs LLY weight/GLP-1 pipeline uncertainty visible in price; Revision proxy (15pts): GOOGL 1m positive momentum recovery (+3.02%) suggests estimate revisions turning supportive vs LLY persistent miss (Q4 EPS miss $7.40 vs $7.49 est). Valuation (10pts): GOOGL 12m momentum of +90% with reasonable tech valuation vs LLY P/E compression risk. Risk (15pts): GOOGL dd63=-13.14% vs LLY dd63=-15.90%, vol20=22.90% vs 34.96% — materially lower risk profile.",
+      "VARIANT VIEW: The variant view is that LLY's Q1-2026 analyst estimate of $7.49 EPS and FY2026 ramp to $34.67 remains intact despite near-term price weakness — the bear case on this Replace is that LLY is bottoming and GOOGL faces AI regulation or ad-market headwinds. However, the pre-committed rule exists precisely to avoid anchoring on fundamental thesis when momentum and price signals are this deteriorated. GOOGL's 6m recovery from lows (+23.96%) and above-MA200 status provides a cleaner momentum confirmation than LLY, which is below both MA50 and approaching MA200 support at $889."
+    ],
+    "risks": [
+      "MACRO: Broad equity distribution (SPY 1m=-1.77%, below MA50, IWM 1m=-4.77%) means any risk-off escalation from tariff escalation or geopolitical shock hits GOOGL as a high-beta tech name. GOOGL is below its MA50=$318.42 — if broad tech distribution deepens (QQQ 3m=-1.06%), GOOGL could retest MA200=$258 vs current $311 (-17% downside). This partially offsets the advantage over LLY.",
+      "IDIOSYNCRATIC: GOOGL faces DOJ antitrust remedies risk (search monopoly ruling, potential forced divestiture of Chrome/Android), EU digital markets regulation, and AI competitive threats from OpenAI/Anthropic taking share in search. Any adverse antitrust ruling could trigger rapid de-rating. LLY risk of missing re-entry: if Mounjaro/Zepbound Q1-2026 data is blockbuster and LLY gaps up from $930, the Replace cost is the lost recovery from $930 toward $1000+.",
+      "EXECUTION/LIQUIDITY: Both LLY and GOOGL are highly liquid large-cap equities — execution risk is minimal. Paper fund slippage assumption: <0.05% for both names. Timing risk: replacing LLY on a rebalance day that happens to coincide with positive LLY pre-announcement or data readout would be unfortunate. Monitoring checkpoint: if GOOGL closes below MA200=$258 within 14 days of add, initiate exit review."
+    ],
+    "falsifiable_checks": [
+      "GOOGL MOMENTUM CONFIRMATION: If GOOGL closes above MA50=$318.42 within 21 days of this add (by 2026-04-08), momentum thesis is confirmed. If GOOGL closes below MA200=$258 at any point in the 30-day holding window, exit immediately and reassess. Current gap to MA50: $310.92 vs $318.42 = -2.4% (close to recovery).",
+      "LLY EXIT VALIDATION: If LLY closes above $960 kill-switch floor AND 1m momentum recovers to positive within 30 days, record as a missed re-entry. Kill-switch breach validation: if LLY trades below $900 (MA200=$889 approached), confirm the Replace was the correct action. Current gap: $930.35 vs $960 = -3.2%; vs MA200=$889 = +4.7%."
+    ],
+    "why_now": "Base case: Replace LLY with GOOGL at 8% weight. The pre-committed 3m momentum trigger (-12.27% vs -5% threshold) and approaching kill-switch floor make this a rule-based execution, not a discretionary judgment call. GOOGL is the best available replacement in the candidate pool — it has the highest momentum score among candidates not already held (mom=+29.46%), above MA200, lower vol and drawdown than LLY, and a 12m return of +89.91% confirming structural quality/growth. Trading cost drag of ~0.05% is trivially cleared by the momentum score differential (+26pp GOOGL composite vs +3.3pp LLY). Bull case: GOOGL recovers above MA50=$318 within 2 weeks as tariff rhetoric moderates, AI monetization in search and GCP accelerates, and the fund captures the rotation from healthcare to quality tech. Bear case: antitrust ruling or ad market deterioration hits GOOGL, and LLY surprises positively on GLP-1 market share data. Bear case probability assessed at ~20% — the momentum signal is too deteriorated on LLY to hold in a momentum-quality fund against an available higher-scoring replacement."
+  },
+  "target_portfolio": [
+    {"ticker": "XOM", "weight_pct": 15, "sector": "Energy"},
+    {"ticker": "CVX", "weight_pct": 14, "sector": "Energy"},
+    {"ticker": "GOOGL", "weight_pct": 8, "sector": "Technology"},
+    {"ticker": "SLV", "weight_pct": 4, "sector": "Commodities"},
+    {"ticker": "KLAC", "weight_pct": 10, "sector": "Technology"},
+    {"ticker": "LMT", "weight_pct": 10, "sector": "Defense"},
+    {"ticker": "TSM", "weight_pct": 10, "sector": "Technology"},
+    {"ticker": "GLD", "weight_pct": 29, "sector": "Commodities"}
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "WEIGHTS: XOM 15 + CVX 14 + GOOGL 8 + SLV 4 + KLAC 10 + LMT 10 + TSM 10 + GLD 29 = 100%. MAX POSITION: GLD 29% < 40% cap — OK. SECTOR: Technology = GOOGL 8 + KLAC 10 + TSM 10 = 28%; Energy = XOM 15 + CVX 14 = 29%; Commodities = SLV 4 + GLD 29 = 33%; Defense = LMT 10 = 10%. All sectors < 80% cap — OK. CRYPTO: 0% (no crypto holdings) — OK. | FACTOR SCORE HIGHLIGHTS: SLV mom=62.38% (trimmed to 4% due to MA50 breach), KLAC mom=44.91% (back above MA50, hold 10%), TSM mom=37.03% (trim to 10% on MA50 breach + tariff risk), XOM mom=32.35% (hold 15%, strongest near-term 1m/3m energy), GLD mom=29.93% (increase to 29%, dominant macro hedge above both MAs), GOOGL mom=29.46% (new add 8%, best available replacement for LLY), LMT mom=26.55% (hold 10%, cleanest equity quality/momentum), CVX mom=25.04% (increase to 14%, lowest vol20=18.79%, defensive ballast). Portfolio weighted avg momentum ~33% vs SPY +4.74% — +28pp alpha spread maintained. | RISK BUDGET: Energy overweight 29% is highest single sector; energy thesis supported by dual-catalyst (oil price support + XOM/CVX 3m +33-36%); scenario: -20% crude price shock would hit XOM/CVX ~-15%, portfolio impact ~-4.4%. GLD/SLV commodities 33% acts as macro hedge; gold stress -15% would hit GLD/SLV ~-15%, portfolio impact ~-5.0% (hedge partially offsets equity stress). Technology 28% — GOOGL/KLAC/TSM; rates shock +100bps would pressure tech -10%, portfolio impact ~-2.8%. Defense 10% LMT — geopolitical normalization risk, but European rearmament secular thesis provides floor. Total portfolio scenario loss estimate in severe risk-off (equities -20%, gold -10%, silver -20%): ~-12% (manageable given diversification). | EXECUTION PLAN: 3 changes this rebalance: (1) SLV 8%→4% trim, proceeds to GLD (24%→29%); (2) LLY 8%→0% replace with GOOGL 8%; (3) TSM 12%→10% trim, proceeds to CVX (12%→14%). All three are liquid large/mid-cap equities or ETFs — implement at next open, staged over 2 sessions if needed. Expected slippage: <0.10% total. | MONITORING/KILL-SWITCH TRIGGERS: GOOGL: exit if close < MA200=$258 at any point in 30d window. GLD: thesis intact while above MA50=$456 — current $459.27 is borderline; monitor weekly. KLAC: kill-switch if close < MA200=$1136 (currently $1481 — buffer +30%). TSM: exit evaluation if 1m deteriorates below -10% or close < MA200=$282 (currently $346 — buffer +22.7%). XOM/CVX: exit evaluation if Brent crude falls below $65/bbl. SLV (4% residual): exit remaining if close < MA200=$51.11 or if 1m goes below -20%. LMT: hold as long as European rearmament thesis intact and close > MA200=$500 (currently $636 — buffer +27%)."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
