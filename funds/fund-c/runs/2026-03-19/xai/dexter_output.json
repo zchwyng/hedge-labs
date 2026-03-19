@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-19",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: SLV55%/KLAC46%/TSM35%/XOM31%/LMT28%/GLD25% lead vs SPY3.6%/QQQ5.7%; metals/semis/energy/defense resilient.",
+    "Holdings strong: top mom intact, est rev+EPS growth (NVDA+15/21%, TSM+5/8%, PLTR rev+46% YoY Q4).",
+    "Non-rebal (1d post-3/18, 6d to weekly): no news/earnings since 3/12, qual stable/up, no damage, hold verified vs costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "N/A",
+      "N/A",
+      "N/A"
+    ],
+    "risks": [
+      "N/A",
+      "N/A",
+      "N/A"
+    ],
+    "falsifiable_checks": [
+      "N/A",
+      "N/A"
+    ],
+    "why_now": "Non-rebal day; holdings mom/qual edge intact vs costs."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom avg~32% (30/30) vs SPY4%; qual 18/20 est rev+EPS up; risk low (dd<38%, vol<47%); scenarios IT/metals div ok; hold, monitor weekly 3/25 kill if mom<bench+5%."
+  }
+}
