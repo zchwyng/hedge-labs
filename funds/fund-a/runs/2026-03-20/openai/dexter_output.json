@@ -1,0 +1,101 @@
+{
+  "run_date": "2026-03-20",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (arena_input_pack): MIXED / risk-off tilt. SPY 1m=-3.86% and QQQ 1m=-2.11% with MA50=false for both; MA200=true implies longer trend intact but near-term trend not repaired.",
+    "Breadth/leadership (pack): leadership concentrated in Energy/Defense + selective semicap tooling. In-book strength: KLAC mom=+48.37% (but vol20=47.26%, dd63=-22.41%), XOM mom=+31.77%, LMT mom=+27.25%; semis mixed near-term (NVDA 1m=-5.01%, TSM 1m=-6.21%).",
+    "Go/No-go (IC): GO for a small, high-signal rebalance (<=3 changes). Primary objective: reduce clear laggard (LLY mom=+2.63%, 1m=-10.10%) and reallocate to higher momentum + strong quality with lower balance-sheet risk than adding more high-beta semis (GOOGL mom=+29.16%, ROIC ~0.41, low leverage)."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LLY",
+      "why": "Pack momentum deterioration (1m=-10.10%, 3m=-12.83%, mom=+2.63%) versus portfolio alternatives; also data integrity gap in tool snapshot (TTM operating margin and latest-q YoY rev growth returned as UNKNOWN in the most recent FY2025 key-ratio row), lowering conviction for holding size."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Weak intermediate momentum (3m=-6.11%) plus valuation/PEG stretch (TTM P/E ~62.9; PEG ~8.33) and leverage (debt/equity ~1.13), increasing downside sensitivity if macro stays mixed-to-risk-off."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Risk flag: elevated risk metrics despite strong momentum (dd63=-22.41%, vol20=47.26% per pack). Keep sizing capped; do not add here."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "LLY",
+      "add_ticker": "GOOGL",
+      "size_change_pct": 14
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "LLY",
+    "add_ticker": "GOOGL",
+    "size_change_pct": 14,
+    "thesis": [
+      "Catalyst (next 30d): rotation into high-quality, mega-cap software/ads with improving fundamentals vs a weakening pharma momentum tape; GOOGL has solid profitability (op margin ~39.5% TTM as of 2025-Q3 filing) and low leverage (debt/equity ~0.39) which fits a mixed regime.",
+      "Factor edge: momentum upgrade (GOOGL mom=+29.16% vs LLY mom=+2.63%) while maintaining quality (GOOGL ROIC ~0.41; ROE ~0.35) and reasonable valuation for quality (TTM P/E ~23.7 as of 2025-Q3 snapshot), reducing portfolio’s reliance on semicap beta.",
+      "Variant view: market is treating 'AI winners' mostly as semis; we expect a catch-up bid in profitable AI platforms with strong balance sheets as risk appetite remains selective (MA50 still broken on SPY/QQQ)."
+    ],
+    "risks": [
+      "Macro: if the regime shifts further risk-off (SPY 1m draw continues), GOOGL can still de-rate with cyclicals despite quality; correlation to QQQ remains non-trivial.",
+      "Idiosyncratic: regulatory/antitrust headlines or ad-demand softness could hit multiples and revisions; AI capex could pressure near-term margins if spending accelerates without revenue attach.",
+      "Execution/liquidity: low (mega-cap liquidity), but rebalance should be staged to avoid day-of volatility; keep total turnover minimal (single swap)."
+    ],
+    "falsifiable_checks": [
+      "30-day factor check (pack, by next weekly checkpoint): if GOOGL 1m momentum falls below 0% while LLY 1m rebounds above 0% (relative reversal), treat the swap as thesis-failed and review reverting.",
+      "Regime check (pack, next 30d): if SPY MA50 remains false AND SPY 1m <= -5% at any checkpoint, keep semis capped (NVDA+AVGO+TSM+KLAC <= 55%) and do not add incremental high-beta exposure."
+    ],
+    "why_now": "Base: LLY shows clear momentum/relative-strength deterioration (1m=-10.10%, mom=+2.63%) while GOOGL offers a cleaner quality+momentum blend (mom=+29.16%) with strong profitability (op margin ~39.5%) and low leverage; one swap likely clears turnover drag. Bull: selective risk-on resumes (MA200=true) and mega-cap quality tech outperforms; GOOGL participates without adding semicap concentration. Bear: broader risk-off persists; GOOGL’s balance sheet and cash-generation profile should defend better than high-multiple defensives with broken momentum."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix — Scores (highlights, 0-100, pack+tools where available): KLAC ~79 (Mom very strong; Quality strong; Risk penalty for vol/dd), XOM ~76 (Mom strong; Valuation reasonable P/E~17.6; Risk low), TSM ~74 (Mom strong; Quality very strong OM~54%; Risk moderate), LMT ~67 (Mom strong; Valuation/FCF yield supportive; leverage high but stable), GLD ~62 (Mom moderate, ballast role; risk-off fit), NVDA ~61 (Quality exceptional OM~65.6% but 1m negative + valuation P/S elevated -> discipline penalty), GOOGL ~66 (Mom strong; Quality strong ROIC~0.41; valuation reasonable P/E~23.7), AVGO ~52 (Mom weak 3m; valuation/PEG stretch + leverage). Risk budget: keep semis (NVDA+AVGO+TSM+KLAC)=50% given MA50=false; ballast (GLD+XOM+LMT)=36%. Scenario stress (qual): Equity index shock -> semis drive drawdown; mitigants GLD/XOM/LMT. Rates shock up -> semis multiple pressure; prefer GOOGL over further semicap adds. Commodity shock down -> XOM hit, GLD partly diversifies. USD shock up -> TSM headwind; monitor. Execution plan: single replace (LLY->GOOGL) in 2-3 tranches same day/week; avoid adding to KLAC given vol20~47%. Monitoring/kill-switch: (1) If SPY 1m <= -5% with MA50=false, freeze adds and consider trimming highest-vol names. (2) If KLAC dd63 <= -30% or vol20 >= 55% (pack), cap at 10% (already). (3) If AVGO 3m remains <= -7% while TSM/KLAC stay positive, AVGO becomes next trim/replace candidate. Data gaps: LLY key-ratio row had multiple UNKNOWN fields; reduced confidence in holding vs swap."
+  }
+}

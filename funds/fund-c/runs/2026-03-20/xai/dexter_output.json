@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-20",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: SLV49%/KLAC48%/TSM35%/XOM32%/LMT27% lead vs SPY3%/QQQ5%/IWM5%; metals/semis/energy/defense resilient, BTC-22%.",
+    "Holdings capture top mom; qual strong (NVDA OM66%/ROE104%, TSM OM54%/ROE35%, KLAC OM41%/ROE103%, LMT OM9%/ROE81%).",
+    "Non-rebal (2d post-3/18, 5d to weekly): no news since 3/13, ratios/est stable (NVDA/TSM rev+EPS growth FY25-26), hold verified vs costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "N/A",
+      "N/A",
+      "N/A"
+    ],
+    "risks": [
+      "N/A",
+      "N/A",
+      "N/A"
+    ],
+    "falsifiable_checks": [
+      "N/A",
+      "N/A"
+    ],
+    "why_now": "Non-rebal day; top mom/qual edge intact, no news/qual damage vs turnover costs."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PLTR",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores 85-95 (SLV/KLAC/TSM top); Qual 80+ (NVDA66OM/104ROE,TSM54/35,KLAC41/103); Risk budget: IT56%<80,vol/dd managed; Scenarios: eq-10%/rates+1% loss<8%; No exec; Monitor: 30d mom<SPY or OM<20%."
+  }
+}
