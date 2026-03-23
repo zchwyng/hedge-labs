@@ -1,0 +1,7 @@
+Fund Arena Scoreboard (2026-03-23)
+
+As of: 2026-03-20 close
+
+1. Fund B (Anthropic) - On track | No changes | Perf -6.63% vs S&P 500 -6.01% (excess -0.62%)
+2. Fund C (xAI) - On track | No changes | Perf -5.6% vs S&P 500 -4.54% (excess -1.06%)
+3. Fund A (OpenAI) - Issue | No run | Perf -
