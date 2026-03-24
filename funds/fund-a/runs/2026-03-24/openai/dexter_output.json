@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-03-24",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (arena_input_pack): MIXED / risk-off tilt. SPY 1m=-3.70%, QQQ 1m=-2.23%; both MA50=false and MA200=false, signaling weak trend and poor tape support for adding beta.",
+    "Leadership/breadth: leadership remains narrow and factor-choppy; Energy (XOM) is strong (1m=+6.88%, mom=+34.06%) while prior real-asset leader GLD is in a sharp 1m draw (1m=-16.05%, dd63=-18.52%). Semicap tooling (KLAC) still leads on 90d momentum (mom=+45.04%) but carries elevated vol/drawdown (vol20=46.84%, dd63=-22.41%).",
+    "Go/No-go (IC): NO-GO for rebalance (rebalance due today=false; cadence). Maintain portfolio unchanged; only monitor for thesis damage in GLD (trend break), high-vol semis, and any idiosyncratic headline risk."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "GLD",
+      "why": "Pack evidence: sharp 30d drawdown (1m=-16.05%) with MA50=false and dd63=-18.52% signals trend break vs prior role as risk-off ballast; monitor for continued downside/failed reclaim."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Pack evidence: still high momentum (mom=+45.04%) but risk elevated with vol20=46.84% and dd63=-22.41%; vulnerable in weak index tape (SPY/QQQ MA200=false)."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "Pack evidence: near-term weakness (1m=-8.30%) in a fragile regime; valuation/expectations remain high even with strong profitability (TTM op margin ~65.6%, P/E ~38.0 per latest ratios snapshot)."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Fundamental stretch flag: high valuation (TTM P/E ~62.9, EV/EBITDA ~43.4) and leverage (debt/equity ~1.13) raises de-rate risk if macro stays risk-off, despite solid margins (op margin ~41.8%)."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst (next 30d): wait for regime confirmation; with SPY/QQQ both MA200=false and 1m negative, expected alpha from turnover is low vs drawdown risk.",
+      "Factor edge: current book still concentrates in the strongest pack momentum sleeve (XOM, KLAC, TSM, GOOGL) while keeping some diversification via GLD and LMT; no eligible rebalance today per cadence.",
+      "Variant view: rather than chasing new names, protect process—let the tape repair first (e.g., SPY MA50 reclaim) before reallocating toward higher beta/valued semis."
+    ],
+    "risks": [
+      "Macro: continued equity/breadth deterioration could pressure semis and high-multiple tech despite quality fundamentals.",
+      "Idiosyncratic: Taiwan/geopolitical supply-chain risk for TSM; regulatory/antitrust headline risk for GOOGL; commodity/energy price shocks impacting XOM and GLD.",
+      "Execution/liquidity: none (no trade); monitoring risk is missing fast breaks in high-vol holdings (KLAC/NVDA/TSM)."
+    ],
+    "falsifiable_checks": [
+      "Regime check by next eligible rebalance (>=2026-03-27): if SPY remains MA200=false AND SPY 1m <= -5%, treat as risk-off and cap combined high-vol semis exposure (NVDA+AVGO+TSM+KLAC) at current 50% (no adds).",
+      "Position health check within 30d: if GLD stays MA50=false and 1m remains <= -10% at the next checkpoint, re-underwrite GLD as ballast vs potential replacement with a different diversifier (only when rebalance-eligible)."
+    ],
+    "why_now": "Base: cadence blocks changes and tape is weak (SPY/QQQ 1m down; MA200 false), so turnover drag likely outweighs incremental factor gains. Bull: if indices repair (MA50/MA200 reclaim), current quality+momentum winners (XOM, GOOGL, TSM, KLAC) should participate without needing fresh exposure. Bear: if risk-off accelerates, avoiding churn preserves optionality; monitoring triggers above define when to de-risk at the next eligible window."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 14,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix | Scores (qual+pack highlights): XOM (mom 34.1, 1m +6.9, valuation P/E~17.6, EV/EBITDA~8.0, FCFy~4.7%) strong; GOOGL quality (ROIC~0.41, net margin~32%) with positive mom 25.0 but 1m -3.0; TSM high quality (op margin~54%, ROIC~0.47) and strong mom 32.0 though 1m -8.3; KLAC top momentum 45.0 but high risk (vol20~46.8, dd63~-22.4); NVDA exceptional profitability (op margin~65.6) but 1m -8.3 and valuation P/E~38; AVGO valuation/leverage risk (P/E~62.9, D/E~1.13); LMT defensiveness but leverage high (D/E~7.9) albeit FCFy~6.2%. Risk budget: Semis/IT concentration 50% (within max sector 80%); single-name max 18% <40%; no crypto (0%<=10%). Scenario stress (quick): Equity index shock (-5% SPY/QQQ) likely hits NVDA/AVGO/TSM/KLAC most; Rates shock (higher yields) pressures high-multiple semis; Commodity shock (oil down) hurts XOM; USD/risk-off shock can pressure TSM and lift GLD but GLD trend currently broken (MA50 false). Execution plan: none today (cadence); next eligible window consider staged adjustments (1-3 changes max) if regime improves or thesis breaks. Monitoring/kill-switch: (1) SPY/QQQ trend repair (MA50 reclaim) = re-open adds; (2) GLD 1m <= -10% & MA50 still false at checkpoint = review diversifier swap; (3) KLAC dd63 worsens beyond -25% or vol20 >55% = size review at next rebalance; (4) NVDA/TSM 1m <= -12% with MA50 false = semis risk cap review."
+  }
+}
