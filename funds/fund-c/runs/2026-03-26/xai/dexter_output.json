@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-26",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: KLAC45%/SLV40%/XOM34%/TSM32% lead vs SPY-5%/QQQ-6%; semis/energy/metals resilient, BTC-21%.",
+    "Qual stable: NVDA OM66%/ROE104%, TSM OM54%/ROE35%, KLAC OM41%/ROE103%, energy OM12-14%/ROE10%; est EPS+ FY26-28 (NVDA+55%,TSM+28%).",
+    "Non-rebal (1d post-3/25,6d to weekly): no news/earnings since 3/19, ratios/est stable/up, no damage -> hold vs costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores 85-95 (KLAC/SLV/XOM top); qual 90+ (NVDA/TSM/KLAC); risk low (dd<-40% SLV penal but mom lead); no conc risk (IT44%/Materials23%/Energy22%); hold, mon 4/2 mom<20%/news dmg."
+  }
+}
