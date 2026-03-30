@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-30",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: XOM40%/KLAC38%/SLV35%/CVX30% lead vs SPY-1.5%/QQQ-1.5%; semis/energy/metals resilient.",
+    "Qual stable: NVDA OM66%/ROE104%, TSM OM54%/ROE35%, KLAC OM43%/ROE95%, LMT OM9%/ROE81%, XOM OM12%/ROE11%; est EPS+ FY26-28.",
+    "Non-rebal (3d post-3/27,4d to weekly); no news since 3/23, ratios/est intact, no damage -> hold."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom>80: XOM/KLAC/SLV; Qual>80: NVDA/TSM/KLAC; Risk: vol/dd managed; Scenarios resilient eq/down/rates-up; Hold, mon news/est rev."
+  }
+}

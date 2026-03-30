@@ -1,0 +1,220 @@
+You are running a PAPER fund. You must not give personal financial advice.
+You are producing a research memo + a PAPER "trade of the day" candidate for comparison across models.
+
+Run metadata:
+- Run date: 2026-03-30
+- Fund name: Quality + Momentum (Monthly-hold)
+- Provider: anthropic
+- Model: claude-sonnet-4-6
+- Rebalance cadence: weekly
+
+Rules:
+- Use a split-source policy: use the system-provided `arena_input_pack` for prices/returns/momentum/trend/volatility/drawdown, and use tools only for qualitative/fundamental/news follow-up. If you cannot verify, write "UNKNOWN".
+- Time horizon: 30 days.
+- Universe: US-listed large/mid cap equities (incl. ADRs), focused ETFs (sector/commodities), and major crypto assets supported by Financial Datasets.
+- Data-gap handling: if the `arena_input_pack` is missing a critical field for a ticker, write "UNKNOWN", reduce confidence, and do NOT attempt forbidden price/snapshot tool workarounds.
+
+Tooling best practices (important to avoid rate limits and preserve data quality):
+- Always call `financial_search` at least once before finalizing output.
+- Prefer `financial_search` only; avoid `financial_metrics` unless you truly cannot get the data via `financial_search`.
+- Hard cap: <= 12 tickers per `financial_search` call.
+- Use the `arena_input_pack` for all price-history and momentum calculations; do not request price snapshots or price history via tools.
+- News: request news ONLY for equities (no ETFs, no crypto). Cap to <= 4 equity tickers, <= 3 headlines per ticker.
+- Fundamentals: request key ratios ONLY for equities (no ETFs, no crypto).
+- Do not request company facts / key ratios / news for ETFs or crypto unless explicitly needed for validation.
+
+Rebalance/tool-call policy (STRICT):
+- If the stateful context says "Rebalance due today: false":
+  - Make EXACTLY 1 `financial_search` call for qualitative refresh only (equity news and/or fundamentals on a small subset of current holdings).
+  - Do NOT request prices, price snapshots, or price history via tools.
+  - Then output action "Do nothing", `rebalance_actions` as [], and keep `target_portfolio` EXACTLY unchanged.
+- If the stateful context says "Rebalance due today: true":
+  - Make 1-2 `financial_search` calls total for qualitative/fundamental follow-up on shortlisted equities (news, catalysts, key ratios, estimates).
+  - Do NOT request prices, price snapshots, or price history via tools for equities, ETFs, or crypto.
+  - Bootstrap exception: if prior `target_portfolio` is empty, build a full 8-name portfolio and do NOT apply the 3-change cap.
+  - Otherwise, after tools: make at most 3 portfolio changes unless thesis damage is severe.
+
+Portfolio constraints:
+- Target positions: 8
+- Min position: 2%
+- Max position: 40%
+- Max sector: 80%
+- Max crypto: 10%
+- `target_portfolio` must contain exactly 8 tradable symbols (equities, ETFs, or major crypto assets).
+- No placeholders like `UNKNOWN`/`CASH`. No duplicate tickers.
+- Broad index ETFs are not allowed (for example: SPY, IVV, VOO, VTI, QQQ, IWM, DIA, VT, ACWI, EFA, EEM).
+- Commodity/metals ETFs and focused exposures are allowed (for example: GLD, IAU, SLV).
+- Every holding weight must be >= 2 and <= 40; total portfolio weight must sum to 100%.
+- Sector exposure must satisfy max sector <= 80%.
+- Crypto exposure (sum of holdings in sector "Crypto" or tickers like BTC-USD/ETH-USD) must be <= 10%.
+- `constraints_check.max_position_ok`, `constraints_check.max_sector_ok`, and `constraints_check.max_crypto_ok` must all be `true` and must match the actual portfolio you output.
+
+Strategy V3 (Institutional IC workflow) - rebalance-due days:
+- Gate 0: Data integrity and regime check.
+  - Verify every active candidate has system-provided `arena_input_pack` price/momentum fields (latest price, 30d/90d/other momentum windows, drawdown/volatility as available).
+  - Treat missing critical fields as `UNKNOWN`, apply a conservative penalty, and avoid adding low-confidence names.
+  - Classify regime using pack-derived benchmark evidence first (risk-on, risk-off, mixed), then refine with qualitative tool evidence.
+- Gate 1: Candidate formation and thesis quality.
+  - Start from prior `target_portfolio` in the stateful context.
+  - If prior `target_portfolio` is empty, bootstrap a full 8-name portfolio (3-change cap does not apply).
+  - If prior `target_portfolio` is non-empty, propose at most 3 changes unless thesis damage is severe.
+  - Consider up to 4 replacement candidates (so the equity tool query stays <= 12 tickers total).
+  - For each active candidate, define one catalyst and one disconfirming datapoint using pack-derived evidence plus qualitative tool evidence.
+- Gate 2: Multi-factor scoring (0-100; do not guess).
+  - Momentum (30): 90d return (weekly) + 30d return (weekly), including relative check vs SPY/QQQ.
+  - Quality/Fundamentals (20): operating margin, ROE/ROIC, revenue growth, earnings growth.
+  - Revision proxy (15): earnings/news tone, guidance direction, and estimate-revision proxy from recent headlines.
+  - Valuation discipline (10): penalty for extreme P/E, P/S, PEG relative to growth/quality.
+  - Risk/liquidity (15): penalty for severe drawdowns, unstable volatility, and weak liquidity signals.
+  - Crowding/regime fit (10): penalize crowded exposures that conflict with current regime.
+- Gate 3: Portfolio construction objective.
+  - Optimize for: expected alpha - risk penalty - turnover/slippage penalty.
+  - Prefer no trade when edge is weak: if score improvement is marginal and does not clear a cost hurdle, keep portfolio unchanged.
+  - Keep winners unless thesis damage is evidenced; replace bottom-ranked holdings with clearly higher-scoring candidates.
+- Gate 4: Risk budget and stress testing.
+  - Check concentration and correlation risk before final sizing.
+  - Run quick scenario checks: equity index shock, rates shock, commodity shock, USD shock.
+  - If scenario losses are too concentrated in one factor/sector, resize before finalizing.
+- Gate 5: Execution realism and monitoring.
+  - Reflect realistic implementation: staged sizing and turnover efficiency.
+  - Avoid new adds immediately before major binary events unless edge is compelling and risk is sized down.
+  - Define explicit invalidation triggers and monitoring checkpoints.
+
+Crypto sleeve rules (max 10%):
+- Only include crypto (or a crypto ETF) if 90d momentum is positive; otherwise keep it 0-5% or omit.
+- Never hold both BTC-USD and a BTC ETF at the same time.
+
+Tasks:
+1) Portfolio health and IC framing (if a prior portfolio exists in repo for this fund):
+   - Summarize what changed in the last 24-72 hours: earnings, guidance, macro surprises, major news (equities only).
+   - Identify thesis damage flags with direct evidence.
+   - State the implied market regime and whether today is a high-conviction rebalance setup.
+
+Pre-step (before calling tools):
+- Decide on a plausible candidate 8-name portfolio first (tickers + rough weights + sectors) based on your priors AND the stateful context.
+- Decide which tickers are "active candidates" for the next rebalance (current holdings + up to 4 replacements).
+- Use the date helper values provided in the stateful context:
+  - lookback_30d_start and lookback_90d_start to interpret pack momentum windows and to anchor any qualitative lookback framing.
+  - news_7d_start for the news window (equities only) in qualitative `financial_search` follow-up.
+
+2) PAPER TRADE OF THE DAY (candidate, NOT an instruction):
+   - Propose exactly ONE action among: ["Add", "Trim", "Replace", "Do nothing"].
+   - If "Add": set `add_ticker` to the added ticker.
+   - If "Trim": set `remove_ticker` to the trimmed ticker AND `add_ticker` to where weight is reallocated.
+   - If "Replace": specify which holding is removed and which is added.
+   - Also output `rebalance_actions`: full list of all rebalance actions taken this run.
+   - `trade_of_the_day` is the single headline action; `rebalance_actions` is the complete action list.
+   - On non-rebalance days, set `trade_of_the_day.action` to "Do nothing" and `rebalance_actions` to [].
+   - In `trade_of_the_day.thesis`, include catalyst, factor edge, and variant view.
+   - In `trade_of_the_day.risks`, include macro, idiosyncratic, and execution/liquidity risks.
+   - In `trade_of_the_day.falsifiable_checks`, use explicit numeric/time-based checks.
+   - In `trade_of_the_day.why_now`, include base/bull/bear framing and why expected edge clears trading-cost drag.
+
+3) Update the model portfolio (paper) with institutional artifacts encoded in existing fields:
+   - Output the full target portfolio weights after today's action, respecting constraints.
+   - `market_summary` should read like an IC top sheet: regime, breadth/leadership, and go/no-go rationale.
+   - `constraints_check.notes` must include a compact appendix string with:
+     factor score highlights, risk budget summary, scenario stress result, execution plan, and monitoring/kill-switch triggers.
+
+Output ONLY JSON:
+{
+  "run_date": "YYYY-MM-DD",
+  "fund_name": "",
+  "paper_only": true,
+  "market_summary": ["", "", ""],
+  "thesis_damage_flags": [{"ticker":"","why":""}],
+  "rebalance_actions": [
+    {"action":"Add|Trim|Replace|Do nothing","remove_ticker":null,"add_ticker":null,"size_change_pct":0}
+  ],
+  "trade_of_the_day": {
+    "action": "Add|Trim|Replace|Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": ["","",""],
+    "risks": ["","",""],
+    "falsifiable_checks": ["",""],
+    "why_now": ""
+  },
+  "target_portfolio": [{"ticker":"","weight_pct":0,"sector":""}],
+  "constraints_check": {"max_position_ok": true, "max_sector_ok": true, "max_crypto_ok": true, "notes":""}
+}
+
+Stateful rebalance context (system-provided):
+- Prior successful run date: 2026-03-27
+- Days since prior successful run: 3
+- Last rebalance checkpoint date: 2026-03-25
+- Days since last rebalance checkpoint: 5
+- Rebalance due today: false
+- Rebalance cadence minimum spacing (days): 7
+- lookback_30d_start: 2026-02-28
+- lookback_90d_start: 2025-12-30
+- news_7d_start: 2026-03-23
+- Prior target_portfolio JSON: [{"ticker":"XOM","weight_pct":22,"sector":"Energy"},{"ticker":"CVX","weight_pct":18,"sector":"Energy"},{"ticker":"KLAC","weight_pct":10,"sector":"Technology"},{"ticker":"LMT","weight_pct":10,"sector":"Defense"},{"ticker":"TSM","weight_pct":10,"sector":"Technology"},{"ticker":"GLD","weight_pct":22,"sector":"Commodities"},{"ticker":"GOOGL","weight_pct":6,"sector":"Technology"},{"ticker":"SLV","weight_pct":2,"sector":"Commodities"}]
+- Prior trade_of_the_day JSON: {"action":"Do nothing","remove_ticker":null,"add_ticker":null,"size_change_pct":0,"thesis":["NON-REBALANCE DAY: Rebalance due = false. Days since last rebalance checkpoint = 2 (minimum cadence = 7 days; next eligible window ~2026-04-01). The portfolio completed a material 4-action rebalance on 2026-03-25, repositioning into deeper Energy/Defense overweight (XOM=22%, CVX=18%) at the expense of GLD/SLV/GOOGL. Allowing 5+ additional days for this positioning to season before next evaluation is consistent with the monthly-hold strategy mandate and avoids excessive turnover drag.","REGIME CONFIRMATION: SPY remains below MA200 for 4th+ consecutive session (close=645.09 vs MA200=657.77, gap=-1.9%), consistent with RISK-OFF/DEFENSIVE regime already priced into current portfolio construction. The portfolio's defensive tilt (Energy 40% + Defense 10% + Gold 22% + Silver 2%) is appropriate and aligned with the regime. The only incremental deterioration vs yesterday is GLD's MA200 buffer compressing further to +6.5% (from ~+7% yesterday) — not yet a kill-switch breach but elevated monitoring required.","FACTOR STABILITY: All 8 holdings retain positive momentum composites (XOM=+35.96%, KLAC=+36.77%, CVX=+29.09%, SLV=+30.25%, LMT=+26.14%, TSM=+23.45%, GOOGL=+14.59%, GLD=+10.51%). Qualitative refresh confirms EPS acceleration intact across all five equities. No kill-switch breaches confirmed. The cost of acting today (20-30bps round-trip turnover drag, disruption of factor seasonality, zero incremental expected alpha) far exceeds any marginal benefit. PRE-LOG for 2026-04-01 rebalance: GLD trim evaluation (22%→15% if MA200 buffer <5%), GOOGL replacement evaluation (CVX/LMT add), TSM size review."],"risks":["MACRO: April 2 reciprocal tariff deadline is the dominant near-term binary event. A tariff escalation scenario could pressure TSM (Taiwan ADR, direct tariff/geopolitical target, 1m=-15.66% already) and KLAC (semis, China export restriction overhang). Energy (XOM/CVX at 40% combined) faces oil demand destruction risk if tariffs trigger a recession pricing episode. SPY MA200 breach now in 4th+ consecutive session — if SPY drops an additional -3% to ~$626, mandatory full defensive review is activated regardless of rebalance cadence.","IDIOSYNCRATIC: GLD MA200 buffer has narrowed to +6.5% ($400.64 vs $376.10) — the most critical monitoring item. A -7% move in GLD would breach MA200 and trigger the pre-committed emergency trim (from 22% to 10-15%). SLV vol20=61.04% means daily NAV contribution from 2% weight is amplified; dd63=-42.45% is persistent but MA200 buffer intact. GOOGL antitrust DOJ remedies (potential Chrome/Android divestiture order) remain a headline risk as court proceedings continue into April 2026.","EXECUTION/LIQUIDITY: All 8 holdings highly liquid. No binary earnings events for XOM, CVX, KLAC, or LMT in the next 7 days. TSM faces the April 2 tariff binary event — existing 10% weight sized appropriately for this binary risk. No action to execute today per rebalance cadence policy."],"falsifiable_checks":["KILL-SWITCH MONITORING (pre-committed): GLD must hold above MA200=$376.10 through 2026-04-01. Current buffer: +6.5% ($400.64 vs $376.10). If GLD closes below $376.10 at ANY point before next scheduled rebalance, emergency trim activated: GLD weight reduced from 22% to 10-15%, proceeds to XOM/CVX. If TSM closes below MA200=$285.92 (current buffer=+14.1%), emergency exit from TSM activated. If SLV MA200 buffer compresses below +10% ($60.77 vs $52.02, current=+16.8%), SLV elimination is triggered at next rebalance.","NEXT REBALANCE TRIGGERS (~2026-04-01): (1) GOOGL 3m momentum must turn positive OR GOOGL is replaced — primary candidates: add CVX (weight 18%→20-22%) or add LMT (weight 10%→12-14%); (2) GLD sizing review: if MA200 buffer <5% at rebalance date, trim to 15%; if buffer >10% and recovering, hold at 22%; (3) TSM: if still below MA50 on rebalance date with 1m<-10%, size down to 7-8%; (4) Portfolio alpha spread vs SPY must remain above +20pp at next rebalance — currently +25pp (portfolio composite mom ~+25% vs SPY mom=-0.28%)."],"why_now":"Base case (100%): Mandatory non-action day per rebalance cadence policy (days since last rebalance checkpoint = 2, minimum spacing = 7 days). The prior rebalance on 2026-03-25 executed 4 changes (GLD trim 29%→22%, SLV trim 4%→2%, GOOGL trim 8%→6%, proceeds to XOM 15%→22% and CVX 14%→18%) that repositioned the portfolio appropriately for the RISK-OFF regime. The current portfolio shows +25pp alpha spread vs SPY, intact EPS trajectories across all 5 equities, no kill-switch breaches, and all 8 holdings above MA200. Estimated cost of unnecessary turnover today: 20-30bps round-trip with zero incremental expected alpha. The dominant forward risk is the April 2 tariff binary event — acting today increases rather than decreases regime exposure uncertainty. Expected edge of doing nothing: preserving full compounding of the 2026-03-25 rebalance through its intended holding window, with the next clean evaluation point at ~2026-04-01."}
+- Last 7-day aggregated context JSON: {"lookback_days":7,"successful_runs":5,"successful_run_dates":["2026-03-23","2026-03-24","2026-03-25","2026-03-26","2026-03-27"],"action_history":[{"run_date":"2026-03-23","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-03-24","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-03-25","trade_of_the_day":{"action":"Trim","add_ticker":"XOM","remove_ticker":"GLD","size_change_pct":7},"rebalance_actions_count":4},{"run_date":"2026-03-26","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0},{"run_date":"2026-03-27","trade_of_the_day":{"action":"Do nothing","add_ticker":null,"remove_ticker":null,"size_change_pct":0},"rebalance_actions_count":0}],"average_turnover_pct":2.75,"market_summary_bullets":["REGIME: MIXED/DEFENSIVE — SPY 1m=-5.67%, below BOTH MA50 and MA200 (first MA200 breach in this run series), QQQ 1m=-4.39% also below both MAs, IWM 1m=-8.30% below MA50 but above MA200. SPY MA200 breach is a material regime deterioration vs prior sessions where SPY held MA200 support. TLT 1m=-3.69%, below both MAs — bond bid fully absent, stagflation/rates-pressure macro regime unchanged. BTC-USD mom=-23.84%, 3m=-27.54%, well below MA200 — crypto fully risk-off. GLD mom=+15.26%, 3m=+3.72%, above MA200 but now -10.2% below MA50 (close=$413.38 vs MA50=$456.13) — gold in sharp pullback but structural 12m=+47.24% thesis intact. Portfolio weighted avg momentum ~30% vs SPY mom=+1.35% — +29pp alpha spread maintained despite broad equity distribution. Regime: MIXED/DEFENSIVE with elevated tail risk (SPY MA200 breach).","LEADERSHIP: All 8 holdings retain positive momentum composites. XOM leads quality/momentum: mom=+33.14%, 3m=+37.92%, above BOTH MA50 and MA200, dd63=-5.48%, vol20=18.74% — cleanest holding, no flags. CVX: mom=+26.85%, 3m=+37.93%, above BOTH MAs, vol20=18.90%, dd63=-5.28% — lowest risk, no flags. KLAC: mom=+44.39% (portfolio leader), 3m=+22.76%, above BOTH MAs (close=$1,498.67 vs MA50=$1,472.37), dd63=-22.41%, vol20=46.95% — strong 12m=+110.76%, Q1-FY2026 EPS=$9.14 ramping to $12.10 by Q4-FY2026. LMT: mom=+25.61%, 3m=+34.16%, above BOTH MAs (close=$627.43 vs MA50=$625.03), dd63=-7.28% — defense rearmament thesis intact, Q1 EPS=$6.72 ramping to $8.45 by Q4. TSM: mom=+29.47%, 3m=+15.98%, below MA50 ($346.68 vs close=$329.24, gap=-4.9%) but above MA200=$283.83, dd63=-14.85%, 1m=-10.90% — tariff/geopolitical overhang persists; EPS ramp Q1=$3.26→Q4=$3.99. GOOGL: mom=+24.77%, below MA50 ($317.31) but above MA200 ($260.22), 1m=-4.37%, 3m=-0.41%, EPS Q1=$2.76→Q4=$3.21. SLV: mom=+35.82%, 1m=-19.71%, dd63=-41.74%, vol20=54.84% — severe near-term drawdown, close=$61.52 vs MA200=$51.57 (buffer=+19.3%) still above kill-switch floor but thesis damage flag active. GLD: mom=+15.26%, 1m=-11.79%, dd63=-16.64%, close=$413.38 vs MA200=$374.65 (buffer=+10.3%) — below MA50 for second consecutive session, 29% allocation is the primary concentration risk in current regime.","GO/NO-GO: NON-REBALANCE DAY — Rebalance due = false. Days since last rebalance checkpoint = 5 (minimum cadence = 7 days; next eligible window = 2026-03-25). SPY MA200 breach is a significant deterioration flag, but no individual holding has breached an emergency kill-switch threshold: SLV close=$61.52 vs MA200=$51.57 buffer=+19.3%; GLD close=$413.38 vs MA200=$374.65 buffer=+10.3%; TSM close=$329.24 vs MA200=$283.83 buffer=+16.0%; GOOGL close=$301.00 vs MA200=$260.22 buffer=+15.7%. All equity EPS acceleration trajectories confirmed intact via qualitative refresh (XOM Q1=$1.65→Q3=$2.00, CVX Q1=$1.69→Q2=$2.12, KLAC Q1=$9.14→Q4=$12.10, LMT Q1=$6.72→Q4=$8.45, GOOGL Q1=$2.76→Q4=$3.21, TSM Q1=$3.26→Q4=$3.99). Pre-logging for 2026-03-25 rebalance: (1) SLV dd63=-41.74% most severe in portfolio — trim/eliminate evaluation required; (2) GLD 29% weight with 1m=-11.79% — sizing review required; (3) SPY MA200 breach signals potential regime shift that may require defensive repositioning. DO NOTHING — hold portfolio exactly unchanged.","REGIME: Mixed/Defensive — SPY mom=+2.31%, 1m=-3.70%, below BOTH MA50 and MA200 (close=$655.38 vs MA200=$657.20) — SPY MA200 breach persists for 2nd consecutive session, confirming the regime deterioration flagged 2026-03-23. QQQ mom=+3.60%, 1m=-2.11%, below both MAs. IWM above MA200 but below MA50 (only small-cap with MA200 support). TLT below both MAs (mom=-1.25%), no bond flight-to-safety bid — stagflation/rates-pressure backdrop unchanged. BTC-USD mom=-21.02%, 3m=-23.38%, below MA200 — crypto fully risk-off. GLD above MA200 ($375.08) but sharply below MA50 ($455.73): 1m=-16.05%, dd63=-18.52% — acute precious metals correction deepening. Regime: RISK-OFF/DEFENSIVE tilt confirmed. Portfolio weighted momentum composite ~29% vs SPY +2.31% = +27pp alpha spread maintained despite gold/silver drawdowns.","LEADERSHIP: KLAC (#1, mom=+45.04%, above both MAs, 3m=+21.49%, 1m=+1.60%) remains the cleanest quality/momentum equity in the portfolio — FY2026 EPS ramp $9.14→$12.10 intact. XOM (#2, mom=+34.06%, above both MAs, 3m=+39.00%, 1m=+6.88%, dd63=-5.48%) — strongest risk-adjusted energy momentum, no flags. TSM (#3, mom=+31.97%, above MA200, 3m=+17.46%, 1m=-8.28%) — persistent MA50 breach (close=$338.45 vs MA50=$347.18) with tariff/geopolitical drag, but FY2026→FY2028 EPS $3.26→$5.24 structural thesis intact. CVX (mom=+28.92%, above both MAs, lowest vol=19.39%, dd63=-5.28%) — defensive ballast confirmed. GOOGL (mom=+25.02%, above MA200 only, 3m=-1.59%) — 3m momentum below zero is a soft flag; FY2026 EPS $2.76→$3.21 intact, antitrust headline risk persistent. LMT (mom=+24.59%, above MA200 only, 3m=+30.66%, 1m=-6.22%) — defense rearmament thesis intact, FY2026 EPS $6.72→$8.45. SLV (mom=+36.04% composite, but 1m=-22.47%, dd63=-41.74%, vol20=55.70%, below MA50 $77.84) — acute correction deepening; MA200 buffer intact ($62.47 vs $51.72, +20.7%). GLD (mom=+11.85%, 1m=-16.05%, dd63=-18.52%, below MA50) — structural 12m=+45.08% thesis intact but near-term headwinds from dollar strength/tariff-driven risk-off.","GO/NO-GO: NON-REBALANCE DAY — Rebalance due = false. Days since last rebalance checkpoint = 6 (minimum cadence = 7 days; next eligible rebalance window = 2026-03-25, TOMORROW). SPY MA200 breach confirmed for 2nd consecutive session — pre-committed trigger for RISK-OFF regime upgrade at 2026-03-25 rebalance now activated. No emergency kill-switch breach: SLV close=$62.47 vs MA200=$51.72 (buffer=+20.7%, above emergency floor); GLD close=$404.04 vs MA200=$375.08 (buffer=+7.7%, narrowing but above floor). EPS acceleration trajectories confirmed via qualitative refresh: XOM Q1-FY2026=$1.65 growing to $2.00 by Q3; CVX $1.69→$2.12; GOOGL $2.76→$3.21; KLAC $9.14→$12.10; LMT $6.72→$8.45; TSM $3.26→$3.99. DO NOTHING — hold portfolio exactly unchanged. Mandatory full rebalance evaluation tomorrow 2026-03-25 with RISK-OFF regime classification and GLD/SLV sizing review as pre-committed agenda items.","REGIME: RISK-OFF confirmed — SPY close=$653.18, below BOTH MA50=$679.84 and MA200=$657.49 (3rd consecutive session below MA200); QQQ below both MAs; IWM below MA50 but above MA200. TLT mom=-1.58%, below both MAs — bond bid fully absent, stagflation/rates-pressure backdrop persists. BTC-USD mom=-20.29%, 3m=-20.15%, below MA200 — crypto fully risk-off. GLD mom=+11.64%, 1m=-14.85%, 3m=-1.00%, below MA50 but above MA200 ($404.13 vs MA200=$375.57, buffer=+7.6%) — precious metals in acute correction but structural 12m=+45.76% intact. SPY 3-session MA200 breach triggers mandatory RISK-OFF framework as pre-committed. Portfolio weighted avg momentum ~31% vs SPY mom=+1.26% — +30pp alpha spread maintained but regime deterioration is broadening.","LEADERSHIP & THESIS DAMAGE: KLAC leads at mom=+47.84%, 3m=+23.91%, above BOTH MA50=$1,478.79 and MA200=$1,154.49 — strongest name, FY2026 EPS $9.14→$12.10 confirmed intact, thesis strongest in portfolio. XOM mom=+36.70%, 3m=+40.91%, 1m=+10.80%, above BOTH MAs, dd63=-5.48%, vol20=19.68% — cleanest name, EPS Q1=$1.65 ramping to $2.00 by Q3-2026, no flags. CVX mom=+29.01%, 3m=+39.39%, 1m=+11.57%, above BOTH MAs, vol20=18.97%, dd63=-5.28% — lowest risk, EPS Q1=$1.69→Q2=$2.12, no flags. TSM mom=+30.13%, 3m=+17.37%, below MA50 ($343.25 vs MA50=$347.52) by -1.2% — near-MA50, 1m=-10.77% tariff overhang, EPS Q1=$3.26→Q4=$3.99, above MA200 — marginal flag. LMT mom=+22.57%, 3m=+26.84%, 1m=-7.68%, below MA50 ($610.17 vs MA50=$627.45) but above MA200=$503.63 — defense rearmament thesis intact, EPS Q1=$6.72→Q4=$8.45. GOOGL mom=+19.17%, 3m=-6.18%, 1m=-6.51%, below MA50 — weakening momentum, dd63=-15.43%, EPS $2.76→$3.21, DOJ antitrust risk. DAMAGE FLAGS: GLD 1m=-14.85%, dd63=-18.52%, MA200 buffer narrowed to +7.6% ($404.13 vs $375.57) — pre-committed mandatory GLD trim from 29% triggered; SLV 1m=-20.40%, dd63=-41.74%, vol20=55.48%, below MA50 by -18.8%, 5 consecutive thesis damage flags — pre-committed mandatory SLV trim triggered.","GO/NO-GO: REBALANCE DUE (7 days since last checkpoint 2026-03-18). HIGH-CONVICTION REBALANCE — mandatory RISK-OFF framework activated. Pre-committed rules triggered: (1) GLD trim 29%→22% triggered (SPY 3-session MA200 breach confirmed + GLD MA200 buffer compressed to +7.6%, pre-committed threshold); (2) SLV trim 4%→2% triggered (dd63=-41.74%, vol20=55.48%, persistent below MA50 failure — 5 consecutive damage flags); (3) GOOGL threshold review — 3m=-6.18% and 1m=-6.51% represent continued momentum deterioration; reallocate GLD/SLV proceeds to XOM (increase from 15%→20%) and CVX (increase from 14%→18%) as the two highest-scoring quality+momentum names with no damage flags. Max 3 changes applied: Change 1: GLD trim 29%→22% (-7%, reallocate +5% to XOM, +2% to CVX). Change 2: SLV trim 4%→2% (-2%, reallocate +2% to CVX). Change 3: GOOGL trim 8%→6% (-2%, reallocate +2% to XOM). Final: XOM=22%, CVX=18%, KLAC=10%, LMT=10%, TSM=10%, GOOGL=6%, GLD=22%, SLV=2%. Total=100%.","REGIME: MIXED/DEFENSIVE — SPY close=656.82, 1m=-4.98%, below BOTH MA50 and MA200 (657.83) for 4th+ consecutive session; QQQ 1m=-4.68%, also below both MAs; IWM above MA200 only. TLT mom=-0.58%, below MA50, stagflation/rates-pressure macro backdrop unchanged — no flight-to-safety bond bid. BTC-USD mom=-20.29%, 3m=-20.15%, well below MA200 — crypto sleeve remains fully risk-off. GLD 1m=-12.07%, dd63=-18.52%, above MA200 ($376.18) with buffer +10.7% — structural 12m=+49.49% thesis intact but precious metals correction continues. Portfolio weighted avg momentum ~30% vs SPY mom=+1.53% — +28pp alpha spread maintained. Regime: MIXED/DEFENSIVE, no change from prior session.","LEADERSHIP: All 8 holdings retain positive momentum composites and are above MA200. KLAC leads at mom=+45.51%, above BOTH MA50 ($1,480) and MA200 ($1,158), 3m=+21.84%, FY2026-Q2 actual EPS=$8.73 with forward Q1-FY2027 est=$9.14 ramping to $12.10 by Q4-FY2026 — thesis fully intact. XOM #2 at mom=+34.18%, above both MAs, 3m=+37.62%, Q1-2026 EPS est=$1.65 ramping to $2.00 by Q3 — no flags. CVX #3 at mom=+27.45%, above both MAs, 3m=+37.64%, lowest vol (19.46%), dd63=-5.28% — defensive ballast intact. TSM mom=+31.64% but 1m=-10.06%, close=$347.75 vs MA50=$347.96 — essentially at MA50, needs to hold. LMT mom=+25.51%, above MA200 only (close=$624.20 vs MA50=$629.11), 3m=+30.04%, Q4-2025 actual EPS=$5.82 (vs est $5.80). GOOGL mom=+18.68%, 3m=-7.38% is a persistent softness flag — below MA50 ($314.87), Q4-2025 actual EPS=$2.85 (beat est $2.82), FY2026 estimate intact. GLD mom=+14.83%, dd63=-18.52%, structural 12m=+49.49% thesis intact but 1m=-12.07% remains the portfolio's largest trailing-month drag. SLV mom=+39.76% composite but 1m=-18.53%, dd63=-41.74%, vol20=57.59% — elevated risk flag persists.","GO/NO-GO: NON-REBALANCE DAY — Rebalance due = false. Days since last rebalance checkpoint = 1 (minimum cadence = 7 days; next eligible window = 2026-04-01). No emergency kill-switch breaches: GLD close=$416.29 vs MA200=$376.18, buffer=+10.6% — above floor; SLV close=$65.21 vs MA200=$52.04, buffer=+25.3% — above emergency floor; TSM close=$347.75 vs MA200=$286.03, buffer=+21.6% — intact. All five equity EPS trajectories confirmed intact via qualitative refresh: XOM Q1-2026=$1.65→Q3=$2.00; CVX Q1-2026=$1.69→Q2=$2.12; GOOGL Q1-2026=$2.76→Q4=$3.21; KLAC Q1-FY2026=$9.14→Q4-FY2026=$12.10; LMT Q1-2026=$6.72→Q4=$8.45. DO NOTHING — hold portfolio exactly unchanged. Pre-logging for 2026-04-01 rebalance: (1) GOOGL 3m=-7.38% — weakest momentum equity in portfolio, replacement candidate evaluation required; (2) SLV dd63=-41.74% — sizing review at next rebalance; (3) TSM at MA50 — monitor for breakdown vs recovery."],"thesis_damage_counts":[{"ticker":"GLD","count":5},{"ticker":"SLV","count":5},{"ticker":"TSM","count":5},{"ticker":"GOOGL","count":4},{"ticker":"LMT","count":2}],"recurring_holdings":[{"ticker":"CVX","appearance_count":5},{"ticker":"GLD","appearance_count":5},{"ticker":"GOOGL","appearance_count":5},{"ticker":"KLAC","appearance_count":5},{"ticker":"LMT","appearance_count":5},{"ticker":"SLV","appearance_count":5},{"ticker":"TSM","appearance_count":5},{"ticker":"XOM","appearance_count":5}]}
+
+Execution policy:
+- Treat prior target_portfolio as the starting portfolio when available.
+- If "Rebalance due today" is false, output action "Do nothing" and keep target_portfolio exactly unchanged.
+- Bootstrap exception: if prior target_portfolio is empty, build a full 8-name portfolio; do not apply the 3-change cap for this run.
+- If "Rebalance due today" is true and prior target_portfolio is non-empty, make only justified changes and keep turnover efficient.
+- On rebalance-due days, use the 7-day aggregated context explicitly when selecting actions and sizing.
+- On rebalance-due days, output full action list in `rebalance_actions` (can contain multiple actions).
+
+Deterministic market data pack (system-provided; supersedes earlier tool-fetch instructions for price/history)
+- Consistency check only: follow the template's pack-native policy.
+- Use `arena_input_pack` for all price/history/momentum calculations.
+- Do NOT request stock/ETF/crypto price snapshots or price history via Dexter tools.
+- Call `financial_search` at least once for qualitative/fundamental/news follow-up before final JSON.
+- If pack data is missing, write UNKNOWN and reduce confidence instead of using forbidden tool workarounds.
+
+Arena input pack file: /home/runner/work/hedge-labs/hedge-labs/funds/fund-b/runs/2026-03-30/anthropic/arena_input_pack.json
+Arena input pack v1 (Yahoo deterministic prices) for 2026-03-30
+Pack status: ok
+Yahoo coverage: 30/30 (errors=0)
+Required symbol coverage: 13/13
+Benchmark coverage: 6/6
+Candidate pool config: /home/runner/work/hedge-labs/hedge-labs/funds/arena/config/fund-b.candidates.json
+
+Benchmarks (deterministic price/history features):
+- SPY: close=634.09 1m=-7.76% 3m=-7.90% 6m=-3.09% 12m=12.80% mom=-1.49% MA50=false MA200=false
+- QQQ: close=562.58 1m=-7.66% 3m=-9.83% 6m=-5.09% 12m=16.56% mom=-1.51% MA50=false MA200=false
+- IWM: close=243.10 1m=-8.44% 3m=-3.63% 6m=2.11% 12m=19.52% mom=2.39% MA50=false MA200=true
+- TLT: close=85.64 1m=-4.81% 3m=-2.02% 6m=-1.65% 12m=0.36% mom=-2.03% MA50=false MA200=false
+- GLD: close=414.70 1m=-13.15% 3m=0.67% 6m=20.29% 12m=49.04% mom=14.21% MA50=false MA200=true
+- BTC-USD: close=65954.92 1m=-0.02% 3m=-23.82% 6m=-24.02% 12m=-43.77% mom=-22.91% MA50=false MA200=false
+
+Current holdings (deterministic price/history features):
+- XOM: close=170.99 1m=15.11% 3m=44.38% 6m=50.22% 12m=49.54% mom=39.81% vol20=21.55% dd63=-5.48%
+- CVX: close=211.15 1m=14.66% 3m=41.67% 6m=34.14% 12m=31.36% mom=30.46% vol20=19.63% dd63=-5.28%
+- KLAC: close=1443.21 1m=-5.32% 3m=13.16% 6m=36.67% 12m=106.11% mom=37.66% vol20=52.29% dd63=-22.41%
+- LMT: close=615.84 1m=-3.51% 3m=27.45% 6m=28.79% 12m=42.12% mom=23.71% vol20=23.85% dd63=-9.83%
+- TSM: close=326.74 1m=-13.04% 3m=9.66% 6m=18.75% 12m=90.66% mom=26.51% vol20=42.34% dd63=-15.66%
+- GLD: close=414.70 1m=-13.15% 3m=0.67% 6m=20.29% 12m=49.04% mom=14.21% vol20=35.59% dd63=-19.21%
+- GOOGL: close=274.34 1m=-10.69% 3m=-12.59% 6m=11.77% 12m=66.78% mom=13.82% vol20=25.14% dd63=-20.12%
+- SLV: close=63.44 1m=-21.14% 3m=-2.73% 6m=54.62% 12m=107.80% mom=34.64% vol20=59.46% dd63=-42.45%
+
+Top momentum candidates (from deterministic pack):
+- XOM: mom=39.81% 3m=44.38% 6m=50.22% 12m=49.54%
+- KLAC: mom=37.66% 3m=13.16% 6m=36.67% 12m=106.11%
+- SLV: mom=34.64% 3m=-2.73% 6m=54.62% 12m=107.80%
+- CVX: mom=30.46% 3m=41.67% 6m=34.14% 12m=31.36%
+- TSM: mom=26.51% 3m=9.66% 6m=18.75% 12m=90.66%
+- LMT: mom=23.71% 3m=27.45% 6m=28.79% 12m=42.12%
+- GLD: mom=14.21% 3m=0.67% 6m=20.29% 12m=49.04%
+- GOOGL: mom=13.82% 3m=-12.59% 6m=11.77% 12m=66.78%
+- AVGO: mom=9.42% 3m=-14.14% 6m=-10.37% 12m=68.73%
+- COST: mom=5.92% 3m=13.00% 6m=4.59% 12m=6.40%
+
+Weakest momentum candidates (from deterministic pack):
+- NOW: mom=-32.63% 3m=-34.85% 6m=-45.89% 12m=-40.73%
+- NVO: mom=-29.92% 3m=-31.43% 6m=-35.69% 12m=-48.37%
+- ETH-USD: mom=-25.93% 3m=-29.59% 6m=-29.24% 12m=-47.27%
+- BTC-USD: mom=-22.91% 3m=-23.82% 6m=-24.02% 12m=-43.77%
+- IBIT: mom=-22.59% 3m=-24.38% 6m=-39.77% 12m=-23.95%
+- META: mom=-21.12% 3m=-21.18% 6m=-29.68% 12m=-13.69%
+- MSFT: mom=-18.77% 3m=-26.73% 6m=-29.34% 12m=-7.81%
+- PANW: mom=-17.72% 3m=-21.47% 6m=-27.29% 12m=-20.51%
+- V: mom=-12.05% 3m=-16.62% 6m=-11.41% 12m=-13.49%
+- AMZN: mom=-6.96% 3m=-14.22% 6m=-8.62% 12m=-0.89%

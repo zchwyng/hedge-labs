@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-03-30",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: RISK-OFF CONFIRMED — SPY close=634.09, 1m=-7.76%, below BOTH MA50 and MA200 (657.96) for 5th+ consecutive session; gap to MA200 now -3.7%, widening from -1.9% on 2026-03-26. QQQ 1m=-7.66%, also below both MAs. TLT 1m=-4.81%, below both MAs — stagflation/rates-pressure backdrop fully intact, zero flight-to-safety bond bid. BTC-USD mom=-22.91%, 3m=-23.82%, dd63=-29.69%, well below MA200 ($91,073) — crypto sleeve remains fully off the table. GLD above MA200 ($376.64) with buffer=+10.1% (close=$414.70 vs MA200=$376.64) but dd63=-19.21% and 1m=-13.15% — precious metals correction deepening vs prior session but structural 12m=+49.04% thesis intact. April 2 'Liberation Day' reciprocal tariff announcement is the dominant binary event in the next 3 trading days. Regime classification: RISK-OFF/DEFENSIVE. No change warranted to current defensive portfolio positioning.",
+    "LEADERSHIP: All 8 holdings retain positive momentum composites and remain above MA200 — this is the portfolio's cleanest signal that defensive repositioning from 2026-03-25 rebalance is working. XOM leads at mom=+39.81%, 1m=+15.11%, 3m=+44.38%, above BOTH MA50 ($148.55) and MA200 ($121.29) — strongest absolute momentum in the universe, Q4-2025 EPS=$1.54 (actual), Q1-2026 est=$1.68 ramping to $2.22 by Q3-2026. CVX #2 at mom=+30.46%, 1m=+14.66%, 3m=+41.67%, above BOTH MAs, vol20=19.63%, dd63=-5.28% — lowest-risk equity in portfolio, Q1-2026 est=$1.76 ramping to $2.59 by Q2-2026. KLAC #3 at mom=+37.66%, 3m=+13.16%, 6m=+36.67%, 12m=+106.11%, above MA200 ($1,160) but below MA50 ($1,479), Q2-FY2026 actual EPS=$8.73, Q3-FY2026 est=$9.14 ramping to $12.10 by Q4-FY2026 — semi-equipment cycle reacceleration thesis intact. SLV composite mom=+34.64% but 1m=-21.14%, dd63=-42.45%, vol20=59.46% — persistent acute correction, MA200 buffer=+21.6% ($63.44 vs $52.17) prevents kill-switch but elevated monitoring required. GOOGL 3m=-12.59%, 1m=-10.69%, mom=+13.82% — weakest-momentum equity in portfolio, 5-session cumulative damage flag count=5; qualitative EPS ramp ($2.76→$3.21 by Q4-2026) partially offsets but replacement remains pre-logged for next rebalance.",
+    "GO/NO-GO: NON-REBALANCE DAY — Rebalance due = false. Days since last rebalance checkpoint = 5 (minimum cadence = 7 days; next eligible rebalance window = ~2026-04-01). The 2026-03-25 rebalance executed the pre-committed RISK-OFF repositioning (GLD trim 29%→22%, SLV trim 4%→2%, GOOGL trim 8%→6%, XOM increase 15%→22%, CVX increase 14%→18%). Portfolio weighted average momentum ~+29% vs SPY mom=-1.49% = +30pp alpha spread, the widest gap in this run series. No kill-switch thresholds breached: GLD buffer=+10.1% (floor=MA200), SLV buffer=+21.6%, TSM buffer=+14.0% ($326.74 vs MA200=$286.50), GOOGL buffer=+4.5% ($274.34 vs MA200=$262.43). All five equity EPS acceleration trajectories confirmed intact via tool refresh. April 2 tariff binary event warrants holding current defensive positioning unchanged. Pre-logging for 2026-04-01 rebalance: (1) GOOGL replacement candidate evaluation required — 3m=-12.59% is worst in portfolio; (2) SLV dd63=-42.45% — review whether 2% floor is still optimal; (3) TSM 1m=-13.04%, below MA50 ($347.54) — if TSM remains below MA50 with 1m<-10% on rebalance date, size down 10%→7-8%."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "GOOGL",
+      "why": "3m=-12.59% is worst-in-portfolio momentum; 1m=-10.69%; below MA50 ($313.44) and only 4.5% above MA200 ($262.43). dd63=-20.12% — sustained drawdown. Composite mom=+13.82%, lowest among equities. Cumulative damage flag count now 5/5 sessions. EPS ramp intact ($2.76→$3.21) but momentum deterioration trend shows no reversal catalyst. Replacement evaluation pre-committed for 2026-04-01."
+    },
+    {
+      "ticker": "SLV",
+      "why": "1m=-21.14%, dd63=-42.45%, vol20=59.46%, below MA50 ($76.83) by -17.4%. MA200 buffer=+21.6% prevents emergency exit but this is the portfolio's highest-risk position on a risk-adjusted basis. 3m=-2.73% confirms the near-term correction is not recovered. Cumulative damage flag count 5/5 sessions."
+    },
+    {
+      "ticker": "TSM",
+      "why": "1m=-13.04%, below MA50 ($347.54) by -6.0%, dd63=-15.66%. April 2 tariff binary event (Taiwan ADR + direct semiconductor/China export restriction risk) creates asymmetric downside. MA200 buffer=+14.0% ($326.74 vs $286.50) still intact but sustained MA50 breach is a watch flag. EPS ramp ($3.26→$3.99) intact structurally."
+    },
+    {
+      "ticker": "GLD",
+      "why": "1m=-13.15%, dd63=-19.21%, below MA50 ($454.97) by -8.9%. MA200 buffer=+10.1% ($414.70 vs $376.64) — narrowed from +10.7% at last rebalance. The 22% weight combined with ongoing precious metals correction makes this the single largest concentration risk. Buffer above emergency floor but needs monitoring into April 2 tariff event."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "NON-REBALANCE DAY: Rebalance due = false. Days since last rebalance checkpoint = 5 (minimum cadence = 7 days; next eligible window ~2026-04-01). The 2026-03-25 rebalance executed 4 changes that repositioned the portfolio into a full RISK-OFF/DEFENSIVE configuration: XOM=22%, CVX=18% (Energy 40%), GLD=22%, SLV=2% (Commodities 24%), KLAC=10%, TSM=10%, GOOGL=6% (Technology 26%), LMT=10% (Defense 10%). Allowing this rebalance to season for 2 more sessions before the next evaluation window is fully consistent with the monthly-hold mandate and the 7-day minimum cadence policy.",
+      "FUNDAMENTAL CONFIRMATION: Qualitative tool refresh confirms all five equity EPS trajectories intact and accelerating. XOM Q4-2025 actual EPS=$1.54 (slight decel from $1.76), Q1-2026 est=$1.68 ramping to $2.22 by Q3-2026 — oil-exposed operating leverage provides energy-price optionality. CVX Q4-2025 EPS=$1.36, Q1-2026 est=$1.76 ramping to $2.59 by Q2-2026 — Hess acquisition integration driving cost-per-barrel efficiency. KLAC FY2026-Q2 actual EPS=$8.73, FY2026-Q3 est=$9.14 ramping to $12.10 by FY2026-Q4 — semi-equipment cycle reacceleration with WFE spending growth from AI capacity additions. LMT Q4-2025 actual EPS=$5.82, Q1-2026 est=$6.72 ramping to $8.45 by Q4-2026 — NATO rearmament spending uplift cycle multi-year. TSM Q4-2025 actual EPS=$3.119, Q1-2026 est=$3.26 ramping to $3.99 by Q4-2026 — 2nm ramp and CoWoS packaging demand from Nvidia/Apple intact structurally despite tariff noise. All five EPS ramps verified and on-track.",
+      "REGIME ALIGNMENT: Portfolio weighted avg momentum ~+29% vs SPY mom=-1.49% = +30pp alpha spread. Energy sector (XOM+CVX=40%) benefits from oil demand stability in tariff-led risk-off (energy is tariff-insulated vs tech), defense (LMT=10%) benefits from rearmament spending catalysts, GLD (22%) retains structural 12m=+49.04% inflation/de-dollarization bid despite near-term correction. KLAC (10%) represents quality-momentum semi exposure with one of the strongest EPS ramps in the candidate universe. The April 2 tariff binary event creates highest uncertainty for TSM (Taiwan ADR) — existing 10% weight is appropriately sized. Acting today would increase regime uncertainty and incur 20-30bps round-trip turnover drag with zero incremental expected alpha."
+    ],
+    "risks": [
+      "MACRO: April 2 'Liberation Day' reciprocal tariff announcement is the primary binary event. A broad escalation scenario (25%+ tariffs on Taiwan, semiconductors, or EU) could pressure TSM (direct target, 1m=-13.04% already pricing risk), KLAC (China export restriction co-exposure), and potentially GLD (USD strength during tariff escalation). SPY 5-session MA200 breach now widening to -3.7% gap — if SPY drops additional -4% to ~$609, mandatory full defensive review activated regardless of rebalance cadence. Oil demand destruction from tariff-induced recession pricing could reverse XOM/CVX momentum leadership, which has been the primary alpha driver (+39.81% and +30.46% composites).",
+      "IDIOSYNCRATIC: GLD MA200 buffer compressed to +10.1% ($414.70 vs MA200=$376.64) — approaching the pre-committed emergency trim trigger of <5% buffer. Any further -6% move in GLD breaches MA200 and triggers emergency trim from 22% to 10-15%, with proceeds to XOM/CVX. SLV dd63=-42.45% with vol20=59.46% — the 2% weight is the right minimum floor but any further deterioration in silver (industrial demand component of silver is tariff-sensitive) would reinforce the case for full SLV elimination at next rebalance. GOOGL antitrust DOJ remedy proceedings (potential structural remedies for Search/Chrome/Android) remain an ongoing headline risk into 2026-Q2.",
+      "EXECUTION/LIQUIDITY: All 8 holdings are highly liquid large-cap or major ETFs — no execution risk on non-action days. TSM ADR faces the April 2 tariff binary event at existing 10% weight — if TSM gaps down >8% on April 3 open, monitor for MA200 breach ($286.50) as an emergency exit trigger. No earnings events for XOM, CVX, KLAC, LMT, or TSM in the next 7 days. Turnover cost of unnecessary action today: 20-30bps round-trip with zero marginal alpha contribution."
+    ],
+    "falsifiable_checks": [
+      "KILL-SWITCH MONITORING (pre-committed, active through 2026-04-01): GLD must hold above MA200=$376.64 — current buffer=+10.1% ($414.70); if GLD closes below $376.64 at ANY point, emergency trim activated (22%→10-15%, proceeds to XOM/CVX). TSM must hold above MA200=$286.50 — current buffer=+14.0% ($326.74); breach triggers emergency TSM exit. SLV must hold above MA200=$52.17 — current buffer=+21.6% ($63.44); breach would trigger immediate elimination. SPY MA200 breach already confirmed (close=$634.09 vs MA200=$657.96, gap=-3.7%); if SPY drops to $609 (-4% from current) within next 5 sessions, full defensive re-evaluation activated outside normal cadence.",
+      "NEXT REBALANCE TRIGGERS (~2026-04-01): (1) GOOGL: 3m momentum must turn positive OR GOOGL is replaced by a higher-scoring candidate — primary replacement candidates are COST (mom=+5.92%, 3m=+13.00%, dd63=-5.18%, above MA200, low vol=14.7%, consumer staples defensive fit) or LLY if momentum recovers; (2) GLD sizing review: if MA200 buffer <5% at rebalance date, trim to 15%; if buffer >12% and recovering, hold at 22%; (3) TSM: if still below MA50 on 2026-04-01 with 1m<-10%, size down 10%→7%; (4) Portfolio alpha spread vs SPY must remain above +20pp at next rebalance — currently +30pp (portfolio composite mom ~+29% vs SPY mom=-1.49%)."
+    ],
+    "why_now": "Base case (100%): Mandatory non-action per rebalance cadence policy (days since last checkpoint = 5, minimum spacing = 7 days). The 2026-03-25 rebalance was a high-conviction 4-action repositioning into RISK-OFF/DEFENSIVE configuration that is performing as intended — +30pp alpha spread vs SPY, all 8 holdings above MA200, EPS acceleration trajectories intact across all 5 equities. Bull case for doing nothing: April 2 tariff announcement could be a 'sell the rumor, buy the news' event that benefits Energy/Defense/Gold positioning. Bear case for doing nothing: April 2 tariff escalation creates tail risk for TSM (10% weight) and potentially KLAC — but these are appropriately sized and both holdings remain above MA200 with no emergency exit triggers breached. Expected edge of doing nothing: preserving full compounding of the 2026-03-25 rebalance positioning through its intended holding window, avoiding 20-30bps round-trip drag, and maintaining regime-aligned defensive exposure into the binary April 2 event with the cleanest possible entry for the next rebalance evaluation."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "XOM",
+      "weight_pct": 22,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 18,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 10,
+      "sector": "Defense"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 22,
+      "sector": "Commodities"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 6,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 2,
+      "sector": "Commodities"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (composite, 0-100): XOM=88 (mom=+39.81%, both MAs, dd=-5.48%, EPS ramp $1.68→$2.22, vol=21.6%), CVX=85 (mom=+30.46%, both MAs, dd=-5.28%, EPS ramp $1.76→$2.59, lowest vol=19.6%), KLAC=80 (mom=+37.66%, MA200 only, EPS ramp $9.14→$12.10, dd=-22.41% penalty), LMT=78 (mom=+23.71%, MA200 only, EPS ramp $6.72→$8.45, NATO catalyst), TSM=72 (mom=+26.51%, MA200 only, dd=-15.66%, EPS ramp $3.26→$3.99, tariff binary risk penalty), GLD=68 (mom=+14.21%, MA200 only, 12m=+49.04%, dd=-19.21%, 1m=-13.15% near-term drag), SLV=52 (mom=+34.64% composite but 1m=-21.14%, dd=-42.45%, vol=59.46%, 2% floor minimum), GOOGL=48 (mom=+13.82%, MA200 only, 3m=-12.59% bottom-ranked equity, EPS ramp partially offsets). | RISK BUDGET: Energy 40% (XOM+CVX) — within 80% sector max; Technology 26% (KLAC+TSM+GOOGL) — within max; Commodities 24% (GLD+SLV) — within max; Defense 10% (LMT) — within max. Crypto 0% — within 10% limit. Max position XOM=22% — within 40% limit. Total=100%. | SCENARIO STRESS: (1) Equity index shock (-10% SPY): Energy likely resilient (XOM/CVX oil demand inelastic), GLD likely +5-8% safe-haven bid; net portfolio impact estimated -2 to -4%; (2) Tariff escalation (April 2): TSM worst case -15% (10% weight = -1.5pp drag), KLAC -10% (10% = -1pp drag), GLD +5-8% offset; net portfolio impact estimated -1 to -3%; (3) Oil price shock (-15%): XOM/CVX combined 40% weight = -6pp drag, partially offset by GLD/SLV safe-haven flows; (4) USD strengthening shock: GLD/SLV headwind (-5%) = -1.2pp drag, XOM/CVX partly FX-insulated. No scenario produces catastrophic concentrated loss — diversification across Energy/Defense/Commodities/Tech limits single-factor concentration. | EXECUTION PLAN: No trades today. Next rebalance evaluation ~2026-04-01: GOOGL replacement evaluation (COST primary candidate at mom=+5.92%, 3m=+13.00%, dd=-5.18%, vol=14.7%, defensive consumer staples fit); GLD buffer monitoring (<5% → trim to 15%); TSM MA50 recovery check (still below → size 10%→7-8%). | MONITORING/KILL-SWITCHES: GLD<$376.64 → emergency trim to 10-15%; TSM<$286.50 → emergency exit; SLV<$52.17 → immediate elimination; SPY drops to $609 → full defensive review outside cadence."
+  }
+}
