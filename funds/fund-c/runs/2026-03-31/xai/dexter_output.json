@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-03-31",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: XOM39%/KLAC32%/CVX30%/SLV30%/TSM24% lead vs SPY-1.8%/QQQ-2.0%; energy/semis/metals resilient, BTC-24%.",
+    "Qual strong/stable: NVDA OM66%/ROE104%/EPS g+21%, TSM OM54%/ROE35%/EPS g+8%, KLAC OM43%/ROE95%; est rev/EPS growth FY26-28 intact.",
+    "Non-rebal (1d post-3/30,6d to weekly): no news since 3/24, ratios/est stable/up, no damage -> hold vs costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "",
+      "",
+      ""
+    ],
+    "risks": [
+      "",
+      "",
+      ""
+    ],
+    "falsifiable_checks": [
+      "",
+      ""
+    ],
+    "why_now": ""
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom scores 80-95 (XOM/KLAC/CVX/SLV lead); qual 85+ (NVDA/TSM/KLAC OM/ROE); risk low (dd/vol resilient vs SPY/QQQ); scenarios: equity/rates/commodity shocks diversified; hold, monitor 90d mom <0 or est rev cuts."
+  }
+}

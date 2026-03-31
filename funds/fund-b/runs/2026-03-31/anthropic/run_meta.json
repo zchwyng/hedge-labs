@@ -1,0 +1,57 @@
+{
+  "fund_id": "fund-b",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
+  "run_date": "2026-03-31",
+  "started_at": "2026-03-31T06:47:55Z",
+  "ended_at": "2026-03-31T06:51:47Z",
+  "status": "success",
+  "reason": "",
+  "fd_search_calls": 1,
+  "fd_source_url_count": 4,
+  "output_json_valid": true,
+  "api_errors": [],
+  "data_contract_version": "arena-input-pack-v1",
+  "arena_input_pack": {
+    "enabled": true,
+    "build_status": "success",
+    "build_reason": null,
+    "path": "/home/runner/work/hedge-labs/hedge-labs/funds/fund-b/runs/2026-03-31/anthropic/arena_input_pack.json",
+    "quality_status": "ok",
+    "market_data_quality": {
+      "required_missing": 0,
+      "benchmark_missing": 0,
+      "yahoo_success": 30,
+      "yahoo_total": 30
+    },
+    "warnings": [
+      "Trimmed live run_date crypto bars for deterministic cross-lane parity: BTC-USD, ETH-USD"
+    ],
+    "errors": []
+  },
+  "research_quality": {
+    "fd_search_calls": 1,
+    "fd_source_urls": 4,
+    "fd_errors": 0,
+    "fd_error_ratio": "0.000000",
+    "fd_billing_errors": 0,
+    "fd_non_billing_errors": 0,
+    "fd_non_billing_error_ratio": "0.000000",
+    "fd_error_gate_relaxed": false,
+    "fd_news_expected_calls": 1,
+    "fd_news_source_urls": 0,
+    "fd_news_result_entries": 0,
+    "qualitative_news_detected": false,
+    "qualitative_news_warning": "financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results",
+    "forbidden_tool_names": [
+      "getPriceSnapshot",
+      "getPrices",
+      "getKeyRatiosSnapshot",
+      "getCryptoPriceSnapshot"
+    ],
+    "forbidden_tool_calls": 0
+  },
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-03-31-064756_f7bad8a46261.jsonl"
+}
