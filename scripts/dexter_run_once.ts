@@ -173,7 +173,7 @@ if (!promptFile) {
   throw new Error('DEXTER_PROMPT_FILE is required');
 }
 
-const model = (process.env.DEXTER_MODEL || 'gpt-5.2').trim();
+const model = (process.env.DEXTER_MODEL || 'gpt-5.4').trim();
 const maxIterations = Number(process.env.DEXTER_MAX_ITERATIONS || '10');
 if (!Number.isFinite(maxIterations) || maxIterations <= 0) {
   throw new Error(`Invalid DEXTER_MAX_ITERATIONS: ${process.env.DEXTER_MAX_ITERATIONS || ''}`);

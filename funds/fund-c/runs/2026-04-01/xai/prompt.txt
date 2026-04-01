@@ -5,7 +5,7 @@ Run metadata:
 - Run date: 2026-04-01
 - Fund name: Quality + Momentum (Monthly-hold)
 - Provider: xai
-- Model: grok-4-1-fast-reasoning
+- Model: grok-4.20-reasoning
 - Rebalance cadence: weekly
 
 Rules:
@@ -143,9 +143,14 @@ Output ONLY JSON:
 Stateful rebalance context (system-provided):
 - Prior successful run date: 2026-03-31
 - Days since prior successful run: 1
+- Prior attempted run date: 2026-04-01
+- Prior attempted run status: success
 - Last rebalance checkpoint date: 2026-03-25
 - Days since last rebalance checkpoint: 7
 - Rebalance due today: true
+- Missed scheduled rebalance pending: false
+- Must perform an active rebalance today: false
+- Missed scheduled rebalance reason: None.
 - Rebalance cadence minimum spacing (days): 7
 - lookback_30d_start: 2026-03-02
 - lookback_90d_start: 2026-01-01
@@ -157,6 +162,7 @@ Stateful rebalance context (system-provided):
 Execution policy:
 - Treat prior target_portfolio as the starting portfolio when available.
 - If "Rebalance due today" is false, output action "Do nothing" and keep target_portfolio exactly unchanged.
+- If "Must perform an active rebalance today" is true, you must NOT output "Do nothing"; make at least one active rebalance action reflected in `target_portfolio` and `rebalance_actions`.
 - Bootstrap exception: if prior target_portfolio is empty, build a full 8-name portfolio; do not apply the 3-change cap for this run.
 - If "Rebalance due today" is true and prior target_portfolio is non-empty, make only justified changes and keep turnover efficient.
 - On rebalance-due days, use the 7-day aggregated context explicitly when selecting actions and sizing.
@@ -169,13 +175,13 @@ Deterministic market data pack (system-provided; supersedes earlier tool-fetch i
 - Call `financial_search` at least once for qualitative/fundamental/news follow-up before final JSON.
 - If pack data is missing, write UNKNOWN and reduce confidence instead of using forbidden tool workarounds.
 
-Arena input pack file: /home/runner/work/hedge-labs/hedge-labs/funds/fund-c/runs/2026-04-01/xai/arena_input_pack.json
+Arena input pack file: /Users/jonasdalesjo/code/hedge-labs/funds/fund-c/runs/2026-04-01/xai/arena_input_pack.json
 Arena input pack v1 (Yahoo deterministic prices) for 2026-04-01
 Pack status: ok
 Yahoo coverage: 30/30 (errors=0)
 Required symbol coverage: 13/13
 Benchmark coverage: 6/6
-Candidate pool config: /home/runner/work/hedge-labs/hedge-labs/funds/arena/config/fund-c.candidates.json
+Candidate pool config: /Users/jonasdalesjo/code/hedge-labs/funds/arena/config/fund-c.candidates.json
 
 Benchmarks (deterministic price/history features):
 - SPY: close=650.34 1m=-4.99% 3m=-5.20% 6m=-1.45% 12m=18.38% mom=1.69% MA50=false MA200=false

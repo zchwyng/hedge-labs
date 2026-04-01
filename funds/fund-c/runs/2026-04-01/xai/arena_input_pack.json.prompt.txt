@@ -3,7 +3,7 @@ Pack status: ok
 Yahoo coverage: 30/30 (errors=0)
 Required symbol coverage: 13/13
 Benchmark coverage: 6/6
-Candidate pool config: /home/runner/work/hedge-labs/hedge-labs/funds/arena/config/fund-c.candidates.json
+Candidate pool config: /Users/jonasdalesjo/code/hedge-labs/funds/arena/config/fund-c.candidates.json
 
 Benchmarks (deterministic price/history features):
 - SPY: close=650.34 1m=-4.99% 3m=-5.20% 6m=-1.45% 12m=18.38% mom=1.69% MA50=false MA200=false
