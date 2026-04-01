@@ -414,6 +414,7 @@ while IFS= read -r lane; do
   market_news_block=""
   thesis_damage_block=""
   rebalance_actions_summary="n/a"
+  rebalance_status_summary="n/a"
   holdings_block='```text
 n/a
 ```'
@@ -627,6 +628,14 @@ n/a
       fi
     fi
 
+    if [[ "$action" == "Do nothing" || "$rebalance_actions_summary" == "none" ]]; then
+      rebalance_status_summary="NO — no portfolio change today."
+    elif [[ "$rebalance_actions_summary" != "n/a" ]]; then
+      rebalance_status_summary="YES — ${rebalance_actions_summary}."
+    else
+      rebalance_status_summary="YES — ${action_summary}"
+    fi
+
     sector_exposure_summary="$(format_sector_exposure_summary "$output_path")"
 
     if [[ -z "$prev_output_path" ]]; then
@@ -776,9 +785,19 @@ n/a
     fi
   fi
 
+  if [[ "$status" != "success" ]]; then
+    if [[ -n "$asof_portfolio_date" && "$asof_portfolio_date" != "$run_date" ]]; then
+      rebalance_status_summary="NO — lane failed; holding last successful portfolio from ${asof_portfolio_date}."
+    else
+      rebalance_status_summary="NO — lane failed before a new portfolio was published."
+    fi
+  fi
+
   lane_block=""
   lane_block+=$'\n\n'
   lane_block+="**${fund_emoji} ${fund_label} (${provider_label})**"
+  lane_block+=$'\n'
+  lane_block+="- Rebalance: **${rebalance_status_summary}**"
   lane_block+=$'\n'
   lane_block+="- Name: ${fund_name_label}"
   lane_block+=$'\n'
@@ -980,6 +999,81 @@ build_lanes_overview_block() {
   printf '%s' "$out"
 }
 
+build_rebalance_overview_block() {
+  local out=""
+  out+="**🔁 Rebalance**"
+  out+=$'\n'
+  while IFS= read -r lane; do
+    fund_id="$(jq -r '.fund_id' <<<"$lane")"
+    provider="$(jq -r '.provider' <<<"$lane")"
+    status="$(jq -r '.status' <<<"$lane")"
+    action="$(jq -r '.action // "UNKNOWN"' <<<"$lane")"
+    add_ticker="$(jq -r '.add_ticker // empty' <<<"$lane")"
+    remove_ticker="$(jq -r '.remove_ticker // empty' <<<"$lane")"
+    size_change_pct="$(jq -r '.size_change_pct // 0' <<<"$lane")"
+    run_path="$(jq -r '.run_path' <<<"$lane")"
+    output_path="${run_path}/dexter_output.json"
+    asof_portfolio_date="$(jq -r '.asof_portfolio_date // empty' <<<"$lane")"
+    rebalance_actions_count="$(jq -r '.rebalance_actions_count // 0' <<<"$lane")"
+    rebalance_summary=""
+
+    fund_label="$(printf '%s' "$fund_id" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) tolower(substr($i,2))} print}')"
+
+    if [[ "$status" == "success" ]]; then
+      if [[ "$action" == "Do nothing" || "$rebalance_actions_count" == "0" ]]; then
+        rebalance_summary="NO — no portfolio change"
+      else
+        rebalance_actions_summary=""
+        if [[ -f "$output_path" ]]; then
+          rebalance_actions_summary="$(jq -r '
+            (.rebalance_actions // [])
+            | map(
+                .action as $a
+                | .size_change_pct as $s
+                | .remove_ticker as $r
+                | .add_ticker as $ad
+                | if $a == "Do nothing" then
+                    "Do nothing"
+                  elif $a == "Add" then
+                    ("Add " + ($ad // "?") + " (" + (($s // 0) | tostring) + "%)")
+                  elif $a == "Trim" then
+                    ("Trim " + ($r // "?") + "→" + ($ad // "?") + " (" + (($s // 0) | tostring) + "%)")
+                  elif $a == "Replace" then
+                    ("Replace " + ($r // "?") + "→" + ($ad // "?") + " (" + (($s // 0) | tostring) + "%)")
+                  else
+                    (($a // "UNKNOWN") + " (" + (($s // 0) | tostring) + "%)")
+                  end
+              )
+            | if length == 0 then "" else join("; ") end
+          ' "$output_path")"
+        fi
+
+        if [[ -n "$rebalance_actions_summary" ]]; then
+          rebalance_summary="YES — ${rebalance_actions_summary}"
+        elif [[ "$action" == "Replace" && -n "$remove_ticker" && -n "$add_ticker" ]]; then
+          rebalance_summary="YES — Replace ${remove_ticker}→${add_ticker} (${size_change_pct}%)"
+        elif [[ "$action" == "Trim" && -n "$remove_ticker" && -n "$add_ticker" ]]; then
+          rebalance_summary="YES — Trim ${remove_ticker}→${add_ticker} (${size_change_pct}%)"
+        elif [[ "$action" == "Add" && -n "$add_ticker" ]]; then
+          rebalance_summary="YES — Add ${add_ticker} (${size_change_pct}%)"
+        else
+          rebalance_summary="YES — portfolio updated"
+        fi
+      fi
+    else
+      if [[ -n "$asof_portfolio_date" && "$asof_portfolio_date" != "$run_date" ]]; then
+        rebalance_summary="NO — lane failed, holding ${asof_portfolio_date} portfolio"
+      else
+        rebalance_summary="NO — lane failed"
+      fi
+    fi
+
+    out+="- ${fund_label}: ${rebalance_summary}"
+    out+=$'\n'
+  done < <(jq -c '.lanes[]' "$scoreboard_path")
+  printf '%s' "$out"
+}
+
 build_indices_overview_block() {
   local count
   count="$(jq -r '(.indices.items // []) | length' "$scoreboard_path")"
@@ -1046,7 +1140,11 @@ scoreboard_snip=""
 
 if [[ "$include_header" == "true" ]]; then
   overview_msg="**📈 Daily Paper Update — ${run_date}**"
+  overview_msg+=$'\n'
+  overview_msg+=$'\n'
+  overview_msg+="$(build_rebalance_overview_block)"
   if [[ -n "$overall_line" ]]; then
+    overview_msg+=$'\n'
     overview_msg+=$'\n'
     overview_msg+="${overall_emoji} ${overall_line}"
   fi

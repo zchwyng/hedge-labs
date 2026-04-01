@@ -100,6 +100,39 @@ latest_successful_output_before_run() {
   printf '%s\t%s\n' "$prev_output" "$prev_date"
 }
 
+latest_attempted_run_before_run() {
+  local target_fund_id="$1"
+  local target_provider="$2"
+  local target_run_date="$3"
+  local runs_root="funds/${target_fund_id}/runs"
+  local prev_meta=""
+  local prev_date=""
+  local prev_status=""
+  local candidate_meta=""
+  local candidate_output=""
+  local candidate_lane_exit=""
+
+  if [[ -d "$runs_root" ]]; then
+    while IFS= read -r d; do
+      [[ "$d" > "$target_run_date" ]] && continue
+      candidate_meta="${runs_root}/${d}/${target_provider}/run_meta.json"
+      candidate_output="${runs_root}/${d}/${target_provider}/dexter_output.json"
+      candidate_lane_exit="${runs_root}/${d}/${target_provider}/lane_exit_code.txt"
+      if [[ -f "$candidate_meta" ]]; then
+        prev_meta="$candidate_meta"
+        prev_date="$d"
+        prev_status="$(jq -r '.status // "failed"' "$candidate_meta" 2>/dev/null || echo failed)"
+      elif [[ -f "$candidate_output" || -f "$candidate_lane_exit" ]]; then
+        prev_meta=""
+        prev_date="$d"
+        prev_status="unknown"
+      fi
+    done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
+  fi
+
+  printf '%s\t%s\t%s\n' "$prev_meta" "$prev_date" "$prev_status"
+}
+
 has_active_rebalance_action() {
   local output_path="$1"
   [[ -f "$output_path" ]] || return 1
@@ -385,15 +418,21 @@ prev_output_date=""
 days_since_previous="N/A"
 previous_portfolio_json='[]'
 previous_trade_json='{}'
+prev_attempted_date=""
+prev_attempted_status="NONE"
 last_rebalance_date=""
 days_since_last_rebalance="N/A"
 rebalance_due="true"
+missed_scheduled_rebalance="false"
+must_rebalance_today="false"
+missed_rebalance_reason="None."
 min_rebalance_days="$(minimum_days_between_rebalances "$rebalance")"
 lookback_30d_start="$(date_minus_days "$run_date" 30)"
 lookback_90d_start="$(date_minus_days "$run_date" 90)"
 news_7d_start="$(date_minus_days "$run_date" 7)"
 
 IFS=$'\t' read -r prev_output_path prev_output_date < <(latest_successful_output_before_run "$fund_id" "$provider" "$run_date")
+IFS=$'\t' read -r _prev_attempted_meta_path prev_attempted_date prev_attempted_status < <(latest_attempted_run_before_run "$fund_id" "$provider" "$run_date")
 IFS=$'\t' read -r _last_rebalance_output_path last_rebalance_date < <(latest_rebalance_checkpoint_before_run "$fund_id" "$provider" "$run_date")
 if [[ -n "$prev_output_path" && -f "$prev_output_path" ]]; then
   previous_portfolio_json="$(jq -c '.target_portfolio // []' "$prev_output_path")"
@@ -415,6 +454,23 @@ if [[ -n "$last_rebalance_date" ]]; then
   fi
 fi
 
+if [[ -n "$prev_attempted_date" && "$prev_attempted_status" != "success" ]]; then
+  previous_run_was_due="false"
+  if [[ "$min_rebalance_days" -le 0 || -z "$last_rebalance_date" ]]; then
+    previous_run_was_due="true"
+  elif days_candidate="$(days_between_dates "$last_rebalance_date" "$prev_attempted_date" 2>/dev/null)"; then
+    if [[ "$days_candidate" -ge "$min_rebalance_days" ]]; then
+      previous_run_was_due="true"
+    fi
+  fi
+
+  if [[ "$previous_run_was_due" == "true" ]]; then
+    missed_scheduled_rebalance="true"
+    must_rebalance_today="true"
+    missed_rebalance_reason="Previous run ${prev_attempted_date} did not complete successfully even though a rebalance window was due."
+  fi
+fi
+
 last7_summary_json="$(build_last7_summary_json "$fund_id" "$provider" "$run_date")"
 
 cat >> "$out_prompt_path" <<EOF
@@ -422,9 +478,14 @@ cat >> "$out_prompt_path" <<EOF
 Stateful rebalance context (system-provided):
 - Prior successful run date: ${prev_output_date:-NONE}
 - Days since prior successful run: ${days_since_previous}
+- Prior attempted run date: ${prev_attempted_date:-NONE}
+- Prior attempted run status: ${prev_attempted_status}
 - Last rebalance checkpoint date: ${last_rebalance_date:-NONE}
 - Days since last rebalance checkpoint: ${days_since_last_rebalance}
 - Rebalance due today: ${rebalance_due}
+- Missed scheduled rebalance pending: ${missed_scheduled_rebalance}
+- Must perform an active rebalance today: ${must_rebalance_today}
+- Missed scheduled rebalance reason: ${missed_rebalance_reason}
 - Rebalance cadence minimum spacing (days): ${min_rebalance_days}
 - lookback_30d_start: ${lookback_30d_start}
 - lookback_90d_start: ${lookback_90d_start}
@@ -436,6 +497,7 @@ Stateful rebalance context (system-provided):
 Execution policy:
 - Treat prior target_portfolio as the starting portfolio when available.
 - If "Rebalance due today" is false, output action "Do nothing" and keep target_portfolio exactly unchanged.
+- If "Must perform an active rebalance today" is true, you must NOT output "Do nothing"; make at least one active rebalance action reflected in \`target_portfolio\` and \`rebalance_actions\`.
 - Bootstrap exception: if prior target_portfolio is empty, build a full ${positions}-name portfolio; do not apply the 3-change cap for this run.
 - If "Rebalance due today" is true and prior target_portfolio is non-empty, make only justified changes and keep turnover efficient.
 - On rebalance-due days, use the 7-day aggregated context explicitly when selecting actions and sizing.

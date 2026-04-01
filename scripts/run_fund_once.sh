@@ -83,6 +83,39 @@ latest_successful_output_before_run() {
   printf '%s\t%s\n' "$prev_output" "$prev_date"
 }
 
+latest_attempted_run_before_run() {
+  local target_fund_id="$1"
+  local target_provider="$2"
+  local target_run_date="$3"
+  local runs_root="${repo_root}/funds/${target_fund_id}/runs"
+  local prev_meta=""
+  local prev_date=""
+  local prev_status=""
+  local candidate_meta=""
+  local candidate_output=""
+  local candidate_lane_exit=""
+
+  if [[ -d "$runs_root" ]]; then
+    while IFS= read -r d; do
+      [[ "$d" > "$target_run_date" ]] && continue
+      candidate_meta="${runs_root}/${d}/${target_provider}/run_meta.json"
+      candidate_output="${runs_root}/${d}/${target_provider}/dexter_output.json"
+      candidate_lane_exit="${runs_root}/${d}/${target_provider}/lane_exit_code.txt"
+      if [[ -f "$candidate_meta" ]]; then
+        prev_meta="$candidate_meta"
+        prev_date="$d"
+        prev_status="$(jq -r '.status // "failed"' "$candidate_meta" 2>/dev/null || echo failed)"
+      elif [[ -f "$candidate_output" || -f "$candidate_lane_exit" ]]; then
+        prev_meta=""
+        prev_date="$d"
+        prev_status="unknown"
+      fi
+    done < <(find "$runs_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort)
+  fi
+
+  printf '%s\t%s\t%s\n' "$prev_meta" "$prev_date" "$prev_status"
+}
+
 has_active_rebalance_action() {
   local output_path="$1"
   [[ -f "$output_path" ]] || return 1
@@ -157,12 +190,19 @@ minimum_days_between_rebalances() {
 
 prev_output_path=""
 prev_output_date=""
+prev_attempted_meta_path=""
+prev_attempted_date=""
+prev_attempted_status="NONE"
 last_rebalance_date=""
 days_since_last_rebalance="N/A"
 min_rebalance_days="$(minimum_days_between_rebalances "$rebalance_cadence")"
 rebalance_due=true
+missed_scheduled_rebalance=false
+must_rebalance_today=false
+missed_rebalance_reason="None."
 
 IFS=$'\t' read -r prev_output_path prev_output_date < <(latest_successful_output_before_run "$fund_id" "$provider" "$run_date")
+IFS=$'\t' read -r prev_attempted_meta_path prev_attempted_date prev_attempted_status < <(latest_attempted_run_before_run "$fund_id" "$provider" "$run_date")
 IFS=$'\t' read -r _last_rebalance_output_path last_rebalance_date < <(latest_rebalance_checkpoint_before_run "$fund_id" "$provider" "$run_date")
 if [[ -n "$last_rebalance_date" ]]; then
   if days_candidate="$(days_between_dates "$last_rebalance_date" "$run_date" 2>/dev/null)"; then
@@ -170,6 +210,23 @@ if [[ -n "$last_rebalance_date" ]]; then
     if [[ "$min_rebalance_days" -gt 0 && "$days_candidate" -lt "$min_rebalance_days" ]]; then
       rebalance_due=false
     fi
+  fi
+fi
+
+if [[ -n "$prev_attempted_date" && "$prev_attempted_status" != "success" ]]; then
+  previous_run_was_due=false
+  if [[ "$min_rebalance_days" -le 0 || -z "$last_rebalance_date" ]]; then
+    previous_run_was_due=true
+  elif days_candidate="$(days_between_dates "$last_rebalance_date" "$prev_attempted_date" 2>/dev/null)"; then
+    if [[ "$days_candidate" -ge "$min_rebalance_days" ]]; then
+      previous_run_was_due=true
+    fi
+  fi
+
+  if [[ "$previous_run_was_due" == true ]]; then
+    missed_scheduled_rebalance=true
+    must_rebalance_today=true
+    missed_rebalance_reason="Previous run ${prev_attempted_date} failed while rebalance was due."
   fi
 fi
 
@@ -593,12 +650,13 @@ validate_rebalance_policy() {
 
   local policy_error=""
   if ! policy_error="$(
-    node - "$prev_output_path" "$input_json" "$rebalance_due" <<'NODE'
+    node - "$prev_output_path" "$input_json" "$rebalance_due" "$must_rebalance_today" <<'NODE'
 const fs = require('node:fs');
 
 const prevPath = process.argv[2];
 const currPath = process.argv[3];
 const rebalanceDue = String(process.argv[4] || '').toLowerCase() === 'true';
+const mustRebalanceToday = String(process.argv[5] || '').toLowerCase() === 'true';
 const tolerance = 0.01;
 
 function readJson(path) {
@@ -676,6 +734,18 @@ if (!rebalanceDue) {
     fail('Rebalance cadence not due yet: rebalance_actions must be empty (or only "Do nothing").');
   }
   process.exit(0);
+}
+
+if (mustRebalanceToday) {
+  if (action === 'Do nothing') {
+    fail('Previous scheduled rebalance failed: this run must perform at least one active rebalance action.');
+  }
+  if (samePortfolio) {
+    fail('Previous scheduled rebalance failed: target_portfolio must change on this catch-up rebalance run.');
+  }
+  if (actionfulRebalanceActions.length === 0) {
+    fail('Previous scheduled rebalance failed: rebalance_actions must include at least one active action.');
+  }
 }
 
 if (action === 'Do nothing') {
@@ -1084,7 +1154,9 @@ Validation requirements:
 - \`rebalance_actions\` must be an array and include the full action set for this run (empty only when no rebalance activity).
 - constraints_check.max_position_ok, constraints_check.max_sector_ok, and constraints_check.max_crypto_ok must all be true and consistent with your portfolio.
 - Rebalance cadence: ${rebalance_cadence}. Last checkpoint: ${last_rebalance_date:-NONE}. Days since checkpoint: ${days_since_last_rebalance}. Rebalance due today: ${rebalance_due}. Minimum spacing: ${min_rebalance_days} days.
+- Missed scheduled rebalance pending: ${missed_scheduled_rebalance}. Must perform active rebalance today: ${must_rebalance_today}. Reason: ${missed_rebalance_reason}
 - If rebalance is not due, action must be "Do nothing" and target_portfolio must exactly match the prior portfolio.
+- If "Must perform active rebalance today" is true, action must NOT be "Do nothing" and target_portfolio must differ from the prior portfolio.
 
 Previous failure reason:
 ${reason}
@@ -1623,6 +1695,14 @@ jq -n \
   --argjson dexter_exit_code "$dexter_exit_code" \
   --argjson output_json_valid "$output_json_valid" \
   --argjson scratchpad_found "$( [[ -n "$latest_scratchpad" ]] && echo true || echo false )" \
+  --arg prev_attempted_date "$prev_attempted_date" \
+  --arg prev_attempted_status "$prev_attempted_status" \
+  --arg last_rebalance_date "$last_rebalance_date" \
+  --arg days_since_last_rebalance "$days_since_last_rebalance" \
+  --argjson rebalance_due "$( [[ "$rebalance_due" == true ]] && echo true || echo false )" \
+  --argjson missed_scheduled_rebalance "$( [[ "$missed_scheduled_rebalance" == true ]] && echo true || echo false )" \
+  --argjson must_rebalance_today "$( [[ "$must_rebalance_today" == true ]] && echo true || echo false )" \
+  --arg missed_rebalance_reason "$missed_rebalance_reason" \
   '{
     fund_id: $fund_id,
     provider: $provider,
@@ -1668,6 +1748,16 @@ jq -n \
       qualitative_news_warning: (if $fd_news_warning == "" then null else $fd_news_warning end),
       forbidden_tool_names: ($forbidden_tool_names | split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(length > 0))),
       forbidden_tool_calls: $forbidden_tool_calls
+    },
+    rebalance_policy: {
+      previous_attempted_run_date: (if $prev_attempted_date == "" then null else $prev_attempted_date end),
+      previous_attempted_run_status: (if $prev_attempted_status == "" then null else $prev_attempted_status end),
+      last_rebalance_checkpoint_date: (if $last_rebalance_date == "" then null else $last_rebalance_date end),
+      days_since_last_rebalance: $days_since_last_rebalance,
+      rebalance_due: $rebalance_due,
+      missed_scheduled_rebalance: $missed_scheduled_rebalance,
+      must_rebalance_today: $must_rebalance_today,
+      missed_rebalance_reason: (if $missed_rebalance_reason == "" then null else $missed_rebalance_reason end)
     },
     dexter_exit_code: $dexter_exit_code,
     scratchpad_found: $scratchpad_found,
