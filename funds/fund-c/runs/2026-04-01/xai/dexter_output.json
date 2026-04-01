@@ -1,0 +1,88 @@
+{
+  "run_date": "2026-04-01",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: KLAC42%/SLV42%/XOM38%/TSM34% lead vs SPY1.7%/QQQ2.1%; semis/energy/metals resilient, BTC-23%.",
+    "Qual stable: NVDA FY26 OM66%/ROE104%/rev g65%/EPS g66%; GOOGL OM34%/ROE33%; others UNKNOWN but hist intact.",
+    "Weekly rebal go: NVDA mom10.8%/3m-7% lags -> replace w/GOOGL mom23%; IT trim to 29%; edge>costs."
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "NVDA",
+      "add_ticker": "GOOGL",
+      "size_change_pct": 0
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "NVDA",
+    "add_ticker": "GOOGL",
+    "size_change_pct": 0,
+    "thesis": [
+      "30d mom upgrade: GOOGL22.7% vs NVDA10.8%/SPY1.7%; 12m strong both.",
+      "Quality: NVDA top OM66%/ROE104%, GOOGL solid OM34%/EPS g39%; estimates FY27 EPS NVDA7.7/GOOGL13.3.",
+      "Variant: Rotate lagging NVDA (3m-7%) to GOOGL strength, IT diversify."
+    ],
+    "risks": [
+      "Macro: Tech selloff if risk-off deepens.",
+      "Idio: GOOGL news/regulatory UNKNOWN; NVDA AI rebound.",
+      "Exec: High liq both, single turnover low slippage."
+    ],
+    "falsifiable_checks": [
+      "GOOGL 30d mom < SPY +5% -> trim.",
+      "Portfolio IT mom < QQQ 7d -> reverse."
+    ],
+    "why_now": "7d rebal; NVDA relative mom decay vs leaders (KLAC+SLV+XOM>35%); qual confirms hold leaders but upgrade clears hurdle; base mixed resilient, bull semis rot, bear metals hedge."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 15,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom hi: KLAC/SLV/XOM/TSM 90+/30; Qual NVDA19/20 GOOGL16/20 UNK pen; Risk SLV vol/dd -2/15 liq ok; Stress: SPY-10% port-5%, rates/comms ok; Exec 1 replace; Mon: mom<SPY wkly, news dmg kill."
+  }
+}

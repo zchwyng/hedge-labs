@@ -1,0 +1,111 @@
+{
+  "run_date": "2026-04-01",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: RISK-OFF ENTRENCHED — SPY close=650.34, below BOTH MA50=675.93 and MA200=658.41 (6th+ consecutive session below MA200, gap=-1.2%); QQQ below both MAs (1m=-4.96%, 3m=-6.92%); TLT below MA50 and MA200 (mom=-1.20%) — zero flight-to-safety bond bid, stagflation/rates-pressure backdrop fully intact. BTC-USD mom=-22.71%, 3m=-23.42%, dd63=-29.69%, below MA200 — crypto sleeve remains fully off the table. GLD recovered sharply on the week (+6.47% 1w) to close=430.29, above MA200=377.76 with buffer now +13.9% — precious metals structural thesis reinforced; 1m=-12.19% correction appears to have bottomed intra-month. Portfolio weighted avg momentum ~30% vs SPY mom=+1.69% — +28pp alpha spread maintained. April 2 'Liberation Day' reciprocal tariff announcement is the dominant binary event today; regime stays RISK-OFF/DEFENSIVE until confirmed resolution.",
+    "LEADERSHIP & THESIS INTEGRITY: XOM leads at mom=+37.90%, 1m=+10.01%, 3m=+41.70%, above BOTH MA50=150.22 and MA200=121.93, dd63=-5.48% — cleanest holding; annual EPS estimate 2026=$8.28, 2027=$9.19 (+11% growth), no flags. CVX #2 at mom=+28.25%, 1m=+9.12%, 3m=+38.37%, above BOTH MAs, vol20=20.94%, dd63=-5.28% — defensive ballast intact; lowest drawdown in portfolio. KLAC #1 composite mom=+42.98%, 3m=+16.97%, 12m=+120.25%, above MA200=1,166.05 but marginally below MA50=1,473.70 (close=1,472.41, gap=-0.08%) — essentially at MA50, near-miss; 12m=+120% and 6m=+38.78% confirm structural semi-equipment cycle intact. TSM mom=+33.96%, 3m=+12.62%, 12m=+107.04%, above MA200=287.65 with +17.5% buffer; annual EPS 2026=$14.34, 2027=$17.63 (+23% growth) — tariff uncertainty is priced (1m=-8.18%), above MA200 confirms no kill-switch; size review warranted. LMT mom=+19.67%, 3m=+24.28%, 1m=-10.69%, below MA50=631.07 but above MA200=506.71 — defense rearmament thesis intact; COST 7-day aggregate flagged as replacement candidate. DAMAGE FLAGS: GOOGL 3m=-8.23%, 1m=-6.12%, below MA50=311.42, dd63=-20.37% — 7th consecutive damage session; annual EPS 2026=$11.58, 2027=$13.29 confirms quality but momentum destruction is definitive. SLV 1m=-16.46%, dd63=-42.45%, vol20=58.73%, below MA50 by -10.5% — 7-day aggregate count=5 damage flags; 2% minimum floor evaluation required. GLD MA200 buffer recovered to +13.9% — critical improvement; kill-switch no longer imminent.",
+    "GO/NO-GO: REBALANCE DUE (7 days since last checkpoint 2026-03-25). HIGH-CONVICTION REBALANCE — pre-committed actions triggered. Change 1: REPLACE GOOGL (3m=-8.23%, 1m=-6.12%, 7th consecutive damage flag, pre-committed replacement mandate) with COST (mom=+7.77%, 3m=+14.97%, above BOTH MA50=986.71 and MA200=946.33, dd63=-5.18%, vol20=15.17% — lowest volatility in candidate pool, defensive consumer staples, tariff-resilient domestic business model). Change 2: TRIM TSM 10%→8% (1m=-8.18%, below MA50, tariff/geopolitical binary risk materializing today; proceeds +2% to XOM reinforcing #1 momentum holding). Change 3: TRIM SLV 2%→2% — HOLD at floor (1w=+8.25% partial recovery, MA200 buffer intact at +29.8%; elimination would incur 40bps slippage on thin recovery; monitor at floor). Net: 2 active changes, within 3-change cap. Final: XOM=24%, CVX=18%, KLAC=10%, LMT=10%, TSM=8%, GLD=22%, COST=6%, SLV=2%. Total=100%."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "GOOGL",
+      "why": "3m=-8.23%, 1m=-6.12%, below MA50=311.42 (close=287.56, gap=-7.7%), dd63=-20.37% — 7th consecutive session with active damage flags; pre-committed replacement mandate triggered. Annual EPS 2026=$11.58 confirms quality but does not offset momentum destruction. DOJ antitrust overhang persists. Replaced with COST."
+    },
+    {
+      "ticker": "SLV",
+      "why": "1m=-16.46%, dd63=-42.45%, vol20=58.73%, below MA50=76.17 by -10.5% — 7-day aggregate damage count=5. Structural 12m=+119.81% and MA200 buffer=+29.8% (68.14 vs 52.50) prevent kill-switch, but risk-adjusted case for holding above minimum floor is marginal. Held at 2% minimum; full elimination deferred given 1w=+8.25% partial recovery signal."
+    },
+    {
+      "ticker": "TSM",
+      "why": "1m=-8.18%, below MA50=346.99 (close=337.95, gap=-2.6%), dd63=-18.14%, vol20=47.85% — tariff binary risk materializes today (April 2 Liberation Day). Above MA200=287.65 with +17.5% buffer prevents kill-switch but 1m deterioration and geopolitical concentration risk justify size reduction 10%→8%."
+    },
+    {
+      "ticker": "LMT",
+      "why": "1m=-10.69%, below MA50=631.07 (close=604.39, gap=-4.2%), dd63=-11.55% — defense rearmament thesis structurally intact (3m=+24.28%, 12m=+40.64%, above MA200=506.71) but 1m drawdown is the largest single-month decline in this run series. Monitor for MA50 recovery vs continued deterioration; COST evaluated as potential replacement if LMT fails MA50 at next checkpoint."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "GOOGL",
+      "add_ticker": "COST",
+      "size_change_pct": 6
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "TSM",
+      "add_ticker": "XOM",
+      "size_change_pct": 2
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "GOOGL",
+    "add_ticker": "COST",
+    "size_change_pct": 6,
+    "thesis": [
+      "CATALYST: GOOGL replacement mandate triggered after 7 consecutive sessions of active damage flags — 3m=-8.23%, 1m=-6.12%, dd63=-20.37%, below MA50 by -7.7%. This is not a valuation call; it is a pure momentum and regime-fit execution. The DOJ antitrust overhang (search remedies trial ongoing) creates a structural ceiling on multiple expansion precisely when the risk-off regime demands capital protection. GOOGL 2026 EPS=$11.58 is intact but does not offset the technical damage; the position is consuming risk budget without delivering momentum alpha.",
+      "FACTOR EDGE: COST scores highest among eligible replacement candidates on risk-adjusted quality+momentum composite. Momentum composite=+7.77% (above-zero in a risk-off regime where 60%+ of candidates are negative), 3m=+14.97% (strongest 3m among all positive-momentum non-energy candidates), above BOTH MA50=986.71 and MA200=946.33 — the only non-commodity holding in the universe simultaneously above both MAs in current regime. Vol20=15.17% is the lowest in the entire 30-symbol candidate pool — 50% lower than GOOGL's 31.39%. dd63=-5.18% matches CVX as the tightest drawdown among non-commodity holdings. Consumer staples/warehouse retail is structurally tariff-resilient: COST's domestic membership-fee business model has near-zero direct tariff pass-through risk and historically maintains traffic in consumer stress environments.",
+      "VARIANT VIEW: Consensus view is that COST is 'expensive' on P/E. The variant here is that in a RISK-OFF/tariff-shock regime, low-volatility defensive quality outperforms on a risk-adjusted basis regardless of absolute valuation; COST's vol premium is justified by its sector leadership, membership moat, and historically sticky revenue. The 3m=+14.97% momentum with both-MA confirmation in a market where SPY is below both MAs represents true relative strength — exactly what Quality+Momentum strategy is designed to capture."
+    ],
+    "risks": [
+      "MACRO: April 2 tariff announcement could include unexpected consumer goods tariffs that raise COST's merchandise import costs (COST sources ~30% of merchandise internationally). A severe blanket tariff regime (>25% on consumer goods) could compress margins if COST cannot pass through costs at speed. Broader recession scenario (10%+ GDP contraction) would reduce discretionary COST spending despite membership loyalty. SPY below MA200 regime persistence beyond 30 days would indicate macro deterioration that pressures even defensive consumer names.",
+      "IDIOSYNCRATIC: COST next earnings release is expected ~June 2026 — no near-term binary catalyst to de-risk entry. Momentum composite=+7.77% is the lowest of any portfolio addition considered this cycle; the edge above zero is real but not wide. If COST breaks below MA50=986.71 within the next 14 days on tariff shock, thesis is damaged and replacement re-evaluation is triggered. GOOGL could rally sharply on any DOJ settlement news or if AI monetization accelerates faster than expected — opportunity cost of replacement.",
+      "EXECUTION/LIQUIDITY: COST is highly liquid ($80B+ market cap, tight bid-ask); no execution risk on 6% position at paper-fund scale. GOOGL exit at 6% weight incurs standard 10-15bps round-trip slippage. COST entry at $996.43 is near all-time highs relative to peer group — risk of momentum mean-reversion if market snaps back risk-on; however, both-MA confirmation reduces false-positive risk."
+    ],
+    "falsifiable_checks": [
+      "COST must hold above MA50=986.71 within 14 calendar days of entry (by 2026-04-15); breach triggers immediate replacement re-evaluation. COST 3m momentum must remain positive (>0%) at next rebalance checkpoint (~2026-04-08); if 3m turns negative while SPY recovers above MA200, exit in favor of higher-momentum candidate.",
+      "GOOGL replacement is validated if COST outperforms GOOGL on a 30-day forward return basis (i.e., COST return > GOOGL return over 2026-04-01 to 2026-05-01). If GOOGL rallies >15% on DOJ resolution AND recovers above MA50=311.42 before 2026-04-15, flag for re-entry evaluation at next rebalance. XOM must maintain 3m momentum >+30% at next checkpoint to justify increased weight; if XOM 3m falls below +25%, trim proceeds redirected to GLD instead."
+    ],
+    "why_now": "Base case (65%): April 2 tariff binary creates acute risk-off pressure on tech/ADR names; GOOGL's existing technical damage (below MA50 by -7.7%) makes it the highest-probability further-underperformer in a tariff escalation scenario. COST as consumer staples/warehouse retail is the most tariff-insulated equity in the candidate pool with confirmed momentum above both MAs. Replacing GOOGL with COST TODAY captures maximum defensive rebalance benefit BEFORE the tariff binary resolves, rather than reacting after. Bull case (20%): Tariff announcement is milder than feared; COST membership demand accelerates as consumers trade-down to value retail; COST 3m momentum=+14.97% accelerates to +20%+ in next 30 days as growth/quality rotation begins. Bear case (15%): Tariff shock is severe enough to hit consumer spending broadly; COST falls with market but underperforms energy/metals. In this scenario, however, COST would still outperform GOOGL (tech/ad-spend most sensitive to consumer and enterprise budget cuts in recession). Expected edge clears 20-30bps round-trip cost: COST vs GOOGL momentum differential is +14.97% vs -8.23% on 3m basis = 23.2pp spread; even discounting by 50% for regime noise and execution, the 11.6pp expected outperformance over 30 days vastly exceeds 20-30bps slippage drag."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "XOM",
+      "weight_pct": 24,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 18,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 10,
+      "sector": "Defense"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 8,
+      "sector": "Technology"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 22,
+      "sector": "Commodities"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 6,
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 2,
+      "sector": "Commodities"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (0-100): XOM=87 (mom=37.9%, both MAs, dd=-5.5%, EPS 2026=$8.28→2027=$9.19, quality A); CVX=84 (mom=28.3%, both MAs, dd=-5.3%, lowest vol among energy names, quality A); KLAC=79 (mom=42.98% #1 composite, above MA200, 12m=+120%, EPS ramp intact, penalized for vol=54.6% and dd=-22.4%); GLD=72 (mom=17.3%, above MA200 buffer +13.9% restored, 12m=+51.5%, structural de-dollarization bid; penalized for 1m=-12.2% and vol=35.5%); COST=68 (3m=+14.97%, both MAs, vol=15.17% lowest in pool, dd=-5.18%, tariff-resilient; penalized for low composite mom=+7.77%); TSM=65 (mom=33.96%, above MA200 +17.5%, EPS 2026=$14.34→2027=$17.63 +23% growth; penalized for 1m=-8.18%, below MA50, tariff binary today); LMT=62 (mom=19.67%, above MA200, 3m=+24.28%, NATO rearmament intact; penalized for 1m=-10.69%, below MA50); SLV=41 (mom=41.73% #2 composite, 12m=+119.8%, above MA200; severely penalized for dd63=-42.45%, vol=58.7%, held at 2% floor only). | RISK BUDGET: Energy sector=XOM(24%)+CVX(18%)=42% — within 80% max; Technology=KLAC(10%)+TSM(8%)=18%; Commodities=GLD(22%)+SLV(2%)=24%; Defense=LMT(10%); Consumer Staples=COST(6%). Max position=XOM=24% (<40% max). Crypto=0% (<10% max). Total=100% confirmed. | SCENARIO STRESS: Equity index shock (-10% SPY): Energy outperforms (XOM/CVX historically +5-8% in oil-demand scenarios), GLD +3-5%, COST -2%; portfolio loss ~-2.5% vs benchmark -10%. Rates shock (+50bps): TLT collapses further, GLD mildly pressured (-3%), energy neutral; portfolio ~-1.5%. Commodity shock (oil -20%): XOM/CVX -12-15%, GLD/SLV +5%; net ~-7.5% — primary tail risk. USD shock (+5%): TSM ADR -5%, GLD -3%, energy mixed; ~-2.0%. April 2 tariff escalation: TSM most exposed (8%, sized down for this reason), COST most insulated; net portfolio ~-4% in severe scenario vs SPY -10%. | EXECUTION PLAN: Change 1 — GOOGL exit 6% weight (single lot, limit order at mid; $287.56 close, highly liquid); COST entry 6% weight at $996.43. Change 2 — TSM trim 10%→8% (sell 2% weight, limit order at mid; $337.95 close); XOM add +2% weight at $169.66. Total estimated slippage: 25-35bps round-trip on $8% turnover. Staged execution preferred: execute GOOGL/COST first (pre-tariff announcement if possible), TSM/XOM second. | MONITORING/KILL-SWITCHES: (1) COST must hold MA50=986.71 by 2026-04-15 — breach triggers re-evaluation; (2) XOM must maintain 3m>+30% at next checkpoint; (3) GLD MA200 buffer must remain >+10% ($430.29 vs $377.76 = +13.9% today — healthy); (4) TSM MA200 breach ($287.65) triggers immediate exit; (5) LMT MA200 breach ($506.71) triggers exit; (6) SLV MA200 breach ($52.50) triggers elimination of 2% floor position; (7) If SPY recovers above MA200=658.41 and holds for 3 sessions, risk-on regime upgrade evaluation — consider adding growth/momentum names at next rebalance."
+  }
+}
