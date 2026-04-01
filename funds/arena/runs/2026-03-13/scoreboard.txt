@@ -1,7 +1,7 @@
 Fund Arena Scoreboard (2026-03-13)
 
-As of: 2026-03-12 close
+As of: 2026-03-13 close
 
-1. Fund A (OpenAI) - On track | Replaced META -> KLAC | Perf -0.44% vs S&P 500 -2.23% (excess +1.79%)
-2. Fund B (Anthropic) - On track | No changes | Perf -2.57% vs S&P 500 -3.74% (excess +1.17%)
-3. Fund C (xAI) - On track | No changes | Perf -1.35% vs S&P 500 -2.23% (excess +0.88%)
+1. Fund B (Anthropic) - On track | No changes | Perf -0.97% vs S&P 500 -2.79% (excess +1.82%)
+2. Fund A (OpenAI) - On track | Replaced META -> KLAC | Perf -1.44% vs S&P 500 -2.79% (excess +1.35%)
+3. Fund C (xAI) - On track | No changes | Perf -2.58% vs S&P 500 -2.79% (excess +0.21%)

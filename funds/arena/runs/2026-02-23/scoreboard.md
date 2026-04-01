@@ -6,11 +6,11 @@
 
 ## Indices
 - As of: 2026-02-23 close
-- S&P 500: -1.38%
-- Nasdaq 100: -1.91%
-- MSCI ACWI: -0.98%
-- Gold: +2.92%
-- Bitcoin: -3.59%
+- S&P 500: +0.16%
+- Nasdaq 100: +0.13%
+- MSCI ACWI: +0.42%
+- Gold: +6.62%
+- Bitcoin: -2.42%
 
 ## Lanes
 - fund-a/openai: On track - since 2026-02-13: +0.88% vs S&P 500 +0.16% (excess +0.72%) as of 2026-02-23

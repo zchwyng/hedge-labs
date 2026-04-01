@@ -15,17 +15,17 @@
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
-      "inception_date": "2026-02-12",
+      "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-03-30",
-      "asof_price_date": "2026-03-27",
-      "fund_return_pct": -5.45,
-      "benchmark_return_pct": -8.11,
-      "excess_return_pct": 2.66,
+      "asof_price_date": "2026-03-30",
+      "fund_return_pct": -4.5,
+      "benchmark_return_pct": -6.98,
+      "excess_return_pct": 2.48,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-b/runs/2026-03-30/anthropic",
       "rank": 1,
-      "ranking_score": 2.66
+      "ranking_score": 2.48
     },
     {
       "fund_id": "fund-c",
@@ -43,15 +43,15 @@
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-03-30",
-      "asof_price_date": "2026-03-27",
-      "fund_return_pct": -5.08,
-      "benchmark_return_pct": -6.67,
-      "excess_return_pct": 1.59,
+      "asof_price_date": "2026-03-30",
+      "fund_return_pct": -6.57,
+      "benchmark_return_pct": -6.98,
+      "excess_return_pct": 0.41,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-c/runs/2026-03-30/xai",
       "rank": 2,
-      "ranking_score": 1.59
+      "ranking_score": 0.41
     },
     {
       "fund_id": "fund-a",
@@ -69,10 +69,10 @@
       "performance_method": "nav_since_start",
       "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-03-25",
-      "asof_price_date": "2026-03-27",
-      "fund_return_pct": -6.22,
-      "benchmark_return_pct": -6.67,
-      "excess_return_pct": 0.45,
+      "asof_price_date": "2026-03-30",
+      "fund_return_pct": -7.57,
+      "benchmark_return_pct": -6.98,
+      "excess_return_pct": -0.59,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-a/runs/2026-03-30/openai",
@@ -81,38 +81,38 @@
     }
   ],
   "indices": {
-    "start_date": "2026-02-12",
+    "start_date": "2026-02-13",
     "end_date": "2026-03-30",
-    "asof_price_date": "2026-03-27",
+    "asof_price_date": "2026-03-30",
     "items": [
       {
         "ticker": "SPY",
         "name": "S&P 500",
-        "return_pct": -8.11,
-        "asof_price_date": "2026-03-27"
+        "return_pct": -6.98,
+        "asof_price_date": "2026-03-30"
       },
       {
         "ticker": "QQQ",
         "name": "Nasdaq 100",
-        "return_pct": -8.24,
-        "asof_price_date": "2026-03-27"
+        "return_pct": -6.94,
+        "asof_price_date": "2026-03-30"
       },
       {
         "ticker": "ACWI",
         "name": "MSCI ACWI",
-        "return_pct": -8.91,
-        "asof_price_date": "2026-03-27"
+        "return_pct": -7.87,
+        "asof_price_date": "2026-03-30"
       },
       {
         "ticker": "GLD",
         "name": "Gold",
-        "return_pct": -11.32,
-        "asof_price_date": "2026-03-27"
+        "return_pct": -8.15,
+        "asof_price_date": "2026-03-30"
       },
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 0.39,
+        "return_pct": 0.71,
         "asof_price_date": "2026-03-30"
       }
     ]

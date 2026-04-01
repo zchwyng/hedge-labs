@@ -15,17 +15,17 @@
       "benchmark_ticker": "SPY",
       "benchmark_name": "S&P 500",
       "performance_method": "nav_since_start",
-      "inception_date": "2026-02-12",
+      "inception_date": "2026-02-13",
       "asof_portfolio_date": "2026-02-22",
       "asof_price_date": "2026-02-20",
-      "fund_return_pct": -0.7,
-      "benchmark_return_pct": -0.37,
-      "excess_return_pct": -0.33,
+      "fund_return_pct": 1.32,
+      "benchmark_return_pct": 1.2,
+      "excess_return_pct": 0.12,
       "performance_coverage_pct": 100,
       "benchmark_coverage_pct": 100,
       "run_path": "funds/fund-b/runs/2026-02-22/anthropic",
       "rank": 1,
-      "ranking_score": -0.33
+      "ranking_score": 0.12
     },
     {
       "fund_id": "fund-a",
@@ -81,38 +81,38 @@
     }
   ],
   "indices": {
-    "start_date": "2026-02-12",
+    "start_date": "2026-02-13",
     "end_date": "2026-02-22",
     "asof_price_date": "2026-02-20",
     "items": [
       {
         "ticker": "SPY",
         "name": "S&P 500",
-        "return_pct": -0.37,
+        "return_pct": 1.2,
         "asof_price_date": "2026-02-20"
       },
       {
         "ticker": "QQQ",
         "name": "Nasdaq 100",
-        "return_pct": -0.7,
+        "return_pct": 1.36,
         "asof_price_date": "2026-02-20"
       },
       {
         "ticker": "ACWI",
         "name": "MSCI ACWI",
-        "return_pct": -0.05,
+        "return_pct": 1.36,
         "asof_price_date": "2026-02-20"
       },
       {
         "ticker": "GLD",
         "name": "Gold",
-        "return_pct": 0.21,
+        "return_pct": 3.82,
         "asof_price_date": "2026-02-20"
       },
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
-        "return_pct": 1.53,
+        "return_pct": 2.17,
         "asof_price_date": "2026-02-22"
       }
     ]

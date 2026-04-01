@@ -13,15 +13,15 @@
 - Bitcoin: -1.15%
 
 ## Lanes
-- fund-b/anthropic: On track - since 2026-02-12: -2% vs S&P 500 -1.54% (excess -0.46%) as of 2026-02-12
 - fund-a/openai: Issue
+- fund-b/anthropic: Issue
 - fund-c/xai: Issue
 
 ## Actions
-- fund-b/anthropic: Added XOM
 - fund-a/openai: No run
+- fund-b/anthropic: No run
 - fund-c/xai: No run
 
 ## Notes
-- Ranking: Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception.
+- Ranking: No successful lanes to rank.
 - Data: Need at least two successful lanes to compute overlap/turnover metrics.

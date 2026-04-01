@@ -5,17 +5,17 @@
 - Est. turnover: 33%
 
 ## Indices
-- As of: 2026-03-30 close
-- S&P 500: -8.42%
-- Nasdaq 100: -8.94%
-- MSCI ACWI: -9.15%
-- Gold: -11.34%
-- Bitcoin: +0.61%
+- As of: 2026-03-31 close
+- S&P 500: -4.28%
+- Nasdaq 100: -3.78%
+- MSCI ACWI: -5%
+- Gold: -4.67%
+- Bitcoin: +3.04%
 
 ## Lanes
-- fund-b/anthropic: On track - since 2026-02-12: -6.4% vs S&P 500 -8.42% (excess +2.02%) as of 2026-03-30
-- fund-c/xai: On track - since 2026-02-13: -6.57% vs S&P 500 -6.98% (excess +0.41%) as of 2026-03-30
-- fund-a/openai: On track - since 2026-02-13: -7.57% vs S&P 500 -6.98% (excess -0.59%) as of 2026-03-30
+- fund-b/anthropic: On track - since 2026-02-13: -2.44% vs S&P 500 -4.28% (excess +1.84%) as of 2026-03-31
+- fund-c/xai: On track - since 2026-02-13: -3.05% vs S&P 500 -4.28% (excess +1.23%) as of 2026-03-31
+- fund-a/openai: On track - since 2026-02-13: -3.84% vs S&P 500 -4.28% (excess +0.44%) as of 2026-03-31
 
 ## Actions
 - fund-b/anthropic: No changes

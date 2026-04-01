@@ -6,14 +6,14 @@
 
 ## Indices
 - As of: 2026-02-20 close
-- S&P 500: -0.37%
-- Nasdaq 100: -0.7%
-- MSCI ACWI: -0.05%
-- Gold: +0.21%
-- Bitcoin: +1.28%
+- S&P 500: +1.2%
+- Nasdaq 100: +1.36%
+- MSCI ACWI: +1.36%
+- Gold: +3.82%
+- Bitcoin: +2.69%
 
 ## Lanes
-- fund-b/anthropic: On track - since 2026-02-12: -0.83% vs S&P 500 -0.37% (excess -0.46%) as of 2026-02-20
+- fund-b/anthropic: On track - since 2026-02-13: +1.32% vs S&P 500 +1.2% (excess +0.12%) as of 2026-02-20
 - fund-a/openai: On track - since 2026-02-13: +0.5% vs S&P 500 +1.2% (excess -0.7%) as of 2026-02-20
 - fund-c/xai: On track - since 2026-02-13: -0.57% vs S&P 500 +1.2% (excess -1.77%) as of 2026-02-20
 

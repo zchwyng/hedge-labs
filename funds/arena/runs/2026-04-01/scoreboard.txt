@@ -2,6 +2,6 @@ Fund Arena Scoreboard (2026-04-01)
 
 As of: 2026-03-31 close
 
-1. Fund B (Anthropic) - On track | Replaced GOOGL -> COST | Perf -4.39% vs S&P 500 -5.76% (excess +1.37%)
+1. Fund B (Anthropic) - On track | Replaced GOOGL -> COST | Perf -2.44% vs S&P 500 -4.28% (excess +1.84%)
 2. Fund C (xAI) - On track | Replaced NVDA -> GOOGL | Perf -3.05% vs S&P 500 -4.28% (excess +1.23%)
 3. Fund A (OpenAI) - Issue | No run | Perf -

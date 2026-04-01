@@ -5,12 +5,12 @@
 - Est. turnover: 0%
 
 ## Indices
-- As of: 2026-02-23 close
-- S&P 500: -1.38%
-- Nasdaq 100: -1.91%
-- MSCI ACWI: -0.98%
-- Gold: +2.92%
-- Bitcoin: -5.62%
+- As of: 2026-02-24 close
+- S&P 500: +0.89%
+- Nasdaq 100: +1.2%
+- MSCI ACWI: +1.15%
+- Gold: +5.14%
+- Bitcoin: -3.23%
 
 ## Lanes
 - fund-b/anthropic: Issue

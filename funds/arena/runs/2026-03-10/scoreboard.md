@@ -5,15 +5,15 @@
 - Est. turnover: 0%
 
 ## Indices
-- As of: 2026-03-09 close
-- S&P 500: -1.98%
-- Nasdaq 100: -0.87%
-- MSCI ACWI: -3.15%
-- Gold: +1.05%
-- Bitcoin: +4.68%
+- As of: 2026-03-10 close
+- S&P 500: -0.6%
+- Nasdaq 100: +1.19%
+- MSCI ACWI: -1.79%
+- Gold: +5.86%
+- Bitcoin: +5.59%
 
 ## Lanes
-- fund-c/xai: On track - since 2026-02-13: +0.56% vs S&P 500 -0.44% (excess +1%) as of 2026-03-09
+- fund-c/xai: On track - since 2026-02-13: -0.1% vs S&P 500 -0.6% (excess +0.5%) as of 2026-03-10
 - fund-a/openai: Issue
 - fund-b/anthropic: Issue
 
