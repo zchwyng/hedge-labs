@@ -1,0 +1,129 @@
+{
+  "run_date": "2026-04-01",
+  "lanes": [
+    {
+      "fund_id": "fund-b",
+      "provider": "anthropic",
+      "status": "success",
+      "action": "Replace",
+      "add_ticker": "COST",
+      "remove_ticker": "GOOGL",
+      "size_change_pct": 6,
+      "constraints_ok": true,
+      "rebalance_actions_count": 2,
+      "rebalance_actions_preview": "Replace GOOGL->COST, Trim TSM->XOM",
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-12",
+      "asof_portfolio_date": "2026-04-01",
+      "asof_price_date": "2026-03-31",
+      "fund_return_pct": -4.39,
+      "benchmark_return_pct": -5.76,
+      "excess_return_pct": 1.37,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-b/runs/2026-04-01/anthropic",
+      "rank": 1,
+      "ranking_score": 1.37
+    },
+    {
+      "fund_id": "fund-c",
+      "provider": "xai",
+      "status": "success",
+      "action": "Replace",
+      "add_ticker": "GOOGL",
+      "remove_ticker": "NVDA",
+      "size_change_pct": 0,
+      "constraints_ok": true,
+      "rebalance_actions_count": 1,
+      "rebalance_actions_preview": "Replace NVDA->GOOGL",
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-13",
+      "asof_portfolio_date": "2026-04-01",
+      "asof_price_date": "2026-03-31",
+      "fund_return_pct": -3.05,
+      "benchmark_return_pct": -4.28,
+      "excess_return_pct": 1.23,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-c/runs/2026-04-01/xai",
+      "rank": 2,
+      "ranking_score": 1.23
+    },
+    {
+      "fund_id": "fund-a",
+      "provider": "openai",
+      "status": "failed",
+      "action": "UNKNOWN",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
+      "constraints_ok": false,
+      "rebalance_actions_count": 0,
+      "rebalance_actions_preview": null,
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-13",
+      "asof_portfolio_date": "2026-03-31",
+      "asof_price_date": "2026-03-31",
+      "fund_return_pct": -3.84,
+      "benchmark_return_pct": -4.28,
+      "excess_return_pct": 0.44,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-a/runs/2026-04-01/openai",
+      "rank": 3,
+      "ranking_score": null
+    }
+  ],
+  "indices": {
+    "start_date": "2026-02-12",
+    "end_date": "2026-04-01",
+    "asof_price_date": "2026-03-31",
+    "items": [
+      {
+        "ticker": "SPY",
+        "name": "S&P 500",
+        "return_pct": -5.76,
+        "asof_price_date": "2026-03-31"
+      },
+      {
+        "ticker": "QQQ",
+        "name": "Nasdaq 100",
+        "return_pct": -5.74,
+        "asof_price_date": "2026-03-31"
+      },
+      {
+        "ticker": "ACWI",
+        "name": "MSCI ACWI",
+        "return_pct": -6.32,
+        "asof_price_date": "2026-03-31"
+      },
+      {
+        "ticker": "GLD",
+        "name": "Gold",
+        "return_pct": -7.98,
+        "asof_price_date": "2026-03-31"
+      },
+      {
+        "ticker": "BTC-USD",
+        "name": "Bitcoin",
+        "return_pct": 3.17,
+        "asof_price_date": "2026-04-01"
+      }
+    ]
+  },
+  "ranking": {
+    "method": "independent_performance",
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
+  },
+  "comparison": {
+    "portfolio_overlap_pct": 77.78,
+    "turnover_estimate_pct": 35,
+    "notes": "Computed from first two successful lanes: funds/fund-b/runs/2026-04-01/anthropic/dexter_output.json vs funds/fund-c/runs/2026-04-01/xai/dexter_output.json."
+  }
+}

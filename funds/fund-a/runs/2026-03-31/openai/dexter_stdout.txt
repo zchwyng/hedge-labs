@@ -1,0 +1,103 @@
+dexter_info: model=gpt-5.2 iterations=2 tool_calls=1
+{
+  "run_date": "2026-03-31",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime (arena_input_pack): risk-off / fragile. SPY 1m=-7.62% and QQQ 1m=-8.07%, both MA50=false and MA200=false → weak tape support for adding high-beta exposure over the next ~30d.",
+    "Leadership/breadth: narrow leadership in Energy and select idiosyncratic winners (XOM mom=+39.09%; CVX mom=+30.28%) while most growth/tech sleeves are in 1m drawdowns (e.g., TSM 1m=-15.27%, GOOGL 1m=-12.21%). Real-assets hedge (GLD) is in a sharp 1m pullback (1m=-14.30%) despite positive longer-run trend (MA200=true).",
+    "Go/No-go: GO for a small, turnover-efficient rebalance (<=3 changes) focused on regime-fit and momentum durability: keep the strongest trend (XOM/KLAC), reduce crowded beta where the tape is broken, and add a higher-scoring replacement from the pack momentum leaders (CVX)."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "GLD",
+      "why": "Pack shows sharp 1m drawdown (-14.30%) with MA50=false (trend break near-term). Diversifier role is impaired short-horizon; keep but monitor closely because MA200=true still supports longer-run uptrend."
+    },
+    {
+      "ticker": "TSM",
+      "why": "Pack momentum remains positive (mom=+24.10%) but near-term drawdown is severe (1m=-15.27%, dd63=-18.14%, vol20=43.15%) in a risk-off regime (SPY/QQQ below MA200), raising timing/volatility risk over the next 30d."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Quality is strong but valuation/leverage look stretched for this tape: P/E ~62.9, EV/EBITDA ~43.4, debt-to-equity ~1.13 (tool), while pack 1m=-8.18% and 3m=-16.68% indicate weak near-term momentum."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "GLD",
+      "add_ticker": "CVX",
+      "size_change_pct": 14
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "GLD",
+    "add_ticker": "CVX",
+    "size_change_pct": 14,
+    "thesis": [
+      "Catalyst (next 30d): energy leadership persists while equities are risk-off; CVX is a top pack momentum name (mom=+30.28%, 3m=+41.83%) and fits the current narrow-leadership regime better than GLD, which is in a 1m drawdown (-14.30%).",
+      "Factor edge: momentum + regime-fit upgrade. CVX aligns with the pack’s strongest sleeve (Energy) and should be less sensitive than semis to multiple compression when SPY/QQQ are below MA200.",
+      "Variant view: instead of treating gold as the sole ballast, lean into the market’s actual leadership (Energy) until the index trend repairs; re-add/resize diversifiers once GLD’s near-term trend stabilizes (MA50 reclaim / 1m drawdown abates)."
+    ],
+    "risks": [
+      "Macro: oil/gas price reversal or risk-on pivot could unwind Energy leadership quickly; if SPY/QQQ snap back above MA50, cyclicals can rotate violently.",
+      "Idiosyncratic: CVX earnings/cash-flow sensitivity to commodity prices; policy/geopolitical shocks can gap energy equities.",
+      "Execution/liquidity: low (large-cap), but sector correlation risk rises with combined Energy exposure (XOM+CVX)."
+    ],
+    "falsifiable_checks": [
+      "Momentum failure: if CVX 30d return (pack 1m proxy) turns <= 0% at the next weekly checkpoint while SPY remains MA200=false, treat as leadership break and reconsider the Energy add.",
+      "Diversifier re-underwrite: if GLD remains MA50=false AND its 1m drawdown is <= -10% at next checkpoint, keep GLD out (or small) until stabilization; if GLD flips MA50=true, re-evaluate adding back as ballast."
+    ],
+    "why_now": "Base: SPY/QQQ are trend-broken (MA50/MA200 false) and leadership is narrow; swapping GLD (1m=-14.30%, MA50=false) into CVX (mom=+30.28%) improves expected 30d factor capture with one clean trade and limited turnover drag. Bull: Energy leadership extends → CVX participates alongside XOM. Bear: if commodities roll over, the trade underperforms, but position sizing stays moderate (14%) and the portfolio keeps multiple non-Energy sleeves to contain drawdown."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 14,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: Scores (qual+pack, 0-100, coarse): XOM highest (mom 39.09, dd63 -5.48, reasonable val P/E~17.6); KLAC high (mom 32.05, quality OM~43% but dd63 -22.41/vol high); CVX high momentum add (mom 30.28; valuation fields partly UNKNOWN/erratic in tool); NVDA/TSM high quality but regime-beta risk (SPY/QQQ below MA200). Risk budget: Energy 29%, IT 50%, CommSvc 14%, Industrials 7% (sector max 80% ok). Scenario stress (quick): Equity index shock hurts IT sleeve most; Rates shock = multiple compression risk (NVDA/AVGO/KLAC); Commodity shock down hurts XOM/CVX; USD shock mixed. Execution: single replace GLD->CVX, one-day implementation. Monitoring/kill-switch: if SPY MA200 remains false and combined IT dd63 worsens > -25% (pack) consider trimming beta; if Energy momentum rolls (XOM/CVX 1m <=0) reduce sector and rebuild diversifier sleeve; avoid adding crypto while BTC mom=-23.65% (pack)."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
