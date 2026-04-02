@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-01T12:50:06Z",
+  "generated_at": "2026-04-02T06:51:29Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
-      "model": "gpt-5.2",
+      "model": "gpt-5.4",
       "name": "Quality + Momentum (Monthly-hold)",
       "benchmark": {
         "name": "S&P 500",
@@ -25,7 +25,7 @@
     },
     "fund-c": {
       "provider": "xai",
-      "model": "grok-4-1-fast-reasoning",
+      "model": "grok-4.20-reasoning",
       "name": "Quality + Momentum (Monthly-hold)",
       "benchmark": {
         "name": "S&P 500",
@@ -3404,12 +3404,12 @@
           "provider": "anthropic",
           "status": "success",
           "action": "Replace",
-          "fund_return_pct": -2.44,
-          "benchmark_return_pct": -4.28,
-          "excess_return_pct": 1.84,
+          "fund_return_pct": -3.16,
+          "benchmark_return_pct": -3.56,
+          "excess_return_pct": 0.4,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-31",
+          "asof_price_date": "2026-04-01",
           "add_ticker": "COST",
           "remove_ticker": "GOOGL",
           "rebalance_actions_preview": "Replace GOOGL->COST, Trim TSM->XOM"
@@ -3419,12 +3419,12 @@
           "provider": "xai",
           "status": "success",
           "action": "Replace",
-          "fund_return_pct": -3.05,
-          "benchmark_return_pct": -4.28,
-          "excess_return_pct": 1.23,
+          "fund_return_pct": -2.93,
+          "benchmark_return_pct": -3.56,
+          "excess_return_pct": 0.63,
           "rank": 2,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-31",
+          "asof_price_date": "2026-04-01",
           "add_ticker": "GOOGL",
           "remove_ticker": "NVDA",
           "rebalance_actions_preview": "Replace NVDA->GOOGL"
@@ -3446,38 +3446,122 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-03-31",
+        "asof_price_date": "2026-04-01",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": -4.28
+            "return_pct": -3.56
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": -3.78
+            "return_pct": -2.6
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": -5
+            "return_pct": -4.11
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -4.67
+            "return_pct": -3.01
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 3.39
+            "return_pct": 2.8
           }
         ]
       },
       "comparison": {
         "portfolio_overlap_pct": 77.78,
         "turnover_estimate_pct": 35
+      }
+    },
+    {
+      "date": "2026-04-02",
+      "lanes": [
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": -3.16,
+          "benchmark_return_pct": -3.56,
+          "excess_return_pct": 0.4,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-01",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": -3.91,
+          "benchmark_return_pct": -3.56,
+          "excess_return_pct": -0.35,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-01",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": -2.93,
+          "benchmark_return_pct": -3.56,
+          "excess_return_pct": 0.63,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-01",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-04-01",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -3.56
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -2.6
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -4.11
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -3.01
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 0.57
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 45.45,
+        "turnover_estimate_pct": 46
       }
     }
   ],
@@ -3568,9 +3652,9 @@
     ],
     "fund-c": [
       {
-        "ticker": "GOOGL",
+        "ticker": "NVDA",
         "weight_pct": 15,
-        "sector": "Communication Services"
+        "sector": "Information Technology"
       },
       {
         "ticker": "TSM",
