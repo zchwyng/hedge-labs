@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-02T06:51:29Z",
+  "generated_at": "2026-04-03T06:51:23Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -3488,12 +3488,12 @@
           "provider": "anthropic",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": -3.16,
-          "benchmark_return_pct": -3.56,
-          "excess_return_pct": 0.4,
+          "fund_return_pct": -3.4,
+          "benchmark_return_pct": -3.47,
+          "excess_return_pct": 0.07,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-01",
+          "asof_price_date": "2026-04-02",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -3503,12 +3503,12 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": -3.91,
-          "benchmark_return_pct": -3.56,
-          "excess_return_pct": -0.35,
+          "fund_return_pct": -3.73,
+          "benchmark_return_pct": -3.47,
+          "excess_return_pct": -0.26,
           "rank": 2,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-01",
+          "asof_price_date": "2026-04-02",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -3530,38 +3530,122 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-04-01",
+        "asof_price_date": "2026-04-02",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": -3.56
+            "return_pct": -3.47
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": -2.6
+            "return_pct": -2.48
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": -4.11
+            "return_pct": -4.26
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -3.01
+            "return_pct": -4.87
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 0.57
+            "return_pct": 1.01
           }
         ]
       },
       "comparison": {
         "portfolio_overlap_pct": 45.45,
         "turnover_estimate_pct": 46
+      }
+    },
+    {
+      "date": "2026-04-03",
+      "lanes": [
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": -3.33,
+          "benchmark_return_pct": -3.47,
+          "excess_return_pct": 0.14,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-02",
+          "add_ticker": "AVGO",
+          "remove_ticker": "NVDA",
+          "rebalance_actions_preview": "Replace NVDA->AVGO"
+        },
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": -3.4,
+          "benchmark_return_pct": -3.47,
+          "excess_return_pct": 0.07,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-02",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": -3.73,
+          "benchmark_return_pct": -3.47,
+          "excess_return_pct": -0.26,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-02",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-04-02",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": -3.47
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": -2.48
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": -4.26
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -4.87
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 0.82
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 77.78,
+        "turnover_estimate_pct": 35
       }
     }
   ],
@@ -3652,7 +3736,7 @@
     ],
     "fund-c": [
       {
-        "ticker": "NVDA",
+        "ticker": "AVGO",
         "weight_pct": 15,
         "sector": "Information Technology"
       },
@@ -3682,13 +3766,13 @@
         "sector": "Energy"
       },
       {
-        "ticker": "SLV",
-        "weight_pct": 10,
+        "ticker": "GLD",
+        "weight_pct": 13,
         "sector": "Materials"
       },
       {
-        "ticker": "GLD",
-        "weight_pct": 13,
+        "ticker": "SLV",
+        "weight_pct": 10,
         "sector": "Materials"
       }
     ]
