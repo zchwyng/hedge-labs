@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-04-06",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime remains mixed-to-fragile/risk-off for the 30-day horizon: SPY 1m -4.01% and QQQ 1m -4.10%, both below MA50 and MA200, while IWM is still above MA200; leadership is narrow, not broad.",
+    "Current book is still regime-consistent: Energy remains the cleanest relative-strength pocket (XOM 1m +7.25%, CVX 1m +6.96%, both above MA50/MA200) and KLAC remains the top momentum name; several growth holdings have weaker near-term trend support.",
+    "No-go for rebalance today: cadence is not due, no severe verified thesis damage was identified in the limited qualitative refresh, and expected alpha from off-cycle turnover does not clearly clear trading-cost and regime-risk drag."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack trend remains mixed/weaker versus portfolio leaders: 1m -0.73%, 3m -8.93%, below MA50 and MA200. Fundamentals are still strong, but valuation is rich (P/E ~62.9, PEG ~8.3) and leverage is elevated (debt/equity ~1.13), so this remains a watchlist risk rather than a forced exit."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "No verified thesis-breaking qualitative shock in the refresh, but pack trend is still fragile: 1m -3.08%, 3m -4.88%, below MA50 and MA200. Fundamentals remain elite, so damage is technical/crowding-related rather than fundamental."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "No verified recent thesis-damaging news from the refresh. However, some key ratio fields were incomplete/abnormal in the latest pull, so parts of the fundamental snapshot are UNKNOWN. Trend is acceptable but not leadership-grade near term: 1m -2.36%, 3m -5.44%, below MA50 though above MA200."
+    },
+    {
+      "ticker": "XOM",
+      "why": "No verified severe damage in the refresh. Main watch item is fundamental cyclicality: trailing revenue growth -0.34% and earnings growth -3.70% even as price momentum remains strong; thesis depends on commodity support persisting."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: existing leadership remains concentrated in Energy and selective semicap exposure, and the qualitative refresh on NVDA/AVGO/GOOGL/XOM did not surface a verified thesis-break severe enough to justify an off-schedule change.",
+      "Factor edge: keeping XOM, CVX, and KLAC preserves exposure to the strongest pack-derived momentum and relative-strength profile while avoiding unnecessary turnover in a tape where SPY/QQQ remain below both major trend measures.",
+      "Variant view: rather than pre-emptively rotating into lagging large-cap growth or defensive substitutes, maintain the current paper book until the weekly rebalance window unless a holding shows clear guidance damage, regulatory shock, or a sharper trend break."
+    ],
+    "risks": [
+      "Macro: a rapid risk-on reversal, lower rates, or broader tech re-acceleration could make the current Energy-overweight and selective-growth stance lag over the next 30 days.",
+      "Idiosyncratic: XOM/CVX remain commodity-sensitive; KLAC/TSM/NVDA/AVGO carry semiconductor-cycle and high-volatility risk; GOOGL faces ongoing platform/regulatory overhang risk even without a fresh verified shock here.",
+      "Execution/liquidity: liquidity risk is low in these names; the main execution risk of doing nothing is opportunity cost if breadth expands before the next scheduled checkpoint."
+    ],
+    "falsifiable_checks": [
+      "At the next scheduled rebalance checkpoint, if XOM and CVX are no longer both positive on 1m returns or either falls below MA50 in the pack, reassess the Energy overweight.",
+      "Within the next 7 calendar days, if NVDA and AVGO both remain below MA50 and MA200 while KLAC loses its positive 1m return or drops below MA50, treat the semi sleeve as deteriorating and review for a replacement at the next allowed rebalance."
+    ],
+    "why_now": "Base: not a rebalance day, and the current portfolio still matches a narrow-leadership, fragile regime, so the expected benefit from trading today is modest. Bull: Energy and KLAC continue to hold the best trend structure while refreshed fundamentals on NVDA/AVGO/GOOGL/XOM do not show severe new damage. Bear: growth breadth broadens quickly and current laggards rebound, but that edge is not yet strong enough to justify off-cycle turnover; expected incremental alpha does not clearly exceed trading-cost drag."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 18,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 14,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 7,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=KLAC/XOM/CVX strongest momentum; NVDA/AVGO weaker near-term trend but still supported by strong quality metrics; GOOGL quality solid though some latest ratio fields UNKNOWN/abnormal; XOM quality lower than tech compounders but regime fit strong. Qual refresh: no verified thesis-breaking news in refreshed subset; NVDA op margin 65.6%, ROE 104.4%, rev growth 15.4%, earnings growth 21.0%, P/E 38.0; AVGO op margin 41.8%, ROE 32.9%, rev growth 6.9%, earnings growth 8.0%, P/E 62.9; GOOGL op margin UNKNOWN, net margin 32.8%, ROE 31.8%, debt/equity 0.12, several growth/P-E fields UNKNOWN; XOM op margin 12.3%, ROE 11.0%, rev growth -0.3%, earnings growth -3.7%, P/E 17.6. Risk budget: IT 50%, Energy 29%, Comm Svcs 14%, Industrials 7%; no single position >18%; no crypto. Scenario stress: equity growth shock hurts NVDA/AVGO/TSM/KLAC most; oil shock hits XOM/CVX; rates shock mixed with LMT partial ballast; concentration acceptable but leadership narrow. Execution plan: no trade today; preserve turnover efficiency until weekly checkpoint. Monitoring/kill-switch: review early if severe guidance cut, regulatory action, or if XOM/CVX lose positive 1m momentum; review semi sleeve if NVDA+AVGO remain below MA50/MA200 and KLAC trend deteriorates."
+  }
+}
