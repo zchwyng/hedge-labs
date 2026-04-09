@@ -1,0 +1,77 @@
+dexter_info: model=claude-sonnet-4-6 iterations=3 tool_calls=2
+{
+  "run_date": "2026-04-09",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: RISK-OFF/DEFENSIVE WITH STABILIZATION SIGNALS — SPY close=659.22, below MA50=673.84 and MA200=659.72 (gap to MA200 now only -0.08%, tightest in the run series; weekly bounce 1w=+4.31%). QQQ also below both MAs (1m=-1.74%, 3m=-4.64%) but 1w=+5.43%. IWM above MA200, small-cap stabilization note. TLT barely above MA200 (close=86.64 vs MA200=86.57) with mom=-0.94% — no meaningful bond flight-to-safety bid; stagflation/rates backdrop intact. GLD above MA200=380.15 with buffer=+13.6% — structural inflation hedge confirmed. BTC-USD mom=-16.59%, 3m=-2.60%, below MA200=$88,696 — crypto sleeve remains at zero. Portfolio weighted avg momentum ~+30% vs SPY=+4.43% — approximately +26pp alpha spread maintained. Regime stays RISK-OFF/DEFENSIVE; no upgrade warranted without SPY reclaiming MA200=659.72 decisively.",
+    "LEADERSHIP INTEGRITY CONFIRMED — KLAC leads at mom=55.57%, 1m=+15.20%, 3m=+14.67%, 12m=+151.38%, ABOVE BOTH MA50=1,475.99 and MA200=1,179.15 — pre-logged size-increase pre-condition fully met (3rd+ consecutive session confirmed); FY2026 EPS est=$36.55→FY2027=$47.26 (+29%), OM=43.3%, ROE=95.2%, ROIC=40.4%, quarterly EPS ramping Q3-FY2025=$8.21→Q2-FY2026=$8.73. XOM #2 at mom=34.45%, 1m=+8.40%, 3m=+31.62%, ABOVE BOTH MAs, dd63=-6.29% — cleanest risk/return profile; P/E=17.6x, FCF yield=4.65%, FY2026 EPS=$7.98. TSM #3 mom=37.65%, 3m=+7.46%, 12m=+122.14%, above MA200=290.25 but below MA50=348.10 — OM=54%, ROIC=46.7%, FY2026 EPS=$14.34→FY2027=$17.63 (+23%); tariff overhang still present. CVX mom=24.81%, ABOVE BOTH MAs, dd63=-6.51% — defensive ballast intact; Q4-2025 quarterly data strong. LMT mom=21.15%, 3m=+23.35%, 1m=-6.56%, BELOW MA50=634.49 but ABOVE MA200=509.92 — MA50 re-breach confirmed as pre-logged risk; FY2026 EPS=$29.87→FY2027=$32.21 (+7.8%), FCF growth=+50.4% YoY (FY2025-Q4), ROIC=17.2% — defense rearmament thesis intact despite short-term MA50 slip. GLD mom=17.08%, MA200 buffer=+13.6% — structural thesis intact. COST mom=8.43%, ABOVE BOTH MAs, vol20=12.87%, dd63=-5.18% — lowest volatility holding, tariff-resilient domestic model. SLV 1m=-13.17%, dd63=-42.45%, vol20=57.13%, below MA50 — persistent structural damage, elimination executed at this rebalance.",
+    "GO/NO-GO: REBALANCE EXECUTED — Active rebalance mandatory (missed 2026-04-08 window; 8 days since last checkpoint). Two changes executed: (1) SLV eliminated — dd63=-42.45% structural damage unresolved, 1m=-13.17%, below MA50, vol20=57.13%; (2) KLAC 10%→12% size increase funded by XOM 24%→22% trim (not SLV alone, preserving 8-name portfolio); AVGO added at 2% (above both MAs, mom=29.11%, semiconductor quality diversifier complementing KLAC). Sector exposures: Energy=40% (XOM+CVX), Tech=22% (KLAC+TSM+AVGO), Defense=10% (LMT), Commodities=22% (GLD), Consumer Staples=6% (COST) — all within limits. Max sector=Energy=40%, well below 80% cap. Crypto=0%, below 10% cap. Portfolio alpha spread vs SPY maintained at approximately +26pp."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "SLV",
+      "why": "ELIMINATED — dd63=-42.45% persistent across 7+ consecutive runs; 1m=-13.17%, below MA50=74.50; vol20=57.13% makes position risk-adjusted return negative at 2% floor. Pre-logged elimination threshold decisively breached. No recovery signal in recent data."
+    },
+    {
+      "ticker": "LMT",
+      "why": "MA50 re-breach confirmed — close=627.70 vs MA50=634.49 (-1.07%); pre-logged concern from prior runs materialized. 1m=-6.56% underperformance. Thesis structurally intact (3m=+23.35%, FY2026 EPS=$29.87, FCF growth=+50.4%), but below MA50 again after brief recovery on 2026-04-07. Monitoring continues; no elimination warranted given strong 3m/12m momentum and defense rearmament macro backdrop."
+    },
+    {
+      "ticker": "TSM",
+      "why": "Persistent below-MA50 status (close=345.32 vs MA50=348.10); tariff overhang on Taiwan semiconductor imports remains elevated. 3m=+7.46% positive but weaker than portfolio peers. Maintained at 8% given exceptional quality (ROIC=46.7%, OM=54%) and structural AI/semiconductor capex cycle support."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "SLV",
+      "add_ticker": "AVGO",
+      "size_change_pct": 2
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "XOM",
+      "add_ticker": "KLAC",
+      "size_change_pct": 2
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "SLV",
+    "add_ticker": "AVGO",
+    "size_change_pct": 2,
+    "thesis": [
+      "CATALYST: SLV elimination is forced by persistent structural damage (dd63=-42.45%, 1m=-13.17%, below MA50=74.50, vol20=57.13%). Silver's industrial demand exposure is uniquely vulnerable to tariff-driven global trade slowdown; unlike GLD which benefits from pure monetary/haven demand, SLV faces the double-negative of reduced industrial use and precious metals correction. The 2% floor position has been a drag and the pre-logged elimination thesis is now decisively confirmed across 8 consecutive run days.",
+      "FACTOR EDGE: AVGO (Broadcom) scores well on quality+momentum for a 2% tuck-in. Mom=29.11% (5th in universe), above BOTH MA50=324.35 and MA200=327.37 — one of few tech names maintaining dual-MA support in the current risk-off regime. 12m=+118.61% reflects structural AI/networking semiconductor cycle leadership. dd63=-17.08% is elevated but manageable at 2% sizing. AVGO complements KLAC by providing semiconductor exposure via networking/AI ASIC angle vs KLAC's process-control equipment thesis — low within-tech correlation.",
+      "VARIANT VIEW: Consensus is bearish on semiconductors due to tariff risk and AI capex uncertainty. AVGO's variant case is that hyperscaler AI ASIC demand (Google TPU, Meta, Amazon Trainium) is structurally committed spend even in a tariff environment — unlike commodity semis, custom silicon cannot be easily tariff-avoided or substituted. AVGO's custom ASIC contracts are multiyear with hyperscalers who have made public capex commitments for 2026. At 2% sizing, the risk/reward is asymmetric: modest upside from momentum continuation with limited portfolio impact on downside."
+    ],
+    "risks": [
+      "MACRO: Tariff escalation targeting semiconductor exports or imposing new restrictions on AVGO's China business (historical revenue ~20% China) could create a binary negative catalyst. A decisive SPY break below MA200=659.72 would signal entrenched bear market requiring further defensive repositioning, and AVGO would likely underperform in that scenario despite strong momentum. Oil demand destruction compressing XOM/CVX earnings remains a secondary macro risk to portfolio.",
+      "IDIOSYNCRATIC: AVGO Q1-FY2026 earnings report (expected late May/early June 2026) could disappoint if hyperscaler AI ASIC orders have been delayed. AVGO's recent 1w=+13.82% gain could mean short-term mean reversion risk — entering after a strong weekly bounce introduces timing risk. LMT below MA50 for second consecutive period — if DOGE-driven defense budget cuts materialize or F-35 program faces delays, the 10% LMT allocation creates meaningful downside. TSM tariff binary still unresolved.",
+      "EXECUTION/LIQUIDITY: SLV exit at 65.94 (highly liquid ETF, PCX listed) — estimated 10-15bps round-trip slippage on 2% portfolio weight. AVGO entry at 333.97 (NasdaqGS, large-cap, high daily volume) — estimated 5-10bps slippage. KLAC size increase from 10% to 12% at 1548.85 (NasdaqGS) — approximately 15-20bps slippage on 2% addition. Total estimated transaction cost: ~30-45bps round-trip across all three legs. This exceeds cost hurdle only marginally, but SLV elimination's risk reduction benefit clearly justifies the cost."
+    ],
+    "falsifiable_checks": [
+      "SLV elimination validated if SLV fails to reclaim MA50=74.50 within 14 days (next checkpoint ~2026-04-23); if SLV closes above 74.50 on sustained basis, this elimination would be pre-mature. AVGO add validated if AVGO maintains both MA50=324.35 and MA200=327.37 at next rebalance checkpoint (~2026-04-16); if AVGO closes below MA200=327.37, the add thesis is damaged and position should be reviewed for exit.",
+      "KLAC size increase validated if KLAC remains above MA50=1,475.99 for 3+ consecutive sessions after rebalance; if KLAC closes below MA50, reduce back to 10% and redirect 2% to GLD or COST. Portfolio thesis overall validated if weighted momentum spread vs SPY remains above +15pp at next weekly checkpoint (currently +26pp); below +15pp signals regime-driven factor rotation away from momentum."
+    ],
+    "why_now": "Base case (55%): Active rebalance is mandatory per policy (missed 2026-04-08 window, 8 days since last checkpoint). SLV elimination and KLAC increase were pre-logged over 4 consecutive non-rebalance days — the thesis has been thoroughly tested and all pre-conditions are met. AVGO add completes the 8-name roster at minimal weight with positive momentum confirmation. Expected edge: removal of SLV's -42.45% drawdown risk alone justifies the 30-45bps execution cost, as a single adverse SLV session at vol20=57% could move the position by 4-5%, exceeding the full round-trip cost. Bull case (30%): SPY stabilizes near MA200 (gap=-0.08%), weekly bounce 1w=+4.31% signals regime inflection; KLAC momentum acceleration continues into FY2026-Q3 earnings (next ~April/May 2026); AVGO hyperscaler AI ASIC demand confirmation drives tech re-rating. Bear case (15%): Tariff escalation deepens; SPY decisively breaks below MA200, oil demand falls materially compressing XOM/CVX; KLAC semiconductor order cuts emerge. In bear case, the SLV elimination still reduces portfolio tail risk and AVGO at 2% is easily exited."
+  },
+  "target_portfolio": [
+    {"ticker": "XOM", "weight_pct": 22, "sector": "Energy"},
+    {"ticker": "CVX", "weight_pct": 18, "sector": "Energy"},
+    {"ticker": "KLAC", "weight_pct": 12, "sector": "Technology"},
+    {"ticker": "LMT", "weight_pct": 10, "sector": "Defense"},
+    {"ticker": "TSM", "weight_pct": 8, "sector": "Technology"},
+    {"ticker": "GLD", "weight_pct": 22, "sector": "Commodities"},
+    {"ticker": "COST", "weight_pct": 6, "sector": "Consumer Staples"},
+    {"ticker": "AVGO", "weight_pct": 2, "sector": "Technology"}
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (0-100): KLAC=88 (momentum=30/30, quality=19/20, revision=13/15, valuation=6/10 [P/E=35x, PEG=4.4x penalty], risk=12/15 [dd63=-22.4% penalty], regime=8/10); XOM=79 (momentum=26/30, quality=15/20, revision=10/15, valuation=9/10 [P/E=17.6x, FCF=4.65%], risk=14/15, regime=5/10); TSM=76 (momentum=27/30, quality=19/20, revision=11/15, valuation=8/10, risk=11/15 [dd63=-18.1%], regime=0 penalty tariff); CVX=73 (momentum=22/30, quality=14/20, revision=10/15, valuation=9/10, risk=14/15, regime=4/10); LMT=68 (momentum=20/30 [below MA50 penalty], quality=15/20, revision=11/15, valuation=8/10, risk=10/15 [below MA50], regime=4/10); GLD=64 (momentum=17/30, quality=N/A→15/20, revision=N/A→8/15, valuation=9/10, risk=10/15 [dd63=-19.2%], regime=5/10); COST=60 (momentum=12/30, quality=16/20, revision=10/15, valuation=5/10 [P/E=52.9x], risk=15/15, regime=2/10); AVGO=62 (momentum=22/30, quality=14/20, revision=9/15, valuation=6/10, risk=9/15 [dd63=-17.1%], regime=2/10). RISK BUDGET: Energy=40% (XOM+CVX), Tech=22% (KLAC+TSM+AVGO), Defense=10% (LMT), Commodities=22% (GLD), Staples=6% (COST). Max single position=KLAC/XOM/GLD=22% (OK, ≤40%). Crypto=0% (OK, ≤10%). Max sector=Energy=40% (OK, ≤80%). Total=100%. SCENARIO STRESS: (1) Equity index -10% shock: portfolio estimated -6% (defensive tilt vs SPY beta); (2) WTI oil -20% shock: Energy -8%, portfolio impact ~-3.2% (40% weight); (3) Gold -15% shock: GLD -15%, portfolio impact ~-3.3% (22% weight); (4) USD +5% shock: TSM (ADR) -3%, KLAC -2%, portfolio impact ~-0.5%; (5) Tech selloff -20%: KLAC+TSM+AVGO combined -20%, portfolio impact ~-4.4% (22% weight). No single-factor concentration creates catastrophic portfolio loss — maximum single-scenario impact ~4-5%. EXECUTION PLAN: SLV sell-to-close at market open or VWAP; AVGO buy simultaneous; KLAC top-up buy; XOM partial trim. Estimated total slippage 30-45bps. MONITORING/KILL-SWITCHES: (1) KLAC below MA50=1,475.99 → reduce KLAC back to 10%, add to GLD; (2) XOM below MA200 → emergency trim Energy to 35%; (3) LMT below MA200=509.92 → exit LMT, add to COST or GLD; (4) TSM below MA200=290.25 → trim TSM to 4%; (5) AVGO below MA200=327.37 → exit AVGO, add to COST; (6) SPY -5% from current (~626) → regime-shift review, add GLD to 28%; (7) GLD MA200 buffer compresses below +5% ($399) → review GLD sizing. Next rebalance checkpoint: ~2026-04-16."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results

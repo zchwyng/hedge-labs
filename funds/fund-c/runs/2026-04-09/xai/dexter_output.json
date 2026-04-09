@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-04-09",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: KLAC 55.6%/SLV 40.5%/TSM 37.7%/XOM 34.4% composite mom lead vs SPY 4.4%/QQQ 5.7%; semis/energy/metals resilient on 1m/3m pullback in broad indices",
+    "Quality stable: KLAC ROE 103%/OM 41%/rev g+24%, TSM ROE 35%/OM 54%/EPS g+46%, energy OM~12%/ROE~11%, LMT ROE 81%; FY26-28 ests upward across holdings",
+    "No thesis damage or material news/est cuts last 7d; non-rebalance (6d since checkpoint) favors hold vs turnover on marginal edge"
+  ],
+  "thesis_damage_flags": [],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Current holdings show strong multi-factor scores with KLAC/SLV/XOM/TSM leading momentum (34-56% composite) while maintaining quality (high ROE/OM, stable-to-up growth per latest ratios)",
+      "Tool data confirms no evidence of thesis damage; ratios/estimates stable-to-up with continued FY26-28 rev/EPS growth across semis/energy/defense/metals",
+      "Mixed regime still rewards selective quality+momentum in semis/energy/metals over broad indices per pack-derived relative strength"
+    ],
+    "risks": [
+      "IT concentration (44%) vulnerable to capex slowdown or semi cycle shift",
+      "Commodity volatility in GLD/SLV amid mixed macro and high vol (36-57%) with notable drawdowns",
+      "Execution risk from weekly cadence on non-rebalance day with marginal incremental edge"
+    ],
+    "falsifiable_checks": [
+      "Any core holding 30d mom falls below 15% or underperforms SPY by >5%",
+      "Material negative guidance, est cut >5%, or ROE/OM deterioration in next reports"
+    ],
+    "why_now": "Base: mixed regime favors existing resilient leaders with stable fundamentals; bull: continued semi/energy/metals strength; bear: broad equity or commodity shock; edge too marginal to justify turnover today."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "AVGO",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Scores: KLAC 92/SLV 81/TSM 87/XOM 84; risk budget IT44%/Energy22%/Materials23% (all <80%); eq shock -8% ~ -4.1% port loss; hold staged/weekly monitor; kill-switch any mom<15%, est cut>5%, or ROE decline"
+  }
+}
