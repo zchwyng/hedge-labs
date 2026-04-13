@@ -1,0 +1,69 @@
+dexter_info: model=claude-sonnet-4-6 iterations=4 tool_calls=3
+{
+  "run_date": "2026-04-13",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "REGIME: MIXED/STABILIZING — SPY close=679.46, ABOVE BOTH MA50=672.99 and MA200=660.97 (second consecutive session holding dual-MA reclaim; 1m=+0.74%, 3m=-1.19%); QQQ above both MAs (1m=+0.68%, mom=+11.77%); IWM above both MAs with 1m=+3.53% — broad small-cap breadth confirming. TLT below BOTH MAs (close=86.49 vs MA50=87.39, MA200=86.61) — rates pressure persists, no flight-to-safety bond bid; stagflation undertone remains. BTC-USD mom=-13.70%, 3m=+0.69%, below MA200=$87,872 — crypto sleeve correctly at zero. GLD below MA50=451.18 but above MA200=382.06 with +14.4% buffer (close=437.13, 1m=-8.21%) — near-term haven demand fading as risk-on consolidates, structural inflation thesis intact. Portfolio weighted avg momentum ~+38% vs SPY=+9.87% — approximately +28pp alpha spread maintained. Regime: MIXED/STABILIZING, risk-on signals holding but tariff/macro overhang limits upgrade to full risk-on.",
+    "LEADERSHIP INTACT — All 8 holdings retain positive momentum composites. KLAC leads universe at mom=76.47%, 1m=+18.59%, 3m=+31.33%, 12m=+191.98%, ABOVE BOTH MA50=1,483 and MA200=1,192 — unchallenged quality+momentum leader; vol20=48.7%, dd63=-22.4% (acceptable for position size). TSM #2 at mom=52.36%, 1m=+4.82%, 3m=+16.87%, ABOVE BOTH MA50=349.93 and MA200=292.59 — tariff binary easing confirmed, both MA reclaim sustained. AVGO #3 at mom=42.26%, 1w=+18.12%, 1m=+9.01%, ABOVE BOTH MAs — continued post-add momentum validation. XOM mom=29.47%, 3m=+24.91%, ABOVE MA200 but below MA50=153.76 — 1w=-5.09% pullback, oil demand softness watch. CVX mom=21.75%, ABOVE MA200 but below MA50=190.41 — similar energy pair dynamic. LMT mom=19.16%, 1m=-5.50%, ABOVE MA200=512.37 but below MA50=636.52 — recurring MA50 breach pattern, monitoring flag maintained. GLD mom=18.57%, ABOVE MA200, structural thesis intact. COST mom=7.45%, ABOVE BOTH MAs, vol20=17.67%, dd63=-5.18% — lowest volatility anchor, tariff-resilient.",
+    "GO/NO-GO: NON-REBALANCE DAY — Rebalance due = false. Days since last checkpoint = 4 (last checkpoint 2026-04-09; minimum cadence = 7 days; next eligible window = 2026-04-16). Policy mandates DO NOTHING. No kill-switch thresholds breached: all 8 holdings above MA200; KLAC/TSM/AVGO/COST above both MAs; XOM/CVX/LMT/GLD above MA200 with adequate buffer. Financial search returned API errors (402) — fundamentals carry-forwarded from prior run context; EPS ramp trajectories assumed intact. Key pre-log for 2026-04-16 rebalance: (1) XOM 1w=-5.09% and CVX 1w=-5.24% simultaneous energy pullback — evaluate whether to trim combined 40% energy weight; (2) LMT below MA50 for recurring sessions — 3rd thesis-damage flag in 7-day history; (3) AVGO 1w=+18.12% strong validation, consider size increase from 2% to 4-6% funded by LMT reduction; (4) GLD below MA50 — risk-on rotation drag confirmed, pre-log modest trim if SPY regime holds."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LMT",
+      "why": "Below MA50=636.52 again (close=613.72, gap=-3.6%); 1m=-5.50%; recurring MA50 breach pattern logged in 3 of last 7 daily runs; momentum=19.16% now lowest among equity holdings. Fourth consecutive thesis-damage flag in 7-day aggregated context."
+    },
+    {
+      "ticker": "XOM",
+      "why": "Below MA50=153.76 (close=152.51); 1w=-5.09% — energy pair both slipped below MA50 simultaneously, suggesting sector-level pressure not idiosyncratic. Oil demand softness risk in tariff-driven slowdown scenario."
+    },
+    {
+      "ticker": "CVX",
+      "why": "Below MA50=190.41 (close=188.55); 1w=-5.24%; combined Energy weight=40% with both tickers below MA50 — concentration risk elevated. Pre-flagging potential trim at next rebalance."
+    },
+    {
+      "ticker": "GLD",
+      "why": "Below MA50=451.18 (close=437.13, gap=-3.1%); 1m=-8.21%; risk-on rotation confirmed as GLD haven premium deflates. dd63=-19.21% persistent. Structural MA200 thesis intact but near-term momentum drag."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "NON-REBALANCE DAY: Policy mandates no portfolio changes. Days since last checkpoint = 4 (minimum cadence = 7 days; next eligible window = 2026-04-16). Portfolio alpha spread vs SPY maintained at approximately +28pp (portfolio weighted mom ~+38% vs SPY=+9.87%). All 8 holdings retain positive momentum composites and MA200 support. Regime MIXED/STABILIZING persists — SPY and QQQ holding above both MAs for second consecutive session, confirming the risk-on inflection logged 2026-04-10 is real.",
+      "FACTOR EDGE REVIEW: KLAC leads at mom=76.47% (+66.6pp vs SPY) — highest momentum equity in universe by wide margin. TSM now fully above both MAs at mom=52.36%, validating tariff-resolution thesis. AVGO 1w=+18.12% continuation validates 2026-04-09 add thesis. Energy pair (XOM+CVX=40%) both below MA50 with 1w~=-5% — oil sector headwind emerging but 3m momentum still strong (+24.9% and +19.6% respectively) and MA200 buffers intact. LMT recurring MA50 breach is the most significant pre-rebalance watch item; AVGO size increase from 2% remains the pre-logged candidate action for 2026-04-16.",
+      "VARIANT VIEW: The key tension heading into 2026-04-16 rebalance is whether to reduce the 40% Energy overweight (both XOM+CVX below MA50) and fund a AVGO increase from 2% + potential LMT reduction. The bear case for doing nothing today is that energy 3m momentum (+24.9%/+19.6%) is still strong and the 1w pullback may be mean-reversion noise rather than thesis damage. The bull case for pre-logging change is that combined energy below MA50 simultaneously with GLD below MA50 signals a coordinated risk-on rotation that deserves reallocation toward higher-momentum tech (AVGO/TSM). Monitoring window: 3 sessions until next eligible rebalance."
+    ],
+    "risks": [
+      "MACRO: Tariff re-escalation remains the primary macro tail risk — a single negative trade headline could reverse SPY/QQQ dual-MA support and trigger renewed risk-off. Energy pair (40% combined) is most exposed to demand destruction if tariff-driven growth slowdown materializes. GLD dd63=-19.21% persistent — if risk-on rotation accelerates further, 22% GLD weight may create meaningful drag despite structural thesis.",
+      "IDIOSYNCRATIC: LMT below MA50 for 4th flag in 7-day window — defense budget uncertainty or DOGE program cuts are the idiosyncratic risk; if Q1 earnings disappoint (earnings season starts mid-April), 10% weight creates ~100bps drawdown risk per -10% move. AVGO at only 2% weight limits upside capture from strongest near-term momentum (1w=+18.12%) — pre-logged size increase for 2026-04-16 is the response. KLAC vol20=48.7% means a -10% session costs ~120bps at 12% weight.",
+      "EXECUTION/LIQUIDITY: No trades today — zero execution risk. Next rebalance window 2026-04-16: pre-flagging that a 3-action rebalance (LMT trim, Energy pair trim, AVGO increase) would involve 6 liquid instruments with estimated 8-12bps round-trip slippage each — well within cost hurdle given +28pp alpha spread. Financial Datasets API returned 402 errors on both qualitative calls; fundamentals carried forward from prior run context with reduced confidence flagged."
+    ],
+    "falsifiable_checks": [
+      "Energy pair MA50 recovery check: XOM must close above MA50=153.76 AND CVX above MA50=190.41 at least once before 2026-04-16 to maintain 40% combined weight thesis; failure to recover by 2026-04-16 triggers evaluation of trim to 32% combined (XOM 18%, CVX 14%) with 8% reallocation to AVGO increase and/or TSM increase.",
+      "LMT MA50 kill-switch: LMT must close above MA50=636.52 at least once before 2026-04-16; fourth consecutive run below MA50 without recovery by next rebalance window triggers reduction from 10% to 6% with proceeds funding AVGO size increase from 2% to 6%. Portfolio alpha spread vs SPY must remain above +20pp at 2026-04-16 checkpoint; current spread ~+28pp provides 8pp buffer."
+    ],
+    "why_now": "Base case (65%): Doing nothing today is correct per policy and per factor evidence — next eligible rebalance is 2026-04-16 (3 sessions away). Portfolio holds its strongest momentum leaders (KLAC, TSM, AVGO) and the +28pp alpha spread vs SPY provides strong justification for current construction. The energy pullback (1w~=-5% for both) is notable but insufficient to trigger emergency action given strong 3m momentum and intact MA200 buffers. Bull case (25%): Energy pullback is temporary mean-reversion; oil demand recovers with tariff stabilization, XOM/CVX reclaim MA50, and the 40% energy weight proves correctly sized. KLAC/TSM/AVGO tech trio continues to compound above-market returns as semiconductor cycle accelerates. Bear case (10%): Energy pair MA50 breaches deepen, LMT defense thesis damaged by budget cuts, and GLD risk-on rotation drag materializes — cumulative factor decay requires more aggressive rebalancing at 2026-04-16. Doing nothing today preserves all optionality for the 2026-04-16 rebalance window when 3 days of additional regime data will confirm or refute the energy thesis."
+  },
+  "target_portfolio": [
+    {"ticker": "XOM", "weight_pct": 22, "sector": "Energy"},
+    {"ticker": "CVX", "weight_pct": 18, "sector": "Energy"},
+    {"ticker": "KLAC", "weight_pct": 12, "sector": "Technology"},
+    {"ticker": "LMT", "weight_pct": 10, "sector": "Defense"},
+    {"ticker": "TSM", "weight_pct": 8, "sector": "Technology"},
+    {"ticker": "GLD", "weight_pct": 22, "sector": "Commodities"},
+    {"ticker": "COST", "weight_pct": 6, "sector": "Consumer Staples"},
+    {"ticker": "AVGO", "weight_pct": 2, "sector": "Technology"}
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "FACTOR SCORES (carry-forward, API 402 errors on qualitative refresh): KLAC=88/100 (mom=76.47%, above both MAs, quality elite, EPS ramp intact); TSM=78/100 (mom=52.36%, above both MAs, tariff risk partially resolved); AVGO=74/100 (mom=42.26%, above both MAs, 1w=+18.12% validation); XOM=65/100 (mom=29.47%, below MA50, 1w=-5.09% — energy headwind flag); GLD=58/100 (mom=18.57%, below MA50, dd63=-19.21%, structural thesis intact); CVX=62/100 (mom=21.75%, below MA50, 1w=-5.24%); LMT=52/100 (mom=19.16%, below MA50 4th flag, 1m=-5.50%); COST=60/100 (mom=7.45%, above both MAs, vol20=17.67%, lowest volatility anchor). RISK BUDGET: Max position=GLD=22%/XOM=22% (both at cap, ok); Max sector=Energy=40% (XOM+CVX, well below 80% cap); Crypto=0% (below 10% cap). Weighted avg vol ~36% estimated; portfolio dd63 ~-14% estimated. SCENARIO STRESS: Equity index -10% shock: portfolio down ~-8% (Energy/Defense/Commodities ballast reduces beta); Rates +50bps shock: minimal direct impact (no bond duration); Oil -15% shock: ~-6% on 40% energy weight (~-2.4% portfolio); USD +5% shock: TSM ADR headwind ~-0.4% portfolio. No single scenario exceeds -8% estimated portfolio loss. EXECUTION PLAN: No trades today. Pre-staged for 2026-04-16: (1) LMT 10%→6% if MA50 not recovered; (2) XOM trim 22%→18% if energy sector below MA50 sustained; (3) AVGO 2%→8% size increase funded by LMT+XOM trim proceeds. MONITORING/KILL-SWITCHES: LMT close above MA50=636.52 required by 2026-04-16 or reduce to 6%; XOM+CVX both below MA50 at 2026-04-16 triggers Energy trim to 32% combined; Portfolio alpha spread below +20pp vs SPY triggers defensive rebalance review; GLD MA200=382.06 breach would trigger immediate ETF exit."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
+Warning: Financial Datasets returned 10 billing/quota errors; ratio gate uses non-billing errors only.

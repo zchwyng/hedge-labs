@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-04-13",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on for the 30-day horizon: SPY +0.74% 1m, QQQ +0.68% 1m, and IWM +3.53% 1m, all above MA50 and MA200; breadth improved versus the prior checkpoint, with small caps leading.",
+    "Current book still fits the tape: KLAC and TSM remain the strongest momentum leaders; XOM/CVX retain solid 3m/6m strength despite short-term pullback; COST remains the lowest-volatility quality ballast; NVDA and GOOGL are still above major trend measures.",
+    "No-go for rebalance today: cadence is not due, the required qualitative refresh did not verify severe thesis damage in the refreshed subset, and expected alpha from off-cycle turnover does not clearly clear trading-cost drag over a 30-day hold."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LMT",
+      "why": "Pack shows the weakest near-term tape among current holdings after the mandatory refresh subset: 1m return -5.50%, below MA50, while no verified fresh positive catalyst was confirmed; watchlist flag, but not enough for an off-cycle trade."
+    },
+    {
+      "ticker": "CVX",
+      "why": "Short-term momentum softened versus its own 3m trend: 1m return -1.69%, 1w -5.24%, below MA50. Medium-term structure remains intact above MA200, so this is deterioration, not thesis break."
+    },
+    {
+      "ticker": "XOM",
+      "why": "Short-term pullback emerged despite strong 3m/6m leadership: 1w -5.09%, below MA50. No verified fundamental damage from the qualitative refresh, so flag remains technical rather than thesis-breaking."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: no verified 2026-04-06 onward equity news or guidance shock in the refreshed subset strong enough to justify breaking weekly spacing; current leadership in semicap and energy remains broadly intact.",
+      "Factor edge: the existing portfolio still leans into the strongest pack-derived quality/momentum pockets, led by KLAC, TSM, XOM, and GOOGL, while COST lowers portfolio volatility and drawdown risk.",
+      "Variant view: improved benchmark breadth and restored above-MA50/MA200 index structure increase the odds that weaker-but-still-intact holdings can stabilize without paying unnecessary turnover today."
+    ],
+    "risks": [
+      "Macro: a rates or growth scare could reverse the recent breadth improvement and pressure semicap and cyclically sensitive exposures.",
+      "Idiosyncratic: LMT remains the clearest watchlist name on weak 1m trend; XOM/CVX are exposed to commodity and geopolitical swings; GOOGL fundamentals/news refresh was partial, so some qualitative uncertainty remains.",
+      "Execution/liquidity: low for these large caps, but off-cycle trading still risks spread/slippage and turnover drag without a clearly superior 30-day expected edge."
+    ],
+    "falsifiable_checks": [
+      "By the next scheduled rebalance checkpoint, if LMT remains below MA50 and posts another negative 1m window while a replacement candidate retains above-MA50/MA200 structure, its seat should be reconsidered.",
+      "By the next scheduled rebalance checkpoint, if XOM and CVX both lose MA200 support or their 3m relative strength versus SPY deteriorates materially, the current energy overweight thesis weakens."
+    ],
+    "why_now": "Base: breadth improved and major benchmarks are back above MA50/MA200, but the current portfolio already captures the leading pockets, so incremental edge from trading today is modest. Bull: semicap leadership persists, energy consolidates without breaking medium-term trend, and COST continues to cushion volatility. Bear: the recent rebound proves fragile, energy pullback deepens, and LMT remains a laggard. On balance, the expected gain from an off-cycle change does not clearly exceed trading-cost and turnover drag, so the paper action is to stand pat."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 16,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 16,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 14,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 8,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 10,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: active-candidate pre-step portfolio stayed identical to prior book given rebalance=false; active qualitative refresh subset was NVDA/GOOGL/XOM/LMT. Factor highlights: KLAC strongest momentum (76.47), TSM strong (52.36), GOOGL solid (37.55), XOM/CVX still favorable on 3m/6m, COST best ballast on vol/dd; LMT weakest near-term among holdings. Fundamental snapshot: NVDA verified elite quality/profitability (op margin 65.6%, ROIC 119.7%, rev growth 15.4%, EPS growth 21.0%, P/E 38.0); GOOGL income snapshot verified but key ratios/news partially UNKNOWN; XOM/LMT qualitative fundamentals UNKNOWN from tool refresh. Risk budget: IT 38%, Energy 30%, no crypto, no sector above 80%, max single-name 16%. Scenario stress: equity index shock hurts NVDA/GOOGL/TSM/KLAC but COST and Energy diversify; rates shock most negative for long-duration growth, limited direct bond sensitivity; commodity shock mixed positive via XOM/CVX and negative for consumers; USD shock is a mild headwind to TSM/GOOGL/NVDA translation. Execution plan: no trade, preserve turnover efficiency until scheduled weekly checkpoint. Monitoring/kill-switch: review next checkpoint for LMT below MA50 plus continued 1m weakness, and for XOM/CVX losing MA200 or medium-term relative strength; any verified negative guidance/news shock in core holdings becomes immediate thesis-damage trigger."
+  }
+}
