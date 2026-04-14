@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-13T07:15:58Z",
+  "generated_at": "2026-04-14T07:03:35Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -4076,12 +4076,12 @@
           "provider": "xai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 1.9,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": 1.89,
+          "fund_return_pct": 2.61,
+          "benchmark_return_pct": 0.98,
+          "excess_return_pct": 1.63,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-10",
+          "asof_price_date": "2026-04-13",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": "Do nothing"
@@ -4091,12 +4091,12 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": -0.37,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": -0.38,
+          "fund_return_pct": 0.21,
+          "benchmark_return_pct": 0.98,
+          "excess_return_pct": -0.77,
           "rank": 2,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-10",
+          "asof_price_date": "2026-04-13",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -4106,44 +4106,44 @@
           "provider": "anthropic",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": -3.04,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": -3.05,
+          "fund_return_pct": -2.59,
+          "benchmark_return_pct": 0.98,
+          "excess_return_pct": -3.57,
           "rank": 3,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-10",
+          "asof_price_date": "2026-04-13",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
         }
       ],
       "indices": {
-        "asof_price_date": "2026-04-10",
+        "asof_price_date": "2026-04-13",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 0.01
+            "return_pct": 0.98
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 1.86
+            "return_pct": 2.92
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": -0.42
+            "return_pct": 0.52
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -3.16
+            "return_pct": -3.55
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 7.08
+            "return_pct": 12.48
           }
         ]
       },
@@ -4151,13 +4151,97 @@
         "portfolio_overlap_pct": 45.45,
         "turnover_estimate_pct": 48
       }
+    },
+    {
+      "date": "2026-04-14",
+      "lanes": [
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 2.61,
+          "benchmark_return_pct": 0.98,
+          "excess_return_pct": 1.63,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-13",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": "Do nothing"
+        },
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 0.21,
+          "benchmark_return_pct": 0.98,
+          "excess_return_pct": -0.77,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-13",
+          "add_ticker": "AVGO",
+          "remove_ticker": "LMT",
+          "rebalance_actions_preview": "Replace LMT->AVGO"
+        },
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": -2.59,
+          "benchmark_return_pct": 0.98,
+          "excess_return_pct": -3.57,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-13",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-04-13",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 0.98
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 2.92
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 0.52
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -3.55
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 12.52
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 45.45,
+        "turnover_estimate_pct": 43
+      }
     }
   ],
   "latest_holdings": {
     "fund-a": [
       {
         "ticker": "NVDA",
-        "weight_pct": 16,
+        "weight_pct": 15,
         "sector": "Information Technology"
       },
       {
@@ -4167,32 +4251,32 @@
       },
       {
         "ticker": "XOM",
-        "weight_pct": 16,
+        "weight_pct": 15,
         "sector": "Energy"
       },
       {
         "ticker": "CVX",
-        "weight_pct": 14,
+        "weight_pct": 13,
         "sector": "Energy"
       },
       {
         "ticker": "TSM",
-        "weight_pct": 10,
-        "sector": "Information Technology"
-      },
-      {
-        "ticker": "LMT",
-        "weight_pct": 8,
-        "sector": "Industrials"
-      },
-      {
-        "ticker": "KLAC",
         "weight_pct": 12,
         "sector": "Information Technology"
       },
       {
-        "ticker": "COST",
+        "ticker": "AVGO",
         "weight_pct": 10,
+        "sector": "Information Technology"
+      },
+      {
+        "ticker": "KLAC",
+        "weight_pct": 13,
+        "sector": "Information Technology"
+      },
+      {
+        "ticker": "COST",
+        "weight_pct": 8,
         "sector": "Consumer Staples"
       }
     ],

@@ -1,0 +1,104 @@
+dexter_info: model=gpt-5.4 iterations=3 tool_calls=2
+{
+  "run_date": "2026-04-14",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on for the 30-day horizon: SPY +3.29%, QQQ +3.50%, and IWM +7.33% over 1 month, with all three above MA50 and MA200; breadth improved and small caps are leading.",
+    "Leadership remains selective but broadening: semicap is strongest (KLAC +25.48% 1m, TSM +10.07%, AVGO +13.27%), while energy leadership has cooled near term (XOM -0.58%, CVX -2.63% 1m) and defense/defensive quality have lost short-term relative strength (LMT -5.08%, COST -2.24% 1m).",
+    "Go for a small, turnover-efficient rebalance rather than a full reshuffle: the book is mostly aligned with quality+momentum, but LMT is now the clearest laggard and AVGO offers a cleaner 30-day edge in the current tape."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "LMT",
+      "why": "Pack shows the weakest near-term setup among current holdings: -5.08% 1m, below MA50, and negative 1w; medium-term trend is still positive, so this is deterioration rather than a broken long-term thesis."
+    },
+    {
+      "ticker": "XOM",
+      "why": "Near-term momentum has faded: -0.58% 1m and below MA50 despite strong 3m/6m returns; still above MA200, so only a moderate flag."
+    },
+    {
+      "ticker": "COST",
+      "why": "Defensive ballast remains useful, but momentum is soft: -2.24% 1m, below MA50, and very low composite momentum versus alternatives."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "LMT",
+      "add_ticker": "AVGO",
+      "size_change_pct": 8
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "LMT",
+    "add_ticker": "AVGO",
+    "size_change_pct": 8,
+    "thesis": [
+      "Catalyst: semicap leadership remains the clearest winning factor in the pack, with AVGO up 13.27% over 1 month and above both MA50 and MA200 while LMT has rolled over short term.",
+      "Factor edge: AVGO improves portfolio momentum and cyclical growth exposure without leaving the quality cohort; LMT had become the weakest current holding on 30-day trend and relative strength.",
+      "Variant view: consensus may still view defense as safer late-cycle exposure, but the current tape is rewarding AI/semicap beta more than defense resilience."
+    ],
+    "risks": [
+      "Macro: a rates backup or growth scare could hit high-multiple semis harder than defense.",
+      "Idiosyncratic: AVGO carries richer valuation/risk of digestion after a sharp rebound; LMT could outperform if geopolitical/defense headlines re-accelerate.",
+      "Execution/liquidity: liquidity is high, but chasing a strong 1-week move raises near-term pullback risk."
+    ],
+    "falsifiable_checks": [
+      "Over the next 30 days, if AVGO underperforms QQQ by more than 5 percentage points and loses MA50 support, the replacement thesis is weakening.",
+      "By next weekly review, if LMT reclaims MA50 while AVGO loses MA50, reassess the swap even if absolute returns are flat."
+    ],
+    "why_now": "Base: breadth has improved and semicap remains the highest-quality momentum pocket, so replacing the weakest current near-term trend with a stronger one clears turnover drag. Bull: AI/semicap leadership persists and AVGO extends relative strength versus SPY/QQQ. Bear: the move is late and factor rotation back to defense makes LMT the better hold. On balance, the expected 30-day edge is modest but sufficient for one efficient change."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 13,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Factor highlights: KLAC/TSM/AVGO strongest momentum; GOOGL solid quality+trend; XOM/CVX still supportive on 3m/6m despite softer 1m; LMT weakest 30d score and replaced; COST retained as low-vol ballast. Fundamental refresh: NVDA quality strong (op margin 65.6%, ROE 104.4%, rev growth 15.4%, earnings growth 21.0%, P/E 38.0); GOOGL/XOM/CVX/LMT/AVGO qualitative/fundamental verification UNKNOWN where unavailable. Risk budget: IT 50%, Energy 28%, Comm 14%, Staples 8%; no crypto. Scenario stress: equity index shock hurts IT most but offset partly by energy/staples mix; rates shock is the key risk to semis; commodity shock helps XOM/CVX; USD strength is a moderate headwind to TSM/AVGO/NVDA. Execution: single replacement only, staged paper sizing, avoid unnecessary turnover. Monitoring/kill-switch: cut confidence if AVGO loses MA50 and relative strength versus QQQ weakens; review energy sleeve if both XOM and CVX fall below MA200; review COST seat if it remains below MA50 with sub-benchmark 30d returns at next checkpoint."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
+Warning: Financial Datasets returned 5 billing/quota errors; ratio gate uses non-billing errors only.
