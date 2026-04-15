@@ -1,0 +1,69 @@
+{
+  "fund_id": "fund-c",
+  "provider": "xai",
+  "model": "grok-4.20-reasoning",
+  "run_date": "2026-04-15",
+  "started_at": "2026-04-15T06:59:02Z",
+  "ended_at": "2026-04-15T07:03:22Z",
+  "status": "success",
+  "reason": "",
+  "fd_search_calls": 8,
+  "fd_source_url_count": 6,
+  "output_json_valid": true,
+  "api_errors": [
+    "Warning: Financial Datasets returned 36 billing/quota errors; ratio gate uses non-billing errors only."
+  ],
+  "data_contract_version": "arena-input-pack-v1",
+  "arena_input_pack": {
+    "enabled": true,
+    "build_status": "success",
+    "build_reason": null,
+    "path": "/home/runner/work/hedge-labs/hedge-labs/funds/fund-c/runs/2026-04-15/xai/arena_input_pack.json",
+    "quality_status": "ok",
+    "market_data_quality": {
+      "required_missing": 0,
+      "benchmark_missing": 0,
+      "yahoo_success": 30,
+      "yahoo_total": 30
+    },
+    "warnings": [
+      "Trimmed live run_date crypto bars for deterministic cross-lane parity: BTC-USD, ETH-USD"
+    ],
+    "errors": []
+  },
+  "research_quality": {
+    "fd_search_calls": 8,
+    "fd_source_urls": 6,
+    "fd_errors": 36,
+    "fd_error_ratio": "0.857143",
+    "fd_billing_errors": 36,
+    "fd_non_billing_errors": 0,
+    "fd_non_billing_error_ratio": "0.000000",
+    "fd_error_gate_relaxed": true,
+    "fd_news_expected_calls": 8,
+    "fd_news_source_urls": 0,
+    "fd_news_result_entries": 0,
+    "qualitative_news_detected": false,
+    "qualitative_news_warning": "financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results",
+    "forbidden_tool_names": [
+      "getPriceSnapshot",
+      "getPrices",
+      "getKeyRatiosSnapshot",
+      "getCryptoPriceSnapshot"
+    ],
+    "forbidden_tool_calls": 0
+  },
+  "rebalance_policy": {
+    "previous_attempted_run_date": "2026-04-14",
+    "previous_attempted_run_status": "success",
+    "last_rebalance_checkpoint_date": "2026-04-03",
+    "days_since_last_rebalance": "12",
+    "rebalance_due": true,
+    "missed_scheduled_rebalance": false,
+    "must_rebalance_today": false,
+    "missed_rebalance_reason": "None."
+  },
+  "dexter_exit_code": 0,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-04-15-065904_535568e74a82.jsonl"
+}

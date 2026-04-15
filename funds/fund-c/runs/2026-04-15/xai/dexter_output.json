@@ -1,0 +1,93 @@
+{
+  "run_date": "2026-04-15",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed regime: IWM 19% mom leads, semis (KLAC/TSM/AVGO 42-78% composite) and SLV resilient vs SPY/QQQ ~12-14% using pack 30d/90d windows from 2026-03-16/01-15",
+    "Narrow leadership in Q+M names; energy negative 1m returns but stable 3m; metals vol elevated (SLV 58%, dd-42%)",
+    "Go: hold core with intact momentum/quality edge and no thesis damage; no-go on turnover given marginal alpha net of costs and data gaps"
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "NONE",
+      "why": "No material news, guidance shifts, or est cuts on holdings in 7d searches since 2026-04-08; NVDA FY26-28 rev/EPS trajectory strongly upward per available data"
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Do nothing",
+      "remove_ticker": null,
+      "add_ticker": null,
+      "size_change_pct": 0
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Core holdings lead pack momentum (KLAC 78%/TSM 55%/SLV 51%/AVGO 42% composite) with relative outperformance vs SPY/QQQ on pack-derived 30d/90d/1m windows",
+      "Quality stable per prior high ROE/OM (KLAC ~95%/43%, TSM ~35%/54%, energy/LMT solid); NVDA ests confirm continued strong FY26-28 growth as sector proxy",
+      "Mixed regime (IWM strength, semis/metals resilient) fits selective Q+M; no new disconfirming datapoints, edge too marginal vs turnover on weekly cadence"
+    ],
+    "risks": [
+      "IT concentration 44% vulnerable to semi capex pause or AI narrative shift",
+      "Metals sleeve (23%) carries high vol/drawdowns on macro/commodity shocks",
+      "UNKNOWN latest ratios/news for most holdings due to tool errors limits revision visibility"
+    ],
+    "falsifiable_checks": [
+      "Any core holding 30d mom falls below 15% or underperforms SPY by >5% over next 14d",
+      "Material negative guidance or >5% est cut on KLAC/TSM/AVGO by next run"
+    ],
+    "why_now": "Base: mixed regime continues favoring existing resilient leaders with stable momentum/quality; bull: sustained semis/metals strength and NVDA-like growth; bear: equity rotation or commodity shock; current edge does not clear trading-cost threshold today."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "AVGO",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "LMT",
+      "weight_pct": 11,
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 10,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "GLD",
+      "weight_pct": 13,
+      "sector": "Materials"
+    },
+    {
+      "ticker": "SLV",
+      "weight_pct": 10,
+      "sector": "Materials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Mom: KLAC78/TSM55/SLV51/AVGO42 vs SPY12; Quality stable (prior high ROE/OM, NVDA ests strong); Risk: metals vol penalized but mom-supported, IT 44%<80%; Scenarios: contained equity/rates shock via energy/defense; Execution: zero turnover; Monitor: mom<15% or est cuts on semis"
+  }
+}
