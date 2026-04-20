@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-04-20",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed-to-risk-on regime for the 30-day horizon: SPY +7.66% 1m, QQQ +9.21% 1m, IWM +12.10% 1m, all above MA50/MA200; breadth remains supportive with small caps leading.",
+    "Current book is still aligned with leadership: KLAC, AVGO, TSM, GOOGL, and NVDA all retain positive 1m/3m momentum and trend support; energy has cooled near term with XOM/CVX below MA50 but still above MA200 and positive over 3m/6m.",
+    "No-go for rebalance today: cadence is not due, spacing discipline is binding, and the qualitative refresh did not verify severe thesis damage sufficient to justify off-cycle turnover over a 30-day holding window."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Pack shows clear short-term tape damage: -7.08% over 1m, below MA50, and lagging SPY/QQQ despite still-positive 3m/6m returns; qualitative follow-up did not provide verified new thesis repair, so risk remains elevated but not severe enough for off-cycle action."
+    },
+    {
+      "ticker": "COST",
+      "why": "Still the weakest momentum holding in the book on pack data (mom 3.65%, +2.04% 1m) even though it remains above MA50/MA200 with low drawdown; qualitative refresh produced no verified severe news-driven damage, so it stays as defensive ballast."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "No verified thesis damage from the qualitative refresh; pack remains supportive (+11.80% 1m, +7.83% 3m, above MA50/MA200). Fundamental snapshot is strong, but valuation is demanding with EV/EBITDA about 31.5, so only valuation/crowding risk is flagged."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: broad equity breadth and semicap leadership remain supportive, while no verified equity news in the refreshed subset established severe thesis damage in current holdings.",
+      "Factor edge: the existing portfolio still captures the strongest pack leadership through KLAC/AVGO/TSM/NVDA plus GOOGL, with energy and COST providing diversification; expected edge from immediate turnover is marginal versus trading-cost drag.",
+      "Variant view: XOM, CVX, and COST remain the soft spots on near-term momentum, but with rebalance not due today and no confirmed qualitative break, preserving the current book is the higher-discipline paper choice."
+    ],
+    "risks": [
+      "Macro: a rates or growth shock could hit the portfolio's 50% technology exposure and reverse the current risk-on tape.",
+      "Idiosyncratic: semicap leadership is crowded and expensive; energy could continue to underperform if commodity strength fades further.",
+      "Execution/liquidity: off-cycle turnover would add friction without clearly superior expected 30-day alpha; several holdings also carry elevated realized volatility."
+    ],
+    "falsifiable_checks": [
+      "Reassess at the next scheduled rebalance if XOM and CVX both remain below MA50 and continue to underperform SPY over the 30-day window.",
+      "Reassess sooner if COST falls below MA200 or if any core semi leader (KLAC, AVGO, TSM, NVDA) loses MA50 with weakening relative strength versus QQQ over the next 5 trading days."
+    ],
+    "why_now": "Base: regime stays risk-on enough that current winners should be left intact, and the book already reflects the strongest momentum clusters. Bull: semicap and AI-linked leadership persists, making the existing portfolio still advantaged for the next 30 days. Bear: energy and defensive ballast continue to lag, but the expected benefit from acting today does not clearly exceed turnover costs, so the edge does not clear the cost hurdle."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 15,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CVX",
+      "weight_pct": 13,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 10,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=KLAC/AVGO/TSM/GOOGL lead on momentum; NVDA strong on quality with ROE ~76%, ROIC ~92.6%, gross margin ~71.1%, EV/EBITDA ~31.5; XOM/CVX weak short-term; COST low-vol ballast but low momentum; unavailable fundamentals/news for some refreshed names marked UNKNOWN. Risk budget=IT 50%, Energy 28%, Comm Services 14%, Consumer Staples 8%; max single name 15%; crypto 0%. Scenario stress=equity index shock would hit semis most; rates shock negative for long-duration tech; commodity shock hurts energy sleeve; USD shock mainly ADR risk via TSM, but exposures remain within tolerance. Execution plan=no trades today; maintain weekly spacing discipline. Monitoring/kill-switch=review at next scheduled rebalance or sooner on MA50/MA200 breaks, sustained relative underperformance in XOM/CVX/COST, or adverse earnings/guidance surprise in core semi leaders."
+  }
+}
