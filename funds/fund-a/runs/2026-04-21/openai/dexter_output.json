@@ -1,0 +1,101 @@
+{
+  "run_date": "2026-04-21",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Risk-on with broadening breadth: SPY +7.71%, QQQ +9.21%, and IWM +12.00% over the 30-day window, all above MA50 and MA200; bonds are flat-to-weak, which fits continued equity leadership.",
+    "Current leadership remains concentrated in semicap/AI infrastructure: KLAC, AVGO, TSM, NVDA, and GOOGL all beat SPY on 30d momentum; energy has rolled over short term with XOM and CVX both negative 1m and below MA50.",
+    "Go for a small, turnover-efficient rebalance rather than a reshuffle: the cleanest upgrade is replacing the weakest 30-day name, CVX, with AMZN, which offers stronger near-term momentum and better regime fit without raising sector concentration above limits."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "CVX",
+      "why": "Direct pack evidence of thesis erosion: 1m return -9.03%, below MA50, and trailing both SPY (+7.71%) and QQQ (+9.21%) by a wide margin; no verified positive qualitative offset."
+    },
+    {
+      "ticker": "XOM",
+      "why": "Short-term damage flag but not full break: 1m return -6.63% and below MA50 despite still-strong 3m/6m trend; keep reduced weight because medium-term energy trend remains intact."
+    },
+    {
+      "ticker": "COST",
+      "why": "Defensive ballast remains low alpha for this regime: momentum composite only 4.46% and 1m return +2.37%, materially lagging the tape; retained only as lower-volatility diversifier."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "CVX",
+      "add_ticker": "AMZN",
+      "size_change_pct": 13
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "CVX",
+    "add_ticker": "AMZN",
+    "size_change_pct": 13,
+    "thesis": [
+      "Catalyst: AMZN enters with strong 30d momentum (+18.93%), positive trend support above MA50/MA200, and a cleaner consumer/cloud quality-growth profile for the next 30 days than CVX.",
+      "Factor edge: this swaps a negative short-term energy laggard for a large-cap quality compounder that is outperforming SPY and fits the current risk-on, growth-led regime.",
+      "Variant view: the market may still be underpricing a renewed catch-up in mega-cap platform growth outside the most crowded semicap names, while energy mean reversion may fail if commodity momentum keeps cooling."
+    ],
+    "risks": [
+      "Macro: a sudden rates spike or growth scare could hit long-duration growth leaders and favor a rebound in energy/value.",
+      "Idiosyncratic: AMZN execution, cloud demand, or retail margin commentary could disappoint; CVX could recover quickly on any oil/geopolitical shock.",
+      "Execution/liquidity: although both are highly liquid, replacing after a strong AMZN run risks short-term entry extension if leadership rotates in the next 1-2 weeks."
+    ],
+    "falsifiable_checks": [
+      "Over the next 10 trading days, AMZN should hold above its MA50 and outperform CVX on relative return; failure on both is a thesis warning.",
+      "By the next weekly rebalance, if XOM and CVX both reclaim MA50 while AMZN underperforms SPY over the same window, reassess the growth-over-energy rotation call."
+    ],
+    "why_now": "Base: breadth is improving and growth/semicap leadership remains intact, so rotating out of the weakest current holding into a stronger trend should add expected 30-day alpha. Bull: AMZN's recent strength broadens the portfolio beyond pure semicap while still leaning into the winning regime. Bear: energy could snap back on commodity or geopolitical shocks, but CVX's current score deficit versus AMZN is wide enough that the expected edge clears normal weekly turnover drag for a paper portfolio."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 13,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor scores strongest KLAC/AVGO/TSM/GOOGL/NVDA; AMZN outranks CVX on 30d momentum and regime fit; XOM retained but cut due to short-term breakdown, COST retained as ballast despite weak alpha. Risk budget: IT 53%, Energy 12%, Comm Services 14%, Consumer 21%; no crypto; single-name max 15%. Scenario check: equity index shock hurts semis/growth most, partly offset by COST/XOM; rates shock is a moderate headwind to growth; commodity shock now less concentrated after CVX exit; USD shock manageable with TSM exposure kept at 12%. Execution: one-for-one weekly rebalance only, no additional turnover. Monitoring/kill-switch: review sooner if AMZN loses MA50, if CVX reclaims MA50 with relative strength, or if 30d breadth deteriorates enough that SPY or QQQ lose MA50 support."
+  }
+}

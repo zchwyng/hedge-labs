@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-20T07:12:32Z",
+  "generated_at": "2026-04-21T07:04:37Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -4496,12 +4496,12 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 1.74,
-          "benchmark_return_pct": 4.52,
-          "excess_return_pct": -2.78,
+          "fund_return_pct": 1.44,
+          "benchmark_return_pct": 4.31,
+          "excess_return_pct": -2.87,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-17",
+          "asof_price_date": "2026-04-20",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -4538,32 +4538,116 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-04-17",
+        "asof_price_date": "2026-04-20",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 4.52
+            "return_pct": 4.31
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 8.16
+            "return_pct": 7.82
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 3.6
+            "return_pct": 3.27
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -1.21
+            "return_pct": -2.06
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 12.97
+            "return_pct": 14.57
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-04-21",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 1.44,
+          "benchmark_return_pct": 4.31,
+          "excess_return_pct": -2.87,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-20",
+          "add_ticker": "AMZN",
+          "remove_ticker": "CVX",
+          "rebalance_actions_preview": "Replace CVX->AMZN"
+        },
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": 2.78,
+          "benchmark_return_pct": 4.31,
+          "excess_return_pct": -1.53,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-20",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": -3.96,
+          "benchmark_return_pct": 4.31,
+          "excess_return_pct": -8.27,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-20",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-04-20",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 4.31
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 7.82
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 3.27
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -2.06
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 14.6
           }
         ]
       },
@@ -4587,13 +4671,13 @@
       },
       {
         "ticker": "XOM",
-        "weight_pct": 15,
+        "weight_pct": 12,
         "sector": "Energy"
       },
       {
-        "ticker": "CVX",
+        "ticker": "AMZN",
         "weight_pct": 13,
-        "sector": "Energy"
+        "sector": "Consumer Discretionary"
       },
       {
         "ticker": "TSM",
@@ -4602,12 +4686,12 @@
       },
       {
         "ticker": "AVGO",
-        "weight_pct": 10,
+        "weight_pct": 12,
         "sector": "Information Technology"
       },
       {
         "ticker": "KLAC",
-        "weight_pct": 13,
+        "weight_pct": 14,
         "sector": "Information Technology"
       },
       {
