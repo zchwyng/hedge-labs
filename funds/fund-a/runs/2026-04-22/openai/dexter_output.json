@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-04-22",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Risk-on to mixed-risk-on regime remains intact for the 30-day horizon: SPY +8.56%, QQQ +10.84%, and IWM +13.33% over 1m, all above MA50/MA200; breadth is broadening with small caps leading while TLT remains below major trend.",
+    "Current book still fits leadership: KLAC, AVGO, TSM, NVDA, AMZN, and GOOGL all outperform SPY on 1m or composite momentum and remain above MA50/MA200; only XOM shows clear short-term technical slippage while COST remains a low-volatility ballast.",
+    "No-go for rebalance today: cadence discipline is binding, qualitative refresh did not verify severe thesis damage across the refreshed subset, and expected edge does not clearly clear turnover drag for an off-cycle 30-day paper action."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Pack shows the clearest near-term damage in the current book: 1m return -7.08%, below MA50, and lagging SPY/QQQ materially, though it remains above MA200 and still positive over 3m/6m so damage is not yet severe enough to force an off-cycle change."
+    },
+    {
+      "ticker": "COST",
+      "why": "Momentum remains the weakest among current holdings on a composite basis (mom 4.33%, 1m 3.44%), implying lower expected alpha in a growth-led tape; however drawdown is shallow (-5.55%) and it still provides defensive ballast, so thesis is weakened but not broken."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "Short-term moderation only: latest week was slightly negative and 63d drawdown is relatively deep (-20.37%), but trend support remains intact and recent quarterly fundamentals still show very strong revenue and earnings power; no severe thesis break verified."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: none sufficient for an off-cycle trade; the highest-momentum holdings remain intact and the qualitative refresh did not surface clear earnings/guidance/regulatory damage in the refreshed equity subset.",
+      "Factor edge: turnover discipline itself is the edge today because portfolio alignment with the prevailing risk-on tape remains good, and the main laggards are not yet showing enough confirmed thesis failure to justify a non-scheduled change.",
+      "Variant view: while XOM and COST are weaker than the growth leaders, the market may simply be pausing rather than signaling durable factor rotation; preserving exposure to the existing diversified winner set is preferable to forcing marginal changes."
+    ],
+    "risks": [
+      "Macro: a sudden rates shock, growth scare, or commodity spike could rotate leadership away from current mega-cap growth and semicap concentration.",
+      "Idiosyncratic: concentrated exposure to AI/semicap leaders raises single-theme earnings and supply-chain risk even without an immediate rebalance.",
+      "Execution/liquidity: not trading avoids unnecessary slippage and chasing extended winners, but deferring action could leave XOM/COST as relative drags if weakness persists into the next checkpoint."
+    ],
+    "falsifiable_checks": [
+      "By the next scheduled rebalance window, if XOM remains below MA50 and continues to underperform SPY over the full period from 2026-04-22, treat it as a higher-priority replacement candidate.",
+      "By the next weekly checkpoint, if COST and GOOGL both lag SPY while at least one non-held replacement candidate maintains superior pack momentum without new qualitative damage, reassess the no-trade stance."
+    ],
+    "why_now": "Base: the book is still aligned with a broadening but tech-favorable tape, and no refreshed qualitative datapoint created enough score separation to justify off-cycle turnover. Bull: semicap/AI leadership persists and doing nothing preserves exposure to the strongest existing trends. Bear: XOM and COST continue to dilute forward alpha, but that edge is not yet large or well-verified enough to overcome trading-cost drag and weekly cadence discipline in a paper monthly-hold process."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 13,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights—KLAC/AVGO/TSM/NVDA remain top momentum leaders vs SPY/QQQ; AMZN strengthened after prior add; XOM and COST are current relative weak spots; qualitative fundamentals available show NVDA exceptional profitability/ROE and GOOGL strong Q4 revenue/EPS, while unavailable fields for XOM/COST are marked UNKNOWN. Risk budget—IT exposure 53%, largest position 15%, no crypto, diversified across 5 sectors. Scenario stress—equity index shock hurts portfolio given growth tilt; rates shock likely pressures long-duration tech but breadth support helps; commodity shock benefits XOM but hurts consumer margins; USD shock is mixed with TSM FX/geopolitical sensitivity. Execution plan—hold unchanged until scheduled rebalance unless severe thesis damage emerges. Monitoring/kill-switch—watch XOM relative weakness, COST continued lag, and any negative earnings/guidance/regulatory surprise in NVDA/GOOGL; if a holding breaks trend and underperforms SPY through next checkpoint, elevate for replacement review."
+  }
+}
