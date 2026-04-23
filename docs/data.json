@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-22T07:05:01Z",
+  "generated_at": "2026-04-23T07:06:32Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -4664,12 +4664,12 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 1.37,
-          "benchmark_return_pct": 3.63,
-          "excess_return_pct": -2.26,
+          "fund_return_pct": 3.7,
+          "benchmark_return_pct": 4.68,
+          "excess_return_pct": -0.98,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-21",
+          "asof_price_date": "2026-04-22",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -4706,32 +4706,116 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-04-21",
+        "asof_price_date": "2026-04-22",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 3.63
+            "return_pct": 4.68
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 7.41
+            "return_pct": 9.21
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 2.12
+            "return_pct": 3.1
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -4.83
+            "return_pct": -3.57
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 17.8
+            "return_pct": 18.09
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-04-23",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 3.7,
+          "benchmark_return_pct": 4.68,
+          "excess_return_pct": -0.98,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-22",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-c",
+          "provider": "xai",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": 3.99,
+          "benchmark_return_pct": 4.68,
+          "excess_return_pct": -0.69,
+          "rank": 2,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-22",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        },
+        {
+          "fund_id": "fund-b",
+          "provider": "anthropic",
+          "status": "failed",
+          "action": "UNKNOWN",
+          "fund_return_pct": -3.52,
+          "benchmark_return_pct": 4.68,
+          "excess_return_pct": -8.2,
+          "rank": 3,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-04-22",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-04-22",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 4.68
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 9.21
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 3.1
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -3.57
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": 18.16
           }
         ]
       },

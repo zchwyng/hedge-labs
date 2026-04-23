@@ -1,0 +1,97 @@
+dexter_info: model=gpt-5.4 iterations=3 tool_calls=2
+{
+  "run_date": "2026-04-23",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed-to-risk-on regime for a 30-day horizon: SPY +8.52% 1m, QQQ +11.41% 1m, IWM +11.73% 1m, all above MA50/MA200; breadth remains supportive with small caps leading while TLT is only marginally positive and below MA50.",
+    "Current leadership still favors semicap/AI infrastructure: KLAC, AVGO, TSM, NVDA, GOOGL and AMZN all beat SPY on 1m or composite momentum; XOM is the clearest short-term laggard at -7.22% 1m and below MA50, while COST remains defensive but slow at 4.77% composite momentum.",
+    "No-go for rebalance today: cadence discipline is binding, no severe thesis break was verified in the qualitative refresh subset, and expected score improvement does not clearly clear turnover drag for an off-cycle weekly checkpoint."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Pack evidence shows the weakest near-term tape in the book: -7.22% over 1m versus SPY +8.52%, and below MA50 while still above MA200; qualitative follow-up on fundamentals/news is UNKNOWN."
+    },
+    {
+      "ticker": "COST",
+      "why": "Momentum remains notably weaker than portfolio leaders: +3.93% over 1m and 4.77% composite momentum; low-volatility ballast still intact, but qualitative follow-up on fundamentals/news is UNKNOWN."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "No confirmed thesis damage from pack trend data, but qualitative news/key-ratio refresh was incomplete; fundamentals still appear strong on available income statement data."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: none sufficient for an off-cycle trade; the highest-momentum semicap/AI holdings remain intact and the qualitative refresh did not verify a fresh earnings/guidance shock in the refreshed equity subset.",
+      "Factor edge: turnover discipline is the edge today because the book remains aligned with the prevailing risk-on tape, with six holdings still showing strong relative momentum and trend support versus SPY/QQQ.",
+      "Variant view: while XOM and COST remain the soft spots, their current weakness is not yet enough to justify breaking weekly spacing rules absent direct qualitative thesis damage."
+    ],
+    "risks": [
+      "Macro: a rates backup, growth scare, or abrupt commodity reversal could rotate leadership away from current semicap/AI concentration and pressure relative performance.",
+      "Idiosyncratic: portfolio concentration in semiconductor and AI-linked names leaves the book exposed to earnings execution, capex digestion, export-policy, and supply-chain risk.",
+      "Execution/liquidity: deferring action avoids unnecessary slippage and chasing extension, but it also preserves exposure to XOM/COST if their relative weakness deepens before the next scheduled rebalance."
+    ],
+    "falsifiable_checks": [
+      "By the next scheduled rebalance checkpoint, if XOM remains below MA50 and continues to lag SPY over the full period from 2026-04-23, elevate it to top replacement priority.",
+      "By the next weekly checkpoint, if COST's 1m relative return remains below SPY by more than 5 percentage points while a non-held candidate still shows superior pack momentum and no new qualitative damage, reassess the no-trade stance."
+    ],
+    "why_now": "Base: the tape is still risk-on with broad breadth, and the existing book remains mostly aligned with leadership, so incremental expected alpha from an off-cycle swap looks modest. Bull: semicap/AI leadership persists and doing nothing preserves exposure to the strongest composite-momentum names in the portfolio. Bear: XOM and COST continue to dilute forward alpha, but the edge from replacing either today is not yet well enough verified to clear trading-cost drag and cadence discipline in a 30-day paper process."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 12,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 13,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=KLAC/AVGO/TSM strongest on pack momentum; NVDA/GOOGL/AMZN still above benchmark trend; XOM and COST remain weakest current holdings. Qual/fund snapshot available: NVDA very high profitability/ROE with FY2026 revenue 215.9B and net income 120.1B; GOOGL FY2025 revenue 402.8B and net income 132.2B; XOM/COST qualitative fundamentals/news=UNKNOWN. Risk budget=IT 53%, single-name max 15%, no crypto, diversified across 5 sectors. Scenario stress=equity index shock hurts all cyclicals with semis hit most; rates shock pressures long-duration growth but breadth cushion helps; commodity shock helps XOM but hurts consumer margins; USD shock is mixed, with TSM/GOOGL more exposed. Execution plan=no trade, preserve weekly spacing discipline, monitor only. Kill-switch triggers=material earnings/guidance miss, adverse regulation/export restriction for semis, XOM persistent relative breakdown below MA200 risk, or COST continued underperformance versus SPY into next checkpoint."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
+Warning: Financial Datasets returned 5 billing/quota errors; ratio gate uses non-billing errors only.
