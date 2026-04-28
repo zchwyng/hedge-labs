@@ -1,0 +1,97 @@
+{
+  "run_date": "2026-04-28",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Risk-on regime remains intact for the 30-day horizon: SPY +10.86%, QQQ +15.76%, and IWM +12.00% over 1 month, all above MA50/MA200, while TLT remains below both trend measures; leadership still favors growth and cyclical beta over duration.",
+    "Current book is still aligned with leadership in semicap/AI and internet: KLAC, AVGO, TSM, NVDA, GOOGL, and AMZN all beat SPY on 1m momentum; XOM is the clearest laggard at -10.42% 1m and below MA50, while COST is positive but materially slower at +1.87% 1m.",
+    "Go for a small, turnover-efficient rebalance rather than a reshuffle: recurring 7-day context already identified XOM/COST as weakest links, and today XOM shows the cleanest thesis erosion versus a stronger replacement candidate in META without breaking risk limits."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "XOM",
+      "why": "Direct pack evidence shows short-term thesis damage: 1m return -10.42% vs SPY +10.86%, below MA50, and it has been a recurring weak-link flag across the last 7-day run history. Qualitative follow-up on earnings/guidance is UNKNOWN."
+    },
+    {
+      "ticker": "COST",
+      "why": "No severe break, but momentum remains weak for this regime: 1m return +1.87%, momentum composite +3.30%, materially behind SPY/QQQ and repeatedly flagged in recent runs. Fundamental/news confirmation is UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "XOM",
+      "add_ticker": "META",
+      "size_change_pct": 12
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "XOM",
+    "add_ticker": "META",
+    "size_change_pct": 12,
+    "thesis": [
+      "Catalyst: rotate from the portfolio’s weakest short-term holding into a liquid large-cap growth name with strong 1m momentum (+23.94%) and ongoing digital advertising/AI platform optionality; recent equity-news confirmation is UNKNOWN.",
+      "Factor edge: META improves momentum and regime fit versus XOM; XOM is below MA50 with -10.42% 1m while META is above MA50 with +23.94% 1m, which better matches a quality-plus-momentum book in a risk-on tape.",
+      "Variant view: consensus may still prefer staying diversified via energy after its 6m strength, but for a 30-day window the sharper signal is that leadership has migrated back toward internet/platform beta while energy has rolled over."
+    ],
+    "risks": [
+      "Macro: a sudden growth scare, rates backup, or oil shock could reverse current factor leadership and favor energy over internet beta.",
+      "Idiosyncratic: META qualitative news/guidance verification is incomplete, and any policy, ad-demand, or AI monetization disappointment could damage the thesis quickly.",
+      "Execution/liquidity: although both names are highly liquid, replacing after a strong 1m run in META raises chase risk if leadership mean-reverts over the next 1-2 weeks."
+    ],
+    "falsifiable_checks": [
+      "By the next weekly checkpoint, if META underperforms SPY by 5 percentage points or more on the rolling 1m window, downgrade the replacement thesis.",
+      "Within 30 days, if XOM reclaims MA50 and closes the 1m relative-performance gap versus SPY to within 3 percentage points while META loses MA50 support, treat the switch thesis as invalidated."
+    ],
+    "why_now": "Base: regime remains risk-on, so replacing the clearest laggard with a stronger quality-growth momentum name offers a cleaner expected alpha pickup than resizing winners. Bull: internet/platform leadership broadens alongside semis and META’s 1m strength persists, driving relative outperformance. Bear: energy rebounds on commodity strength and META’s recent rally stalls. Even with that risk, the score gap between XOM and META is large enough to clear normal turnover drag for a weekly rebalance."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "META",
+      "weight_pct": 12,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 13,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=KLAC/TSM/AVGO/NVDA remain top momentum leaders; GOOGL/AMZN strong; XOM weakest and below MA50; META replacement chosen on 1m strength though deeper fundamentals/news are partly UNKNOWN. Risk budget=IT 53%, Comm Services 26%, no crypto, max single position 15%, diversified across 4 sectors. Scenario stress=equity index shock hurts all cyclicals/growth but no single name >15%; rates shock most negative for long-duration tech/internet, partly offset by COST ballast; commodity shock no longer concentrated after XOM exit; USD shock manageable though TSM ADR adds some sensitivity. Execution plan=single replacement only, no broad resize, turnover efficient. Monitoring/kill-switch=watch META relative strength and MA50 support, watch COST for continued lag, and revisit if any holding shows severe earnings/guidance damage; missing qualitative fields remain UNKNOWN."
+  }
+}

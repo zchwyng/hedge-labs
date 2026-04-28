@@ -1,0 +1,48 @@
+Arena input pack v1 (Yahoo deterministic prices) for 2026-04-28
+Pack status: ok
+Yahoo coverage: 30/30 (errors=0)
+Required symbol coverage: 13/13
+Benchmark coverage: 6/6
+Candidate pool config: /home/runner/work/hedge-labs/hedge-labs/funds/arena/config/fund-b.candidates.json
+
+Benchmarks (deterministic price/history features):
+- SPY: close=715.17 1m=10.86% 3m=3.52% 6m=7.07% 12m=32.32% mom=13.44% MA50=true MA200=true
+- QQQ: close=664.23 1m=15.76% 3m=6.33% 6m=9.06% 12m=42.81% mom=18.49% MA50=true MA200=true
+- IWM: close=277.14 1m=12.00% 3m=5.17% 6m=13.04% 12m=44.35% mom=18.64% MA50=true MA200=true
+- TLT: close=86.28 1m=0.60% 3m=-1.25% 6m=-3.52% 12m=2.22% mom=-0.49% MA50=false MA200=false
+- GLD: close=429.89 1m=7.30% 3m=-7.49% 6m=13.49% 12m=39.54% mom=13.21% MA50=false MA200=true
+- BTC-USD: close=77366.63 1m=12.35% 3m=19.73% 6m=-12.57% 12m=-33.45% mom=-3.48% MA50=true MA200=false
+
+Current holdings (deterministic price/history features):
+- XOM: close=148.19 1m=-10.42% 3m=10.63% 6m=29.75% 12m=41.10% mom=17.77% vol20=30.79% dd63=-14.60%
+- CVX: close=184.78 1m=-11.07% 3m=11.40% 6m=20.51% 12m=38.85% mom=14.92% vol20=28.37% dd63=-13.21%
+- KLAC: close=1900.00 1m=30.93% 3m=23.29% 6m=64.42% 12m=177.68% mom=74.08% vol20=46.87% dd63=-22.41%
+- LMT: close=513.35 1m=-18.17% 3m=-11.28% 6m=6.54% 12m=12.97% mom=-2.48% vol20=28.80% dd63=-24.14%
+- TSM: close=404.98 1m=24.18% 3m=22.07% 6m=40.07% 12m=149.72% mom=59.01% vol20=43.08% dd63=-18.14%
+- GLD: close=429.89 1m=7.30% 3m=-7.49% 6m=13.49% 12m=39.54% mom=13.21% vol20=23.15% dd63=-19.21%
+- COST: close=998.01 1m=1.87% 3m=2.22% 6m=6.24% 12m=2.87% mom=3.30% vol20=19.11% dd63=-5.54%
+- AVGO: close=418.20 1m=35.16% 3m=29.01% 6m=21.95% 12m=124.07% mom=52.55% vol20=38.93% dd63=-14.96%
+
+Top momentum candidates (from deterministic pack):
+- KLAC: mom=74.08% 3m=23.29% 6m=64.42% 12m=177.68%
+- TSM: mom=59.01% 3m=22.07% 6m=40.07% 12m=149.72%
+- AVGO: mom=52.55% 3m=29.01% 6m=21.95% 12m=124.07%
+- GOOGL: mom=47.31% 3m=5.20% 6m=38.62% 12m=120.72%
+- NVDA: mom=41.29% 3m=16.17% 6m=18.93% 12m=103.57%
+- SLV: mom=40.05% 3m=-30.52% 6m=54.66% 12m=123.59%
+- AMZN: mom=23.36% 3m=9.52% 6m=18.11% 12m=39.98%
+- XOM: mom=17.77% 3m=10.63% 6m=29.75% 12m=41.10%
+- XLI: mom=14.97% 3m=5.24% 6m=12.15% 12m=35.51%
+- CVX: mom=14.92% 3m=11.40% 6m=20.51% 12m=38.85%
+
+Weakest momentum candidates (from deterministic pack):
+- NOW: mom=-37.51% 3m=-33.66% 6m=-51.85% 12m=-51.81%
+- NVO: mom=-16.68% 3m=-33.24% 6m=-19.76% 12m=-31.04%
+- IBIT: mom=-12.16% 3m=-12.27% 6m=-30.37% 12m=-18.21%
+- ETH-USD: mom=-9.15% 3m=24.12% 6m=-23.39% 12m=-46.60%
+- V: mom=-5.35% 3m=-5.54% 6m=-10.13% 12m=-7.07%
+- BTC-USD: mom=-3.48% 3m=19.73% 6m=-12.57% 12m=-33.45%
+- LLY: mom=-3.38% 3m=-18.16% 6m=6.08% 12m=1.74%
+- LMT: mom=-2.48% 3m=-11.28% 6m=6.54% 12m=12.97%
+- PLTR: mom=-1.38% 3m=-14.55% 6m=-20.71% 12m=32.77%
+- MSFT: mom=-0.23% 3m=-9.46% 6m=-18.05% 12m=10.53%
