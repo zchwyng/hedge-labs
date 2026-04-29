@@ -1,0 +1,70 @@
+{
+  "fund_id": "fund-c",
+  "provider": "xai",
+  "model": "grok-4.20-reasoning",
+  "run_date": "2026-04-29",
+  "started_at": "2026-04-29T07:09:34Z",
+  "ended_at": "2026-04-29T07:13:54Z",
+  "status": "failed",
+  "reason": "Bun v1.3.13 (Linux x64)",
+  "fd_search_calls": 0,
+  "fd_source_url_count": 0,
+  "output_json_valid": false,
+  "api_errors": [
+    "error: [xAI API] 429 \"Your team b7da8b08-6ea2-4609-80e9-c36e83898a5c has either used all available credits or reached its monthly spending limit. To continue making API requests, please purchase more credits or raise your spending limit.\"",
+    "Bun v1.3.13 (Linux x64)"
+  ],
+  "data_contract_version": "arena-input-pack-v1",
+  "arena_input_pack": {
+    "enabled": true,
+    "build_status": "success",
+    "build_reason": null,
+    "path": "/home/runner/work/hedge-labs/hedge-labs/funds/fund-c/runs/2026-04-29/xai/arena_input_pack.json",
+    "quality_status": "ok",
+    "market_data_quality": {
+      "required_missing": 0,
+      "benchmark_missing": 0,
+      "yahoo_success": 30,
+      "yahoo_total": 30
+    },
+    "warnings": [
+      "Trimmed live run_date crypto bars for deterministic cross-lane parity: BTC-USD, ETH-USD"
+    ],
+    "errors": []
+  },
+  "research_quality": {
+    "fd_search_calls": 0,
+    "fd_source_urls": 0,
+    "fd_errors": 0,
+    "fd_error_ratio": "0.000000",
+    "fd_billing_errors": 0,
+    "fd_non_billing_errors": 0,
+    "fd_non_billing_error_ratio": "0.000000",
+    "fd_error_gate_relaxed": false,
+    "fd_news_expected_calls": 0,
+    "fd_news_source_urls": 0,
+    "fd_news_result_entries": 0,
+    "qualitative_news_detected": false,
+    "qualitative_news_warning": null,
+    "forbidden_tool_names": [
+      "getPriceSnapshot",
+      "getPrices",
+      "getKeyRatiosSnapshot",
+      "getCryptoPriceSnapshot"
+    ],
+    "forbidden_tool_calls": 0
+  },
+  "rebalance_policy": {
+    "previous_attempted_run_date": "2026-04-28",
+    "previous_attempted_run_status": "failed",
+    "last_rebalance_checkpoint_date": "2026-04-03",
+    "days_since_last_rebalance": "26",
+    "rebalance_due": true,
+    "missed_scheduled_rebalance": true,
+    "must_rebalance_today": true,
+    "missed_rebalance_reason": "Previous run 2026-04-28 failed while rebalance was due."
+  },
+  "dexter_exit_code": 1,
+  "scratchpad_found": true,
+  "scratchpad_source": "/home/runner/work/hedge-labs/hedge-labs/.dexter/scratchpad/2026-04-29-070936_4870ba747fb4.jsonl"
+}
