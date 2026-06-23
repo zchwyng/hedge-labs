@@ -8,7 +8,7 @@ Lanes operate as **stateful rebalance engines**: each run references the previou
 
 This repository runs one or more simulated “fund lanes” on a daily schedule, then publishes a combined summary.
 
-- Fund lanes are discovered automatically from `funds/fund-*/fund.config.json`.
+- Fund lanes are discovered automatically from `funds/fund-*/fund.config.json`; set `"enabled": false` to pause a lane.
 - Results are consolidated into a single commit.
 - A Discord digest is posted, including partial-failure days.
 

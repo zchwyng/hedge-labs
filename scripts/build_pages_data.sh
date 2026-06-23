@@ -16,6 +16,8 @@ fund_colors='{"fund-a":"#3b82f6","fund-b":"#a855f7","fund-c":"#f97316"}'
 
 for config_path in "${REPO_ROOT}"/funds/fund-*/fund.config.json; do
   [ -f "$config_path" ] || continue
+  enabled="$(jq -r '.enabled != false' "$config_path")"
+  [ "$enabled" != "true" ] && continue
   fund_dir="$(dirname "$config_path")"
   fund_id="$(basename "$fund_dir")"
   color="$(jq -r --arg id "$fund_id" '.[$id] // "#6b7280"' <<< "$fund_colors")"
@@ -41,14 +43,14 @@ days_json="$(jq -n '[]')"
 for scoreboard_path in "${REPO_ROOT}"/funds/arena/runs/*/scoreboard.json; do
   [ -f "$scoreboard_path" ] || continue
 
-  day_entry="$(jq '{
+  day_entry="$(jq --argjson active_funds "$funds_json" '{
     date: .run_date,
-    lanes: [.lanes[] | {
+    lanes: ([.lanes[] | select($active_funds[.fund_id] != null) | {
       fund_id, provider, status, action,
       fund_return_pct, benchmark_return_pct, excess_return_pct,
       rank, inception_date, asof_price_date,
       add_ticker, remove_ticker, rebalance_actions_preview
-    }],
+    }] | to_entries | map(.value + {rank: (.key + 1)})),
     indices: {
       asof_price_date: .indices.asof_price_date,
       items: [(.indices.items // [])[] | {ticker, name, return_pct}]
@@ -105,6 +107,8 @@ for fund_dir in "${REPO_ROOT}"/funds/fund-*; do
   fund_id="$(basename "$fund_dir")"
   config_path="${fund_dir}/fund.config.json"
   [ -f "$config_path" ] || continue
+  enabled="$(jq -r '.enabled != false' "$config_path")"
+  [ "$enabled" != "true" ] && continue
   provider="$(jq -r '.provider // empty' "$config_path")"
   [ -n "$provider" ] || continue
 

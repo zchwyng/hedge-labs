@@ -1,5 +1,6 @@
 {
   "name": "Quality + Momentum (Monthly-hold)",
+  "enabled": false,
   "provider": "xai",
   "model": "grok-4.20-reasoning",
   "benchmark": {

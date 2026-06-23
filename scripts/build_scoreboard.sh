@@ -27,6 +27,8 @@ for fund_dir in "${fund_dirs[@]}"; do
   [[ -f "$config_path" ]] || continue
 
   fund_id="$(basename "$fund_dir")"
+  enabled="$(jq -r '.enabled != false' "$config_path")"
+  [[ "$enabled" != "true" ]] && continue
   provider="$(jq -r '.provider // "unknown"' "$config_path")"
   run_path="funds/${fund_id}/runs/${run_date}/${provider}"
   meta_path="${run_path}/run_meta.json"

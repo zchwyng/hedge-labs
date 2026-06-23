@@ -50,6 +50,10 @@ jobs:
               config_path="${fund_dir}/fund.config.json"
               [ -f "$config_path" ] || continue
               fund_id="$(basename "$fund_dir")"
+              enabled="$(jq -r '.enabled != false' "$config_path")"
+              if [ "$enabled" != "true" ]; then
+                continue
+              fi
               provider="$(jq -r '.provider // empty' "$config_path")"
               if [ -z "$provider" ] || [ "$provider" = "null" ]; then
                 continue

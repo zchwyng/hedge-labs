@@ -1,5 +1,6 @@
 {
   "name": "Quality + Momentum (Monthly-hold)",
+  "enabled": false,
   "provider": "anthropic",
   "model": "claude-sonnet-4-6",
   "benchmark": {

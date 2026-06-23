@@ -265,6 +265,7 @@ async function main() {
     if (!existsSync(configPath)) continue;
     const config = parseJson(configPath);
     if (!config) continue;
+    if (config.enabled === false) continue;
     const provider = config.provider || 'unknown';
     const benchmarkTicker = config.benchmark?.ticker || config.benchmark_ticker || '';
     const benchmarkName = config.benchmark?.name || config.benchmark_label || benchmarkTicker;
