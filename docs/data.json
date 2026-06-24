@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T07:14:11Z",
+  "generated_at": "2026-06-24T07:31:22Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -11,28 +11,6 @@
       },
       "positions": 8,
       "color": "#3b82f6"
-    },
-    "fund-b": {
-      "provider": "anthropic",
-      "model": "claude-sonnet-4-6",
-      "name": "Quality + Momentum (Monthly-hold)",
-      "benchmark": {
-        "name": "S&P 500",
-        "ticker": "SPY"
-      },
-      "positions": 8,
-      "color": "#a855f7"
-    },
-    "fund-c": {
-      "provider": "xai",
-      "model": "grok-4.20-reasoning",
-      "name": "Quality + Momentum (Monthly-hold)",
-      "benchmark": {
-        "name": "S&P 500",
-        "ticker": "SPY"
-      },
-      "positions": 8,
-      "color": "#f97316"
     }
   },
   "days": [
@@ -48,36 +26,6 @@
           "benchmark_return_pct": null,
           "excess_return_pct": null,
           "rank": 1,
-          "inception_date": null,
-          "asof_price_date": null,
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": null,
-          "benchmark_return_pct": null,
-          "excess_return_pct": null,
-          "rank": 2,
-          "inception_date": null,
-          "asof_price_date": null,
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": null,
-          "benchmark_return_pct": null,
-          "excess_return_pct": null,
-          "rank": 3,
           "inception_date": null,
           "asof_price_date": null,
           "add_ticker": null,
@@ -124,36 +72,6 @@
       "date": "2026-02-13",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.43,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.36,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Add",
-          "fund_return_pct": 0.4,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.33,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": "TSM",
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Add NVDA, Add TSM, Add AVGO, Add LLY"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -161,7 +79,7 @@
           "fund_return_pct": -1.02,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": -1.09,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-13",
           "add_ticker": "GLD",
@@ -208,36 +126,6 @@
       "date": "2026-02-14",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.43,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.36,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.4,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.33,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -245,7 +133,7 @@
           "fund_return_pct": -1.02,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": -1.09,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-13",
           "add_ticker": null,
@@ -292,36 +180,6 @@
       "date": "2026-02-15",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.43,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.36,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.4,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.33,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -329,7 +187,7 @@
           "fund_return_pct": -1.02,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": -1.09,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-13",
           "add_ticker": null,
@@ -376,36 +234,6 @@
       "date": "2026-02-16",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.43,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.36,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.4,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 0.33,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -413,7 +241,7 @@
           "fund_return_pct": -1.02,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": -1.09,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-13",
           "add_ticker": null,
@@ -460,36 +288,6 @@
       "date": "2026-02-17",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.5,
-          "benchmark_return_pct": 0.23,
-          "excess_return_pct": 0.27,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-17",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.02,
-          "benchmark_return_pct": 0.23,
-          "excess_return_pct": -0.21,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-17",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -497,7 +295,7 @@
           "fund_return_pct": -0.89,
           "benchmark_return_pct": 0.23,
           "excess_return_pct": -1.12,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-17",
           "add_ticker": null,
@@ -544,21 +342,6 @@
       "date": "2026-02-18",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.08,
-          "benchmark_return_pct": 0.74,
-          "excess_return_pct": 0.34,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-18",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -566,22 +349,7 @@
           "fund_return_pct": 0.14,
           "benchmark_return_pct": 0.74,
           "excess_return_pct": -0.6,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-18",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.1,
-          "benchmark_return_pct": 0.74,
-          "excess_return_pct": -0.64,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-18",
           "add_ticker": null,
@@ -628,21 +396,6 @@
       "date": "2026-02-19",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.25,
-          "benchmark_return_pct": 0.47,
-          "excess_return_pct": 0.78,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-19",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -650,22 +403,7 @@
           "fund_return_pct": 0.24,
           "benchmark_return_pct": 0.47,
           "excess_return_pct": -0.23,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-19",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.27,
-          "benchmark_return_pct": 0.47,
-          "excess_return_pct": -0.74,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-19",
           "add_ticker": null,
@@ -712,21 +450,6 @@
       "date": "2026-02-20",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.32,
-          "benchmark_return_pct": 1.2,
-          "excess_return_pct": 0.12,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -734,22 +457,7 @@
           "fund_return_pct": 0.5,
           "benchmark_return_pct": 1.2,
           "excess_return_pct": -0.7,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.57,
-          "benchmark_return_pct": 1.2,
-          "excess_return_pct": -1.77,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-20",
           "add_ticker": null,
@@ -796,21 +504,6 @@
       "date": "2026-02-21",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.32,
-          "benchmark_return_pct": 1.2,
-          "excess_return_pct": 0.12,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -818,22 +511,7 @@
           "fund_return_pct": 0.5,
           "benchmark_return_pct": 1.2,
           "excess_return_pct": -0.7,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.57,
-          "benchmark_return_pct": 1.2,
-          "excess_return_pct": -1.77,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-20",
           "add_ticker": null,
@@ -880,21 +558,6 @@
       "date": "2026-02-22",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.32,
-          "benchmark_return_pct": 1.2,
-          "excess_return_pct": 0.12,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -902,22 +565,7 @@
           "fund_return_pct": 0.5,
           "benchmark_return_pct": 1.2,
           "excess_return_pct": -0.7,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.57,
-          "benchmark_return_pct": 1.2,
-          "excess_return_pct": -1.77,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-20",
           "add_ticker": null,
@@ -977,36 +625,6 @@
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 2.04,
-          "benchmark_return_pct": 0.16,
-          "excess_return_pct": 1.88,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-23",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -2.57,
-          "benchmark_return_pct": 0.16,
-          "excess_return_pct": -2.73,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-23",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -1048,21 +666,6 @@
       "date": "2026-02-24",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 1.56,
-          "benchmark_return_pct": 0.89,
-          "excess_return_pct": 0.67,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -1070,22 +673,7 @@
           "fund_return_pct": 0.5,
           "benchmark_return_pct": 0.89,
           "excess_return_pct": -0.39,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -2.65,
-          "benchmark_return_pct": 0.89,
-          "excess_return_pct": -3.54,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-24",
           "add_ticker": null,
@@ -1132,21 +720,6 @@
       "date": "2026-02-25",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.88,
-          "benchmark_return_pct": 1.74,
-          "excess_return_pct": 0.14,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-25",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -1154,22 +727,7 @@
           "fund_return_pct": 1.36,
           "benchmark_return_pct": 1.74,
           "excess_return_pct": -0.38,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-25",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -1.49,
-          "benchmark_return_pct": 1.74,
-          "excess_return_pct": -3.23,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-25",
           "add_ticker": null,
@@ -1216,21 +774,6 @@
       "date": "2026-02-26",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.61,
-          "benchmark_return_pct": 1.18,
-          "excess_return_pct": 0.43,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-26",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -1238,22 +781,7 @@
           "fund_return_pct": 0.02,
           "benchmark_return_pct": 1.18,
           "excess_return_pct": -1.16,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-26",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.38,
-          "benchmark_return_pct": 1.18,
-          "excess_return_pct": -3.56,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-26",
           "add_ticker": null,
@@ -1300,21 +828,6 @@
       "date": "2026-02-27",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 2.52,
-          "benchmark_return_pct": 0.69,
-          "excess_return_pct": 1.83,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Do nothing"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -1322,22 +835,7 @@
           "fund_return_pct": 0.12,
           "benchmark_return_pct": 0.69,
           "excess_return_pct": -0.57,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.85,
-          "benchmark_return_pct": 0.69,
-          "excess_return_pct": -3.54,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-27",
           "add_ticker": null,
@@ -1384,36 +882,6 @@
       "date": "2026-02-28",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 2.52,
-          "benchmark_return_pct": 0.69,
-          "excess_return_pct": 1.83,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.85,
-          "benchmark_return_pct": 0.69,
-          "excess_return_pct": -3.54,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -1421,7 +889,7 @@
           "fund_return_pct": 0.12,
           "benchmark_return_pct": 0.69,
           "excess_return_pct": -0.57,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-27",
           "add_ticker": null,
@@ -1468,36 +936,6 @@
       "date": "2026-03-01",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 2.52,
-          "benchmark_return_pct": 0.69,
-          "excess_return_pct": 1.83,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.85,
-          "benchmark_return_pct": 0.69,
-          "excess_return_pct": -3.54,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-02-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -1505,7 +943,7 @@
           "fund_return_pct": 0.12,
           "benchmark_return_pct": 0.69,
           "excess_return_pct": -0.57,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-02-27",
           "add_ticker": null,
@@ -1552,21 +990,6 @@
       "date": "2026-03-02",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 2.77,
-          "benchmark_return_pct": 0.75,
-          "excess_return_pct": 2.02,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-02",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -1574,22 +997,7 @@
           "fund_return_pct": 0.55,
           "benchmark_return_pct": 0.75,
           "excess_return_pct": -0.2,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-02",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.12,
-          "benchmark_return_pct": 0.75,
-          "excess_return_pct": -2.87,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-02",
           "add_ticker": null,
@@ -1636,21 +1044,6 @@
       "date": "2026-03-03",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.63,
-          "benchmark_return_pct": -0.14,
-          "excess_return_pct": 0.77,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-03",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -1658,22 +1051,7 @@
           "fund_return_pct": -0.65,
           "benchmark_return_pct": -0.14,
           "excess_return_pct": -0.51,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-03",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.64,
-          "benchmark_return_pct": -0.14,
-          "excess_return_pct": -2.5,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-03",
           "add_ticker": null,
@@ -1720,21 +1098,6 @@
       "date": "2026-03-04",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": 0.71,
-          "benchmark_return_pct": 0.57,
-          "excess_return_pct": 0.14,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-04",
-          "add_ticker": "LMT",
-          "remove_ticker": "AVGO",
-          "rebalance_actions_preview": "Replace AVGO->LMT, Replace JPM->TSM, Trim LLY->GLD"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -1742,27 +1105,12 @@
           "fund_return_pct": 0.14,
           "benchmark_return_pct": 0.57,
           "excess_return_pct": -0.43,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-04",
           "add_ticker": "TSM",
           "remove_ticker": "V",
           "rebalance_actions_preview": "Replace AMZN->LMT, Replace V->TSM, Trim META->GLD"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -0.94,
-          "benchmark_return_pct": 0.57,
-          "excess_return_pct": -1.51,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-04",
-          "add_ticker": "SLV",
-          "remove_ticker": "NVO",
-          "rebalance_actions_preview": "Replace PANW->LMT, Replace NOW->XOM, Replace NVO->SLV"
         }
       ],
       "indices": {
@@ -1812,36 +1160,6 @@
           "benchmark_return_pct": 0.01,
           "excess_return_pct": 0.07,
           "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-05",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.22,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": -0.23,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-05",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -1,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": -1.01,
-          "rank": 3,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-05",
           "add_ticker": null,
@@ -1901,36 +1219,6 @@
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.77,
-          "benchmark_return_pct": -1.3,
-          "excess_return_pct": 0.53,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-06",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -1.19,
-          "benchmark_return_pct": -1.3,
-          "excess_return_pct": 0.11,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-06",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -1972,36 +1260,6 @@
       "date": "2026-03-09",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.56,
-          "benchmark_return_pct": -0.44,
-          "excess_return_pct": 1,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-09",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.19,
-          "benchmark_return_pct": -0.44,
-          "excess_return_pct": 0.63,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-09",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -2009,7 +1267,7 @@
           "fund_return_pct": 0.78,
           "benchmark_return_pct": -0.44,
           "excess_return_pct": 1.22,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-09",
           "add_ticker": null,
@@ -2056,21 +1314,6 @@
       "date": "2026-03-10",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.1,
-          "benchmark_return_pct": -0.6,
-          "excess_return_pct": 0.5,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-10",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -2078,22 +1321,7 @@
           "fund_return_pct": 0.63,
           "benchmark_return_pct": -0.6,
           "excess_return_pct": 1.23,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-10",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -0.23,
-          "benchmark_return_pct": -0.6,
-          "excess_return_pct": 0.37,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-10",
           "add_ticker": null,
@@ -2140,36 +1368,6 @@
       "date": "2026-03-11",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": 0.66,
-          "benchmark_return_pct": -0.73,
-          "excess_return_pct": 1.39,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-11",
-          "add_ticker": "SLV",
-          "remove_ticker": "XLI",
-          "rebalance_actions_preview": "Replace XLI->SLV, Trim LLY->GLD, Add GLD"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": 0.23,
-          "benchmark_return_pct": -0.73,
-          "excess_return_pct": 0.96,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-11",
-          "add_ticker": "KLAC",
-          "remove_ticker": "LLY",
-          "rebalance_actions_preview": "Replace LLY->KLAC"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -2177,7 +1375,7 @@
           "fund_return_pct": 1.2,
           "benchmark_return_pct": -0.73,
           "excess_return_pct": 1.93,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-11",
           "add_ticker": null,
@@ -2224,36 +1422,6 @@
       "date": "2026-03-12",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.58,
-          "benchmark_return_pct": -2.23,
-          "excess_return_pct": 1.65,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-12",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -1.35,
-          "benchmark_return_pct": -2.23,
-          "excess_return_pct": 0.88,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-12",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -2261,7 +1429,7 @@
           "fund_return_pct": -0.44,
           "benchmark_return_pct": -2.23,
           "excess_return_pct": 1.79,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-12",
           "add_ticker": null,
@@ -2308,21 +1476,6 @@
       "date": "2026-03-13",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.97,
-          "benchmark_return_pct": -2.79,
-          "excess_return_pct": 1.82,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -2330,27 +1483,12 @@
           "fund_return_pct": -1.44,
           "benchmark_return_pct": -2.79,
           "excess_return_pct": 1.35,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-13",
           "add_ticker": "KLAC",
           "remove_ticker": "META",
           "rebalance_actions_preview": "Replace META->KLAC"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.58,
-          "benchmark_return_pct": -2.79,
-          "excess_return_pct": 0.21,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -2392,21 +1530,6 @@
       "date": "2026-03-16",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.6,
-          "benchmark_return_pct": -1.8,
-          "excess_return_pct": 1.2,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-16",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -2414,22 +1537,7 @@
           "fund_return_pct": -0.71,
           "benchmark_return_pct": -1.8,
           "excess_return_pct": 1.09,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-16",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -1.7,
-          "benchmark_return_pct": -1.8,
-          "excess_return_pct": 0.1,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-16",
           "add_ticker": null,
@@ -2476,21 +1584,6 @@
       "date": "2026-03-17",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -0.69,
-          "benchmark_return_pct": -1.54,
-          "excess_return_pct": 0.85,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-17",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -2498,22 +1591,7 @@
           "fund_return_pct": -1.28,
           "benchmark_return_pct": -1.54,
           "excess_return_pct": 0.26,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-17",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -1.32,
-          "benchmark_return_pct": -1.54,
-          "excess_return_pct": 0.22,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-17",
           "add_ticker": null,
@@ -2560,21 +1638,6 @@
       "date": "2026-03-18",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -2.11,
-          "benchmark_return_pct": -2.91,
-          "excess_return_pct": 0.8,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-18",
-          "add_ticker": "GOOGL",
-          "remove_ticker": "LLY",
-          "rebalance_actions_preview": "Trim SLV->GLD, Replace LLY->GOOGL, Trim TSM->CVX"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -2582,27 +1645,12 @@
           "fund_return_pct": -2.48,
           "benchmark_return_pct": -2.91,
           "excess_return_pct": 0.43,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-18",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -2.48,
-          "benchmark_return_pct": -2.91,
-          "excess_return_pct": 0.43,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-18",
-          "add_ticker": "GLD",
-          "remove_ticker": "AVGO",
-          "rebalance_actions_preview": "Replace AVGO->GLD"
         }
       ],
       "indices": {
@@ -2652,36 +1700,6 @@
           "benchmark_return_pct": -3.15,
           "excess_return_pct": 0.24,
           "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-19",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.12,
-          "benchmark_return_pct": -3.15,
-          "excess_return_pct": 0.03,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-19",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.17,
-          "benchmark_return_pct": -3.15,
-          "excess_return_pct": -0.02,
-          "rank": 3,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-19",
           "add_ticker": null,
@@ -2741,36 +1759,6 @@
           "add_ticker": "GOOGL",
           "remove_ticker": "LLY",
           "rebalance_actions_preview": "Replace LLY->GOOGL"
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -4.73,
-          "benchmark_return_pct": -4.54,
-          "excess_return_pct": -0.19,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -5.61,
-          "benchmark_return_pct": -4.54,
-          "excess_return_pct": -1.07,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -2812,36 +1800,6 @@
       "date": "2026-03-23",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -4.33,
-          "benchmark_return_pct": -3.54,
-          "excess_return_pct": -0.79,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-23",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -4.73,
-          "benchmark_return_pct": -3.54,
-          "excess_return_pct": -1.19,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-23",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -2849,7 +1807,7 @@
           "fund_return_pct": -3.86,
           "benchmark_return_pct": -3.54,
           "excess_return_pct": -0.32,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-23",
           "add_ticker": null,
@@ -2909,36 +1867,6 @@
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.89,
-          "benchmark_return_pct": -3.86,
-          "excess_return_pct": -0.03,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -4.12,
-          "benchmark_return_pct": -3.86,
-          "excess_return_pct": -0.26,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -2980,21 +1908,6 @@
       "date": "2026-03-25",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -2.75,
-          "benchmark_return_pct": -3.33,
-          "excess_return_pct": 0.58,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-25",
-          "add_ticker": "CVX",
-          "remove_ticker": "PLTR",
-          "rebalance_actions_preview": "Replace PLTR->CVX"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3002,27 +1915,12 @@
           "fund_return_pct": -3.02,
           "benchmark_return_pct": -3.33,
           "excess_return_pct": 0.31,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-25",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Trim",
-          "fund_return_pct": -3.22,
-          "benchmark_return_pct": -3.33,
-          "excess_return_pct": 0.11,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-25",
-          "add_ticker": "XOM",
-          "remove_ticker": "GLD",
-          "rebalance_actions_preview": "Trim GLD->XOM, Trim GLD->CVX, Trim SLV->CVX, Trim GOOGL->XOM"
         }
       ],
       "indices": {
@@ -3064,36 +1962,6 @@
       "date": "2026-03-26",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -4.97,
-          "benchmark_return_pct": -5.05,
-          "excess_return_pct": 0.08,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-26",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -5.89,
-          "benchmark_return_pct": -5.05,
-          "excess_return_pct": -0.84,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-26",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -3101,7 +1969,7 @@
           "fund_return_pct": -6.02,
           "benchmark_return_pct": -5.05,
           "excess_return_pct": -0.97,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-26",
           "add_ticker": null,
@@ -3148,36 +2016,6 @@
       "date": "2026-03-27",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.52,
-          "benchmark_return_pct": -6.67,
-          "excess_return_pct": 3.15,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -5.08,
-          "benchmark_return_pct": -6.67,
-          "excess_return_pct": 1.59,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -3185,7 +2023,7 @@
           "fund_return_pct": -6.22,
           "benchmark_return_pct": -6.67,
           "excess_return_pct": 0.45,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-27",
           "add_ticker": null,
@@ -3232,36 +2070,6 @@
       "date": "2026-03-30",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -4.5,
-          "benchmark_return_pct": -6.98,
-          "excess_return_pct": 2.48,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-30",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -6.57,
-          "benchmark_return_pct": -6.98,
-          "excess_return_pct": 0.41,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-30",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -3269,7 +2077,7 @@
           "fund_return_pct": -7.57,
           "benchmark_return_pct": -6.98,
           "excess_return_pct": -0.59,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-30",
           "add_ticker": null,
@@ -3316,36 +2124,6 @@
       "date": "2026-03-31",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.44,
-          "benchmark_return_pct": -4.28,
-          "excess_return_pct": 1.84,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-31",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.05,
-          "benchmark_return_pct": -4.28,
-          "excess_return_pct": 1.23,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-03-31",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3353,7 +2131,7 @@
           "fund_return_pct": -3.84,
           "benchmark_return_pct": -4.28,
           "excess_return_pct": 0.44,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-31",
           "add_ticker": "CVX",
@@ -3400,36 +2178,6 @@
       "date": "2026-04-01",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -3.16,
-          "benchmark_return_pct": -3.56,
-          "excess_return_pct": 0.4,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-01",
-          "add_ticker": "COST",
-          "remove_ticker": "GOOGL",
-          "rebalance_actions_preview": "Replace GOOGL->COST, Trim TSM->XOM"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -2.93,
-          "benchmark_return_pct": -3.56,
-          "excess_return_pct": 0.63,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-01",
-          "add_ticker": "GOOGL",
-          "remove_ticker": "NVDA",
-          "rebalance_actions_preview": "Replace NVDA->GOOGL"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -3437,7 +2185,7 @@
           "fund_return_pct": -3.84,
           "benchmark_return_pct": -4.28,
           "excess_return_pct": 0.44,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-03-31",
           "add_ticker": null,
@@ -3484,21 +2232,6 @@
       "date": "2026-04-02",
       "lanes": [
         {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.4,
-          "benchmark_return_pct": -3.47,
-          "excess_return_pct": 0.07,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-02",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3506,24 +2239,9 @@
           "fund_return_pct": -3.73,
           "benchmark_return_pct": -3.47,
           "excess_return_pct": -0.26,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-02",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -2.93,
-          "benchmark_return_pct": -3.56,
-          "excess_return_pct": 0.63,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-01",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -3568,36 +2286,6 @@
       "date": "2026-04-03",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -3.33,
-          "benchmark_return_pct": -3.47,
-          "excess_return_pct": 0.14,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-02",
-          "add_ticker": "AVGO",
-          "remove_ticker": "NVDA",
-          "rebalance_actions_preview": "Replace NVDA->AVGO"
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.4,
-          "benchmark_return_pct": -3.47,
-          "excess_return_pct": 0.07,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-02",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3605,7 +2293,7 @@
           "fund_return_pct": -3.73,
           "benchmark_return_pct": -3.47,
           "excess_return_pct": -0.26,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-02",
           "add_ticker": null,
@@ -3652,36 +2340,6 @@
       "date": "2026-04-06",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.61,
-          "benchmark_return_pct": -3.02,
-          "excess_return_pct": 0.41,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-06",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Do nothing"
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.64,
-          "benchmark_return_pct": -3.02,
-          "excess_return_pct": 0.38,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-06",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3689,7 +2347,7 @@
           "fund_return_pct": -2.89,
           "benchmark_return_pct": -3.02,
           "excess_return_pct": 0.13,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-06",
           "add_ticker": null,
@@ -3736,36 +2394,6 @@
       "date": "2026-04-07",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -1.35,
-          "benchmark_return_pct": -2.97,
-          "excess_return_pct": 1.62,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-07",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.17,
-          "benchmark_return_pct": -2.97,
-          "excess_return_pct": 0.8,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-07",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3773,7 +2401,7 @@
           "fund_return_pct": -1.6,
           "benchmark_return_pct": -2.97,
           "excess_return_pct": 1.37,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-07",
           "add_ticker": "COST",
@@ -3820,21 +2448,6 @@
       "date": "2026-04-08",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 0.72,
-          "benchmark_return_pct": -0.5,
-          "excess_return_pct": 1.22,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-08",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3842,24 +2455,9 @@
           "fund_return_pct": -0.34,
           "benchmark_return_pct": -0.5,
           "excess_return_pct": 0.16,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-08",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -2.64,
-          "benchmark_return_pct": -3.02,
-          "excess_return_pct": 0.38,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-06",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -3904,21 +2502,6 @@
       "date": "2026-04-09",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.28,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": 1.21,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-09",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -3926,27 +2509,12 @@
           "fund_return_pct": -0.09,
           "benchmark_return_pct": 0.07,
           "excess_return_pct": -0.16,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-09",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Replace",
-          "fund_return_pct": -2.4,
-          "benchmark_return_pct": 0.07,
-          "excess_return_pct": -2.47,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-09",
-          "add_ticker": "AVGO",
-          "remove_ticker": "SLV",
-          "rebalance_actions_preview": "Replace SLV->AVGO, Trim XOM->KLAC"
         }
       ],
       "indices": {
@@ -3988,21 +2556,6 @@
       "date": "2026-04-10",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 1.9,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": 1.89,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-10",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Do nothing"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -4010,22 +2563,7 @@
           "fund_return_pct": -0.37,
           "benchmark_return_pct": 0.01,
           "excess_return_pct": -0.38,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-10",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -3.04,
-          "benchmark_return_pct": 0.01,
-          "excess_return_pct": -3.05,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-10",
           "add_ticker": null,
@@ -4072,21 +2610,6 @@
       "date": "2026-04-13",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 2.61,
-          "benchmark_return_pct": 0.98,
-          "excess_return_pct": 1.63,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Do nothing"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -4094,22 +2617,7 @@
           "fund_return_pct": 0.21,
           "benchmark_return_pct": 0.98,
           "excess_return_pct": -0.77,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": -2.59,
-          "benchmark_return_pct": 0.98,
-          "excess_return_pct": -3.57,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-13",
           "add_ticker": null,
@@ -4156,21 +2664,6 @@
       "date": "2026-04-14",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 3.48,
-          "benchmark_return_pct": 2.21,
-          "excess_return_pct": 1.27,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-14",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Do nothing"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -4178,27 +2671,12 @@
           "fund_return_pct": 0.92,
           "benchmark_return_pct": 2.21,
           "excess_return_pct": -1.29,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-14",
           "add_ticker": "AVGO",
           "remove_ticker": "LMT",
           "rebalance_actions_preview": "Replace LMT->AVGO"
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -2.59,
-          "benchmark_return_pct": 0.98,
-          "excess_return_pct": -3.57,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-13",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -4240,21 +2718,6 @@
       "date": "2026-04-15",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "success",
-          "action": "Do nothing",
-          "fund_return_pct": 3.22,
-          "benchmark_return_pct": 3.02,
-          "excess_return_pct": 0.2,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-15",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": "Do nothing"
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "success",
@@ -4262,24 +2725,9 @@
           "fund_return_pct": 1.11,
           "benchmark_return_pct": 3.02,
           "excess_return_pct": -1.91,
-          "rank": 2,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-15",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -2.78,
-          "benchmark_return_pct": 2.21,
-          "excess_return_pct": -4.99,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-14",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -4324,21 +2772,6 @@
       "date": "2026-04-16",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 3.22,
-          "benchmark_return_pct": 3.02,
-          "excess_return_pct": 0.2,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-15",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -4346,22 +2779,7 @@
           "fund_return_pct": 1.11,
           "benchmark_return_pct": 3.02,
           "excess_return_pct": -1.91,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-15",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.52,
-          "benchmark_return_pct": 3.02,
-          "excess_return_pct": -6.54,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-15",
           "add_ticker": null,
@@ -4408,21 +2826,6 @@
       "date": "2026-04-17",
       "lanes": [
         {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 2.95,
-          "benchmark_return_pct": 3.27,
-          "excess_return_pct": -0.32,
-          "rank": 1,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-16",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
           "fund_id": "fund-a",
           "provider": "openai",
           "status": "failed",
@@ -4430,22 +2833,7 @@
           "fund_return_pct": 1.14,
           "benchmark_return_pct": 3.27,
           "excess_return_pct": -2.13,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-16",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.19,
-          "benchmark_return_pct": 3.27,
-          "excess_return_pct": -6.46,
-          "rank": 3,
+          "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-16",
           "add_ticker": null,
@@ -4505,36 +2893,6 @@
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 3.6,
-          "benchmark_return_pct": 4.52,
-          "excess_return_pct": -0.92,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-17",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.66,
-          "benchmark_return_pct": 4.52,
-          "excess_return_pct": -8.18,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-17",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -4589,36 +2947,6 @@
           "add_ticker": "AMZN",
           "remove_ticker": "CVX",
           "rebalance_actions_preview": "Replace CVX->AMZN"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 2.78,
-          "benchmark_return_pct": 4.31,
-          "excess_return_pct": -1.53,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.96,
-          "benchmark_return_pct": 4.31,
-          "excess_return_pct": -8.27,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-20",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -4670,36 +2998,6 @@
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-22",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 1.94,
-          "benchmark_return_pct": 3.63,
-          "excess_return_pct": -1.69,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-21",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -4.41,
-          "benchmark_return_pct": 3.63,
-          "excess_return_pct": -8.04,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-21",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -4757,36 +3055,6 @@
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 3.99,
-          "benchmark_return_pct": 4.68,
-          "excess_return_pct": -0.69,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-22",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.52,
-          "benchmark_return_pct": 4.68,
-          "excess_return_pct": -8.2,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-22",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -4838,36 +3106,6 @@
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-04-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 2.98,
-          "benchmark_return_pct": 4.27,
-          "excess_return_pct": -1.29,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-23",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.9,
-          "benchmark_return_pct": 4.27,
-          "excess_return_pct": -8.17,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-23",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
@@ -4925,36 +3163,6 @@
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 4.45,
-          "benchmark_return_pct": 5.08,
-          "excess_return_pct": -0.63,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.29,
-          "benchmark_return_pct": 5.08,
-          "excess_return_pct": -8.37,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-24",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -5009,36 +3217,6 @@
           "add_ticker": "META",
           "remove_ticker": "XOM",
           "rebalance_actions_preview": "Replace XOM->META"
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 3.84,
-          "benchmark_return_pct": 5.26,
-          "excess_return_pct": -1.42,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -3.88,
-          "benchmark_return_pct": 5.26,
-          "excess_return_pct": -9.14,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-27",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
         }
       ],
       "indices": {
@@ -5084,74 +3262,98 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 4.7,
-          "benchmark_return_pct": 4.75,
-          "excess_return_pct": -0.05,
+          "fund_return_pct": 4.87,
+          "benchmark_return_pct": 4.73,
+          "excess_return_pct": 0.14,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-28",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-c",
-          "provider": "xai",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": 1.68,
-          "benchmark_return_pct": 4.75,
-          "excess_return_pct": -3.07,
-          "rank": 2,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-28",
-          "add_ticker": null,
-          "remove_ticker": null,
-          "rebalance_actions_preview": null
-        },
-        {
-          "fund_id": "fund-b",
-          "provider": "anthropic",
-          "status": "failed",
-          "action": "UNKNOWN",
-          "fund_return_pct": -4.61,
-          "benchmark_return_pct": 4.75,
-          "excess_return_pct": -9.36,
-          "rank": 3,
-          "inception_date": "2026-02-13",
-          "asof_price_date": "2026-04-28",
+          "asof_price_date": "2026-04-29",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
         }
       ],
       "indices": {
-        "asof_price_date": "2026-04-28",
+        "asof_price_date": "2026-04-29",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 4.75
+            "return_pct": 4.73
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 9.61
+            "return_pct": 10.28
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 2.73
+            "return_pct": 2.4
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -6.53
+            "return_pct": -7.53
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 16.39
+            "return_pct": 14.43
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-06-24",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 5.95,
+          "benchmark_return_pct": 8.25,
+          "excess_return_pct": -2.3,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-06-23",
+          "add_ticker": "PANW",
+          "remove_ticker": "META",
+          "rebalance_actions_preview": "Replace META->PANW"
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-06-23",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 8.25
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 19.1
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 6.72
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -16.41
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -5.44
           }
         ]
       },
@@ -5165,7 +3367,7 @@
     "fund-a": [
       {
         "ticker": "NVDA",
-        "weight_pct": 15,
+        "weight_pct": 14,
         "sector": "Information Technology"
       },
       {
@@ -5174,18 +3376,18 @@
         "sector": "Communication Services"
       },
       {
-        "ticker": "META",
+        "ticker": "PANW",
         "weight_pct": 12,
-        "sector": "Communication Services"
+        "sector": "Information Technology"
       },
       {
         "ticker": "AMZN",
-        "weight_pct": 13,
+        "weight_pct": 12,
         "sector": "Consumer Discretionary"
       },
       {
         "ticker": "TSM",
-        "weight_pct": 12,
+        "weight_pct": 14,
         "sector": "Information Technology"
       },
       {
@@ -5202,90 +3404,6 @@
         "ticker": "COST",
         "weight_pct": 8,
         "sector": "Consumer Staples"
-      }
-    ],
-    "fund-b": [
-      {
-        "ticker": "XOM",
-        "weight_pct": 22,
-        "sector": "Energy"
-      },
-      {
-        "ticker": "CVX",
-        "weight_pct": 18,
-        "sector": "Energy"
-      },
-      {
-        "ticker": "KLAC",
-        "weight_pct": 12,
-        "sector": "Technology"
-      },
-      {
-        "ticker": "LMT",
-        "weight_pct": 10,
-        "sector": "Defense"
-      },
-      {
-        "ticker": "TSM",
-        "weight_pct": 8,
-        "sector": "Technology"
-      },
-      {
-        "ticker": "GLD",
-        "weight_pct": 22,
-        "sector": "Commodities"
-      },
-      {
-        "ticker": "COST",
-        "weight_pct": 6,
-        "sector": "Consumer Staples"
-      },
-      {
-        "ticker": "AVGO",
-        "weight_pct": 2,
-        "sector": "Technology"
-      }
-    ],
-    "fund-c": [
-      {
-        "ticker": "AVGO",
-        "weight_pct": 15,
-        "sector": "Information Technology"
-      },
-      {
-        "ticker": "TSM",
-        "weight_pct": 15,
-        "sector": "Information Technology"
-      },
-      {
-        "ticker": "KLAC",
-        "weight_pct": 14,
-        "sector": "Information Technology"
-      },
-      {
-        "ticker": "CVX",
-        "weight_pct": 12,
-        "sector": "Energy"
-      },
-      {
-        "ticker": "LMT",
-        "weight_pct": 11,
-        "sector": "Industrials"
-      },
-      {
-        "ticker": "XOM",
-        "weight_pct": 10,
-        "sector": "Energy"
-      },
-      {
-        "ticker": "GLD",
-        "weight_pct": 13,
-        "sector": "Materials"
-      },
-      {
-        "ticker": "SLV",
-        "weight_pct": 10,
-        "sector": "Materials"
       }
     ]
   }
