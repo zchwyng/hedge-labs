@@ -1,0 +1,94 @@
+{
+  "run_date": "2026-06-25",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime: mixed-to-risk-on. SPY/QQQ/IWM remain above MA50/MA200, with IWM 1m +4.30% and QQQ 3m +21.82%, but the last month shows a pullback under the surface in mega-cap growth.",
+    "Leadership remains concentrated in semicap/cyber: KLAC 1m +27.35%, 3m +53.74%; TSM 1m +9.23%, 3m +28.73%; PANW 1m +9.47%, 3m +81.45%. Gold and crypto trend are weak, so no defensive metals or crypto sleeve is justified.",
+    "Go/no-go: not a rebalance day and edge does not clear turnover hurdle. Qualitative refresh did not produce verified thesis damage severe enough to override the weekly cadence, so portfolio stays unchanged."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AMZN",
+      "why": "Pack shows soft near-term tape: 1m -12.03%, below MA50, and momentum composite only +4.11; qualitative follow-up on fundamentals/news is UNKNOWN."
+    },
+    {
+      "ticker": "COST",
+      "why": "Pack shows weakest momentum among current holdings: 3m -1.16%, 1m -6.53%, below MA50; no new qualitative evidence today to justify turnover."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "Short-term trend weakened: 1m -9.79% and below MA50 despite still strong 12m +109.62%; qualitative key-ratio/news refresh partly UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: none strong enough to justify an off-schedule change one day after the last rebalance.",
+      "Factor edge: preserving exposure to the current semicap/cyber leadership cluster avoids paying turnover into a still risk-on but choppy tape.",
+      "Variant view: recent weakness in AMZN/GOOGL/COST may prove transient while the strongest holdings KLAC/TSM/PANW continue to carry portfolio alpha over the next 30 days."
+    ],
+    "risks": [
+      "Macro: a growth or rates shock could hit the portfolio's large tech concentration despite no action today.",
+      "Idiosyncratic: if fresh negative guidance/news emerges in weaker holdings, delayed action could cost relative performance.",
+      "Execution/liquidity: no immediate execution risk from holding steady, but waiting can reduce flexibility if dispersion widens further."
+    ],
+    "falsifiable_checks": [
+      "Within 30 days, if KLAC, TSM, and PANW collectively lose MA50 support while SPY stays above MA50, the current leadership thesis is failing.",
+      "Within 30 days, if AMZN or COST underperform SPY by 10 percentage points or more on the rolling 1m window, thesis-damage pressure for the next scheduled rebalance rises materially."
+    ],
+    "why_now": "Base: the regime is still constructive, but not enough has changed in 24 hours to justify another trade after yesterday's replacement. Bull: semicap/cyber leaders continue compounding and the portfolio benefits from low turnover. Bear: the recent mega-cap pullback deepens and current laggards worsen. Even in the bear case, today's expected edge from trading does not clearly exceed trading-cost and timing drag in a paper weekly process."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 14,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 12,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "COST",
+      "weight_pct": 8,
+      "sector": "Consumer Staples"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights—KLAC/TSM/PANW remain top score leaders on 30d/90d momentum and trend; AMZN/COST weakest among holdings; NVDA/GOOGL/AVGO short-term trend softer but still above MA200. Fundamentals/news refresh—NVDA quality remains exceptional (op margin 65.6%, ROE 104.4%, ROIC 119.7%, rev growth 15.4%, EPS growth 21.0%, P/E 38.0, PEG 1.81); GOOGL revenue/net income snapshot strong but key ratios/estimates UNKNOWN; PANW and AMZN qualitative fundamentals UNKNOWN. Risk budget—IT 66%, Comm 14%, Cons Disc 12%, Staples 8%; no crypto; single-name max 14%. Scenario stress—equity index shock: portfolio likely underperforms SPY due to tech beta; rates shock: mixed, semis/software most exposed; commodity shock: limited direct risk; USD shock: some ADR sensitivity via TSM. Execution plan—hold unchanged until next scheduled rebalance unless severe thesis damage emerges. Monitoring/kill-switch—watch AMZN/COST relative weakness, GOOGL MA200 hold, and whether KLAC/TSM/PANW lose MA50 leadership within the next 30 days."
+  }
+}
