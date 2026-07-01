@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T07:37:49Z",
+  "generated_at": "2026-07-01T07:51:05Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -3532,44 +3532,98 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 10.4,
-          "benchmark_return_pct": 9.35,
-          "excess_return_pct": 1.05,
+          "fund_return_pct": 13.37,
+          "benchmark_return_pct": 10.2,
+          "excess_return_pct": 3.17,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-06-29",
+          "asof_price_date": "2026-06-30",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
         }
       ],
       "indices": {
-        "asof_price_date": "2026-06-29",
+        "asof_price_date": "2026-06-30",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 9.35
+            "return_pct": 10.2
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 20.84
+            "return_pct": 22.89
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 7.68
+            "return_pct": 8.47
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -18.35
+            "return_pct": -18.39
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": -10.34
+            "return_pct": -11.57
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-07-01",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 13.37,
+          "benchmark_return_pct": 10.2,
+          "excess_return_pct": 3.17,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-06-30",
+          "add_ticker": "LLY",
+          "remove_ticker": "COST",
+          "rebalance_actions_preview": "Replace COST->LLY"
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-06-30",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 10.2
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 22.89
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 8.47
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -18.39
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -11.41
           }
         ]
       },
@@ -3583,43 +3637,43 @@
     "fund-a": [
       {
         "ticker": "NVDA",
-        "weight_pct": 14,
+        "weight_pct": 13,
         "sector": "Information Technology"
       },
       {
         "ticker": "GOOGL",
-        "weight_pct": 14,
+        "weight_pct": 13,
         "sector": "Communication Services"
       },
       {
         "ticker": "PANW",
-        "weight_pct": 12,
+        "weight_pct": 13,
         "sector": "Information Technology"
       },
       {
         "ticker": "AMZN",
-        "weight_pct": 12,
+        "weight_pct": 11,
         "sector": "Consumer Discretionary"
       },
       {
         "ticker": "TSM",
-        "weight_pct": 14,
+        "weight_pct": 15,
         "sector": "Information Technology"
       },
       {
         "ticker": "AVGO",
-        "weight_pct": 12,
+        "weight_pct": 11,
         "sector": "Information Technology"
       },
       {
         "ticker": "KLAC",
-        "weight_pct": 14,
+        "weight_pct": 16,
         "sector": "Information Technology"
       },
       {
-        "ticker": "COST",
+        "ticker": "LLY",
         "weight_pct": 8,
-        "sector": "Consumer Staples"
+        "sector": "Health Care"
       }
     ]
   }

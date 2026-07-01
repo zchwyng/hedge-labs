@@ -1,0 +1,103 @@
+dexter_info: model=gpt-5.4 iterations=3 tool_calls=2
+{
+  "run_date": "2026-07-01",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime: mixed-to-risk-on. SPY/QQQ/IWM are all above MA50 and MA200, with IWM +3.70% 1m and QQQ +32.05% 3m; breadth improved beyond mega-cap tech, but leadership still skews to semicap/cyber.",
+    "Leadership: KLAC, PANW, and TSM remain the strongest pack-based winners; LLY and JPM add cleaner cross-sector momentum/quality than the current laggards. Gold and crypto trend remain weak, so no defensive metals or crypto sleeve is justified for a 30-day hold.",
+    "Go/no-go: rebalance is due, but not a high-conviction aggressive turnover setup. The cleanest upgrade is to remove the clearest thesis-damaged laggard (COST) for a higher-quality, above-MA50 momentum replacement (LLY) while keeping the rest of the winner stack intact."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "COST",
+      "why": "Pack shows the weakest current-holding trend: 1m -2.18%, 3m -6.00%, momentum -1.32%, below MA50 and MA200. Relative trend vs SPY/QQQ is negative, and recurring 7-day context flagged COST repeatedly as the clearest laggard. Qualitative follow-up: UNKNOWN."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "1m -11.94% versus SPY -1.03% and QQQ -0.15%, below MA50 with only modest 3m strength. Thesis not broken, but near-term factor support is weak. Qualitative follow-up: UNKNOWN."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "1m -15.31%, vol20 72.87%, dd63 -24.08%, below MA50. Still above MA200 and 3m positive, so this is deterioration rather than full thesis failure. Qualitative follow-up: UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "COST",
+      "add_ticker": "LLY",
+      "size_change_pct": 8
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "COST",
+    "add_ticker": "LLY",
+    "size_change_pct": 8,
+    "thesis": [
+      "Catalyst: LLY has strong recent leadership with 1m +8.55%, 3m +35.51%, above MA50/MA200, which aligns with the improved-but-still-selective risk-on tape.",
+      "Factor edge: this swap upgrades both momentum and quality mix versus COST, which has negative 3m momentum and sits below both MA50 and MA200; LLY also diversifies sector risk away from an overconcentrated tech/consumer mix.",
+      "Variant view: the market may be rotating toward durable earnings compounders outside semis, so adding LLY captures quality leadership before broader models fully reweight away from lagging defensives like COST."
+    ],
+    "risks": [
+      "Macro: if the tape abruptly re-risks on lower-rate cyclicality or consumer defensives reassert leadership, LLY may lag despite strong current trend.",
+      "Idiosyncratic: LLY faces drug/regulatory/trial headline risk; COST could recover if defensive retail regains sponsorship.",
+      "Execution/liquidity: both are liquid large caps, so implementation risk is low, but chasing recent LLY strength after an 8.34% 1w move raises short-term pullback risk."
+    ],
+    "falsifiable_checks": [
+      "Within 10 trading days, if LLY loses MA50 support or underperforms SPY by 5 percentage points or more on a 2-week basis, the replacement thesis is weakening.",
+      "By the next weekly checkpoint, if COST reclaims MA200 while LLY posts negative 1m relative momentum versus SPY, the swap edge should be reconsidered."
+    ],
+    "why_now": "Base: regime is constructive but still selective, favoring names with both strong recent momentum and resilient quality characteristics. Bull: leadership broadens from semicap/cyber into healthcare compounders, making LLY a cleaner 30-day hold than COST. Bear: this is a late chase and defensives rebound, but COST's pack-based weakness is already persistent enough that the expected score improvement clears normal turnover drag for a single weekly paper change."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 11,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 16,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 8,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights -> KLAC/PANW/TSM remain top momentum leaders; LLY adds positive 1m/3m trend and sector diversification; COST ranked weakest among holdings. Qual/fundamentals -> NVDA verified high quality/valuation-rich (P/E 37.98, EV/EBITDA 31.54, op margin 65.6%, ROE 104.4%, rev growth 15.4%, earnings growth 21.0%); most other ratio fields UNKNOWN from qualitative refresh. Risk budget -> 68% IT, 13% Comm Services, 11% Cons Disc, 8% Health Care; no crypto; no single position >16%. Scenario stress -> equity index shock hurts all names, but health care sleeve modestly reduces pure tech beta; rates shock still mainly affects long-duration growth; commodity/USD shocks are secondary, with TSM macro/geopolitical sensitivity monitored. Execution plan -> one-for-one weekly paper rebalance only, staged mentally as single 8% swap, minimizing turnover. Monitoring/kill-switch -> review next checkpoint for MA50 breaks in LLY/TSM/PANW/KLAC, persistent underperformance in AMZN/AVGO/NVDA, and any verified negative guidance/revision headline; if two or more core leaders lose positive 30d/90d relative momentum vs SPY, reduce conviction materially."
+  }
+}
+Warning: financial_search query requested news/headlines but scratchpad contained no explicit news source URLs or get_news_* results
