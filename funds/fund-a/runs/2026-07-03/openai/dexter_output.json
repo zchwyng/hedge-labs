@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-07-03",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on: SPY, QQQ, and IWM are all above MA50 and MA200, with stronger 90d leadership in QQQ (+22.09%) and IWM (+19.52%) than the softer 30d tape in SPY (-1.70%) and QQQ (-4.39%).",
+    "Leadership remains concentrated in semicap, cyber, and selective quality growth: KLAC, PANW, TSM, GOOGL, and LLY still lead on pack momentum, while gold and crypto remain unattractive for a 30-day hold.",
+    "Go/no-go: rebalance is not due today, and the qualitative refresh did not verify severe thesis damage large enough to override weekly spacing. Paper action is Do nothing and the target portfolio stays unchanged."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack damage remains the clearest in-book: 30d return -25.03%, 63d drawdown -25.03%, vol20 70.11%, and below MA50; qualitative follow-up on fresh fundamentals/news is UNKNOWN."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "Near-term momentum has cooled: 30d return -12.46%, below MA50, and 63d drawdown -18.23%, though still above MA200 and fundamentals remain very strong."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "Momentum softened versus benchmarks: 30d return -5.40% vs SPY -1.70%, below MA50, and 63d drawdown -17.45%; qualitative follow-up is UNKNOWN."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "No severe damage, but trend has stalled short term: 30d return -0.48%, below MA50, with qualitative refresh incomplete/UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: no scheduled rebalance today, and no verified 24-72h qualitative event clearly breaks the existing winner stack.",
+      "Factor edge: the current book still concentrates in the strongest pack-backed leadership cohorts, especially KLAC, PANW, TSM, GOOGL, and LLY, while avoiding weak gold and crypto regimes.",
+      "Variant view: despite ongoing short-term damage in AVGO, NVDA, and AMZN, the expected benefit from an off-cycle trade does not clearly exceed turnover discipline for a 30-day horizon."
+    ],
+    "risks": [
+      "Macro: a growth/rates shock could pressure the portfolio's heavy technology and long-duration equity exposure.",
+      "Idiosyncratic: AVGO remains the main weak link, and correlated semiconductor disappointment could spread across NVDA, TSM, AVGO, and KLAC.",
+      "Execution/liquidity: low immediate trading risk because no action is taken, but delayed action could forfeit relative strength if laggards deteriorate before the next checkpoint."
+    ],
+    "falsifiable_checks": [
+      "By the next weekly rebalance checkpoint, if AVGO remains below MA50 and underperforms SPY by 5 percentage points or more over the next 5 trading days, replacement risk rises materially.",
+      "Within 7 calendar days, if two or more of NVDA, AMZN, and GOOGL post further negative verified news/guidance or lose MA200 support, the hold thesis weakens."
+    ],
+    "why_now": "Base: mixed-to-risk-on regime persists, but breadth remains narrower than ideal and leadership is concentrated, so the hurdle for off-cycle trading is high. Bull: PANW, KLAC, TSM, LLY, and GOOGL continue to carry the book while weaker names stabilize. Bear: AVGO/NVDA/AMZN continue lagging, but on a non-rebalance day the expected incremental alpha from acting now does not clearly clear trading-cost and discipline drag."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 11,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 16,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 8,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: pack data integrity OK for all current holdings; active-candidate score highlights favor KLAC/PANW/TSM/LLY/GOOGL on momentum, while AVGO/NVDA/AMZN lag on 30d trend; NVDA fundamentals strong with P/E 39.9x, op margin 70.3%, rev growth 6.2%, EPS growth 13.3%, analyst revenue/EPS path positive; AMZN/AVGO/GOOGL qualitative fundamentals/news = UNKNOWN. Risk budget: 68% Information Technology, 13% Communication Services, 11% Consumer Discretionary, 8% Health Care; no crypto; concentrated but within limits. Scenario stress: equity index shock hurts all names, rates shock hits long-duration growth, commodity/USD shocks less central; no single non-tech hedge present, but current regime does not justify forced diversification today. Execution plan: no trade; preserve weekly turnover budget. Monitoring/kill-switch: AVGO sustained weakness, additional negative verified guidance/news in 2+ major holdings, or loss of MA200 in core laggards before next checkpoint."
+  }
+}
