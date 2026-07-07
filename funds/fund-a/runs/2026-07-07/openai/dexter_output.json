@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-07-07",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on: SPY, QQQ, and IWM are all above MA50 and MA200; 90d leadership remains strong in QQQ (+23.70%) and IWM (+19.23%), while the 30d tape is softer in SPY (-0.14%) and QQQ (-2.77%).",
+    "Leadership is still concentrated in semicap, cyber, and selective healthcare: PANW, KLAC, TSM, GOOGL, and LLY remain the strongest pack-backed holdings; gold and crypto remain unattractive for a 30-day hold with GLD and BTC-USD both below MA50/MA200.",
+    "Go/no-go: not a rebalance day, so turnover discipline overrides incremental edge. Qualitative refresh did not verify severe thesis damage in the refreshed subset, so the paper portfolio remains exactly unchanged."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack damage persists: 1m return -21.86%, below MA50, 63d drawdown -25.03%, and elevated 20d vol 56.84%. No fresh qualitative override was established today, so flag stays watchlist-only on a non-rebalance day."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "Near-term trend remains soft despite strong fundamentals: 1m return -8.94%, below MA50, 63d drawdown -18.33%. Qualitative refresh supports quality but does not negate the short-term momentum slowdown."
+    },
+    {
+      "ticker": "AMZN",
+      "why": "Momentum remains middling versus portfolio leaders: 1m return -2.34%, below MA50, 63d drawdown -17.45%. Qualitative verification for recent thesis change is UNKNOWN."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "No severe thesis break, but still below MA50 despite strong 3m trend and relative strength; fresh qualitative/news verification was incomplete, so near-term catalyst read is UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: policy constraint and portfolio discipline dominate today because weekly rebalance spacing has not been met and leadership remains intact in PANW, KLAC, TSM, LLY, and GOOGL on pack evidence.",
+      "Factor edge: the current book still leans into the strongest quality-plus-momentum cluster; PANW, KLAC, TSM, LLY, and GOOGL all outperform broad market trends over 90d, while crypto and gold fail the regime filter.",
+      "Variant view: NVDA and especially AVGO remain weaker holdings, but the qualitative refresh did not verify severe new thesis damage sufficient to override the non-rebalance rule."
+    ],
+    "risks": [
+      "Macro: a growth or rates shock would still hit the portfolio's heavy technology concentration and compress multiples across semis, internet, and cyber.",
+      "Idiosyncratic: AI-spend digestion, foundry/capex disappointment, or security budget rotation could pressure NVDA, AVGO, TSM, KLAC, and PANW together.",
+      "Execution/liquidity: immediate trading risk is minimal because no trade is taken, but delayed response risk remains if AVGO weakness or broader tech breadth deterioration accelerates before the next checkpoint."
+    ],
+    "falsifiable_checks": [
+      "By the next scheduled rebalance checkpoint, if AVGO remains below MA50 and underperforms SPY by at least 5 percentage points over the next 5 trading days, replacement odds rise materially.",
+      "Within 7 calendar days, if two or more of NVDA, AMZN, and GOOGL lose MA200 support or show verified negative guidance/news deterioration, the hold thesis weakens."
+    ],
+    "why_now": "Base: mixed-to-risk-on regime persists, but leadership is still concentrated and the hurdle for off-cycle turnover is high. Bull: PANW, KLAC, TSM, LLY, and GOOGL continue to carry the book while fundamentals remain strong where verified, notably NVDA's ~70.3% operating margin, ~69.3% ROE, and positive revenue/earnings growth. Bear: AVGO/NVDA/AMZN remain softer on 30d trend, but the expected incremental alpha from acting today does not clearly exceed turnover and discipline drag on a non-rebalance day."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AMZN",
+      "weight_pct": 11,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 16,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 8,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights—PANW/KLAC/TSM strongest on pack momentum; LLY and GOOGL remain solid; NVDA quality verified strong; AVGO weakest active holding on 30d trend. Qual/fund refresh—NVDA verified rich but still high quality (P/E 39.9, EV/EBITDA 32.5, op margin 70.3%, revenue growth 6.2%, earnings growth 12.8%); GOOGL/PANW/AMZN current key-ratio/news verification UNKNOWN. Risk budget—IT exposure 68%, below 80% cap but still concentrated; no crypto sleeve. Scenario stress—equity/rates shock hurts semis and growth most; commodity and USD shocks less central; no new concentration added today. Execution plan—no trade, preserve weekly cadence discipline. Monitoring/kill-switch—watch AVGO, NVDA, AMZN for continued underperformance; if severe verified thesis damage emerges before next checkpoint, reassess replacement priority; missing qualitative fields treated as UNKNOWN and confidence reduced accordingly."
+  }
+}

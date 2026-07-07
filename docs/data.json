@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T11:07:29Z",
+  "generated_at": "2026-07-07T10:02:37Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -3316,9 +3316,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Replace",
-          "fund_return_pct": 5.66,
+          "fund_return_pct": 5.65,
           "benchmark_return_pct": 8.2,
-          "excess_return_pct": -2.54,
+          "excess_return_pct": -2.55,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-06-24",
@@ -3370,9 +3370,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 5.97,
+          "fund_return_pct": 5.95,
           "benchmark_return_pct": 8.36,
-          "excess_return_pct": -2.39,
+          "excess_return_pct": -2.41,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-06-25",
@@ -3478,9 +3478,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 10.4,
+          "fund_return_pct": 10.38,
           "benchmark_return_pct": 9.35,
-          "excess_return_pct": 1.05,
+          "excess_return_pct": 1.03,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-06-29",
@@ -3532,9 +3532,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 13.37,
+          "fund_return_pct": 13.35,
           "benchmark_return_pct": 10.2,
-          "excess_return_pct": 3.17,
+          "excess_return_pct": 3.15,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-06-30",
@@ -3586,9 +3586,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Replace",
-          "fund_return_pct": 10.58,
+          "fund_return_pct": 10.57,
           "benchmark_return_pct": 10.05,
-          "excess_return_pct": 0.53,
+          "excess_return_pct": 0.52,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-07-01",
@@ -3640,9 +3640,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 7.68,
+          "fund_return_pct": 7.66,
           "benchmark_return_pct": 9.9,
-          "excess_return_pct": -2.22,
+          "excess_return_pct": -2.24,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-07-02",
@@ -3694,9 +3694,9 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 7.68,
+          "fund_return_pct": 7.66,
           "benchmark_return_pct": 9.9,
-          "excess_return_pct": -2.22,
+          "excess_return_pct": -2.24,
           "rank": 1,
           "inception_date": "2026-02-13",
           "asof_price_date": "2026-07-02",
@@ -3748,44 +3748,98 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 7.68,
-          "benchmark_return_pct": 9.9,
-          "excess_return_pct": -2.22,
+          "fund_return_pct": 9.26,
+          "benchmark_return_pct": 10.86,
+          "excess_return_pct": -1.6,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-07-02",
+          "asof_price_date": "2026-07-06",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-02",
+        "asof_price_date": "2026-07-06",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 9.9
+            "return_pct": 10.86
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 18.92
+            "return_pct": 20.63
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 7.91
+            "return_pct": 9.16
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -16.23
+            "return_pct": -15.34
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": -5.2
+            "return_pct": -3.36
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-07-07",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 9.26,
+          "benchmark_return_pct": 10.86,
+          "excess_return_pct": -1.6,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-07-06",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-07-06",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 10.86
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 20.63
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 9.16
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -15.34
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -4.53
           }
         ]
       },
