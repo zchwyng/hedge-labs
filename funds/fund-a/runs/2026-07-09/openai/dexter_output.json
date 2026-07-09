@@ -1,0 +1,117 @@
+{
+  "run_date": "2026-07-09",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on: SPY and IWM remain above MA50/MA200, QQQ remains above MA200 but below MA50; 30d breadth improved, but leadership is still concentrated in semicap, cyber, and selective quality growth.",
+    "For a 30-day hold, strongest pack-backed leaders remain KLAC, PANW, TSM, LLY, GOOGL, and AAPL; crypto and metals fail the trend filter, while rates proxies remain weak.",
+    "Go/no-go: rebalance is due and a missed checkpoint is pending, so an active but efficient rebalance is warranted. Best incremental change is to upgrade weak/softer momentum exposure into stronger trend quality while keeping overall tech concentration under control."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AMZN",
+      "why": "Pack shows weaker factor support versus portfolio peers: 1m return -0.98%, 3m 13.96%, momentum composite 6.63%, below MA50. Qualitative follow-up since 2026-07-02: UNKNOWN."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Pack shows middling momentum and elevated risk: momentum composite 18.48% but below MA50 with 63d drawdown -25.03% and vol20 51.40%. Qualitative follow-up since 2026-07-02: UNKNOWN."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Not thesis damage, but risk flag: highest momentum in book is paired with very high vol20 114.88%, 63d drawdown -28.25%, and a sharp 1w move of -26.69%, arguing against further concentration."
+    },
+    {
+      "ticker": "TSM",
+      "why": "Not thesis damage, but event/risk flag: still strong trend leader, yet 1w return -8.50% and vol20 61.81% indicate near-term tape instability for a 30-day horizon."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "AMZN",
+      "add_ticker": "AAPL",
+      "size_change_pct": 11
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "KLAC",
+      "add_ticker": "LLY",
+      "size_change_pct": 2
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "TSM",
+      "add_ticker": "AAPL",
+      "size_change_pct": 1
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "AMZN",
+    "add_ticker": "AAPL",
+    "size_change_pct": 11,
+    "thesis": [
+      "Catalyst: AAPL has entered the top momentum cohort in the pack with 1m return 1.97%, 3m 23.74%, above MA50 and MA200, while AMZN remains below MA50 with materially weaker composite momentum.",
+      "Factor edge: this swap improves the portfolio's 30-day quality-plus-momentum profile by replacing a lagging large-cap consumer exposure with a stronger trend, lower-drawdown mega-cap that still fits the quality growth leadership regime.",
+      "Variant view: the market may continue rewarding resilient mega-cap platform franchises beyond the crowded AI-semi cluster; AAPL offers cleaner trend support than AMZN without adding a new macro sleeve."
+    ],
+    "risks": [
+      "Macro: a sharp rates backup or broad growth de-risking could hit mega-cap tech multiples and narrow leadership simultaneously.",
+      "Idiosyncratic: AAPL qualitative/news confirmation is UNKNOWN, so undisclosed product, regulatory, or supply-chain setbacks could weaken the thesis; AMZN could also reaccelerate and make the switch look premature.",
+      "Execution/liquidity: liquidity is not a primary concern, but replacing into a name after a strong 1w move increases short-term chase risk if momentum mean reverts over the next 5-10 sessions."
+    ],
+    "falsifiable_checks": [
+      "Within 10 trading days, if AAPL loses MA50 support or underperforms SPY by 5 percentage points or more from the rebalance date, the replacement thesis weakens materially.",
+      "By the next weekly review, if AMZN reclaims MA50 and its relative 1m/3m momentum improves enough to exceed AAPL on pack evidence, reversal risk rises and the swap should be reassessed."
+    ],
+    "why_now": "Base: mixed-to-risk-on regime persists, but the most investable edge is still inside concentrated large-cap growth leadership; AAPL has stronger pack trend support than AMZN right now. Bull: leadership broadens within mega-cap tech, allowing AAPL plus PANW/KLAC/TSM/LLY to carry alpha while AMZN lags. Bear: the tape rotates away from tech after a strong run, making the swap only marginally accretive. Even so, the expected score uplift clears trading-cost drag because turnover is limited to one replacement plus two small sizing adjustments."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Factor scores (approx, pack-driven): KLAC/PANW strongest; TSM/GOOGL/LLY/AAPL next; NVDA/AVGO acceptable; AMZN weakest incumbent and removed. Fundamentals/news follow-up: NVDA/AMZN/AVGO/AAPL qualitative refresh and key ratios largely UNKNOWN, so confidence moderated and only one replacement taken. Risk budget: 77% tech, 13% comm services, 10% health care; no crypto, no ETF hedges due weak trend. Scenario check: equity index shock hurts book broadly; rates shock hits long-duration tech but LLY diversifies; commodity/USD shocks limited direct impact; no single position >14%. Execution: staged paper rebalance, prioritize AMZN->AAPL replacement, then small trims/adds only. Monitoring/kill-switch: reassess if AAPL loses MA50, if QQQ loses MA200, or if two of PANW/KLAC/TSM break trend support with worsening relative momentum by next weekly checkpoint."
+  }
+}

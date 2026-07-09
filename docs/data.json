@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T08:46:06Z",
+  "generated_at": "2026-07-09T10:04:52Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -3868,32 +3868,86 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-07",
+        "asof_price_date": "2026-07-08",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 10.34
+            "return_pct": 9.99
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 18.39
+            "return_pct": 18.73
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 8.12
+            "return_pct": 7.73
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -16.37
+            "return_pct": -17.05
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": -6.29
+            "return_pct": -5.99
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-07-09",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 7.34,
+          "benchmark_return_pct": 9.99,
+          "excess_return_pct": -2.65,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-07-08",
+          "add_ticker": "AAPL",
+          "remove_ticker": "AMZN",
+          "rebalance_actions_preview": "Replace AMZN->AAPL, Trim KLAC->LLY, Trim TSM->AAPL"
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-07-08",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 9.99
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 18.73
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 7.73
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -17.05
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -5.06
           }
         ]
       },
@@ -3921,13 +3975,13 @@
         "sector": "Information Technology"
       },
       {
-        "ticker": "AMZN",
-        "weight_pct": 11,
-        "sector": "Consumer Discretionary"
+        "ticker": "AAPL",
+        "weight_pct": 12,
+        "sector": "Information Technology"
       },
       {
         "ticker": "TSM",
-        "weight_pct": 15,
+        "weight_pct": 14,
         "sector": "Information Technology"
       },
       {
@@ -3937,12 +3991,12 @@
       },
       {
         "ticker": "KLAC",
-        "weight_pct": 16,
+        "weight_pct": 14,
         "sector": "Information Technology"
       },
       {
         "ticker": "LLY",
-        "weight_pct": 8,
+        "weight_pct": 10,
         "sector": "Health Care"
       }
     ]
