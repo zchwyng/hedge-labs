@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-09T10:04:52Z",
+  "generated_at": "2026-07-10T09:55:00Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -3910,44 +3910,98 @@
           "provider": "openai",
           "status": "success",
           "action": "Replace",
-          "fund_return_pct": 7.34,
-          "benchmark_return_pct": 9.99,
-          "excess_return_pct": -2.65,
+          "fund_return_pct": 9.09,
+          "benchmark_return_pct": 10.93,
+          "excess_return_pct": -1.84,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-07-08",
+          "asof_price_date": "2026-07-09",
           "add_ticker": "AAPL",
           "remove_ticker": "AMZN",
           "rebalance_actions_preview": "Replace AMZN->AAPL, Trim KLAC->LLY, Trim TSM->AAPL"
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-08",
+        "asof_price_date": "2026-07-09",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 9.99
+            "return_pct": 10.93
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 18.73
+            "return_pct": 20.7
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 7.73
+            "return_pct": 8.51
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -17.05
+            "return_pct": -16.22
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": -5.06
+            "return_pct": -4.57
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-07-10",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Do nothing",
+          "fund_return_pct": 9.09,
+          "benchmark_return_pct": 10.93,
+          "excess_return_pct": -1.84,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-07-09",
+          "add_ticker": null,
+          "remove_ticker": null,
+          "rebalance_actions_preview": null
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-07-09",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 10.93
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 20.7
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 8.51
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -16.22
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -2.8
           }
         ]
       },
