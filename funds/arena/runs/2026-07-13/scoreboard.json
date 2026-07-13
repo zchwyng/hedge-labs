@@ -1,0 +1,77 @@
+{
+  "run_date": "2026-07-13",
+  "lanes": [
+    {
+      "fund_id": "fund-a",
+      "provider": "openai",
+      "status": "success",
+      "action": "Do nothing",
+      "add_ticker": null,
+      "remove_ticker": null,
+      "size_change_pct": 0,
+      "constraints_ok": true,
+      "rebalance_actions_count": 0,
+      "rebalance_actions_preview": null,
+      "benchmark_ticker": "SPY",
+      "benchmark_name": "S&P 500",
+      "performance_method": "nav_since_start",
+      "inception_date": "2026-02-13",
+      "asof_portfolio_date": "2026-07-13",
+      "asof_price_date": "2026-07-10",
+      "fund_return_pct": 8.8,
+      "benchmark_return_pct": 11.4,
+      "excess_return_pct": -2.6,
+      "performance_coverage_pct": 100,
+      "benchmark_coverage_pct": 100,
+      "run_path": "funds/fund-a/runs/2026-07-13/openai",
+      "rank": 1,
+      "ranking_score": -2.6
+    }
+  ],
+  "indices": {
+    "start_date": "2026-02-13",
+    "end_date": "2026-07-13",
+    "asof_price_date": "2026-07-10",
+    "items": [
+      {
+        "ticker": "SPY",
+        "name": "S&P 500",
+        "return_pct": 11.4,
+        "asof_price_date": "2026-07-10"
+      },
+      {
+        "ticker": "QQQ",
+        "name": "Nasdaq 100",
+        "return_pct": 21.07,
+        "asof_price_date": "2026-07-10"
+      },
+      {
+        "ticker": "ACWI",
+        "name": "MSCI ACWI",
+        "return_pct": 8.96,
+        "asof_price_date": "2026-07-10"
+      },
+      {
+        "ticker": "GLD",
+        "name": "Gold",
+        "return_pct": -16.48,
+        "asof_price_date": "2026-07-10"
+      },
+      {
+        "ticker": "BTC-USD",
+        "name": "Bitcoin",
+        "return_pct": -3.72,
+        "asof_price_date": "2026-07-12"
+      }
+    ]
+  },
+  "ranking": {
+    "method": "independent_performance",
+    "notes": "Ranked independently by excess return vs benchmark (fallback to fund return), with coverage as tie-breaker. Returns are NAV-style since inception."
+  },
+  "comparison": {
+    "portfolio_overlap_pct": 0,
+    "turnover_estimate_pct": 0,
+    "notes": "Need at least two successful lanes to compute overlap/turnover metrics."
+  }
+}
