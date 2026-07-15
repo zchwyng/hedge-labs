@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-07-15",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on from the arena_input_pack: SPY and IWM are above MA50/MA200, QQQ is above MA200 but below MA50; 3m leadership still favors growth, but near-term breadth is mixed.",
+    "Current book still aligns with the strongest 30d/90d leadership in semicap, cyber, and selective quality growth: PANW, KLAC, TSM, AAPL, GOOGL, and LLY remain the core factor leaders; crypto, gold, and long duration fail the trend filter.",
+    "Go/no-go: rebalance due today is false, so turnover discipline dominates. Qualitative refresh did not verify severe new thesis damage in refreshed holdings; action remains Do nothing and target portfolio stays exactly unchanged."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "NVDA",
+      "why": "No severe new qualitative break verified since 2026-07-08; pack momentum is positive but only moderate versus QQQ, and the stock remains below MA50, so confidence is reduced but thesis is not broken."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "No severe new qualitative break verified since 2026-07-08; 1m return is slightly negative and the stock is below MA50, but 3m return remains ahead of SPY and above MA200 keeps the broader trend intact."
+    },
+    {
+      "ticker": "PANW",
+      "why": "No severe new qualitative break verified since 2026-07-08; strongest momentum in the book remains intact, though high volatility means crowding/reversal risk should be monitored."
+    },
+    {
+      "ticker": "LLY",
+      "why": "No severe new qualitative break verified since 2026-07-08; momentum and drawdown profile remain constructive, but qualitative fundamentals/news follow-up is partially UNKNOWN, which modestly lowers confidence."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: no scheduled rebalance is due, and the existing 8-name portfolio still matches the strongest pack-backed leadership in semicap, cyber, and selective quality growth.",
+      "Factor edge: avoiding turnover preserves expected alpha because PANW, KLAC, TSM, AAPL, GOOGL, and LLY still screen as the strongest 30d/90d leaders versus SPY/QQQ, while likely alternatives do not clearly clear the cost hurdle today.",
+      "Variant view: despite concentration risk and some below-MA50 signals in NVDA, GOOGL, TSM, and AVGO, there is no verified severe thesis damage since the 2026-07-13 successful run that justifies overriding spacing discipline."
+    ],
+    "risks": [
+      "Macro: a rates spike or broad de-risking could hit the portfolio's heavy technology concentration and compress momentum leadership quickly.",
+      "Idiosyncratic: refreshed qualitative fields were only partially verifiable, so guidance/fundamental deterioration risk is partly UNKNOWN for reviewed equities.",
+      "Execution/liquidity: no-trade avoids slippage now, but it risks slower reaction if a company-specific negative emerges before the next checkpoint."
+    ],
+    "falsifiable_checks": [
+      "By the next scheduled review, if at least 2 of NVDA, GOOGL, TSM, or AVGO remain below MA50 and also underperform SPY on the 1m window, reopen replacement analysis.",
+      "Within 7 days, if verified earnings, guidance, regulatory, or demand-negative news emerges for any holding above 13% weight, treat that as a live thesis-damage trigger for the next rebalance checkpoint."
+    ],
+    "why_now": "Base: regime remains constructive but not clean enough to justify off-cycle turnover, and the current book still holds the strongest pack-backed leaders. Bull: semicap/cyber leadership persists and the unchanged portfolio compounds with low friction over the next 30 days. Bear: crowded tech leadership mean-reverts, especially in high-vol names like KLAC and PANW, and the portfolio gives back relative gains. Expected incremental edge from trading today does not clearly exceed turnover and timing drag, so Do nothing is the highest-quality paper candidate."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=PANK 79.60 mom, KLAC 60.31, TSM 34.04, GOOGL 29.40, AAPL 25.86, LLY 22.46; weaker held names NVDA 10.97 and AVGO 15.83 but still above MA200. Risk budget=IT 77%, Comm 13%, Health Care 10%; no crypto; single-name max 14%. Scenario stress=index shock hurts concentrated tech book most; rates shock pressures long-duration growth; commodity/USD shock limited direct exposure; health care sleeve offers partial diversification. Execution plan=no trade until scheduled rebalance unless severe thesis damage is verified. Monitoring/kill-switch=watch MA50 failures, relative 1m underperformance vs SPY/QQQ, and any verified guidance/regulatory/demand negative; qualitative fundamentals/news for refreshed names partly UNKNOWN."
+  }
+}
