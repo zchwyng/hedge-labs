@@ -1,0 +1,105 @@
+{
+  "run_date": "2026-07-17",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on from the arena_input_pack: SPY and IWM are above MA50/MA200, QQQ remains above MA200 but below MA50, so broad trend is still constructive but tech leadership has weakened near term.",
+    "Breadth has broadened beyond mega-cap tech: IWM 3m return 9.99% exceeds SPY 7.53%, while several prior portfolio names have lost 1m relative strength; PANW, AAPL, KLAC, and LLY still lead, but AVGO, NVDA, TSM, and GOOGL have softened versus SPY/QQQ on the 30d window.",
+    "Go/no-go: high-conviction full rotation is not supported, but an active rebalance is due and the edge clears the turnover hurdle for a single diversification upgrade: replace AVGO with JPM to improve quality-adjusted momentum, reduce drawdown/volatility, and lower single-factor semicap concentration over the next 30 days."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack shows the weakest active-holding trend quality: 1m -4.80%, 3m -5.46%, below MA50, and 63d drawdown -25.03%. Qualitative follow-up on guidance/estimate tone is UNKNOWN."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "Momentum cooled versus benchmarks: 1m -2.38% vs SPY -0.29% and below MA50, though still above MA200; not enough damage to exit today."
+    },
+    {
+      "ticker": "TSM",
+      "why": "Near-term trend softened: 1m -7.17%, below MA50, high 20d vol 56.85%. Qualitative thesis damage not verified, so only a watchlist flag."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "1m -4.03% and below MA50 while QQQ also weakened; still above MA200 and strong 12m trend, so damage is moderate not severe."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "AVGO",
+      "add_ticker": "JPM",
+      "size_change_pct": 11
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "AVGO",
+    "add_ticker": "JPM",
+    "size_change_pct": 11,
+    "thesis": [
+      "Catalyst: pack-backed breadth expansion favors adding a financial quality leader as IWM outperforms SPY over 3m and JPM shows strong absolute/relative momentum with lower drawdown.",
+      "Factor edge: JPM brings better 30d/90d trend persistence than AVGO, is above MA50/MA200, and cuts portfolio volatility concentration versus another semicap/AI-linked exposure.",
+      "Variant view: the market may be underpricing a continued rotation from crowded AI hardware into high-quality financials while preserving risk-on exposure."
+    ],
+    "risks": [
+      "Macro: a sharp rates reversal or recession scare could hurt banks and reverse the recent breadth expansion back toward mega-cap defensives.",
+      "Idiosyncratic: qualitative news/guidance and key-ratio verification for JPM and AVGO are partially UNKNOWN, so unseen earnings or regulatory developments could impair the thesis.",
+      "Execution/liquidity: while both names are highly liquid, replacing after recent JPM strength risks short-term mean reversion if sector rotation fades quickly."
+    ],
+    "falsifiable_checks": [
+      "Within 10 trading days, if JPM falls below MA50 and underperforms SPY on the 1m window, review for reversal failure.",
+      "By the next weekly rebalance, if AVGO reclaims stronger relative momentum than JPM by at least 10 percentage points on the composite pack measure, reassess the swap."
+    ],
+    "why_now": "Base: the portfolio still wants quality growth exposure, but one slot can be upgraded from weakening semicap momentum into a lower-volatility breadth beneficiary; this modest single-change rebalance improves expected alpha net of turnover. Bull: breadth continues to expand, JPM compounds with stable trend and lower drawdown while crowded AI hardware stalls. Bear: tech leadership re-accelerates immediately and AVGO rebounds harder than financials. Even in that case, only one change was made, so trading-cost drag stays low and the decision remains proportionate."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 12,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 11,
+      "sector": "Financials"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights PANW/AAPL/KLAC/LLY strongest; JPM added for positive 1m/3m trend, MA50/MA200 support, and lower dd/vol; AVGO removed for negative 1m/3m trend and -25.0% 63d dd. Risk budget: IT 67%, Comm 12%, Financials 11%, Health Care 10%; no crypto. Scenario stress: equity index shock hurts all holdings but diversified less than prior book; rates-up likely mixed positive via JPM and negative for growth, commodity shock limited, USD shock mainly TSM risk. Execution: one-for-one staged paper rebalance only, minimizing turnover. Monitoring/kill-switch: review if JPM loses MA50, if 2+ of NVDA/GOOGL/TSM remain below MA50 and underperform SPY by next checkpoint, or if verified earnings/guidance news creates severe thesis damage; qualitative news/fundamental verification partially UNKNOWN."
+  }
+}
