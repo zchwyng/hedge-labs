@@ -1,0 +1,107 @@
+{
+  "run_date": "2026-07-20",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on: SPY and IWM remain above MA50/MA200, QQQ is still above MA200 but below MA50; leadership broadened beyond mega-cap tech, but tech momentum remains selective rather than uniform.",
+    "Breadth improved versus prior runs as IWM 3m return (9.18%) exceeds SPY (6.21%) and roughly matches QQQ (8.69%); within the book, PANW, AAPL, LLY, KLAC and TSM still carry the strongest 30d/90d factor leadership, while NVDA and AVGO have weakened.",
+    "Go/no-go: a rebalance is required today and the edge is sufficient for a low-turnover 2-change refresh: reduce exposure to lagging/crowded semis and add a higher-quality, lower-vol financial diversifier; keep overall portfolio pro-cyclical but less single-factor concentrated over the next 30 days."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Pack shows 3m return -6.79% versus SPY +6.21% and QQQ +8.69%, below MA50, with 63d drawdown -25.03%; relative momentum damage is direct and material. Qualitative follow-up: UNKNOWN."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "Pack shows 1m return -2.22% and 3m return +2.37%, lagging SPY and QQQ, while below MA50; not severe enough for full exit, but leadership has faded. Qualitative follow-up: UNKNOWN."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Pack still has strong 3m/12m momentum, but volatility 104.55% and 63d drawdown -29.49% are outsized; this is a risk-budget flag rather than thesis break. Qualitative follow-up: UNKNOWN."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "AVGO",
+      "add_ticker": "JPM",
+      "size_change_pct": 11
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "NVDA",
+      "add_ticker": "AAPL",
+      "size_change_pct": 2
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "AVGO",
+    "add_ticker": "JPM",
+    "size_change_pct": 11,
+    "thesis": [
+      "Catalyst: JPM adds exposure to improving breadth and cyclical participation, with pack-confirmed strength above MA50/MA200, 1m +3.47%, 3m +10.55%, and low 63d drawdown of -6.72%.",
+      "Factor edge: versus AVGO, JPM offers better current trend quality, lower volatility, shallower drawdown, and cleaner regime fit as leadership broadens beyond semis.",
+      "Variant view: the market may reward durable non-tech quality more than another semiconductor rebound over the next 30 days; if semis remain choppy, this swap should improve portfolio efficiency."
+    ],
+    "risks": [
+      "Macro: a growth scare or rapid rates drop could rotate leadership back into long-duration tech and away from banks.",
+      "Idiosyncratic: qualitative news/fundamental verification for JPM and AVGO is UNKNOWN, so unobserved earnings/guidance risks remain.",
+      "Execution/liquidity: while both are liquid large caps, a sharp momentum reversal in semis could make the replacement look mistimed over a short holding window."
+    ],
+    "falsifiable_checks": [
+      "Within 30 days, if JPM underperforms SPY by >5 percentage points while AVGO outperforms SPY, the replacement thesis is failing.",
+      "At next weekly review, if JPM falls below MA50 and posts negative 1m relative return versus SPY while AVGO reclaims stronger 1m/3m relative momentum, reassess the swap immediately."
+    ],
+    "why_now": "Base: breadth is widening, QQQ lost near-term trend leadership, and AVGO is the clearest laggard inside the prior book, so replacing it with JPM improves diversification and reduces drawdown risk without abandoning pro-risk exposure. Bull: broad cyclicals and financials continue to participate while PANW/AAPL/LLY carry alpha inside the remaining core, letting the portfolio compound with less semicap concentration. Bear: tech resumes narrow leadership and AVGO mean-reverts sharply, causing short-term regret. Even so, the expected improvement in factor balance and risk-adjusted momentum appears large enough to clear turnover drag for a required rebalance day."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "PANW",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 12,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "NVDA",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 10,
+      "sector": "Financials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=P ANW strongest momentum leader; AAPL/LLY strong trend quality; JPM best non-tech diversification candidate from pack; AVGO weakest active holding on 3m relative return; NVDA trimmed for faded relative strength; qualitative news/fundamentals UNKNOWN. Risk budget=IT 65%, Comm 13%, Health Care 12%, Financials 10%; no crypto; max single name 14%. Scenario stress=equity index shock moderate due high beta tech core; rates-up shock manageable with JPM offset and no TLT/gold exposure; commodity/USD shock limited direct sensitivity except TSM/NVDA global cyclicality. Execution plan=paper rebalance implemented as one replacement plus one 2% trim/reallocate, keeping turnover efficient after missed checkpoint. Monitoring/kill-switch=review in 7 days; if 2 or more of NVDA/TSM/KLAC/GOOGL remain below MA50 and underperform SPY on 1m, consider another de-risk step; if PANW momentum breaks below SPY on both 1m and 3m, reduce concentration next rebalance."
+  }
+}
