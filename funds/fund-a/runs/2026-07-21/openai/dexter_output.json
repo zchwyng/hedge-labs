@@ -1,0 +1,105 @@
+{
+  "run_date": "2026-07-21",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime: mixed-to-risk-on. SPY and QQQ remain above MA200 but below MA50, while IWM is above both MA50 and MA200; that argues for staying pro-risk but reducing the most fragile crowded tech exposure.",
+    "Leadership/breadth: PANW, AAPL, LLY, TSM and GOOGL still lead on 30d/90d measures, while AVGO has turned weak versus both SPY and QQQ and KLAC shows strong medium-term momentum but acute volatility/drawdown stress.",
+    "Go/no-go: high-conviction full rotation is not justified, but a missed scheduled rebalance is pending and at least one efficient change clears the cost hurdle; action is a single replacement to improve diversification and lower drawdown risk."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "AVGO",
+      "why": "Direct pack evidence shows thesis damage versus the current book: 1m return -3.60% and 3m return -6.83%, both worse than SPY (0.41%, 4.77%) and QQQ (-3.56%, 7.39%); also below MA50 with 63d drawdown -25.03%."
+    },
+    {
+      "ticker": "KLAC",
+      "why": "Not removed, but risk flag is active: 1m return -13.04%, 20d vol 99.47%, and 63d drawdown -31.19% create a fragile path despite still-strong 12m trend."
+    },
+    {
+      "ticker": "TSM",
+      "why": "Near-term momentum softened: 1m return -6.91%, below SPY and QQQ, and below MA50; kept due to stronger 6m/12m trend and semiconductor quality exposure, but monitor closely."
+    },
+    {
+      "ticker": "NVDA",
+      "why": "Momentum deceleration persists: 1m return -0.67%, 3m return 0.91%, both lagging QQQ on 3m, and still below MA50. Not severe enough alone to force exit this run."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "AVGO",
+      "add_ticker": "JPM",
+      "size_change_pct": 11
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "AVGO",
+    "add_ticker": "JPM",
+    "size_change_pct": 11,
+    "thesis": [
+      "Catalyst: rotate out of the clearest pack-backed laggard in the book into a steadier quality cyclically-sensitive leader with positive 30d/90d trend and cleaner technical structure.",
+      "Factor edge: JPM improves the portfolio's quality-plus-momentum mix with 1m/3m gains of 2.08%/9.70%, above MA50 and MA200, low 20d vol of 20.15%, and shallow 63d drawdown of -6.72% versus AVGO's weaker trend and deeper drawdown.",
+      "Variant view: the market may be broadening beyond mega-cap semis; if breadth keeps improving and rates do not shock higher, large-cap financials can outperform while reducing crowding in the portfolio."
+    ],
+    "risks": [
+      "Macro: a sharp growth scare or abrupt curve flattening could hurt bank beta and reverse cyclical broadening.",
+      "Idiosyncratic: qualitative fundamental/news verification was limited, so any unverified capital, credit, litigation, or regulatory issue for JPM is UNKNOWN.",
+      "Execution/liquidity: although both names are liquid, replacing after recent AVGO weakness risks whipsaw if semiconductor leadership snaps back quickly."
+    ],
+    "falsifiable_checks": [
+      "Within 30 calendar days, if JPM underperforms SPY by more than 4 percentage points and loses both MA50 and MA200 trend support in the next pack review, treat the replacement thesis as failing.",
+      "Within the next weekly review, if AVGO reclaims relative leadership with stronger trailing 1m and 3m returns than JPM while JPM shows new verified negative regulatory or credit headlines, reopen the swap."
+    ],
+    "why_now": "Base: market regime is still constructive but less clean for concentrated tech, so replacing the weakest current holding with a lower-volatility breadth beneficiary improves expected alpha per unit risk over the next 30 days. Bull: breadth broadens and JPM's stable trend plus quality balance sheet profile outperform while semis remain more selective. Bear: tech leadership re-accelerates and AVGO rebounds faster than financials. Even under the bear case, this is a single-change, low-turnover rebalance that clears expected trading-cost drag because the relative trend, drawdown, and concentration improvements are material."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 13,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "KLAC",
+      "weight_pct": 11,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "LLY",
+      "weight_pct": 10,
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 12,
+      "sector": "Financials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights—PANW strongest momentum leader; AAPL and LLY high-quality trend support; JPM adds positive 30d/90d breadth exposure; AVGO scored lowest on momentum/risk due to -3.60% 1m, -6.83% 3m, below MA50, -25.03% dd63. Risk budget—IT 65%, Comm 13%, Health Care 10%, Financials 12%; no crypto; top weight 15%. Scenario stress—equity shock: still growth-heavy but less concentrated than prior book; rates-up shock: JPM partly offsets long-duration growth sensitivity; commodity/USD shocks manageable, though TSM remains Taiwan/FX-sensitive. Execution plan—single liquid replacement only, staged paper sizing acceptable, no forced additional turnover. Monitoring/kill-switch—review in next weekly run; trim/revisit if KLAC vol stays >90% with further drawdown, if NVDA/TSM remain below MA50 and underperform SPY on 1m, or if verified severe negative guidance/regulatory news appears for any holding; qualitative fundamentals/news for several equities remain UNKNOWN."
+  }
+}
