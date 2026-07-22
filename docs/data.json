@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T08:48:27Z",
+  "generated_at": "2026-07-22T08:48:02Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -4354,32 +4354,86 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-20",
+        "asof_price_date": "2026-07-21",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 9.51
+            "return_pct": 10.42
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 16.16
+            "return_pct": 18.31
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 6.75
+            "return_pct": 8
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -18.56
+            "return_pct": -16.97
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": 0.03
+            "return_pct": 0.43
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-07-22",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 7.63,
+          "benchmark_return_pct": 10.42,
+          "excess_return_pct": -2.79,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-07-21",
+          "add_ticker": "XOM",
+          "remove_ticker": "KLAC",
+          "rebalance_actions_preview": "Replace KLAC->XOM, Trim AVGO->JPM"
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-07-21",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 10.42
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 18.31
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 8
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -16.97
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -0.45
           }
         ]
       },
@@ -4393,22 +4447,22 @@
     "fund-a": [
       {
         "ticker": "NVDA",
-        "weight_pct": 13,
+        "weight_pct": 12,
         "sector": "Information Technology"
       },
       {
         "ticker": "GOOGL",
-        "weight_pct": 13,
+        "weight_pct": 12,
         "sector": "Communication Services"
       },
       {
         "ticker": "PANW",
-        "weight_pct": 13,
+        "weight_pct": 15,
         "sector": "Information Technology"
       },
       {
         "ticker": "AAPL",
-        "weight_pct": 12,
+        "weight_pct": 13,
         "sector": "Information Technology"
       },
       {
@@ -4418,18 +4472,18 @@
       },
       {
         "ticker": "AVGO",
-        "weight_pct": 11,
+        "weight_pct": 8,
         "sector": "Information Technology"
       },
       {
-        "ticker": "KLAC",
+        "ticker": "XOM",
         "weight_pct": 14,
-        "sector": "Information Technology"
+        "sector": "Energy"
       },
       {
-        "ticker": "LLY",
-        "weight_pct": 10,
-        "sector": "Health Care"
+        "ticker": "JPM",
+        "weight_pct": 12,
+        "sector": "Financials"
       }
     ]
   }

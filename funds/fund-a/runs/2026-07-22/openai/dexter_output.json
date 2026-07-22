@@ -1,0 +1,107 @@
+{
+  "run_date": "2026-07-22",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Regime is mixed-to-risk-on from the pack: SPY and IWM are above MA50/MA200, QQQ is above MA200 but below MA50, while TLT and GLD remain below both trend lines.",
+    "Leadership has narrowed inside growth: PANW, AAPL, LLY, and TSM still show strong medium-term momentum, but KLAC and AVGO show clear near-term damage; XOM and JPM offer positive momentum and diversification.",
+    "Go/no-go: rebalance is due, a missed scheduled rebalance is pending, and active action is required today. Highest-conviction setup is to replace KLAC with XOM and trim AVGO while increasing JPM."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "KLAC",
+      "why": "Severe thesis damage from pack data: 1m return -16.18%, vol20 100.17%, and dd63 -31.19%, the weakest risk-adjusted profile in the book despite strong longer-term momentum."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Momentum and drawdown have deteriorated: 1m return -5.89%, 3m return -3.13%, vol20 42.59%, and dd63 -25.03%, making it a lower-conviction hold versus available diversifiers."
+    },
+    {
+      "ticker": "GOOGL",
+      "why": "Moderate damage only: 1m return -5.67% and weaker near-term trend, but 12m return 88.12% and positive broader momentum argue for hold rather than forced exit."
+    }
+  ],
+  "rebalance_actions": [
+    {
+      "action": "Replace",
+      "remove_ticker": "KLAC",
+      "add_ticker": "XOM",
+      "size_change_pct": 14
+    },
+    {
+      "action": "Trim",
+      "remove_ticker": "AVGO",
+      "add_ticker": "JPM",
+      "size_change_pct": 3
+    }
+  ],
+  "trade_of_the_day": {
+    "action": "Replace",
+    "remove_ticker": "KLAC",
+    "add_ticker": "XOM",
+    "size_change_pct": 14,
+    "thesis": [
+      "Catalyst: rotate out of the portfolio's most unstable semicap exposure into an energy leader with positive 1m, 3m, 6m, and 12m pack momentum and better diversification fit.",
+      "Factor edge: KLAC has the strongest thesis damage in the portfolio on volatility and drawdown, while XOM improves regime fit by reducing semicap crowding and adding a non-tech momentum sleeve.",
+      "Variant view: if semicap beta mean-reverts sharply, KLAC could rebound faster than XOM; however, over a 30-day horizon the cleaner risk-adjusted setup is the diversified replacement."
+    ],
+    "risks": [
+      "Macro: if crude weakens or growth expectations fade, energy leadership can reverse quickly.",
+      "Idiosyncratic: qualitative follow-up on XOM and KLAC fundamentals/guidance is UNKNOWN, so conviction rests primarily on pack-based factor evidence.",
+      "Execution/liquidity: replacing after a sharp KLAC drawdown risks selling near a local washout if semiconductor sentiment snaps back immediately."
+    ],
+    "falsifiable_checks": [
+      "Within 30 days, if XOM underperforms SPY by more than 5 percentage points while KLAC regains clear trend stability versus its current damage profile, the switch likely failed.",
+      "At the next weekly review, if XOM loses trend support and KLAC shows materially improved drawdown and volatility behavior, reassess the replacement."
+    ],
+    "why_now": "Base: regime is still constructive, but leadership is broadening and the current book is overly concentrated in volatile technology. Bull: energy and financial diversification improve the portfolio's risk-adjusted profile while PANW, AAPL, TSM, and LLY preserve growth leadership. Bear: semicap and broad tech rebound immediately, causing KLAC and AVGO to outperform the new allocations. Expected edge clears trading-cost drag because today is a required rebalance and the changes directly address the portfolio's clearest thesis-damage points."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 12,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 8,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 14,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 12,
+      "sector": "Financials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights strong PANW/AAPL/TSM/LLY, improving diversifiers XOM/JPM, weaker AVGO, removed KLAC for severe 1m/vol/dd damage; qualitative fundamentals/news for KLAC/AVGO/XOM/JPM remain UNKNOWN where unavailable. Risk budget: IT 62%, Comm 12%, Energy 14%, Financials 12%, Crypto 0%. Scenario check: less semicap concentration, lower single-factor shock sensitivity, better balance versus commodity and rates surprises, USD risk still present via TSM. Execution plan: 2 efficient changes only, replace KLAC fully and reallocate 3% from AVGO to JPM. Monitoring/kill-switch: review in 7 days; if XOM or JPM lose relative support while KLAC/AVGO repair materially, reassess; if AVGO remains below peers on 1m/3m, it stays next-trim candidate."
+  }
+}
