@@ -1,0 +1,90 @@
+{
+  "run_date": "2026-07-24",
+  "fund_name": "Quality + Momentum (Monthly-hold)",
+  "paper_only": true,
+  "market_summary": [
+    "Mixed-to-risk-on regime from the pack: SPY and IWM remain above MA200, IWM is above MA50, while QQQ is above MA200 but still below MA50; rates and gold proxies remain weak, so the macro tape is not broadly defensive.",
+    "Leadership remains narrow but intact in current holdings: PANW, AAPL, XOM, JPM, NVDA, and TSM retain positive 30d/90d profiles, while GOOGL shows the clearest near-term momentum damage and AVGO remains mixed.",
+    "Go/no-go: rebalance due today is false, so the IC stance is no-trade. Qualitative refresh on selected equities is UNKNOWN, and expected edge does not clear turnover/slippage drag for an off-cycle change."
+  ],
+  "thesis_damage_flags": [
+    {
+      "ticker": "GOOGL",
+      "why": "Pack shows the weakest near-term profile in the current book: 1m -8.22%, 3m -6.32%, 6m -3.13%, dd63 -21.05%. Qualitative thesis-damage follow-up is UNKNOWN."
+    },
+    {
+      "ticker": "AVGO",
+      "why": "Momentum is mixed versus the rest of the portfolio: 3m -6.99% with the deepest drawdown among current holdings at dd63 -25.03%. No qualitative refresh obtained today; monitor for further relative deterioration."
+    }
+  ],
+  "rebalance_actions": [],
+  "trade_of_the_day": {
+    "action": "Do nothing",
+    "remove_ticker": null,
+    "add_ticker": null,
+    "size_change_pct": 0,
+    "thesis": [
+      "Catalyst: no scheduled rebalance is due today, and the current paper portfolio still has several pack-confirmed leaders led by PANW, AAPL, XOM, JPM, NVDA, and TSM over the 30d/90d windows.",
+      "Factor edge: avoiding unnecessary turnover preserves expected alpha when regime is mixed but not broken, and when no verified qualitative catalyst or thesis-damage signal is strong enough to justify an off-cycle change.",
+      "Variant view: if GOOGL or AVGO continue to lag into the next weekly checkpoint while a replacement candidate such as LLY, CVX, or KLAC keeps superior pack momentum, they become the most likely funded source for a scheduled rebalance."
+    ],
+    "risks": [
+      "Macro: a growth scare or rates shock could hit the portfolio's high technology concentration even with XOM and JPM providing some diversification.",
+      "Idiosyncratic: qualitative refresh for selected equities is UNKNOWN, so unseen earnings, guidance, legal, or regulatory developments could weaken conviction before the next scheduled rebalance.",
+      "Execution/liquidity: doing nothing avoids slippage today, but it leaves existing concentration and semiconductor correlation risk in place if leadership narrows further."
+    ],
+    "falsifiable_checks": [
+      "At the next weekly review, if QQQ is still below MA50 and two or more of GOOGL/AVGO/TSM show further 30d relative deterioration versus SPY, reassess for an active rebalance.",
+      "Within 30 days, if PANW and AAPL lose positive 1m leadership while XOM and JPM fail to offset drawdowns, today's no-trade decision likely did not clear the cost-hurdle advantage."
+    ],
+    "why_now": "Base: the pack implies a mixed-to-risk-on regime with enough remaining leadership inside the existing book to justify patience. Bull: PANW, AAPL, XOM, JPM, NVDA, and TSM continue compounding while avoiding friction preserves alpha. Bear: GOOGL and AVGO continue weakening and drag the concentrated tech sleeve before the next checkpoint. On balance, the expected edge from trading today does not clearly exceed trading-cost drag, so the highest-conviction paper action is Do nothing."
+  },
+  "target_portfolio": [
+    {
+      "ticker": "NVDA",
+      "weight_pct": 12,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "GOOGL",
+      "weight_pct": 12,
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "PANW",
+      "weight_pct": 15,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AAPL",
+      "weight_pct": 13,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TSM",
+      "weight_pct": 14,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "AVGO",
+      "weight_pct": 8,
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "XOM",
+      "weight_pct": 14,
+      "sector": "Energy"
+    },
+    {
+      "ticker": "JPM",
+      "weight_pct": 12,
+      "sector": "Financials"
+    }
+  ],
+  "constraints_check": {
+    "max_position_ok": true,
+    "max_sector_ok": true,
+    "max_crypto_ok": true,
+    "notes": "Appendix: factor highlights=PАНW/AAPL/XOM/JPM strongest near-term blend; GOOGL weakest; AVGO mixed; fundamentals/news refresh UNKNOWN for sampled equities. Risk budget=IT 62%, Comm 12%, Energy 14%, Financials 12%; no position >15%; crypto 0%. Scenario stress=largest risk remains growth/semiconductor-led equity shock; rates shock mixed with JPM support but tech duration risk; commodity shock partly cushioned by XOM; USD shock may pressure TSM. Execution plan=no trade today; preserve current weights until scheduled weekly checkpoint. Monitoring/kill-switch=review if QQQ stays below MA50, if GOOGL/AVGO relative weakness worsens over next 7 days, or if any verified earnings/guidance/regulatory thesis damage emerges; missing qualitative/fundamental verification fields remain UNKNOWN."
+  }
+}
