@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T09:12:23Z",
+  "generated_at": "2026-07-30T09:06:32Z",
   "funds": {
     "fund-a": {
       "provider": "openai",
@@ -4516,7 +4516,7 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-23",
+        "asof_price_date": "2026-07-24",
         "items": [
           {
             "ticker": "SPY",
@@ -4531,7 +4531,7 @@
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 6.65
+            "return_pct": 6.63
           },
           {
             "ticker": "GLD",
@@ -4612,39 +4612,39 @@
           "provider": "openai",
           "status": "success",
           "action": "Do nothing",
-          "fund_return_pct": 4.6,
-          "benchmark_return_pct": 9.06,
-          "excess_return_pct": -4.46,
+          "fund_return_pct": 4.7,
+          "benchmark_return_pct": 9.32,
+          "excess_return_pct": -4.62,
           "rank": 1,
           "inception_date": "2026-02-13",
-          "asof_price_date": "2026-07-27",
+          "asof_price_date": "2026-07-28",
           "add_ticker": null,
           "remove_ticker": null,
           "rebalance_actions_preview": null
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-27",
+        "asof_price_date": "2026-07-28",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 9.06
+            "return_pct": 9.32
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 13.83
+            "return_pct": 12.73
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 6.84
+            "return_pct": 6.79
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -17.01
+            "return_pct": -18.17
           },
           {
             "ticker": "BTC-USD",
@@ -4678,32 +4678,86 @@
         }
       ],
       "indices": {
-        "asof_price_date": "2026-07-27",
+        "asof_price_date": "2026-07-29",
         "items": [
           {
             "ticker": "SPY",
             "name": "S&P 500",
-            "return_pct": 9.06
+            "return_pct": 7.64
           },
           {
             "ticker": "QQQ",
             "name": "Nasdaq 100",
-            "return_pct": 13.83
+            "return_pct": 10.43
           },
           {
             "ticker": "ACWI",
             "name": "MSCI ACWI",
-            "return_pct": 6.84
+            "return_pct": 5.36
           },
           {
             "ticker": "GLD",
             "name": "Gold",
-            "return_pct": -17.01
+            "return_pct": -17.79
           },
           {
             "ticker": "BTC-USD",
             "name": "Bitcoin",
-            "return_pct": -2.77
+            "return_pct": -3.49
+          }
+        ]
+      },
+      "comparison": {
+        "portfolio_overlap_pct": 0,
+        "turnover_estimate_pct": 0
+      }
+    },
+    {
+      "date": "2026-07-30",
+      "lanes": [
+        {
+          "fund_id": "fund-a",
+          "provider": "openai",
+          "status": "success",
+          "action": "Replace",
+          "fund_return_pct": 3.07,
+          "benchmark_return_pct": 7.64,
+          "excess_return_pct": -4.57,
+          "rank": 1,
+          "inception_date": "2026-02-13",
+          "asof_price_date": "2026-07-29",
+          "add_ticker": "LLY",
+          "remove_ticker": "NVDA",
+          "rebalance_actions_preview": "Replace NVDA->LLY, Trim TSM->AAPL"
+        }
+      ],
+      "indices": {
+        "asof_price_date": "2026-07-29",
+        "items": [
+          {
+            "ticker": "SPY",
+            "name": "S&P 500",
+            "return_pct": 7.64
+          },
+          {
+            "ticker": "QQQ",
+            "name": "Nasdaq 100",
+            "return_pct": 10.43
+          },
+          {
+            "ticker": "ACWI",
+            "name": "MSCI ACWI",
+            "return_pct": 5.36
+          },
+          {
+            "ticker": "GLD",
+            "name": "Gold",
+            "return_pct": -17.79
+          },
+          {
+            "ticker": "BTC-USD",
+            "name": "Bitcoin",
+            "return_pct": -3.05
           }
         ]
       },
@@ -4716,34 +4770,29 @@
   "latest_holdings": {
     "fund-a": [
       {
-        "ticker": "NVDA",
-        "weight_pct": 12,
-        "sector": "Information Technology"
-      },
-      {
-        "ticker": "GOOGL",
-        "weight_pct": 12,
-        "sector": "Communication Services"
-      },
-      {
         "ticker": "PANW",
         "weight_pct": 15,
         "sector": "Information Technology"
       },
       {
         "ticker": "AAPL",
-        "weight_pct": 13,
+        "weight_pct": 15,
         "sector": "Information Technology"
       },
       {
         "ticker": "TSM",
-        "weight_pct": 14,
+        "weight_pct": 12,
         "sector": "Information Technology"
       },
       {
         "ticker": "AVGO",
         "weight_pct": 8,
         "sector": "Information Technology"
+      },
+      {
+        "ticker": "GOOGL",
+        "weight_pct": 12,
+        "sector": "Communication Services"
       },
       {
         "ticker": "XOM",
@@ -4754,6 +4803,11 @@
         "ticker": "JPM",
         "weight_pct": 12,
         "sector": "Financials"
+      },
+      {
+        "ticker": "LLY",
+        "weight_pct": 12,
+        "sector": "Health Care"
       }
     ]
   }
